@@ -20,9 +20,9 @@ public class Wardrobe extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
-    Cursor userCursor;
-    SimpleCursorAdapter userAdapter;
-    ListView userList;
+    Cursor userCursor, userCursor2;
+    SimpleCursorAdapter userAdapter,userAdapter2;
+    ListView userList,userList2;
     TextView header;
     EditText userFilter;
 
@@ -32,8 +32,17 @@ public class Wardrobe extends AppCompatActivity {
         setContentView(R.layout.activity_wardrobe);
         header = (TextView)findViewById(R.id.header);
         userList = (ListView)findViewById(R.id.list);
+        userList2 = (ListView)findViewById(R.id.list2);
         userFilter = (EditText)findViewById(R.id.userFilter);
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
+        userList2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), UserActivity.class);
@@ -54,12 +63,15 @@ public class Wardrobe extends AppCompatActivity {
         // open connection
         db = databaseHelper.getReadableDatabase();
         //get cursor from db
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
+        userCursor2 =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
         // which column will be in ListView
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_TERMID, DatabaseHelper.COLUMN_TOP,};
         // create adapter, send cursor
         userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
                 userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        userAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
+                userCursor2, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
 
         if(!userFilter.getText().toString().isEmpty())
             userAdapter.getFilter().filter(userFilter.getText().toString());
@@ -90,8 +102,9 @@ public class Wardrobe extends AppCompatActivity {
                 }
             }
         });
-        header.setText("Количество вещей: " + String.valueOf(userCursor.getCount()));
+        header.setText("На плечи: " + String.valueOf(userCursor.getCount()));
         userList.setAdapter(userAdapter);
+        userList2.setAdapter(userAdapter2);
     }
     @Override
     public void onDestroy(){

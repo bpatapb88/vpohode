@@ -1,0 +1,33 @@
+
+	// write your code here
+        int weather = 32;
+
+        int min = Integer.MAX_VALUE;
+        int neededterm = 36 - weather;
+        int[] indexs = {8,3,4,9,10,13,12,6};
+        int[] indexs2 = {16,15,23,36, 44};
+        int result = 0;
+        int result2 = 0;
+        if (weather > 18){
+
+            for (int x : indexs){
+                if(min > Math.abs(neededterm - x)) {
+                    min = Math.abs(neededterm - x);
+                    result = x;
+                }
+            }
+            System.out.println("result - " + result + " differents is " + min);
+        }else if (weather > -10){
+
+
+        }else {
+            for (int i = 0; i < indexs.length; i++){
+                for (int j = 1; j < indexs2.length; j++)
+                if (min > Math.abs(neededterm - indexs[i] - indexs2[j])){
+                    min = Math.abs(neededterm - indexs[i] - indexs2[j]);
+                    result = indexs[i];
+                    result2 = indexs2[j];
+                }
+            }
+            System.out.println("result1 - " + result + " result2 " + result2 + " differents is " + min);
+        }

@@ -17,10 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserActivity">
+        <activity android:name=".UserActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan">
 
         </activity>
-        <activity android:name=".Wardrobe">
+        <activity android:name=".Wardrobe"
+            android:windowSoftInputMode="stateVisible|adjustPan"
+            >
 
         </activity>
     </application>
