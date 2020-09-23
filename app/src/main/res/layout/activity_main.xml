@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
@@ -28,20 +27,21 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/button"
         android:fontFamily="monospace"
-        android:onClick="onClickShowWeather"
-        android:text="Погода" />
+        android:onClick="onClickShowItems"
+        android:text="Подобрать одежду по погоде" />
 
         <TextView
             android:id="@+id/textViewWeather"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#C4DCA8"
-            android:text="Погода Сегодня" />
+            android:padding="16dp"
+            android:text="Погода Сейчас" />
         <ListView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#B3B3B3"
+            android:background="@drawable/pole"
+            android:padding="16dp"
             />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

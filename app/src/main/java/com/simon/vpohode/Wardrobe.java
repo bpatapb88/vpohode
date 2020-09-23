@@ -76,7 +76,7 @@ public class Wardrobe extends AppCompatActivity {
                 userAdapter.getFilter().filter(s.toString());
             }
         });
-// устанавливаем провайдер фильтрации
+        // устанавливаем провайдер фильтрации
         userAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {

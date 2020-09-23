@@ -6,11 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -24,8 +20,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-
 
 public class MainActivity extends AppCompatActivity {
     private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=en&units=metric";
@@ -45,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         userList = (ListView)findViewById(R.id.list);
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
+        //show the weather
+        //String city = editTextCity.getText().toString().trim();
         String city = "Brno";
         DownloadTask task = new DownloadTask();
         String url = String.format(weatherURL, city);
@@ -69,34 +65,30 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickShowWeather(View view) {
-        //String city = editTextCity.getText().toString().trim();
+    public void onClickShowItems(View view) {
+
         int result = 0;
-        Log.i("Weather ","something " + term);
         // connection to DB
         db = databaseHelper.getReadableDatabase();
-        //get cursor from db
+        //get cursor from db to have list of termindexes
         userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
-            Log.i("Test array"," " + DatabaseHelper.COLUMN_TERMID);
+
         if (userCursor.moveToFirst()){
             double min = Integer.MAX_VALUE;
                 do {
                     int termindex = userCursor.getInt(4);
-
                     if (min > Math.abs(36 - term - termindex)) {
-
                         min = Math.abs(36 - term - termindex);
                         result = termindex;
                     }
-                    Log.i("Test name", " 0" + termindex);
                 }
                 while (userCursor.moveToNext());
 
         }
 
+        // again get cursor but only items with needed termindex
         userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TERMID + " = " + result, null);
 
-        // which column will be in ListView
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
         // create adapter, send cursor
         userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
@@ -146,19 +138,21 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject weather = jsonArray.getJSONObject(0);
                 JSONObject main = jsonObject.getJSONObject("main");
                 String mainTem = main.getString("temp");
+
+                // save the temperature
                 term = Double.parseDouble(mainTem);
+
                 String description = weather.getString("description");
                 String result = mainTem + " " + description;
                 Double Temp = Double.parseDouble(mainTem);
                 if (Temp >= 0 ) {
-                    textViewWeather.setText("Погода сегодня: +" + result);
+                    textViewWeather.setText("Погода сейчас в Брно: +" + result);
                 } else {
-                    textViewWeather.setText("Погода сегодня: " + result);
+                    textViewWeather.setText("Погода сейчас в Брно: " + result);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.i("Weather ","something " + term);
         }
 
     }

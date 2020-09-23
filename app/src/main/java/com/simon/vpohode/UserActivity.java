@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,7 +39,6 @@ public class UserActivity extends AppCompatActivity {
         nameBox = (EditText) findViewById(R.id.name);
         termidBox = (EditText) findViewById(R.id.termid);
 
-
         spinner = findViewById(R.id.Style);
 
         RadioGroup radGrp = (RadioGroup)findViewById(R.id.radios);
@@ -52,11 +50,9 @@ public class UserActivity extends AppCompatActivity {
         db = sqlHelper.getWritableDatabase();
 
         // configure spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Style);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Style);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
-
 
         Bundle extras = getIntent().getExtras();
 
@@ -114,7 +110,7 @@ public class UserActivity extends AppCompatActivity {
         }
         if (userId > 0) {
 
-            db.update(DatabaseHelper.TABLE, cv, DatabaseHelper.COLUMN_ID + "=" + String.valueOf(userId), null);
+            db.update(DatabaseHelper.TABLE, cv, DatabaseHelper.COLUMN_ID + "=" + userId, null);
         } else {
             db.insert(DatabaseHelper.TABLE, null, cv);
         }

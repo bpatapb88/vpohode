@@ -54,7 +54,8 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B3B3B3"
+        android:background="@drawable/pole"
+        android:padding="16dp"
         />
 
 
