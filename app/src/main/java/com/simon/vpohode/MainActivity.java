@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDatabase db;
     Cursor userCursor;
     SimpleCursorAdapter userAdapter;
-    ListView userList;
+    ListView userList,userList2;
     Double term;
 
     @Override
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         textViewWeather = findViewById(R.id.textViewWeather);
         userList = (ListView)findViewById(R.id.list);
+        userList2 = (ListView)findViewById(R.id.list2);
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
         //show the weather
@@ -68,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClickShowItems(View view) {
 
         int result = 0;
+        int result2 = 0;
         // connection to DB
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
@@ -75,29 +77,35 @@ public class MainActivity extends AppCompatActivity {
 
         if (userCursor.moveToFirst()){
             double min = Integer.MAX_VALUE;
+            double min2 = Integer.MAX_VALUE;
                 do {
                     int termindex = userCursor.getInt(4);
-                    if (min > Math.abs(36 - term - termindex)) {
-                        min = Math.abs(36 - term - termindex);
-                        result = termindex;
-                    }
+                        if (userCursor.getInt(3) == 1) {
+                            if (min > Math.abs(36 - term - termindex)) {
+                                min = Math.abs(36 - term - termindex);
+                                result = termindex;
+                            }
+                        } else {
+                            if (min2 > Math.abs(36 - term - termindex)) {
+                                min2 = Math.abs(36 - term - termindex);
+                                result2 = termindex;
+                            }
+                        }
                 }
                 while (userCursor.moveToNext());
-
         }
 
-        // again get cursor but only items with needed termindex
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TERMID + " = " + result, null);
 
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
+        // again get cursor but only items with needed termindex
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TERMID + " = " + result + " AND " + DatabaseHelper.COLUMN_TOP + " = 1", null);
         // create adapter, send cursor
-        userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
-                userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
-
+        userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         //db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DatabaseHelper.COLUMN_NAME + " like ?", new String[]{"%" + constraint.toString() + "%"});
-
         userList.setAdapter(userAdapter);
-
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TERMID + " = " + result2 + " AND " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        userList2.setAdapter(userAdapter);
     }
 
     private class DownloadTask extends AsyncTask <String, Void, String> {

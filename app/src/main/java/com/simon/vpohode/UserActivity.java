@@ -12,18 +12,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 
 public class UserActivity extends AppCompatActivity {
 
     EditText nameBox;
     EditText termidBox;
-    TextView selection;
     Spinner spinner;
     Boolean top = true;
     String[] Style = {"Стиль не выбран", "Кэжуал", "Бизнес", "Элегантный", "Спорт", "Домашнее"};
-
 
     Button delButton;
     Button saveButton;
@@ -38,11 +35,8 @@ public class UserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user);
         nameBox = (EditText) findViewById(R.id.name);
         termidBox = (EditText) findViewById(R.id.termid);
-
         spinner = findViewById(R.id.Style);
-
         RadioGroup radGrp = (RadioGroup)findViewById(R.id.radios);
-
         delButton = (Button) findViewById(R.id.deleteButton);
         saveButton = (Button) findViewById(R.id.saveButton);
 
