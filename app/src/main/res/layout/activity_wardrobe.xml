@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <Button
+            android:id="@+id/someButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Запасная"
+
+            android:background="@drawable/button"
+            android:fontFamily="monospace" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1" />
+
+        <Button
+            android:id="@+id/add"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Добавить"
+            android:onClick="add"
+            android:background="@drawable/button"
+            android:fontFamily="monospace"/>
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:textSize="18dp"
+        />
+
+    <EditText android:id="@+id/userFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Поиск"
+        android:padding="16dp"/>
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3B3B3"
+        />
+
+
+</LinearLayout>

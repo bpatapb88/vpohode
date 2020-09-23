@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:hint="Введите название"/>
+    <EditText
+        android:id="@+id/termid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите индекс теплоизоляции"
+        android:padding="16dp"/>
+
+    <Spinner
+        android:id="@+id/Style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        />
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radios"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton android:id="@+id/top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jacket/T-shirt/Coat"
+            android:onClick="onRadioButtonClicked"
+            />
+        <RadioButton android:id="@+id/bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pants/Shorts/Jeans"
+            android:onClick="onRadioButtonClicked"
+            />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Сохранить"
+            android:onClick="save"
+            android:background="@drawable/button"
+            android:fontFamily="monospace" />
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Удалить"
+            android:onClick="delete"
+            android:background="@drawable/button"
+            android:fontFamily="monospace"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>
