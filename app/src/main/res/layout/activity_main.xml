@@ -19,22 +19,38 @@
     <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="wrap_content"
         android:text="Гардероб"
         android:onClick="wardrobe"
         android:background="@drawable/button"
         android:fontFamily="monospace" />
-    <Button
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            >
+            <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:background="@drawable/button"
         android:fontFamily="monospace"
         android:onClick="onClickShowItems"
-        android:text="Подобрать одежду по погоде" />
+        android:text="Подобрать одежду" />
 
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:background="@drawable/button"
+                android:fontFamily="monospace"
+                android:text="Настройки" />
+
+
+        </LinearLayout>
         <TextView
             android:id="@+id/textViewWeather"
             android:layout_width="match_parent"

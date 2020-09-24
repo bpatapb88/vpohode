@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -22,7 +23,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=en&units=metric";
+   // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+    private final String weatherURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
@@ -39,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
         userList = (ListView)findViewById(R.id.list);
         userList2 = (ListView)findViewById(R.id.list2);
         databaseHelper = new DatabaseHelper(getApplicationContext());
-
         //show the weather
         //String city = editTextCity.getText().toString().trim();
-        String city = "Brno";
         DownloadTask task = new DownloadTask();
-        String url = String.format(weatherURL, city);
-        task.execute(url);
+        //String url = String.format(weatherURL, city);
+        String url2 = String.format(weatherURL2, "Brno");
+        task.execute(url2);
+       // task.onPostExecute(url,1);
     }
     @Override
     public void onResume() {
@@ -137,32 +139,71 @@ public class MainActivity extends AppCompatActivity {
             }
             return result.toString();
         }
+
         @Override
+
         protected void onPostExecute (String s){
             super.onPostExecute(s);
             try {
                 JSONObject jsonObject = new JSONObject(s);
-                JSONArray jsonArray = jsonObject.getJSONArray("weather");
-                JSONObject weather = jsonArray.getJSONObject(0);
-                JSONObject main = jsonObject.getJSONObject("main");
-                String mainTem = main.getString("temp");
 
-                // save the temperature
-                term = Double.parseDouble(mainTem);
+                    JSONArray jsonArray = jsonObject.getJSONArray("list");
+                    JSONObject list0 = jsonArray.getJSONObject(0);
+                    JSONObject list1 = jsonArray.getJSONObject(1);
+                    JSONArray forcast = list1.getJSONArray("weather");
+                    JSONObject weather = forcast.getJSONObject(0);
+                    String description = weather.getString("description");
 
-                String description = weather.getString("description");
-                String result = mainTem + " " + description;
-                Double Temp = Double.parseDouble(mainTem);
-                if (Temp >= 0 ) {
-                    textViewWeather.setText("Погода сейчас в Брно: +" + result);
-                } else {
-                    textViewWeather.setText("Погода сейчас в Брно: " + result);
-                }
+                    JSONObject main0 = list0.getJSONObject("main");
+                    String mainTem0 = main0.getString("feels_like");
+                    JSONObject main1 = list1.getJSONObject("main");
+                    String mainTem1 = main1.getString("feels_like");
+
+                    // save the temperature
+                    term = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
+
+                    if (term >= 0 ) {
+                        textViewWeather.setText("Сейчас: +" + mainTem0 + " " + description);
+                    } else {
+                        textViewWeather.setText("Сейчас: " + mainTem0 + " " + description);
+                    }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
 
+/*
+        protected void onPostExecute (String s){
+            super.onPostExecute(s);
+            try {
+                JSONObject jsonObject = new JSONObject(s);
+                JSONArray jsonArray = jsonObject.getJSONArray("list");
+                JSONObject list = jsonArray.getJSONObject(1);
+
+                JSONArray forcast1 = list.getJSONArray("weather");
+                JSONObject weather = forcast1.getJSONObject(0);
+                String description = weather.getString("description");
+
+                JSONObject main = list.getJSONObject("main");
+                String mainTem = main.getString("feels_like");
+
+                // save the temperature
+                term = Double.parseDouble(mainTem);
+
+                String result = mainTem + " " + description;
+                Double Temp = Double.parseDouble(mainTem);
+                if (Temp >= 0 ) {
+                    textViewWeather.setText("Погода в Брно: +" + result);
+                } else {
+                    textViewWeather.setText("Погода в Брно: " + result);
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+*/
     }
 
 }
