@@ -25,11 +25,20 @@ public class Wardrobe extends AppCompatActivity {
     ListView userList,userList2;
     TextView header;
     EditText userFilter;
+    
+    /* [Vlad] 
+       1. желательно уже по названию понимать что какая переменная делает, я смотрю и сразу не понимаю какая разница между userList1 и userList2, нужно долго
+       разбираться чтобы понять, так и адаптер, курсоры. Вечная проблема - выбрать подходящее имя переменной. 
+       2. У переменных доступ package private, на практике не так часто это нужно, в твоём случае мне кажется почти все эти переменные используются только в этом классе,
+       поэтому должен быть доступ private 
+       3. Вроде некоторые из этих переменных используются только в одном методе, лучше создавать локальную переменную. 
+     */
 
+    // [Vlad] Почему здесь тип протектед?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wardrobe);
+        setContentView(R.layout.activity_wardrobe); // [Vlad] что такое R?
         header = (TextView)findViewById(R.id.header);
         userList = (ListView)findViewById(R.id.list);
         userList2 = (ListView)findViewById(R.id.list2);
@@ -54,11 +63,13 @@ public class Wardrobe extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(getApplicationContext());
     }
 
+    // [VLAD] add чего?
     public void add(View view){
         Intent intent = new Intent(this, UserActivity.class);
         startActivity(intent);
     }
 
+    // [Vlad] Достаточно длинный метод, желательно разбить на больше мелких
     @Override
     public void onResume() {
         super.onResume();
@@ -75,6 +86,7 @@ public class Wardrobe extends AppCompatActivity {
         userAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
                 userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
 
+        // [Vlad] Сразу не оч понятно зачем нужна эта проверка
         if(!userFilter.getText().toString().isEmpty())
             userAdapter.getFilter().filter(userFilter.getText().toString());
 
