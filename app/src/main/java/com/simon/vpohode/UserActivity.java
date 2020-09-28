@@ -18,11 +18,12 @@ import android.widget.Spinner;
 
 public class UserActivity extends AppCompatActivity {
 
+    // [Vlad] Те же комменатрии что и к филдам в Wardrobe.java
     EditText nameBox;
     EditText termidBox;
     Spinner spinner, spinnerTemplate;
-    String[] Style = {"Стиль не выбран", "Кэжуал", "Бизнес", "Элегантный", "Спорт", "Домашнее"};
-    String[] Templates = {"Выбери шаблон", "Футболка","Рубашка","Кофта","Штаны","Джинсы","Осеняя куртка","Пальто"};
+    String[] Style = {"Стиль не выбран", "Кэжуал", "Бизнес", "Элегантный", "Спорт", "Домашнее"}; // [Vlad] из этого лучше сделать отдельный класс - enum
+    String[] Templates = {"Выбери шаблон", "Футболка","Рубашка","Кофта","Штаны","Джинсы","Осеняя куртка","Пальто"}; // [Vlad] из этого лучше сделать отдельный класс - enum
     Button delButton;
     Button saveButton;
     RadioGroup radGrp,radGrp2;
@@ -40,7 +41,7 @@ public class UserActivity extends AppCompatActivity {
         termidBox = (EditText) findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
-        radGrp = (RadioGroup)findViewById(R.id.radios);
+        radGrp = (RadioGroup)findViewById(R.id.radios); // Один и тот же метод возвращает разные типы, это нормально, но лучше реализовывать через полиморфизм, чтобы избегать ошибок.
         radGrp2 = (RadioGroup)findViewById(R.id.radios2);
         delButton = (Button) findViewById(R.id.deleteButton);
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -59,10 +60,11 @@ public class UserActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        if (extras != null) {
+        if (extras != null) { // [Vlad] А если null, то что? 
             userId = extras.getLong("id");
         }
         // if 0, add
+        // [Vlad] Почему именно если больше нуля? Читающий должен сразу понимать почему это условие здесь
         if (userId > 0) {
             // get item by id from db
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
@@ -88,6 +90,7 @@ public class UserActivity extends AppCompatActivity {
         super.onResume();
 
         spinnerTemplate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            // [Vlad] Здесь должны быть энумы, case 1, 2 и тд очень плохо, я не знаю какая разница между кейсов 5 и 7. Можно это реализовать через полиморфизм.
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 switch (spinnerTemplate.getSelectedItemPosition()){
@@ -151,8 +154,14 @@ public class UserActivity extends AppCompatActivity {
         radGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton bot = (RadioButton)radioGroup.findViewById(R.id.bottom);
-                boolean isChecked = bot.isChecked();
+                RadioButton bot = (RadioButton)radioGroup.findViewById(R.id.bottom); // [Vlad] не стесняйся называть переменными целыми словами, не нужно экономить место. bot может означать много чего, будь более конкретен.
+                // [Vlad] Зачем создавать эту переменную? Можно делать сразу чек
+                // if(bot.isChecked()){
+                //     radGrp2.setVisibility(View.GONE);
+                // } else {
+                //     radGrp2.setVisibility(View.VISIBLE);
+                // }
+                boolean isChecked = bot.isChecked(); 
                 if(isChecked){
                     radGrp2.setVisibility(View.GONE);
                 } else {
@@ -170,6 +179,7 @@ public class UserActivity extends AppCompatActivity {
         cv.put(DatabaseHelper.COLUMN_TERMID, Double.parseDouble(termidBox.getText().toString()));
         cv.put(DatabaseHelper.COLUMN_STYLE, spinner.getSelectedItem().toString());
         Log.i("top is checked?","top is checked? " + radGrp.getCheckedRadioButtonId());
+        // [Vlad] здесь я сходу не пойму какая разница, если вторую аргумент 1 или 0, в этом случае это "магические константы", которые желательно избегать, таких констант много в целом проекте. Их лучше всего выносить как статические переменные, или вообще в отдельный класс.
         if (radGrp.getCheckedRadioButtonId() == R.id.top) {
             cv.put(DatabaseHelper.COLUMN_TOP, 1);
         } else {
@@ -186,6 +196,10 @@ public class UserActivity extends AppCompatActivity {
         db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
         goHome();
     }
+    
+    /* [Vlad] Желательно весь код разбивать на такие маленьки private методы как здесь, и потом у тебя выйдет приблизительно такая структура:
+      несколько коротких паблик методов, которые сами ничего (почти) не делают, кроме как вызывают большое количество мелких приватных методов.
+    */
     private void goHome(){
         // close connection
         db.close();
