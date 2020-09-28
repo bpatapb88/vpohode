@@ -34,6 +34,7 @@ public class Wardrobe extends AppCompatActivity {
         userList = (ListView)findViewById(R.id.list);
         userList2 = (ListView)findViewById(R.id.list2);
         userFilter = (EditText)findViewById(R.id.userFilter);
+
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -57,6 +58,7 @@ public class Wardrobe extends AppCompatActivity {
         Intent intent = new Intent(this, UserActivity.class);
         startActivity(intent);
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -64,14 +66,14 @@ public class Wardrobe extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
         //get cursor from db
         userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
-        userCursor2 =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
         // which column will be in ListView
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_TERMID, DatabaseHelper.COLUMN_TOP,};
         // create adapter, send cursor
         userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
                 userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
         userAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
-                userCursor2, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+                userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
 
         if(!userFilter.getText().toString().isEmpty())
             userAdapter.getFilter().filter(userFilter.getText().toString());
@@ -84,7 +86,6 @@ public class Wardrobe extends AppCompatActivity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             // при изменении текста выполняем фильтрацию
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 userAdapter.getFilter().filter(s.toString());
             }
         });

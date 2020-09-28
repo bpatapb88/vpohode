@@ -10,7 +10,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
+        <Spinner
+            android:id="@+id/Template"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
 
+            />
         <EditText
             android:id="@+id/name"
             android:layout_width="match_parent"
@@ -24,7 +30,7 @@
             android:id="@+id/termid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Введите индекс теплоизоляции"
+            android:hint="Теплоизоляция в CLO"
             android:padding="16dp" />
 
         <Spinner
@@ -32,7 +38,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-
             />
 
         <RadioGroup
@@ -51,7 +56,6 @@
                 android:layout_weight="1"
                 android:padding="16dp"
                 android:buttonTint="#232323"
-                android:onClick="onRadioButtonClicked"
                 android:text="На плечи" />
 
             <RadioButton
@@ -61,10 +65,40 @@
                 android:layout_weight="1"
                 android:buttonTint="#232323"
                 android:padding="16dp"
-                android:onClick="onRadioButtonClicked"
                 android:text="На ноги" />
         </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radios2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
+            android:gravity="center"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/layer1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#232323"
+                android:text="Первый слой" />
+
+            <RadioButton
+            android:id="@+id/layer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="#232323"
+            android:text="Второй слой" />
+            <RadioButton
+                android:id="@+id/layer3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="#232323"
+                android:text="Третий слой" />
+        </RadioGroup>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,6 +128,8 @@
                 android:text="Удалить" />
 
         </LinearLayout>
+
+
 
 
     </LinearLayout>

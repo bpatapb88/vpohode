@@ -43,11 +43,29 @@
             android:fontFamily="monospace"/>
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
     <EditText android:id="@+id/userFilter"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Поиск"
-        android:padding="16dp"/>
+        />
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            />
+    <EditText android:id="@+id/userFilter2"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Поиск"
+        />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,6 +79,7 @@
             android:textSize="18dp"
             android:text="На плечи:"
             />
+
         <TextView
             android:id="@+id/header2"
             android:layout_weight="1"

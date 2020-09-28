@@ -1,8 +1,10 @@
 package com.simon.vpohode;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
@@ -14,7 +16,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_TERMID = "termindex";
     public static final String COLUMN_STYLE = "style";
     public static final String COLUMN_TOP = "top";
-
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
     }
@@ -27,7 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_NAME + " TEXT, "
                 + COLUMN_STYLE + " TEXT, "
                 + COLUMN_TOP + " INTEGER, "
-                + COLUMN_TERMID + " INTEGER);");
+                + COLUMN_TERMID + " DOUBLE);");
        // by default
         // db.execSQL ("INSERT INTO " + TABLE + " (" + COLUMN_NAME + ", " + COLUMN_STYLE + ", " + COLUMN_TOP + ", "+ COLUMN_TERMID + ") VALUES ('Sviter', 'Бизнес', 1, 14);");
     }

@@ -21,11 +21,12 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
    // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private final String weatherURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
-    private TextView textViewWeather;
+    private TextView textViewWeather,listofitems;
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
     Cursor userCursor;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         textViewWeather = findViewById(R.id.textViewWeather);
         userList = (ListView)findViewById(R.id.list);
         userList2 = (ListView)findViewById(R.id.list2);
+        listofitems = (findViewById(R.id.listofitems));
         databaseHelper = new DatabaseHelper(getApplicationContext());
         //show the weather
         //String city = editTextCity.getText().toString().trim();
@@ -70,44 +72,55 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickShowItems(View view) {
 
-        int result = 0;
-        int result2 = 0;
+        double result = 0;
+        double result2 = 0;
         // connection to DB
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
-
+        String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
         if (userCursor.moveToFirst()){
             double min = Integer.MAX_VALUE;
-            double min2 = Integer.MAX_VALUE;
-                do {
-                    int termindex = userCursor.getInt(4);
-                        if (userCursor.getInt(3) == 1) {
-                            if (min > Math.abs(36 - term - termindex)) {
-                                min = Math.abs(36 - term - termindex);
-                                result = termindex;
-                            }
-                        } else {
-                            if (min2 > Math.abs(36 - term - termindex)) {
-                                min2 = Math.abs(36 - term - termindex);
-                                result2 = termindex;
-                            }
-                        }
+            do {
+                if (min > Math.abs((30 - term)/9 - userCursor.getInt(4)/100)) {
+                    min = Math.abs((30 - term)/9 - userCursor.getInt(4)/100);
+                    result = userCursor.getInt(4);
                 }
-                while (userCursor.moveToNext());
+            }
+            while (userCursor.moveToNext());
+        }
+        double min = Integer.MAX_VALUE;
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        if (userCursor.moveToFirst()){
+            do {
+                if (min > Math.abs((30 - term)/9 - userCursor.getDouble(4))) {
+                    min = Math.abs((30 - term)/9 - userCursor.getDouble(4));
+                    result2 = userCursor.getDouble(4);
+                    Log.i("Test result2 ","Result2 = " + userCursor.getInt(4));
+                }
+            }
+            while (userCursor.moveToNext());
         }
 
 
-        String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
-        // again get cursor but only items with needed termindex
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TERMID + " = " + result + " AND " + DatabaseHelper.COLUMN_TOP + " = 1", null);
-        // create adapter, send cursor
         userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         //db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DatabaseHelper.COLUMN_NAME + " like ?", new String[]{"%" + constraint.toString() + "%"});
         userList.setAdapter(userAdapter);
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TERMID + " = " + result2 + " AND " + DatabaseHelper.COLUMN_TOP + " = 0", null);
-        userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
-        userList2.setAdapter(userAdapter);
+        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
+        String names = "";
+        String names1 = "";
+        if (userCursor.moveToFirst()) {
+            do {
+                if((userCursor.getInt(3) == 1)&& (userCursor.getDouble(4) == result)) {
+                    names += userCursor.getString(1) + " или\n";
+                }else if((userCursor.getInt(3) == 0)&& (userCursor.getDouble(4) == result2)){
+                    names1 += userCursor.getString(1) + " или\n";
+                }
+            } while (userCursor.moveToNext());
+        }
+        Log.i("Why shorty?", "because = names 1 " + names + " result - " + result + " result2 - " + result2);
+        listofitems.setText("На низ вам рекомендую: " + names1.substring(0,names1.length() - 5));
+
     }
 
     private class DownloadTask extends AsyncTask <String, Void, String> {
@@ -163,14 +176,16 @@ public class MainActivity extends AppCompatActivity {
                     term = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
 
                     if (term >= 0 ) {
-                        textViewWeather.setText("Сейчас: +" + mainTem0 + " " + description);
+                        textViewWeather.setText("Сейчас: +" + (int)Double.parseDouble(mainTem0) + "\u2103 " + description);
                     } else {
-                        textViewWeather.setText("Сейчас: " + mainTem0 + " " + description);
+                        textViewWeather.setText("Сейчас: " + (int)Double.parseDouble(mainTem0) + "\u2103 " + description);
                     }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+
 
 /*
         protected void onPostExecute (String s){
