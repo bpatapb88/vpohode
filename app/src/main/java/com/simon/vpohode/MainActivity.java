@@ -21,27 +21,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
    // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private final String weatherURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
-    private TextView textViewWeather,listofitems;
-    DatabaseHelper databaseHelper;
-    SQLiteDatabase db;
-    Cursor userCursor;
-    SimpleCursorAdapter userAdapter;
-    ListView userList,userList2;
-    Double term;
+    private TextView textViewWeather, listOfItems;
+    private DatabaseHelper databaseHelper;
+    private SQLiteDatabase db;
+    private Cursor itemCursor;
+    private ListView topItemList, bottomItemList;
+    private Double term;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textViewWeather = findViewById(R.id.textViewWeather);
-        userList = (ListView)findViewById(R.id.list);
-        userList2 = (ListView)findViewById(R.id.list2);
-        listofitems = (findViewById(R.id.listofitems));
+        topItemList = (ListView)findViewById(R.id.list);
+        bottomItemList = (ListView)findViewById(R.id.list2);
+        listOfItems = (findViewById(R.id.listofitems));
         databaseHelper = new DatabaseHelper(getApplicationContext());
         //show the weather
         //String city = editTextCity.getText().toString().trim();
@@ -62,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         // close connection
         db.close();
-        userCursor.close();
+        itemCursor.close();
     }
 
     public void wardrobe(View view){
@@ -72,54 +70,53 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickShowItems(View view) {
 
-        double result = 0;
-        double result2 = 0;
+        double bestTopIndex = 0;
+        double bestBottomIndex = 0;
         // connection to DB
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
-        if (userCursor.moveToFirst()){
-            double min = Integer.MAX_VALUE;
-            do {
-                if (min > Math.abs((30 - term)/9 - userCursor.getInt(4)/100)) {
-                    min = Math.abs((30 - term)/9 - userCursor.getInt(4)/100);
-                    result = userCursor.getInt(4);
-                }
-            }
-            while (userCursor.moveToNext());
-        }
+        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
         double min = Integer.MAX_VALUE;
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
-        if (userCursor.moveToFirst()){
+        if (itemCursor.moveToFirst()){
+
             do {
-                if (min > Math.abs((30 - term)/9 - userCursor.getDouble(4))) {
-                    min = Math.abs((30 - term)/9 - userCursor.getDouble(4));
-                    result2 = userCursor.getDouble(4);
-                    Log.i("Test result2 ","Result2 = " + userCursor.getInt(4));
+                if (min > Math.abs((30 - term)/9 - itemCursor.getDouble(4)*2)) {
+                    min = Math.abs((30 - term)/9 - itemCursor.getDouble(4)*2);
+                    bestTopIndex = itemCursor.getDouble(4);
                 }
             }
-            while (userCursor.moveToNext());
+            while (itemCursor.moveToNext());
         }
 
-
-        userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        min = Integer.MAX_VALUE;
+        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        if (itemCursor.moveToFirst()){
+            do {
+                if (min > Math.abs((30 - term)/9 - itemCursor.getDouble(4))) {
+                    min = Math.abs((30 - term)/9 - itemCursor.getDouble(4));
+                    bestBottomIndex = itemCursor.getDouble(4);
+                }
+            }
+            while (itemCursor.moveToNext());
+        }
+        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1 AND " + DatabaseHelper.COLUMN_TERMID + " = " + bestTopIndex, null);
+        SimpleCursorAdapter itemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         //db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DatabaseHelper.COLUMN_NAME + " like ?", new String[]{"%" + constraint.toString() + "%"});
-        userList.setAdapter(userAdapter);
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
+        topItemList.setAdapter(itemAdapter);
+        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
         String names = "";
         String names1 = "";
-        if (userCursor.moveToFirst()) {
+        if (itemCursor.moveToFirst()) {
             do {
-                if((userCursor.getInt(3) == 1)&& (userCursor.getDouble(4) == result)) {
-                    names += userCursor.getString(1) + " или\n";
-                }else if((userCursor.getInt(3) == 0)&& (userCursor.getDouble(4) == result2)){
-                    names1 += userCursor.getString(1) + " или\n";
+                if((itemCursor.getInt(3) == 1)&& (itemCursor.getDouble(4) == bestTopIndex)) {
+                    names += itemCursor.getString(1) + " или\n";
+                }else if((itemCursor.getInt(3) == 0)&& (itemCursor.getDouble(4) == bestBottomIndex)){
+                    names1 += itemCursor.getString(1) + " или\n";
                 }
-            } while (userCursor.moveToNext());
+            } while (itemCursor.moveToNext());
         }
-        Log.i("Why shorty?", "because = names 1 " + names + " result - " + result + " result2 - " + result2);
-        listofitems.setText("На низ вам рекомендую: " + names1.substring(0,names1.length() - 5));
+        listOfItems.setText("На низ вам рекомендую: " + names1.substring(0,names1.length() - 5));
 
     }
 
@@ -185,40 +182,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-
-
-/*
-        protected void onPostExecute (String s){
-            super.onPostExecute(s);
-            try {
-                JSONObject jsonObject = new JSONObject(s);
-                JSONArray jsonArray = jsonObject.getJSONArray("list");
-                JSONObject list = jsonArray.getJSONObject(1);
-
-                JSONArray forcast1 = list.getJSONArray("weather");
-                JSONObject weather = forcast1.getJSONObject(0);
-                String description = weather.getString("description");
-
-                JSONObject main = list.getJSONObject("main");
-                String mainTem = main.getString("feels_like");
-
-                // save the temperature
-                term = Double.parseDouble(mainTem);
-
-                String result = mainTem + " " + description;
-                Double Temp = Double.parseDouble(mainTem);
-                if (Temp >= 0 ) {
-                    textViewWeather.setText("Погода в Брно: +" + result);
-                } else {
-                    textViewWeather.setText("Погода в Брно: " + result);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }
-*/
     }
 
 }

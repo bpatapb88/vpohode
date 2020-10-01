@@ -26,7 +26,6 @@ public class UserActivity extends AppCompatActivity {
     Button delButton;
     Button saveButton;
     RadioGroup radGrp,radGrp2;
-    RadioButton top,bottom;
 
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
@@ -164,12 +163,10 @@ public class UserActivity extends AppCompatActivity {
     }
 
     public void save(View view){
-        Log.i("1top is checked?","top is checked? test");
         ContentValues cv = new ContentValues();
         cv.put(DatabaseHelper.COLUMN_NAME, nameBox.getText().toString());
         cv.put(DatabaseHelper.COLUMN_TERMID, Double.parseDouble(termidBox.getText().toString()));
         cv.put(DatabaseHelper.COLUMN_STYLE, spinner.getSelectedItem().toString());
-        Log.i("top is checked?","top is checked? " + radGrp.getCheckedRadioButtonId());
         if (radGrp.getCheckedRadioButtonId() == R.id.top) {
             cv.put(DatabaseHelper.COLUMN_TOP, 1);
         } else {

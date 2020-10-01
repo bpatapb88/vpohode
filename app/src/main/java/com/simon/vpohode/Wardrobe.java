@@ -18,24 +18,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Wardrobe extends AppCompatActivity {
 
-    DatabaseHelper databaseHelper;
-    SQLiteDatabase db;
-    Cursor userCursor, userCursor2;
-    SimpleCursorAdapter userAdapter,userAdapter2;
-    ListView userList,userList2;
-    TextView header;
-    EditText userFilter;
+    private DatabaseHelper databaseHelper;
+    private SQLiteDatabase db;
+    private Cursor itemCursor;
+    private SimpleCursorAdapter topItemAdapter, bottomItemAdapter;
+    private ListView topItemList, bottomItemList;
+    private TextView countTop;
+    private EditText topItemFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wardrobe);
-        header = (TextView)findViewById(R.id.header);
-        userList = (ListView)findViewById(R.id.list);
-        userList2 = (ListView)findViewById(R.id.list2);
-        userFilter = (EditText)findViewById(R.id.userFilter);
+        countTop = (TextView)findViewById(R.id.header);
+        topItemList = (ListView)findViewById(R.id.list);
+        bottomItemList = (ListView)findViewById(R.id.list2);
+        topItemFilter = (EditText)findViewById(R.id.topItemFilter);
 
-        userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        topItemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), UserActivity.class);
@@ -43,7 +43,7 @@ public class Wardrobe extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        userList2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        bottomItemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), UserActivity.class);
@@ -65,32 +65,32 @@ public class Wardrobe extends AppCompatActivity {
         // open connection
         db = databaseHelper.getReadableDatabase();
         //get cursor from db
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
+        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
         // which column will be in ListView
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_TERMID, DatabaseHelper.COLUMN_TOP,};
         // create adapter, send cursor
-        userAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
-                userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
-        userCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
-        userAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
-                userCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        topItemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
+                itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        bottomItemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
+                itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
 
-        if(!userFilter.getText().toString().isEmpty())
-            userAdapter.getFilter().filter(userFilter.getText().toString());
+        if(!topItemFilter.getText().toString().isEmpty())
+            topItemAdapter.getFilter().filter(topItemFilter.getText().toString());
 
         // установка слушателя изменения текста
-        userFilter.addTextChangedListener(new TextWatcher() {
+        topItemFilter.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) { }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             // при изменении текста выполняем фильтрацию
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                userAdapter.getFilter().filter(s.toString());
+                topItemAdapter.getFilter().filter(s.toString());
             }
         });
         // устанавливаем провайдер фильтрации
-        userAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+        topItemAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
 
@@ -103,15 +103,15 @@ public class Wardrobe extends AppCompatActivity {
                 }
             }
         });
-        header.setText("На плечи: " + String.valueOf(userCursor.getCount()));
-        userList.setAdapter(userAdapter);
-        userList2.setAdapter(userAdapter2);
+        countTop.setText("На плечи: " + String.valueOf(itemCursor.getCount()));
+        topItemList.setAdapter(topItemAdapter);
+        bottomItemList.setAdapter(bottomItemAdapter);
     }
     @Override
     public void onDestroy(){
         super.onDestroy();
         // close connection
         db.close();
-        userCursor.close();
+        itemCursor.close();
     }
 }
