@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="Добавить"
-            android:onClick="add"
+            android:onClick="addNewItem"
             android:background="@drawable/button"
             android:fontFamily="monospace"/>
 

@@ -54,7 +54,7 @@ public class Wardrobe extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(getApplicationContext());
     }
 
-    public void add(View view){
+    public void addNewItem(View view){
         Intent intent = new Intent(this, UserActivity.class);
         startActivity(intent);
     }
