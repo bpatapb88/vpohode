@@ -21,11 +21,13 @@ public class UserActivity extends AppCompatActivity {
     EditText nameBox;
     EditText termidBox;
     Spinner spinner, spinnerTemplate;
+    Styles Style2;
+   // String[] Style3 = Style2.getStringArray();
     String[] Style = {"Стиль не выбран", "Кэжуал", "Бизнес", "Элегантный", "Спорт", "Домашнее"};
     String[] Templates = {"Выбери шаблон", "Футболка","Рубашка","Кофта","Штаны","Джинсы","Осеняя куртка","Пальто"};
     Button delButton;
     Button saveButton;
-    RadioGroup radGrp,radGrp2;
+    RadioGroup radGrpTop, radGrpLayer;
 
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
@@ -33,22 +35,26 @@ public class UserActivity extends AppCompatActivity {
     long userId=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        for (Styles x : Styles.values()){
+            Log.i("Test ENUM","test " + x.toString());
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        nameBox = (EditText) findViewById(R.id.name);
-        termidBox = (EditText) findViewById(R.id.termid);
+        nameBox = findViewById(R.id.name);
+        termidBox = findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
-        radGrp = (RadioGroup)findViewById(R.id.radios);
-        radGrp2 = (RadioGroup)findViewById(R.id.radios2);
-        delButton = (Button) findViewById(R.id.deleteButton);
-        saveButton = (Button) findViewById(R.id.saveButton);
+        radGrpTop = findViewById(R.id.radios);
+        radGrpLayer = findViewById(R.id.radios2);
+        delButton = findViewById(R.id.deleteButton);
+        saveButton = findViewById(R.id.saveButton);
+        Log.i("Test spinner enum set"," " + Style2.valueOf("NONE").toString());
 
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
-
         // configure spinner
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Style);
+        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Style2.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -69,10 +75,12 @@ public class UserActivity extends AppCompatActivity {
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
-            spinner.setSelection(adapter.getPosition(userCursor.getString(2)));
+           // spinner.setSelection(adapter.getPosition(Style2.valueOf(userCursor.getString(2))) );
+
             if (userCursor.getInt(3) == 1){
-                radGrp.check(R.id.top);
-            }else{radGrp.check(R.id.bottom);}
+                radGrpTop.check(R.id.top);
+            }else{
+                radGrpTop.check(R.id.bottom);}
             userCursor.close();
         } else {
             // hide button Delete
@@ -94,48 +102,48 @@ public class UserActivity extends AppCompatActivity {
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("1");
                         spinner.setSelection(1);
-                        radGrp.check(R.id.top);
-                        radGrp2.check(R.id.layer1);
+                        radGrpTop.check(R.id.top);
+                        radGrpLayer.check(R.id.layer1);
                         break;
                     case 2:
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("2");
                         spinner.setSelection(2);
-                        radGrp.check(R.id.top);
-                        radGrp2.check(R.id.layer1);
+                        radGrpTop.check(R.id.top);
+                        radGrpLayer.check(R.id.layer1);
                         break;
                     case 3:
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("4");
                         spinner.setSelection(1);
-                        radGrp.check(R.id.top);
-                        radGrp2.check(R.id.layer2);
+                        radGrpTop.check(R.id.top);
+                        radGrpLayer.check(R.id.layer2);
                         break;
                     case 4:
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("2");
                         spinner.setSelection(3);
-                        radGrp.check(R.id.bottom);
+                        radGrpTop.check(R.id.bottom);
                         break;
                     case 5:
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("2");
                         spinner.setSelection(1);
-                        radGrp.check(R.id.bottom);
+                        radGrpTop.check(R.id.bottom);
                         break;
                     case 6:
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("5");
                         spinner.setSelection(1);
-                        radGrp.check(R.id.top);
-                        radGrp2.check(R.id.layer3);
+                        radGrpTop.check(R.id.top);
+                        radGrpLayer.check(R.id.layer3);
                         break;
                     case 7:
                         nameBox.setText(spinnerTemplate.getSelectedItem().toString());
                         termidBox.setText("6");
                         spinner.setSelection(1);
-                        radGrp.check(R.id.top);
-                        radGrp2.check(R.id.layer3);
+                        radGrpTop.check(R.id.top);
+                        radGrpLayer.check(R.id.layer3);
                         break;
                     // Шаблоны можно добавить тут + добавить имя в spinnerTemplate - --- - - - - --
                 }
@@ -147,15 +155,15 @@ public class UserActivity extends AppCompatActivity {
             }
 
         });
-        radGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radGrpTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton bot = (RadioButton)radioGroup.findViewById(R.id.bottom);
                 boolean isChecked = bot.isChecked();
                 if(isChecked){
-                    radGrp2.setVisibility(View.GONE);
+                    radGrpLayer.setVisibility(View.GONE);
                 } else {
-                    radGrp2.setVisibility(View.VISIBLE);
+                    radGrpLayer.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -167,7 +175,7 @@ public class UserActivity extends AppCompatActivity {
         cv.put(DatabaseHelper.COLUMN_NAME, nameBox.getText().toString());
         cv.put(DatabaseHelper.COLUMN_TERMID, Double.parseDouble(termidBox.getText().toString()));
         cv.put(DatabaseHelper.COLUMN_STYLE, spinner.getSelectedItem().toString());
-        if (radGrp.getCheckedRadioButtonId() == R.id.top) {
+        if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
             cv.put(DatabaseHelper.COLUMN_TOP, 1);
         } else {
             cv.put(DatabaseHelper.COLUMN_TOP, 0);
@@ -190,5 +198,9 @@ public class UserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Wardrobe.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+    }
+
+    enum Style{
+
     }
 }
