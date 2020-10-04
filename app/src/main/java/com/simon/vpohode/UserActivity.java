@@ -21,24 +21,17 @@ public class UserActivity extends AppCompatActivity {
     EditText nameBox;
     EditText termidBox;
     Spinner spinner, spinnerTemplate;
-    Styles Style2;
-   // String[] Style3 = Style2.getStringArray();
-    String[] Style = {"Стиль не выбран", "Кэжуал", "Бизнес", "Элегантный", "Спорт", "Домашнее"};
-    String[] Templates = {"Выбери шаблон", "Футболка","Рубашка","Кофта","Штаны","Джинсы","Осеняя куртка","Пальто"};
+    Styles Style = Styles.NONE;
+    Templates templates = Templates.NONE;
     Button delButton;
     Button saveButton;
     RadioGroup radGrpTop, radGrpLayer;
-
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
     long userId=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        for (Styles x : Styles.values()){
-            Log.i("Test ENUM","test " + x.toString());
-        }
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
         nameBox = findViewById(R.id.name);
@@ -49,16 +42,14 @@ public class UserActivity extends AppCompatActivity {
         radGrpLayer = findViewById(R.id.radios2);
         delButton = findViewById(R.id.deleteButton);
         saveButton = findViewById(R.id.saveButton);
-        Log.i("Test spinner enum set"," " + Style2.valueOf("NONE").toString());
-
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
         // configure spinner
-        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Style2.values());
+        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Style.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        ArrayAdapter<String> adapterTemplate = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Templates);
+        ArrayAdapter<Templates> adapterTemplate = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, templates.values());
         adapterTemplate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTemplate.setAdapter(adapterTemplate);
 
@@ -75,9 +66,7 @@ public class UserActivity extends AppCompatActivity {
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
-            //spinner.setSelection(Style2.getOrdinalByString(userCursor.getString(2)));
-            Log.i("Test ordinar"," " + Style2.getOrdinalByString(userCursor.getString(2)));
-
+            spinner.setSelection(Style.getOrdinalByString(userCursor.getString(2)));
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
             }else{
@@ -98,57 +87,26 @@ public class UserActivity extends AppCompatActivity {
         spinnerTemplate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                switch (spinnerTemplate.getSelectedItemPosition()){
-                    case 1:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("1");
-                        spinner.setSelection(1);
-                        radGrpTop.check(R.id.top);
-                        radGrpLayer.check(R.id.layer1);
-                        break;
-                    case 2:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("2");
-                        spinner.setSelection(2);
-                        radGrpTop.check(R.id.top);
-                        radGrpLayer.check(R.id.layer1);
-                        break;
-                    case 3:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("4");
-                        spinner.setSelection(1);
-                        radGrpTop.check(R.id.top);
-                        radGrpLayer.check(R.id.layer2);
-                        break;
-                    case 4:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("2");
-                        spinner.setSelection(3);
-                        radGrpTop.check(R.id.bottom);
-                        break;
-                    case 5:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("2");
-                        spinner.setSelection(1);
-                        radGrpTop.check(R.id.bottom);
-                        break;
-                    case 6:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("5");
-                        spinner.setSelection(1);
-                        radGrpTop.check(R.id.top);
-                        radGrpLayer.check(R.id.layer3);
-                        break;
-                    case 7:
-                        nameBox.setText(spinnerTemplate.getSelectedItem().toString());
-                        termidBox.setText("6");
-                        spinner.setSelection(1);
-                        radGrpTop.check(R.id.top);
-                        radGrpLayer.check(R.id.layer3);
-                        break;
-                    // Шаблоны можно добавить тут + добавить имя в spinnerTemplate - --- - - - - --
-                }
 
+                Item selectedTemplate = templates.fillTemplate(spinnerTemplate.getSelectedItemPosition());
+                if(selectedTemplate.getTop() == 0){
+                    nameBox.setText(selectedTemplate.getName());
+                    termidBox.setText(selectedTemplate.getTermid());
+                    spinner.setSelection(selectedTemplate.getStyle());
+                    radGrpTop.check(R.id.top);
+                    switch (selectedTemplate.getLayer()){
+                        case 1: radGrpLayer.check(R.id.layer1);
+                        break;
+                        case 2: radGrpLayer.check(R.id.layer2);
+                        break;
+                        case 3: radGrpLayer.check(R.id.layer3);
+                    }
+                }else{
+                    nameBox.setText(selectedTemplate.getName());
+                    termidBox.setText(selectedTemplate.getTermid());
+                    spinner.setSelection(selectedTemplate.getStyle());
+                    radGrpTop.check(R.id.bottom);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
