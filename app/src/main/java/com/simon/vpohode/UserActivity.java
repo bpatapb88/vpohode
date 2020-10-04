@@ -75,7 +75,8 @@ public class UserActivity extends AppCompatActivity {
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
-           // spinner.setSelection(adapter.getPosition(Style2.valueOf(userCursor.getString(2))) );
+            //spinner.setSelection(Style2.getOrdinalByString(userCursor.getString(2)));
+            Log.i("Test ordinar"," " + Style2.getOrdinalByString(userCursor.getString(2)));
 
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);

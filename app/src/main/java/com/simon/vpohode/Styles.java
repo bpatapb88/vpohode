@@ -1,7 +1,5 @@
 package com.simon.vpohode;
 
-import android.util.Log;
-
 public enum Styles {
     NONE("Стиль не выбран"),
     CASUAL("Кэжуал"),
@@ -10,15 +8,24 @@ public enum Styles {
     SPORT("Спорт"),
     HOME("Домашнее");
 
-    private String Styles;
+    private String styles;
 
     Styles (String nStyles) {
-        Styles = nStyles;
+        styles = nStyles;
     }
 
     @Override
     public String toString() {
-        return Styles;
+        return styles;
+    }
+
+    public int getOrdinalByString (String input){
+        for (Styles s : Styles.values()){
+            if (s.styles.equals(input)){
+                return s.ordinal();
+            }
+        }
+        return 0;
     }
 
 }
