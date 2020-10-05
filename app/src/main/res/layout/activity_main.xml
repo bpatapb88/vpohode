@@ -61,8 +61,6 @@
         android:onClick="onClickShowItems"
         android:text="Подобрать одежду"
                 />
-
-
         </LinearLayout>
         <TextView
             android:id="@+id/textViewWeather"
@@ -70,22 +68,6 @@
             android:layout_height="50dp"
             android:padding="16dp"
             android:text="Погода Сейчас" />
-
-        <ListView
-            android:id="@+id/list"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:padding="16dp"
-            />
-        <TextView
-            android:id="@+id/listofitems"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp"
-            android:text="Список вещей:" />
 
     </LinearLayout>
     </RelativeLayout>
