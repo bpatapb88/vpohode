@@ -60,6 +60,7 @@ public class UserActivity extends AppCompatActivity {
         }
         // if 0, add
         if (userId > 0) {
+            Log.i("Test item edit"," Success! ");
             // get item by id from db
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
                     DatabaseHelper.COLUMN_ID + "=?", new String[]{String.valueOf(userId)});
@@ -67,6 +68,7 @@ public class UserActivity extends AppCompatActivity {
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
             spinner.setSelection(Style.getOrdinalByString(userCursor.getString(2)));
+
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
             }else{
@@ -78,7 +80,7 @@ public class UserActivity extends AppCompatActivity {
         }
 
         // working with Radio buttons
-
+        Log.i("Test item edit2"," Success! 2 - " + nameBox.getText());
     }
     @Override
     public void onResume() {
@@ -89,23 +91,28 @@ public class UserActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
                 Item selectedTemplate = templates.fillTemplate(spinnerTemplate.getSelectedItemPosition());
-                if(selectedTemplate.getTop() == 0){
-                    nameBox.setText(selectedTemplate.getName());
-                    termidBox.setText(selectedTemplate.getTermid());
-                    spinner.setSelection(selectedTemplate.getStyle());
-                    radGrpTop.check(R.id.top);
-                    switch (selectedTemplate.getLayer()){
-                        case 1: radGrpLayer.check(R.id.layer1);
-                        break;
-                        case 2: radGrpLayer.check(R.id.layer2);
-                        break;
-                        case 3: radGrpLayer.check(R.id.layer3);
+                if (spinnerTemplate.getSelectedItemPosition() != 0) {
+                    if (selectedTemplate.getTop() == 0) {
+                        nameBox.setText(selectedTemplate.getName());
+                        termidBox.setText(selectedTemplate.getTermid());
+                        spinner.setSelection(selectedTemplate.getStyle());
+                        radGrpTop.check(R.id.top);
+                        switch (selectedTemplate.getLayer()) {
+                            case 1:
+                                radGrpLayer.check(R.id.layer1);
+                                break;
+                            case 2:
+                                radGrpLayer.check(R.id.layer2);
+                                break;
+                            case 3:
+                                radGrpLayer.check(R.id.layer3);
+                        }
+                    } else {
+                        nameBox.setText(selectedTemplate.getName());
+                        termidBox.setText(selectedTemplate.getTermid());
+                        spinner.setSelection(selectedTemplate.getStyle());
+                        radGrpTop.check(R.id.bottom);
                     }
-                }else{
-                    nameBox.setText(selectedTemplate.getName());
-                    termidBox.setText(selectedTemplate.getTermid());
-                    spinner.setSelection(selectedTemplate.getStyle());
-                    radGrpTop.check(R.id.bottom);
                 }
             }
             @Override

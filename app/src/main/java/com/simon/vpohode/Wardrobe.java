@@ -23,17 +23,19 @@ public class Wardrobe extends AppCompatActivity {
     private Cursor itemCursor;
     private SimpleCursorAdapter topItemAdapter, bottomItemAdapter;
     private ListView topItemList, bottomItemList;
-    private TextView countTop;
-    private EditText topItemFilter;
+    private TextView countTop,countBot;
+    private EditText topItemFilter,botItemFilter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wardrobe);
         countTop = (TextView)findViewById(R.id.header);
+        countBot = findViewById(R.id.header2);
         topItemList = (ListView)findViewById(R.id.list);
         bottomItemList = (ListView)findViewById(R.id.list2);
         topItemFilter = (EditText)findViewById(R.id.topItemFilter);
+        botItemFilter = findViewById(R.id.botItemFilter);
 
         topItemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,11 +69,13 @@ public class Wardrobe extends AppCompatActivity {
         //get cursor from db
         itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
         // which column will be in ListView
+        countTop.setText("На плечи: " + String.valueOf(itemCursor.getCount()));
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_TERMID, DatabaseHelper.COLUMN_TOP,};
         // create adapter, send cursor
         topItemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
                 itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        countBot.setText("На ноги: " + String.valueOf(itemCursor.getCount()));
         bottomItemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
                 itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
 
@@ -103,7 +107,9 @@ public class Wardrobe extends AppCompatActivity {
                 }
             }
         });
-        countTop.setText("На плечи: " + String.valueOf(itemCursor.getCount()));
+
+
+
         topItemList.setAdapter(topItemAdapter);
         bottomItemList.setAdapter(bottomItemAdapter);
     }
