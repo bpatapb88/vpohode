@@ -12,17 +12,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ShowItems extends AppCompatActivity {
-    private ListView topItemList;
+    private ListView topItemList,botItemList;
     private TextView listOfItems;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private Cursor itemCursor;
+    private CursorItem itemCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showitem);
         topItemList = findViewById(R.id.list);
+        botItemList = findViewById(R.id.list2);
         listOfItems = findViewById(R.id.listofitems);
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
@@ -36,7 +37,8 @@ public class ShowItems extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
         String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
-        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
+        itemCursor = (CursorItem) db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
+
         double min = Integer.MAX_VALUE;
         if (itemCursor.moveToFirst()){
 
@@ -50,7 +52,7 @@ public class ShowItems extends AppCompatActivity {
         }
 
         min = Integer.MAX_VALUE;
-        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        itemCursor = (CursorItem) db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
         if (itemCursor.moveToFirst()){
             do {
                 if (min > Math.abs((30 - term)/9 - itemCursor.getDouble(4))) {
@@ -60,11 +62,11 @@ public class ShowItems extends AppCompatActivity {
             }
             while (itemCursor.moveToNext());
         }
-        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1 AND " + DatabaseHelper.COLUMN_TERMID + " = " + bestTopIndex, null);
+        itemCursor = (CursorItem) db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1 AND " + DatabaseHelper.COLUMN_TERMID + " = " + bestTopIndex, null);
         SimpleCursorAdapter itemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         //db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DatabaseHelper.COLUMN_NAME + " like ?", new String[]{"%" + constraint.toString() + "%"});
         topItemList.setAdapter(itemAdapter);
-        itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
+        itemCursor = (CursorItem) db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE, null);
         String names = "";
         String names1 = "";
         if (itemCursor.moveToFirst()) {
