@@ -9,7 +9,7 @@ public class CountSomething {
         double bestTopIndex = 0;
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((30 - term)/4 - input.getDouble(4));
+                double x = Math.abs((30 - term)/3 - input.getDouble(4));
                 if (min > x) {
                     min = x;
                     bestTopIndex = input.getDouble(4);
@@ -24,7 +24,7 @@ public class CountSomething {
         double bestBottomIndex = 0;
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((30 - term)/4 - input.getDouble(4));
+                double x = Math.abs((31 - term)/3 - input.getDouble(4));
                 if (min > x) {
                     min = x;
                     bestBottomIndex = input.getDouble(4);
