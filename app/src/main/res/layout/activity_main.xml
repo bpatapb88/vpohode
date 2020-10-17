@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Гардероб"
-        android:onClick="wardrobe"
+        android:onClick="goToWardrobe"
         android:background="@drawable/button"
         android:fontFamily="monospace"
         />

@@ -63,7 +63,7 @@ public class UserActivity extends AppCompatActivity {
             Log.i("Test item edit"," Success! ");
             // get item by id from db
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
-                    DatabaseHelper.COLUMN_ID + "=?", new String[]{String.valueOf(userId)});
+                    DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
@@ -147,7 +147,7 @@ public class UserActivity extends AppCompatActivity {
             cv.put(DatabaseHelper.COLUMN_TOP, 0);
         }
         if (userId > 0) {
-            db.update(DatabaseHelper.TABLE, cv, DatabaseHelper.COLUMN_ID + "=" + userId, null);
+            db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
         } else {
             db.insert(DatabaseHelper.TABLE, null, cv);
         }

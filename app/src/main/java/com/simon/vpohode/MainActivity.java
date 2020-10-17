@@ -2,16 +2,9 @@ package com.simon.vpohode;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,10 +18,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-   // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
-    private final String weatherURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+
+    // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+    private final static String weatherURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
-    Double term;
+    private Double avgTempertureCel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,31 +34,32 @@ public class MainActivity extends AppCompatActivity {
         //String city = editTextCity.getText().toString().trim();
         DownloadTask task = new DownloadTask();
         //String url = String.format(weatherURL, city);
-        String url2 = String.format(weatherURL2, "Brno");
+        String url2 = String.format(weatherURL2, "Brno"); //TODO rename variable
         task.execute(url2);
        // task.onPostExecute(url,1);
     }
 
-    public void wardrobe(View view){
+    public void goToWardrobe(View view){                                        //TODO create new class view manager
         Intent intent = new Intent(this, Wardrobe.class);
         startActivity(intent);
     }
 
     public void onClickShowItems (View view){
         Intent intent = new Intent(this, ShowItems.class);
-        intent.putExtra("term", term);
+        intent.putExtra("term", avgTempertureCel);
         startActivity(intent);
     }
 
     private class DownloadTask extends AsyncTask <String, Void, String> {
+        private final static String CELSIUS_SYMBOL = "\u2103 ";
+        private final static String NOW_WORD = "Сейчас: ";
 
         @Override
         protected String doInBackground(String... strings) {
             StringBuilder result = new StringBuilder();
-            URL url = null;
             HttpURLConnection urlConnection = null;
             try {
-                url = new URL(strings[0]);
+                URL url = new URL(strings[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = urlConnection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
@@ -91,28 +86,31 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute (String s){
             super.onPostExecute(s);
             try {
-                JSONObject jsonObject = new JSONObject(s);
-
-                    JSONArray jsonArray = jsonObject.getJSONArray("list");
-                    JSONObject list0 = jsonArray.getJSONObject(0);
-                    JSONObject list1 = jsonArray.getJSONObject(1);
-                    JSONArray forcast = list1.getJSONArray("weather");
-                    JSONObject weather = forcast.getJSONObject(0);
+                    final JSONObject jsonObject = new JSONObject(s);
+                    final JSONArray jsonArray = jsonObject.getJSONArray("list");
+                    // current weather
+                    final JSONObject currentWeatherAll = jsonArray.getJSONObject(0);
+                    // weather in 3 hours
+                    JSONObject weatherIn3HoursAll = jsonArray.getJSONObject(1);
+                    JSONArray forecast = weatherIn3HoursAll.getJSONArray("weather");
+                    JSONObject weather = forecast.getJSONObject(0);
                     String description = weather.getString("description");
 
-                    JSONObject main0 = list0.getJSONObject("main");
+                    JSONObject main0 = currentWeatherAll.getJSONObject("main");
                     String mainTem0 = main0.getString("feels_like");
-                    JSONObject main1 = list1.getJSONObject("main");
+                    JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");
                     String mainTem1 = main1.getString("feels_like");
 
                     // save the temperature
-                    term = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
+                    avgTempertureCel = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
 
-                    if (term >= 0 ) {
-                        textViewWeather.setText("Сейчас: +" + (int)Double.parseDouble(mainTem0) + "\u2103 " + description);
-                    } else {
-                        textViewWeather.setText("Сейчас: " + (int)Double.parseDouble(mainTem0) + "\u2103 " + description);
-                    }
+                String ifPlus = "";
+                if (avgTempertureCel >= 0) {
+                    ifPlus = "+";
+                }
+                final String outputWeather = (int)Double.parseDouble(mainTem0) + CELSIUS_SYMBOL + description;
+                // TODO change variable names
+                textViewWeather.setText(NOW_WORD + ifPlus + outputWeather);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

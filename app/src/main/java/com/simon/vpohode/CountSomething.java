@@ -9,7 +9,7 @@ public class CountSomething {
         double bestTopIndex = 0;
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((30 - term)/3 - input.getDouble(4));
+                double x = Math.abs((30 - term)/3 - input.getDouble(4)); //FIXME magic constant
                 if (min > x) {
                     min = x;
                     bestTopIndex = input.getDouble(4);

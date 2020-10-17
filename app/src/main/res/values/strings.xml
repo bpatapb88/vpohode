@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">vpohode</string>
+    <string name="action_settings">Settings</string>
+
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -35,20 +36,20 @@ public class ShowItems extends AppCompatActivity {
         // connection to DB
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
-        String[] headers = new String[] {DatabaseHelper.COLUMN_NAME, DatabaseHelper.COLUMN_STYLE, DatabaseHelper.COLUMN_TOP,};
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1", null);
+        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.ISTOP.toFieldName(),};
+        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1", null);
 
         CountSomething counter = new CountSomething();
         bestTopIndex = counter.getTopIndex(itemCursor,term);
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0", null);
+        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0", null);
         bestBottomIndex = counter.getBotIndex(itemCursor,term);
 
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 1 AND " + DatabaseHelper.COLUMN_TERMID + " = " + bestTopIndex, null);
+        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1 AND " + DBFields.TERMID.toFieldName() + " = " + bestTopIndex, null);
         SimpleCursorAdapter itemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         //db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DatabaseHelper.COLUMN_NAME + " like ?", new String[]{"%" + constraint.toString() + "%"});
         topItemList.setAdapter(itemAdapter);
 
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DatabaseHelper.COLUMN_TOP + " = 0 AND " + DatabaseHelper.COLUMN_TERMID + " = " + bestBottomIndex, null);
+        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0 AND " + DBFields.TERMID.toFieldName() + " = " + bestBottomIndex, null);
         SimpleCursorAdapter itemAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         botItemList.setAdapter(itemAdapter2);
     }
@@ -57,11 +58,13 @@ public class ShowItems extends AppCompatActivity {
         Intent intent = new Intent(this, Wardrobe.class);
         startActivity(intent);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         // open connection
     }
+
     @Override
     public void onDestroy(){
         super.onDestroy();
