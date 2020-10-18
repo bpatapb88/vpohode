@@ -7,14 +7,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -28,12 +32,19 @@ public class Wardrobe extends AppCompatActivity {
     private TextView countTop,countBot;
     private EditText topItemFilter,botItemFilter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-
         setContentView(R.layout.activity_wardrobe);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
+
         countTop = findViewById(R.id.header);
         countBot = findViewById(R.id.header2);
         topItemList = findViewById(R.id.list);
@@ -58,6 +69,26 @@ public class Wardrobe extends AppCompatActivity {
             }
         });
         databaseHelper = new DatabaseHelper(getApplicationContext());
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem settings = menu.findItem(R.id.action_settings);
+        settings.setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.search:
+                                                                                            //TODO write action for Search
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void addNewItem(View view){

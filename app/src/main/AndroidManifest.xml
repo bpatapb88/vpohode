@@ -29,6 +29,9 @@
         <activity android:name=".ShowItems">
 
         </activity>
+        <activity android:name=".TestLayout">
+
+        </activity>
     </application>
 
 </manifest>

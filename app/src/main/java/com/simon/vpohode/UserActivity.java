@@ -21,7 +21,7 @@ public class UserActivity extends AppCompatActivity {
     EditText nameBox;
     EditText termidBox;
     Spinner spinner, spinnerTemplate;
-    Styles Style = Styles.NONE;
+    Styles style = Styles.NONE;
     Templates templates = Templates.NONE;
     Button delButton;
     Button saveButton;
@@ -44,8 +44,9 @@ public class UserActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
+
         // configure spinner
-        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Style.values());
+        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, style.values());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -60,14 +61,13 @@ public class UserActivity extends AppCompatActivity {
         }
         // if 0, add
         if (userId > 0) {
-            Log.i("Test item edit"," Success! ");
             // get item by id from db
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
                     DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
-            spinner.setSelection(Style.getOrdinalByString(userCursor.getString(2)));
+            spinner.setSelection(style.getOrdinalByString(userCursor.getString(2)));
 
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);

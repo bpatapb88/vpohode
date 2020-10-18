@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -39,7 +38,7 @@ public class ShowItems extends AppCompatActivity {
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.ISTOP.toFieldName(),};
         itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1", null);
 
-        CountSomething counter = new CountSomething();
+        CountBestTermIndex counter = new CountBestTermIndex();
         bestTopIndex = counter.getTopIndex(itemCursor,term);
         itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0", null);
         bestBottomIndex = counter.getBotIndex(itemCursor,term);

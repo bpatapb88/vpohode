@@ -14,12 +14,10 @@ public enum  DBFields {
         this.dbField = dbField;
         this.dbType = dbType;
     }
-
     public String toFieldName() {
         return dbField;
     }
     public String toType(){
         return dbType;
     }
-    
 }

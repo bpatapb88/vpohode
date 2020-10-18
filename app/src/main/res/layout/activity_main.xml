@@ -5,45 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/vpohodemain"
         tools:ignore="MissingConstraints"
         android:orientation="vertical">
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
-        <LinearLayout
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="?attr/actionBarSize"
+            android:background="#6603DAC5"
+            android:fontFamily="monospace"
+            app:menu="@menu/menu_main"
+            />
         <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+
         android:text="Гардероб"
         android:onClick="goToWardrobe"
         android:background="@drawable/button"
         android:fontFamily="monospace"
         />
-        <Space
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            />
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/settings"
-            android:fontFamily="monospace"
-            />
 
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +60,7 @@
         <TextView
             android:id="@+id/textViewWeather"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="Погода Сейчас" />
 

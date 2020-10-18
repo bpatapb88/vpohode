@@ -1,9 +1,13 @@
 package com.simon.vpohode;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import org.json.JSONArray;
@@ -20,7 +24,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
-    private final static String weatherURL2 = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+    private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
 
@@ -28,15 +32,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textViewWeather = findViewById(R.id.textViewWeather);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        textViewWeather = findViewById(R.id.textViewWeather);
         //show the weather
         //String city = editTextCity.getText().toString().trim();
         DownloadTask task = new DownloadTask();
         //String url = String.format(weatherURL, city);
-        String url2 = String.format(weatherURL2, "Brno"); //TODO rename variable
-        task.execute(url2);
+        String weatherURLWithCity = String.format(weatherURL, "Brno");
+        task.execute(weatherURLWithCity);
        // task.onPostExecute(url,1);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem search = menu.findItem(R.id.search);
+        search.setVisible(false);
+        return true;
     }
 
     public void goToWardrobe(View view){                                        //TODO create new class view manager
@@ -85,6 +100,9 @@ public class MainActivity extends AppCompatActivity {
 
         protected void onPostExecute (String s){
             super.onPostExecute(s);
+            String mainTem0 ="";
+            String mainTem1 = "";
+            String description = "";
             try {
                     final JSONObject jsonObject = new JSONObject(s);
                     final JSONArray jsonArray = jsonObject.getJSONArray("list");
@@ -94,14 +112,15 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject weatherIn3HoursAll = jsonArray.getJSONObject(1);
                     JSONArray forecast = weatherIn3HoursAll.getJSONArray("weather");
                     JSONObject weather = forecast.getJSONObject(0);
-                    String description = weather.getString("description");
-
+                    description = weather.getString("description");
                     JSONObject main0 = currentWeatherAll.getJSONObject("main");
-                    String mainTem0 = main0.getString("feels_like");
+                    mainTem0 = main0.getString("feels_like");
                     JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");
-                    String mainTem1 = main1.getString("feels_like");
-
-                    // save the temperature
+                    mainTem1 = main1.getString("feels_like");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // save the temperature
                     avgTempertureCel = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
 
                 String ifPlus = "";
@@ -111,9 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 final String outputWeather = (int)Double.parseDouble(mainTem0) + CELSIUS_SYMBOL + description;
                 // TODO change variable names
                 textViewWeather.setText(NOW_WORD + ifPlus + outputWeather);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+
         }
 
     }

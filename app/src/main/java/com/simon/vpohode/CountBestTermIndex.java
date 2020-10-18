@@ -1,39 +1,37 @@
 package com.simon.vpohode;
-
 import android.database.Cursor;
 
-public class CountSomething {
-
-    public double getTopIndex(Cursor input, Double term){
+public class CountBestTermIndex {
+    private static int maxTemper = 31;
+    public double getTopIndex(Cursor input, Double currentTemperature){
         double min = Integer.MAX_VALUE;
         double bestTopIndex = 0;
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((30 - term)/3 - input.getDouble(4)); //FIXME magic constant
+                double x = Math.abs((maxTemper - currentTemperature)/3 - input.getDouble(input.getColumnIndex("termindex")));
                 if (min > x) {
                     min = x;
-                    bestTopIndex = input.getDouble(4);
+                    bestTopIndex = input.getDouble(input.getColumnIndex("termindex"));
                 }
             }
             while (input.moveToNext());
         }
         return bestTopIndex;
     }
-    public double getBotIndex(Cursor input, Double term){
+    public double getBotIndex(Cursor input, Double currentTemperature){
         double min = Integer.MAX_VALUE;
         double bestBottomIndex = 0;
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((31 - term)/3 - input.getDouble(4));
+                double x = Math.abs((maxTemper - currentTemperature)/3 - input.getDouble(input.getColumnIndex("termindex")));
                 if (min > x) {
                     min = x;
-                    bestBottomIndex = input.getDouble(4);
+                    bestBottomIndex = input.getDouble(input.getColumnIndex("termindex"));
                 }
             }
             while (input.moveToNext());
         }
         return bestBottomIndex;
-
     }
 
 }
