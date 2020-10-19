@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">vpohode</string>
     <string name="action_settings">Settings</string>
-
+    <string name="title_wardrobe">Гардероб</string>
+    <string name="show_item">Подборка</string>
+    <string name="search">Ищем</string>
 </resources>

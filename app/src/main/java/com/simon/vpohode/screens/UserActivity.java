@@ -1,4 +1,4 @@
-package com.simon.vpohode;
+package com.simon.vpohode.screens;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +14,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
+import com.simon.vpohode.Item;
+import com.simon.vpohode.R;
+import com.simon.vpohode.Styles;
+import com.simon.vpohode.Templates;
 
 
 public class UserActivity extends AppCompatActivity {

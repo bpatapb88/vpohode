@@ -1,6 +1,5 @@
-package com.simon.vpohode;
+package com.simon.vpohode.screens;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,16 +10,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
+import com.simon.vpohode.R;
 
 public class Wardrobe extends AppCompatActivity {
 
@@ -30,8 +34,6 @@ public class Wardrobe extends AppCompatActivity {
     private SimpleCursorAdapter topItemAdapter, bottomItemAdapter;
     private ListView topItemList, bottomItemList;
     private TextView countTop,countBot;
-    private EditText topItemFilter,botItemFilter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +44,12 @@ public class Wardrobe extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-
+        setTitle(getString(R.string.title_wardrobe));
 
         countTop = findViewById(R.id.header);
         countBot = findViewById(R.id.header2);
         topItemList = findViewById(R.id.list);
         bottomItemList = findViewById(R.id.list2);
-        topItemFilter = findViewById(R.id.topItemFilter);
-        botItemFilter = findViewById(R.id.botItemFilter);
 
         topItemList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -69,6 +68,9 @@ public class Wardrobe extends AppCompatActivity {
             }
         });
         databaseHelper = new DatabaseHelper(getApplicationContext());
+
+        //arrayAdapter = new ArrayAdapter<>(this, R.layout.two_line_list_item,topItemList);
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,18 +78,30 @@ public class Wardrobe extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem settings = menu.findItem(R.id.action_settings);
         settings.setVisible(false);
+        MenuItem search = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) search.getActionView();
+        searchView.setQueryHint("Введи название!");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                topItemAdapter.getFilter().filter(s);
+                bottomItemAdapter.getFilter().filter(s);
+                return true;
+            }
+        });
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            case R.id.search:
-                                                                                            //TODO write action for Search
-                break;
-        }
+        if(item.getItemId() == android.R.id.home)
+        finish();
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -113,37 +127,34 @@ public class Wardrobe extends AppCompatActivity {
         countBot.setText("На ноги: " + String.valueOf(itemCursor.getCount()));
         bottomItemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item,
                 itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
-
-        if(!topItemFilter.getText().toString().isEmpty())
-            topItemAdapter.getFilter().filter(topItemFilter.getText().toString());
-
-        // установка слушателя изменения текста
-        topItemFilter.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) { }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            // при изменении текста выполняем фильтрацию
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                topItemAdapter.getFilter().filter(s.toString());
-            }
-        });
         // устанавливаем провайдер фильтрации
         topItemAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
 
                 if (constraint == null || constraint.length() == 0) {
-                    return db.rawQuery("select * from " + DatabaseHelper.TABLE, null);
+                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = 1", null);
                 }
                 else {
-                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
+                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = 1 AND " +
                             DBFields.NAME.toFieldName() + " like ?", new String[]{"%" + constraint.toString() + "%"});
                 }
             }
         });
 
+        bottomItemAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
 
+                if (constraint == null || constraint.length() == 0) {
+                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = 0", null);
+                }
+                else {
+                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = 0 AND " +
+                            DBFields.NAME.toFieldName() + " like ?", new String[]{"%" + constraint.toString() + "%"});
+                }
+            }
+        });
 
         topItemList.setAdapter(topItemAdapter);
         bottomItemList.setAdapter(bottomItemAdapter);

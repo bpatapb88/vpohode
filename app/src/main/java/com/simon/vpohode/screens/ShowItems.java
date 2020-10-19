@@ -1,15 +1,24 @@
-package com.simon.vpohode;
+package com.simon.vpohode.screens;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.simon.vpohode.CountBestTermIndex;
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
+import com.simon.vpohode.R;
 
 public class ShowItems extends AppCompatActivity {
     private ListView topItemList,botItemList;
@@ -22,6 +31,13 @@ public class ShowItems extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showitem);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        setTitle(getString(R.string.show_item));
+
         topItemList = findViewById(R.id.list);
         botItemList = findViewById(R.id.list2);
         databaseHelper = new DatabaseHelper(getApplicationContext());
@@ -51,6 +67,26 @@ public class ShowItems extends AppCompatActivity {
         itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0 AND " + DBFields.TERMID.toFieldName() + " = " + bestBottomIndex, null);
         SimpleCursorAdapter itemAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
         botItemList.setAdapter(itemAdapter2);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem settings = menu.findItem(R.id.action_settings);
+        settings.setVisible(false);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.search:
+                //TODO write action for Search
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void wardrobe(View view){

@@ -1,4 +1,4 @@
-package com.simon.vpohode;
+package com.simon.vpohode.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,6 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.simon.vpohode.R;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

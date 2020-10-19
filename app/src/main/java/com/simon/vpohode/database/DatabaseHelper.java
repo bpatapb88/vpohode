@@ -1,4 +1,4 @@
-package com.simon.vpohode;
+package com.simon.vpohode.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
-    static final String TABLE = "items"; // Name of Table
+    public static final String TABLE = "items"; // Name of Table
     // names of columns
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_TERMID = "termindex";

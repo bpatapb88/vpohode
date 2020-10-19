@@ -10,26 +10,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".screens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserActivity"
+        <activity android:name=".screens.UserActivity"
             android:windowSoftInputMode="stateVisible|adjustPan">
 
         </activity>
-        <activity android:name=".Wardrobe"
-            android:windowSoftInputMode="stateVisible|adjustPan"
+        <activity android:name=".screens.Wardrobe"
+
             >
 
         </activity>
-        <activity android:name=".ShowItems">
-
-        </activity>
-        <activity android:name=".TestLayout">
+        <activity android:name=".screens.ShowItems">
 
         </activity>
     </application>

@@ -1,4 +1,4 @@
-package com.simon.vpohode;
+package com.simon.vpohode.database;
 
 public enum  DBFields {
     ID("_id", "INTEGER"),

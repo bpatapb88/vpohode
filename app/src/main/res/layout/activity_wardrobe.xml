@@ -22,42 +22,7 @@
         android:background="#6603DAC5"
         app:menu="@menu/menu_main"
         android:fontFamily="monospace"
-
         />
-
-        <Button
-            android:id="@+id/add"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Добавить"
-            android:onClick="addNewItem"
-            android:background="@drawable/button"
-            android:fontFamily="monospace"
-            />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-    <EditText android:id="@+id/topItemFilter"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Поиск"
-        />
-        <Space
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            />
-    <EditText android:id="@+id/botItemFilter"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Поиск"
-        />
-    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,15 +48,15 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:background="@drawable/pole"
         >
         <ListView
             android:id="@+id/list"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/pole"
             android:padding="16dp"
         />
         <Space
@@ -103,12 +68,19 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/pole"
             android:padding="16dp"
             />
 
     </LinearLayout>
 
 </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add"
+        android:onClick="addNewItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="16dp"
+        app:srcCompat="@drawable/ic_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
