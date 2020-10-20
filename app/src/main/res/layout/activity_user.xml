@@ -2,14 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/vpohode"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/pole">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        >
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#6603DAC5"
+            android:fontFamily="monospace"
+            app:menu="@menu/menu_main"
+            app:titleTextColor="@android:color/secondary_text_light"
+            />
         <Spinner
             android:id="@+id/Template"
             android:layout_width="match_parent"
@@ -55,66 +64,61 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="16dp"
-                android:buttonTint="#232323"
-                android:text="На плечи" />
+                android:buttonTint="@android:color/secondary_text_light"
+                android:text="На плечи"
+                android:textColor="@android:color/secondary_text_light"/>
 
             <RadioButton
                 android:id="@+id/bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:buttonTint="#232323"
+                android:buttonTint="@android:color/secondary_text_light"
                 android:padding="16dp"
-                android:text="На ноги" />
+                android:text="На ноги"
+                android:textColor="@android:color/secondary_text_light"
+                />
         </RadioGroup>
         <RadioGroup
             android:id="@+id/radios2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:gravity="center"
             android:orientation="horizontal"
-            >
 
+            >
             <RadioButton
                 android:id="@+id/layer1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:buttonTint="#232323"
-                android:text="Первый слой" />
+                android:buttonTint="@android:color/secondary_text_light"
+                android:text="Первый слой"
+                android:textColor="@android:color/secondary_text_light"
+                />
 
             <RadioButton
             android:id="@+id/layer2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="#232323"
-            android:text="Второй слой" />
+            android:buttonTint="@android:color/secondary_text_light"
+            android:text="Второй слой"
+                android:textColor="@android:color/secondary_text_light"/>
             <RadioButton
                 android:id="@+id/layer3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:buttonTint="#232323"
-                android:text="Третий слой" />
+                android:buttonTint="@android:color/secondary_text_light"
+                android:text="Третий слой"
+                android:textColor="@android:color/secondary_text_light"/>
         </RadioGroup>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="16dp">
-
-            <Button
-                android:id="@+id/saveButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/button"
-                android:fontFamily="monospace"
-                android:onClick="save"
-                android:padding="16dp"
-                android:text="Сохранить" />
 
             <Button
                 android:id="@+id/deleteButton"
@@ -125,7 +129,9 @@
                 android:fontFamily="monospace"
                 android:onClick="delete"
                 android:padding="16dp"
-                android:text="Удалить" />
+                android:text="Удалить"
+                android:textColor="@android:color/secondary_text_light"
+                />
 
         </LinearLayout>
 

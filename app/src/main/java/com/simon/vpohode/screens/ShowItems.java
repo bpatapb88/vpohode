@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.simon.vpohode.CountBestTermIndex;
+import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
@@ -72,8 +73,9 @@ public class ShowItems extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem settings = menu.findItem(R.id.action_settings);
-        settings.setVisible(false);
+        LayoutManager.invisible(R.id.save,menu);
+        LayoutManager.invisible(R.id.search,menu);
+        LayoutManager.invisible(R.id.action_settings,menu);
         return true;
     }
     @Override

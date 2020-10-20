@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
@@ -76,8 +77,9 @@ public class Wardrobe extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem settings = menu.findItem(R.id.action_settings);
-        settings.setVisible(false);
+        LayoutManager.invisible(R.id.action_settings,menu);
+        LayoutManager.invisible(R.id.save,menu);
+
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Введи название!");

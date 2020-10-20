@@ -1,7 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.simon.vpohode.screens.MainActivity">
+    tools:context="com.simon.vpohode.screens.MainActivity"
+    >
     <item
         android:id="@+id/search"
         android:icon="@drawable/ic_search_24"
@@ -9,6 +10,12 @@
         android:contentDescription="Something1"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView"
+        />
+    <item
+        android:id="@+id/save"
+        android:icon="@android:drawable/ic_menu_save"
+        android:title="Save"
+        app:showAsAction="always"
         />
     <item
         android:id="@+id/action_settings"

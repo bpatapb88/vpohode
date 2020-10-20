@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.R;
 
 import org.json.JSONArray;
@@ -52,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        MenuItem search = menu.findItem(R.id.search);
-        search.setVisible(false);
+        LayoutManager.invisible(R.id.save,menu);
+        LayoutManager.invisible(R.id.search,menu);
         return true;
     }
 

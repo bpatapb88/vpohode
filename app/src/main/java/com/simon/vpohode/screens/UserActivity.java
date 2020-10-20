@@ -3,10 +3,17 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
+import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.Item;
@@ -31,7 +39,7 @@ public class UserActivity extends AppCompatActivity {
     Styles style = Styles.NONE;
     Templates templates = Templates.NONE;
     Button delButton;
-    Button saveButton;
+
     RadioGroup radGrpTop, radGrpLayer;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
@@ -41,6 +49,13 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        setTitle(getString(R.string.title_item));
+
         nameBox = findViewById(R.id.name);
         termidBox = findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
@@ -48,9 +63,12 @@ public class UserActivity extends AppCompatActivity {
         radGrpTop = findViewById(R.id.radios);
         radGrpLayer = findViewById(R.id.radios2);
         delButton = findViewById(R.id.deleteButton);
-        saveButton = findViewById(R.id.saveButton);
+        //saveButton = findViewById(R.id.save);
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
+
+        //hidden keyboard by default
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // configure spinner
         ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, style.values());
@@ -86,8 +104,48 @@ public class UserActivity extends AppCompatActivity {
             delButton.setVisibility(View.GONE);
         }
 
-        // working with Radio buttons
-        Log.i("Test item edit2"," Success! 2 - " + nameBox.getText());
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.save){
+                    ContentValues cv = new ContentValues();
+                    cv.put(DatabaseHelper.COLUMN_NAME, nameBox.getText().toString());
+                    cv.put(DatabaseHelper.COLUMN_TERMID, Double.parseDouble(termidBox.getText().toString()));
+                    cv.put(DatabaseHelper.COLUMN_STYLE, spinner.getSelectedItem().toString());
+                    if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                        cv.put(DatabaseHelper.COLUMN_TOP, 1);
+                    } else {
+                        cv.put(DatabaseHelper.COLUMN_TOP, 0);
+                    }
+                    if (userId > 0) {
+                        db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+                    } else {
+                        db.insert(DatabaseHelper.TABLE, null, cv);
+                    }
+                    goHome();
+                }
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        LayoutManager.invisible(R.id.search,menu);
+        LayoutManager.invisible(R.id.action_settings,menu);
+        MenuItem save = menu.findItem(R.id.save);
+
+
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
     @Override
     public void onResume() {

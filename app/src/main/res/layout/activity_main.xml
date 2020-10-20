@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/vpohodemain"
+        android:background="@drawable/pole"
         tools:ignore="MissingConstraints"
         android:orientation="vertical">
 
@@ -27,12 +27,13 @@
             android:background="#6603DAC5"
             android:fontFamily="monospace"
             app:menu="@menu/menu_main"
+            app:titleTextColor="@android:color/secondary_text_light"
             />
         <Button
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:textColor="@android:color/secondary_text_light"
         android:text="Гардероб"
         android:onClick="goToWardrobe"
         android:background="@drawable/button"
@@ -55,6 +56,7 @@
         android:fontFamily="monospace"
         android:onClick="onClickShowItems"
         android:text="Подобрать одежду"
+                android:textColor="@android:color/secondary_text_light"
                 />
         </LinearLayout>
         <TextView
