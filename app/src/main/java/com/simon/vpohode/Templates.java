@@ -21,7 +21,7 @@ public enum Templates {
         return templates;
     }
 
-    public Item fillTemplate (int input){
+    public static Item fillTemplate (int input){
         Item x = new Item();
         switch (input){
             case 1:

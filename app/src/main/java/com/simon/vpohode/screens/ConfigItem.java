@@ -3,11 +3,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +17,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-
 import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
@@ -28,21 +25,17 @@ import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.Templates;
 
-
 public class ConfigItem extends AppCompatActivity {
 
-    EditText nameBox;
-    EditText termidBox;
+    EditText nameBox,termidBox;
     Spinner spinner, spinnerTemplate;
-    Styles style = Styles.NONE;
-    Templates templates = Templates.NONE;
     Button delButton;
-
     RadioGroup radGrpTop, radGrpLayer;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
     long userId=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +54,6 @@ public class ConfigItem extends AppCompatActivity {
         radGrpTop = findViewById(R.id.radios);
         radGrpLayer = findViewById(R.id.radios2);
         delButton = findViewById(R.id.deleteButton);
-        //saveButton = findViewById(R.id.save);
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
 
@@ -69,8 +61,8 @@ public class ConfigItem extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // configure spinner
-        spinner.setAdapter(LayoutManager.spinnerConfig(style.values(),this));
-        spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(templates.values(),this));
+        spinner.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
+        spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(Templates.values(),this));
 
         Bundle extras = getIntent().getExtras();
 
@@ -85,7 +77,7 @@ public class ConfigItem extends AppCompatActivity {
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
-            spinner.setSelection(style.getOrdinalByString(userCursor.getString(2)));
+            spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
 
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
@@ -146,7 +138,7 @@ public class ConfigItem extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                Item selectedTemplate = templates.fillTemplate(spinnerTemplate.getSelectedItemPosition());
+                Item selectedTemplate = Templates.fillTemplate(spinnerTemplate.getSelectedItemPosition());
                 if (spinnerTemplate.getSelectedItemPosition() != 0) {
                     if (selectedTemplate.getTop() == 0) {
                         nameBox.setText(selectedTemplate.getName());

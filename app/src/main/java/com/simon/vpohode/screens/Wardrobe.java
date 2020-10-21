@@ -1,25 +1,19 @@
 package com.simon.vpohode.screens;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.simon.vpohode.LayoutManager;
-import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
 
@@ -27,10 +21,10 @@ public class Wardrobe extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private Cursor itemCursor;
     private SimpleCursorAdapter topItemAdapter, bottomItemAdapter;
     private ListView topItemList, bottomItemList;
     private TextView countTop,countBot;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +46,6 @@ public class Wardrobe extends AppCompatActivity {
         bottomItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
-
-        //arrayAdapter = new ArrayAdapter<>(this, R.layout.two_line_list_item,topItemList);
-
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,13 +90,17 @@ public class Wardrobe extends AppCompatActivity {
         // open connection
         db = databaseHelper.getReadableDatabase();
         //get cursor from db
-        countTop.setText("На плечи: " + String.valueOf(db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1", null).getCount()));
-        countBot.setText("На ноги: " + String.valueOf(db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0", null).getCount()));
+
         // fill list depends of: is item top or not? 1=top 0=bottom
         topItemAdapter = LayoutManager.configListOfItems(this,db,1);
         topItemList.setAdapter(topItemAdapter);
+        // How many items in top?
+        countTop.setText("На плечи: " + topItemAdapter.getCursor().getCount());
+
         bottomItemAdapter = LayoutManager.configListOfItems(this,db,0);
         bottomItemList.setAdapter(bottomItemAdapter);
+        // How many items in bottom?
+        countBot.setText("На ноги: " + bottomItemAdapter.getCursor().getCount());
     }
     @Override
     public void onDestroy(){

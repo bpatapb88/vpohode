@@ -19,7 +19,7 @@ public enum Styles {
         return styles;
     }
 
-    public int getOrdinalByString (String input){
+    public static int getOrdinalByString (String input){
         for (Styles s : Styles.values()){
             if (s.styles.equals(input)){
                 return s.ordinal();

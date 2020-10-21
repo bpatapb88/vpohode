@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
-
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.screens.ConfigItem;
@@ -59,7 +58,6 @@ public class LayoutManager {
         ItemAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
-
                 if (constraint == null || constraint.length() == 0) {
                     return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
                 }
