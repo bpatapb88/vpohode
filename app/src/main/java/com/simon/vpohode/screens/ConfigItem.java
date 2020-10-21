@@ -9,13 +9,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -31,7 +29,7 @@ import com.simon.vpohode.Styles;
 import com.simon.vpohode.Templates;
 
 
-public class UserActivity extends AppCompatActivity {
+public class ConfigItem extends AppCompatActivity {
 
     EditText nameBox;
     EditText termidBox;
@@ -48,7 +46,7 @@ public class UserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+        setContentView(R.layout.activity_item);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -71,13 +69,8 @@ public class UserActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // configure spinner
-        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, style.values());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        ArrayAdapter<Templates> adapterTemplate = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, templates.values());
-        adapterTemplate.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerTemplate.setAdapter(adapterTemplate);
+        spinner.setAdapter(LayoutManager.spinnerConfig(style.values(),this));
+        spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(templates.values(),this));
 
         Bundle extras = getIntent().getExtras();
 
@@ -100,10 +93,11 @@ public class UserActivity extends AppCompatActivity {
                 radGrpTop.check(R.id.bottom);}
             userCursor.close();
         } else {
-            // hide button Delete
+            // hide button Delete, It will be new Item
             delButton.setVisibility(View.GONE);
         }
 
+        // if Save button clicked do next:
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -135,9 +129,6 @@ public class UserActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         LayoutManager.invisible(R.id.search,menu);
         LayoutManager.invisible(R.id.action_settings,menu);
-        MenuItem save = menu.findItem(R.id.save);
-
-
         return true;
     }
     @Override
@@ -189,7 +180,7 @@ public class UserActivity extends AppCompatActivity {
         radGrpTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                RadioButton bot = (RadioButton)radioGroup.findViewById(R.id.bottom);
+                RadioButton bot = radioGroup.findViewById(R.id.bottom);
                 boolean isChecked = bot.isChecked();
                 if(isChecked){
                     radGrpLayer.setVisibility(View.GONE);
@@ -201,23 +192,6 @@ public class UserActivity extends AppCompatActivity {
 
     }
 
-    public void save(View view){
-        ContentValues cv = new ContentValues();
-        cv.put(DatabaseHelper.COLUMN_NAME, nameBox.getText().toString());
-        cv.put(DatabaseHelper.COLUMN_TERMID, Double.parseDouble(termidBox.getText().toString()));
-        cv.put(DatabaseHelper.COLUMN_STYLE, spinner.getSelectedItem().toString());
-        if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
-            cv.put(DatabaseHelper.COLUMN_TOP, 1);
-        } else {
-            cv.put(DatabaseHelper.COLUMN_TOP, 0);
-        }
-        if (userId > 0) {
-            db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
-        } else {
-            db.insert(DatabaseHelper.TABLE, null, cv);
-        }
-        goHome();
-    }
     public void delete(View view){
         db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
         goHome();
@@ -229,9 +203,5 @@ public class UserActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Wardrobe.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
-    }
-
-    enum Style{
-
     }
 }

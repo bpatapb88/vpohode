@@ -23,7 +23,6 @@ import com.simon.vpohode.R;
 
 public class ShowItems extends AppCompatActivity {
     private ListView topItemList,botItemList;
-    private TextView listOfItems;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private Cursor itemCursor;
@@ -41,6 +40,10 @@ public class ShowItems extends AppCompatActivity {
 
         topItemList = findViewById(R.id.list);
         botItemList = findViewById(R.id.list2);
+        // make list clickable, but after save Wardrobe will be open
+        topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
+        botItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
+
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
         Bundle extras = getIntent().getExtras();
@@ -52,7 +55,7 @@ public class ShowItems extends AppCompatActivity {
         // connection to DB
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
-        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.ISTOP.toFieldName(),};
+        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
         itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1", null);
 
         CountBestTermIndex counter = new CountBestTermIndex();
@@ -89,11 +92,6 @@ public class ShowItems extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void wardrobe(View view){
-        Intent intent = new Intent(this, Wardrobe.class);
-        startActivity(intent);
     }
 
     @Override

@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        setTitle(getString(R.string.welcome));
 
         textViewWeather = findViewById(R.id.textViewWeather);
         //show the weather

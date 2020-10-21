@@ -5,4 +5,6 @@
     <string name="title_item">Вещь</string>
     <string name="show_item">Подборка</string>
     <string name="search">Ищем</string>
+    <string name="welcome">Добро пожаловать!</string>
+    <string name="template">Шаблон: </string>
 </resources>
