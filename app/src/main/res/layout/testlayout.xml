@@ -11,6 +11,14 @@
         android:layout_height="match_parent"
         android:paddingBottom="100dp"
         android:clipToPadding="false">
+        <Button
+            android:id="@+id/textButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Text button"
+            app:icon="@drawable/ic_search_24"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            />
 
         <!-- Scrollable content -->
 

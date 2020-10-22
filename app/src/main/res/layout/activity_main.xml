@@ -18,7 +18,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#6603DAC5"
+            android:background="@color/colorAccent"
         android:fontFamily="monospace"
         app:menu="@menu/menu_main"
         app:titleTextColor="@android:color/secondary_text_light"
@@ -50,26 +50,30 @@
             >
             <Button
                 android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@android:color/secondary_text_light"
                 android:text="Гардероб"
                 android:onClick="goToWardrobe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@android:color/secondary_text_light"
                 android:fontFamily="monospace"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Shrine.Button"
+                app:icon="@drawable/ic_wardrobe"
                 />
-
+<Space
+    android:layout_width="40dp"
+    android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/button2"
+                android:text="Подобрать"
+                android:onClick="onClickShowItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="monospace"
-                android:onClick="onClickShowItems"
-                android:text="Подобрать одежду"
                 android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Shrine.Button"
+                app:icon="@drawable/ic_showitems"
                 />
         </LinearLayout>
 

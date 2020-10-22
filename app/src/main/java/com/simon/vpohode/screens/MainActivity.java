@@ -126,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         // save the temperature
-                    avgTempertureCel = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
-
+                avgTempertureCel = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
                 String ifPlus = "";
                 if (avgTempertureCel >= 0) {
                     ifPlus = "+";
@@ -135,9 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 final String outputWeather = (int)Double.parseDouble(mainTem0) + CELSIUS_SYMBOL + description;
                 // TODO change variable names
                 textViewWeather.setText(NOW_WORD + ifPlus + outputWeather);
-
         }
-
     }
-
 }
