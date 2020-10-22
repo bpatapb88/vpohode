@@ -48,7 +48,7 @@ public class LayoutManager {
 
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
         //get cursor from db
-        Cursor itemCursor =  db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
+        Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
         // which column will be in ListView
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.TERMID.toFieldName(), DBFields.ISTOP.toFieldName(),};
         // create adapter, send cursor

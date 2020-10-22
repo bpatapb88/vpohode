@@ -11,38 +11,34 @@
         android:layout_height="match_parent"
         android:background="@drawable/pole"
         tools:ignore="MissingConstraints"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
+        <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#6603DAC5"
+        android:fontFamily="monospace"
+        app:menu="@menu/menu_main"
+        app:titleTextColor="@android:color/secondary_text_light"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
+
         >
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#6603DAC5"
-            android:fontFamily="monospace"
-            app:menu="@menu/menu_main"
-            app:titleTextColor="@android:color/secondary_text_light"
-            />
+
         <TextView
             android:id="@+id/textViewWeather"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="Погода Сейчас" />
-        <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/secondary_text_light"
-        android:text="Гардероб"
-        android:onClick="goToWardrobe"
-        android:background="@drawable/button"
-        android:fontFamily="monospace"
-        />
+
 
 
         <LinearLayout
@@ -50,17 +46,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
+
             >
             <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@android:color/secondary_text_light"
+                android:text="Гардероб"
+                android:onClick="goToWardrobe"
+                android:fontFamily="monospace"
+                style="@style/Widget.AppCompat.Button.Colored"
+                />
+
+            <Button
                 android:id="@+id/button2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-        android:background="@drawable/button"
-        android:fontFamily="monospace"
-        android:onClick="onClickShowItems"
-        android:text="Подобрать одежду"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:onClick="onClickShowItems"
+                android:text="Подобрать одежду"
                 android:textColor="@android:color/secondary_text_light"
+                style="@style/Widget.AppCompat.Button.Colored"
                 />
         </LinearLayout>
 

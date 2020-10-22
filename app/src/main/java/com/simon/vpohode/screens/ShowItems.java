@@ -56,11 +56,12 @@ public class ShowItems extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
         //get cursor from db to have list of termindexes
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1", null);
-
+        itemCursor = DatabaseHelper.getCursoreByIsTop(db,1);
         CountBestTermIndex counter = new CountBestTermIndex();
+
+        itemCursor = DatabaseHelper.getCursoreByIsTop(db,1);
         bestTopIndex = counter.getTopIndex(itemCursor,term);
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0", null);
+        itemCursor = DatabaseHelper.getCursoreByIsTop(db,0);
         bestBottomIndex = counter.getBotIndex(itemCursor,term);
 
         itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1 AND " + DBFields.TERMID.toFieldName() + " = " + bestTopIndex, null);

@@ -48,7 +48,6 @@
             android:layout_height="wrap_content"
             android:hint="Введите название"
             android:padding="16dp"
-
             />
 
         <EditText
@@ -141,15 +140,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/button"
                 android:fontFamily="monospace"
                 android:onClick="delete"
                 android:padding="16dp"
                 android:text="Удалить"
                 android:textColor="@android:color/secondary_text_light"
+                style="@style/Widget.AppCompat.Button.Colored"
                 />
 
         </LinearLayout>
+
+
 
 
 
