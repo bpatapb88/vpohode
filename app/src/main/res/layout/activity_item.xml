@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#6603DAC5"
+            android:background="@color/colorAccent"
             android:fontFamily="monospace"
             app:menu="@menu/menu_main"
             app:titleTextColor="@android:color/secondary_text_light"
@@ -68,7 +68,6 @@
             android:id="@+id/radios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/pole"
             android:gravity="center"
             android:orientation="horizontal"
             >
@@ -145,7 +144,8 @@
                 android:padding="16dp"
                 android:text="Удалить"
                 android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.Shrine.Button"
+
                 />
 
         </LinearLayout>
