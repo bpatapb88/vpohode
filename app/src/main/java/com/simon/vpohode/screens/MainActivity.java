@@ -1,10 +1,7 @@
 package com.simon.vpohode.screens;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,20 +9,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
+
 import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.R;
-import com.simon.vpohode.database.DBFields;
-import com.simon.vpohode.database.DatabaseHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
+    private String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +56,22 @@ public class MainActivity extends AppCompatActivity {
 
         textViewWeather = findViewById(R.id.textViewWeather);
         //show the weather
+
         //String city = editTextCity.getText().toString().trim();
-        DownloadTask task = new DownloadTask();
-        //String url = String.format(weatherURL, city);
-        String weatherURLWithCity = String.format(weatherURL, "Brno");
-        task.execute(weatherURLWithCity);
+
        // task.onPostExecute(url,1);
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        city = prefs.getString("city", "");
+        DownloadTask task = new DownloadTask();
+        String weatherURLWithCity = String.format(weatherURL, city);
+        task.execute(weatherURLWithCity);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -90,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class DownloadTask extends AsyncTask <String, Void, String> {
         private final static String CELSIUS_SYMBOL = "\u2103 ";
-        private final static String NOW_WORD = "Сейчас: ";
+        private final static String NOW_WORD = "Сейчас в городе ";
 
         @Override
         protected String doInBackground(String... strings) {
@@ -149,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 final String outputWeather = (int)Double.parseDouble(mainTem0) + CELSIUS_SYMBOL + description;
                 // TODO change variable names
-                textViewWeather.setText(NOW_WORD + ifPlus + outputWeather);
+                textViewWeather.setText(NOW_WORD + city + ": " + ifPlus + outputWeather);
         }
     }
 }

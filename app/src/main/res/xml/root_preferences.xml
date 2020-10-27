@@ -3,8 +3,8 @@
     <PreferenceCategory app:title="@string/messages_header">
 
         <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
+            app:key="city"
+            app:title="@string/city"
             app:useSimpleSummaryProvider="true" />
 
         <ListPreference
