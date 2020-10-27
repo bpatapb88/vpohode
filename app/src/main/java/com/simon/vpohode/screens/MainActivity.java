@@ -3,6 +3,7 @@ package com.simon.vpohode.screens;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.R;
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.welcome));
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getItemId() == R.id.action_settings){
+                    goToSettings(item.getActionView());
+                }
+                return true;
+            }
+
+        });
 
         textViewWeather = findViewById(R.id.textViewWeather);
         //show the weather
@@ -56,11 +69,16 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         LayoutManager.invisible(R.id.save,menu);
         LayoutManager.invisible(R.id.search,menu);
+
         return true;
     }
 
     public void goToWardrobe(View view){                                        //TODO create new class view manager
         Intent intent = new Intent(this, Wardrobe.class);
+        startActivity(intent);
+    }
+    public void goToSettings(View view){
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
@@ -89,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
                     result.append(line);
                     line = bufferedReader.readLine();
                 }
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {

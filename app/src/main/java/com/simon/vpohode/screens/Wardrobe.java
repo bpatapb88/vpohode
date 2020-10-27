@@ -53,7 +53,6 @@ public class Wardrobe extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         LayoutManager.invisible(R.id.action_settings,menu);
         LayoutManager.invisible(R.id.save,menu);
-
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) search.getActionView();
         searchView.setQueryHint("Введи название!");

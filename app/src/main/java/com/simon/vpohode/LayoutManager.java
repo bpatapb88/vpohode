@@ -35,7 +35,7 @@ public class LayoutManager {
     }
 
     public static AdapterView.OnItemClickListener ClickItem(final Context context, final Activity activity){
-        AdapterView.OnItemClickListener output = new AdapterView.OnItemClickListener() {
+        return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(context, ConfigItem.class);
@@ -43,14 +43,14 @@ public class LayoutManager {
                 activity.startActivity(intent);
             }
         };
-        return output;
+
     }
 
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
         //get cursor from db
         Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
         // which column will be in ListView
-        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.TERMID.toFieldName(), DBFields.ISTOP.toFieldName(),};
+        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.TERMID.toFieldName(), DBFields.ISTOP.toFieldName()};
         // create adapter, send cursor
         SimpleCursorAdapter ItemAdapter = new SimpleCursorAdapter(contex, R.layout.two_line_list_item,
                 itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);

@@ -36,7 +36,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
-        return cursor;
+        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }
 }
