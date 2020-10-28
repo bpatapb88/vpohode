@@ -1,6 +1,5 @@
 package com.simon.vpohode.screens;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -8,27 +7,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.simon.vpohode.CountBestTermIndex;
 import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.R;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
-import com.simon.vpohode.R;
 
 public class ShowItems extends AppCompatActivity {
-    private ListView topItemList,botItemList;
+    private ListView topItemList,topItemList12,topItemList13,botItemList;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private Cursor itemCursor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        double bestTopIndex = 0;
+        double bestBottomIndex = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showitem);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -39,39 +37,41 @@ public class ShowItems extends AppCompatActivity {
         setTitle(getString(R.string.show_item));
 
         topItemList = findViewById(R.id.list);
+        topItemList12 = findViewById(R.id.list12);
+        topItemList13 = findViewById(R.id.list13);
         botItemList = findViewById(R.id.list2);
         // make list clickable, but after save Wardrobe will be open
         topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
+        topItemList12.setOnItemClickListener(LayoutManager.ClickItem(this,this));
+        topItemList13.setOnItemClickListener(LayoutManager.ClickItem(this,this));
         botItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
 
         Bundle extras = getIntent().getExtras();
         Double term = extras.getDouble("term");
-
-        double bestTopIndex = 0;
-        double bestBottomIndex = 0;
-
         // connection to DB
         db = databaseHelper.getReadableDatabase();
-        //get cursor from db to have list of termindexes
+
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
-        itemCursor = DatabaseHelper.getCursoreByIsTop(db,1);
-        CountBestTermIndex counter = new CountBestTermIndex();
 
-        itemCursor = DatabaseHelper.getCursoreByIsTop(db,1);
-        bestTopIndex = counter.getTopIndex(itemCursor,term);
-        itemCursor = DatabaseHelper.getCursoreByIsTop(db,0);
-        bestBottomIndex = counter.getBotIndex(itemCursor,term);
+        if(term >= 20 ){
+            topItemList12.setVisibility(View.GONE);
+            topItemList13.setVisibility(View.GONE);
+            topItemList.setAdapter(LayoutManager.configListOfItems(this,db,1,term));
 
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 1 AND " + DBFields.TERMID.toFieldName() + " = " + bestTopIndex, null);
-        SimpleCursorAdapter itemAdapter = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
-        //db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DatabaseHelper.COLUMN_NAME + " like ?", new String[]{"%" + constraint.toString() + "%"});
-        topItemList.setAdapter(itemAdapter);
+        }else if(term >= 9){
+            topItemList13.setVisibility(View.GONE);
+            topItemList.setAdapter(LayoutManager.configListOfItems(this,db,1,term,1));
+            topItemList12.setAdapter(LayoutManager.configListOfItems(this,db,1,term,2));
+        }else{
+            topItemList.setAdapter(LayoutManager.configListOfItems(this,db,1,term,1));
+            topItemList12.setAdapter(LayoutManager.configListOfItems(this,db,1,term,2));
+            topItemList13.setAdapter(LayoutManager.configListOfItems(this,db,1,term,3));
+        }
 
-        itemCursor = db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = 0 AND " + DBFields.TERMID.toFieldName() + " = " + bestBottomIndex, null);
-        SimpleCursorAdapter itemAdapter2 = new SimpleCursorAdapter(this, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
-        botItemList.setAdapter(itemAdapter2);
+        botItemList.setAdapter(LayoutManager.configListOfItems(this,db,0,term));
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -106,6 +106,5 @@ public class ShowItems extends AppCompatActivity {
         super.onDestroy();
         // close connection
         db.close();
-        itemCursor.close();
     }
 }

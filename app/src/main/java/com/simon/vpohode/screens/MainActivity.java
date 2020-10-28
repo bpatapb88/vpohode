@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
-    private String city;
+    private String city = "Brno";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
-        city = prefs.getString("city", "");
+        city = prefs.getString("city", "Brno");
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city);
         task.execute(weatherURLWithCity);
@@ -118,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+                return "End";
             } finally {
                 if (urlConnection != null){
                     urlConnection.disconnect();
@@ -129,10 +131,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
 
         protected void onPostExecute (String s){
+            if (s.equals("End")){
+                return;
+            }
             super.onPostExecute(s);
             String mainTem0 ="";
             String mainTem1 = "";
             String description = "";
+            Log.i("Post Execute test ","input " + s);
             try {
                     final JSONObject jsonObject = new JSONObject(s);
                     final JSONArray jsonArray = jsonObject.getJSONArray("list");
@@ -147,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     mainTem0 = main0.getString("feels_like");
                     JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");
                     mainTem1 = main1.getString("feels_like");
+                    Log.i("test temperature ","main0=" + mainTem0 + ", main1=" + mainTem1);
         } catch (JSONException e) {
             e.printStackTrace();
         }

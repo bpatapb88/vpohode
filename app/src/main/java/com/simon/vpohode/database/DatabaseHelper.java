@@ -9,11 +9,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
     public static final String TABLE = "items"; // Name of Table
-    // names of columns
-    public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_TERMID = "termindex";
-    public static final String COLUMN_STYLE = "style";
-    public static final String COLUMN_TOP = "istop";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
     }
@@ -27,7 +22,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DBFields.NAME.toFieldName() + " " + DBFields.NAME.toType() + ", "
                 + DBFields.STYLE.toFieldName() + " " + DBFields.STYLE.toType() + ", "
                 + DBFields.ISTOP.toFieldName() + " " + DBFields.ISTOP.toType() + ", "
-                + DBFields.TERMID.toFieldName() + " " + DBFields.TERMID.toType() + ");");
+                + DBFields.TERMID.toFieldName() + " " + DBFields.TERMID.toType() + ", "
+                + DBFields.LAYER.toFieldName() + " " + DBFields.LAYER.toType() + ");");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
@@ -38,4 +34,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }
+    public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
+        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
+    }
+    public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index){
+        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index, null);
+    }
+
 }

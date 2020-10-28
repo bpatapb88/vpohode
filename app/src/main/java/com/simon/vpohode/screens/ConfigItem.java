@@ -3,9 +3,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,13 +14,18 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import com.simon.vpohode.LayoutManager;
-import com.simon.vpohode.database.DBFields;
-import com.simon.vpohode.database.DatabaseHelper;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.simon.vpohode.Item;
+import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.Templates;
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
 
 public class ConfigItem extends AppCompatActivity {
 
@@ -81,8 +83,18 @@ public class ConfigItem extends AppCompatActivity {
 
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
+                if(userCursor.getInt(5) == 1){
+                    radGrpLayer.check(R.id.layer1);
+                }else if(userCursor.getInt(5) == 2 ){
+                    radGrpLayer.check(R.id.layer2);
+                }else {
+                    radGrpLayer.check(R.id.layer3);
+                }
             }else{
-                radGrpTop.check(R.id.bottom);}
+                radGrpTop.check(R.id.bottom);
+                radGrpLayer.setVisibility(View.GONE);
+            }
+
             userCursor.close();
         } else {
             // hide button Delete, It will be new Item
@@ -95,14 +107,23 @@ public class ConfigItem extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.save){
                     ContentValues cv = new ContentValues();
-                    cv.put(DatabaseHelper.COLUMN_NAME, nameBox.getText().toString());
-                    cv.put(DatabaseHelper.COLUMN_TERMID, Double.parseDouble(termidBox.getText().toString()));
-                    cv.put(DatabaseHelper.COLUMN_STYLE, spinner.getSelectedItem().toString());
+                    cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
+                    cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
+                    cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
                     if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
-                        cv.put(DatabaseHelper.COLUMN_TOP, 1);
+                        cv.put(DBFields.ISTOP.toFieldName(), 1);
                     } else {
-                        cv.put(DatabaseHelper.COLUMN_TOP, 0);
+                        cv.put(DBFields.ISTOP.toFieldName(), 0);
                     }
+
+                    if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer1){
+                        cv.put(DBFields.LAYER.toFieldName(), 1);
+                    }else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer2){
+                        cv.put(DBFields.LAYER.toFieldName(), 2);
+                    }else {
+                        cv.put(DBFields.LAYER.toFieldName(), 3);
+                    }
+
                     if (userId > 0) {
                         db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
                     } else {
