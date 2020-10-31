@@ -2,31 +2,38 @@ package com.simon.vpohode.screens;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.simon.vpohode.ColorManager;
 import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 
+import java.util.ArrayList;
+
 public class ShowItems extends AppCompatActivity {
     private ListView topItemList,topItemList12,topItemList13,botItemList;
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private Cursor itemCursor;
+    private SimpleCursorAdapter simpleCursorAdapter;
+    private ArrayList<Integer> botPallitra,topPallitra1,topPallitra2,topPallitra3;
+    private ArrayList<Integer[]> listOfLooks;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        double bestTopIndex = 0;
-        double bestBottomIndex = 0;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showitem);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -55,22 +62,73 @@ public class ShowItems extends AppCompatActivity {
 
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
 
+        simpleCursorAdapter = LayoutManager.configListOfItems(this,db,0,term);
+        botItemList.setAdapter(simpleCursorAdapter);
+        botPallitra = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+
         if(term >= 20 ){
             topItemList12.setVisibility(View.GONE);
+
             topItemList13.setVisibility(View.GONE);
-            topItemList.setAdapter(LayoutManager.configListOfItems(this,db,1,term));
+
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term, 1);
+            topPallitra1 = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+            topItemList.setAdapter(simpleCursorAdapter);
+
+            Integer [][] array = new Integer[2][];
+            array[0] = botPallitra.toArray(new Integer[0]);
+            array[1] = topPallitra1.toArray(new Integer[0]);
+            listOfLooks = ColorManager.colorLook(array);
+            Log.i("Best collors", "first " + ColorManager.bestLooks(listOfLooks).get(0)[0]);
 
         }else if(term >= 9){
             topItemList13.setVisibility(View.GONE);
-            topItemList.setAdapter(LayoutManager.configListOfItems(this,db,1,term,1));
-            topItemList12.setAdapter(LayoutManager.configListOfItems(this,db,1,term,2));
+
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term,1);
+            topPallitra1 = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+            topItemList.setAdapter(simpleCursorAdapter);
+
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term,2);
+            topPallitra2 = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+            topItemList12.setAdapter(simpleCursorAdapter);
+
+            Integer [][] array = new Integer[3][];
+            array[0] = botPallitra.toArray(new Integer[0]);
+            array[1] = topPallitra1.toArray(new Integer[0]);
+            array[2] = topPallitra2.toArray(new Integer[0]);
+
+            listOfLooks = ColorManager.colorLook(array);
+            Log.i("Best collors", "first " + ColorManager.bestLooks(listOfLooks).get(0)[0]);
         }else{
-            topItemList.setAdapter(LayoutManager.configListOfItems(this,db,1,term,1));
-            topItemList12.setAdapter(LayoutManager.configListOfItems(this,db,1,term,2));
-            topItemList13.setAdapter(LayoutManager.configListOfItems(this,db,1,term,3));
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term,1);
+            topPallitra1 = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+            topItemList.setAdapter(simpleCursorAdapter);
+
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term,2);
+            topPallitra2 = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+            topItemList12.setAdapter(simpleCursorAdapter);
+
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term,3);
+            topPallitra3 = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
+            topItemList13.setAdapter(simpleCursorAdapter);
+
+            Integer [][] array = new Integer[4][];
+            array[0] = botPallitra.toArray(new Integer[0]);
+            array[1] = topPallitra1.toArray(new Integer[0]);
+            array[2] = topPallitra2.toArray(new Integer[0]);
+            array[3] = topPallitra3.toArray(new Integer[0]);
+
+            listOfLooks = ColorManager.colorLook(array);
+
+            ArrayList<Integer[]> test = new ArrayList<>();
+            test = ColorManager.bestLooks(listOfLooks);
+            Log.i("Last test for today ", " size " + test.size());
+
         }
 
-        botItemList.setAdapter(LayoutManager.configListOfItems(this,db,0,term));
+
+
+
 
     }
     @Override
@@ -106,5 +164,6 @@ public class ShowItems extends AppCompatActivity {
         super.onDestroy();
         // close connection
         db.close();
+        simpleCursorAdapter.getCursor().close();
     }
 }

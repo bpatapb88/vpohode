@@ -8,7 +8,7 @@
     <string name="welcome">Добро пожаловать!</string>
     <string name="template">Шаблон: </string>
     <string name="title_activity_settings">Settings</string>
-
+    <string name="color">Цвет</string>
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>

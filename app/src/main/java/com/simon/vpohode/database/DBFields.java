@@ -6,7 +6,8 @@ public enum  DBFields {
     STYLE( "style","TEXT"),
     ISTOP( "istop","INTEGER"),
     TERMID("termindex","DOUBLE"),
-    LAYER("layer", "INTEGER");
+    LAYER("layer", "INTEGER"),
+    COLOR("color", "INTEGER");
 
     private String dbField;
     private String dbType;

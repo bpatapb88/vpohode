@@ -9,4 +9,5 @@
     <color name="productGridBackgroundColor">#FFFFFF</color>
     <color name="textInputOutlineColor">#FBB8AC</color>
     <color name="toolbar">#373737</color>
+    <color name="toolbar2">#ff0000</color>
 </resources>

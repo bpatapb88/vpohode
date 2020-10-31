@@ -23,7 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DBFields.STYLE.toFieldName() + " " + DBFields.STYLE.toType() + ", "
                 + DBFields.ISTOP.toFieldName() + " " + DBFields.ISTOP.toType() + ", "
                 + DBFields.TERMID.toFieldName() + " " + DBFields.TERMID.toType() + ", "
-                + DBFields.LAYER.toFieldName() + " " + DBFields.LAYER.toType() + ");");
+                + DBFields.LAYER.toFieldName() + " " + DBFields.LAYER.toType() + ", "
+                + DBFields.COLOR.toFieldName() + " " + DBFields.COLOR.toType() + ");");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {

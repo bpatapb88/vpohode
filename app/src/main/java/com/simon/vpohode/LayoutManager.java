@@ -74,7 +74,7 @@ public class LayoutManager {
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term){
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
         Cursor itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop);
-        Double bestIndex = CountBestTermIndex.getTopIndex(itemCursor,term);
+        Double bestIndex = CountBestTermIndex.getBotIndex(itemCursor,term);
         itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,bestIndex);
         return new SimpleCursorAdapter(contex, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
     }

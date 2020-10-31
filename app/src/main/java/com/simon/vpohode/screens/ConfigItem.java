@@ -3,7 +3,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,11 +16,16 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.jaredrummler.android.colorpicker.ColorPickerDialog;
+import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
+import com.jaredrummler.android.colorpicker.ColorShape;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.LayoutManager;
 import com.simon.vpohode.R;
@@ -27,16 +34,18 @@ import com.simon.vpohode.Templates;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 
-public class ConfigItem extends AppCompatActivity {
+public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
+    TextView textcolor;
     EditText nameBox,termidBox;
     Spinner spinner, spinnerTemplate;
-    Button delButton;
+    Button delButton,colorButton;
     RadioGroup radGrpTop, radGrpLayer;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
     long userId=0;
+    private static final int firstId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +58,7 @@ public class ConfigItem extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         setTitle(getString(R.string.title_item));
 
+        textcolor = findViewById(R.id.textColor);
         nameBox = findViewById(R.id.name);
         termidBox = findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
@@ -56,6 +66,7 @@ public class ConfigItem extends AppCompatActivity {
         radGrpTop = findViewById(R.id.radios);
         radGrpLayer = findViewById(R.id.radios2);
         delButton = findViewById(R.id.deleteButton);
+        colorButton = findViewById(R.id.color);
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
 
@@ -80,6 +91,10 @@ public class ConfigItem extends AppCompatActivity {
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getInt(4)));
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
+            textcolor.setTextColor(userCursor.getInt(6));
+            textcolor.setBackgroundColor(userCursor.getInt(6));
+            Log.i("Test color"," color is " + userCursor.getInt(6));
+            //textcolor.setText("#" + (Integer.toHexString(userCursor.getInt(6)).substring(2).toUpperCase()));
 
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
@@ -115,7 +130,6 @@ public class ConfigItem extends AppCompatActivity {
                     } else {
                         cv.put(DBFields.ISTOP.toFieldName(), 0);
                     }
-
                     if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer1){
                         cv.put(DBFields.LAYER.toFieldName(), 1);
                     }else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer2){
@@ -123,6 +137,7 @@ public class ConfigItem extends AppCompatActivity {
                     }else {
                         cv.put(DBFields.LAYER.toFieldName(), 3);
                     }
+                    cv.put(DBFields.COLOR.toFieldName(),textcolor.getCurrentTextColor());
 
                     if (userId > 0) {
                         db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
@@ -217,4 +232,38 @@ public class ConfigItem extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
     }
+
+    private void createColorPickerDialog(int id) {
+        ColorPickerDialog.newBuilder()
+                .setColor(Color.RED)
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
+                .setAllowCustom(false)
+                .setAllowPresets(true)
+                .setColorShape(ColorShape.CIRCLE)
+                .setDialogId(id)
+                .show(this);
+// полный список атрибутов класса ColorPickerDialog смотрите ниже
+    }
+    public void onClickColor(View view) {
+                createColorPickerDialog(firstId);
+    }
+
+    @Override
+    public void onColorSelected(int dialogId, int color) {
+        float[] hsv = new float[3];
+        Color.colorToHSV(color,hsv);
+        textcolor.setText("#" + (Integer.toHexString(color).substring(2).toUpperCase()) + " hue " + hsv[0]);
+        for(float x: hsv) {
+            Log.i("Test color!!!", "- " + x);
+        }
+        textcolor.setTextColor(Color.HSVToColor(hsv));
+        textcolor.setBackgroundColor(Color.HSVToColor(hsv));
+    }
+
+    @Override
+    public void onDialogDismissed(int dialogId) {
+        Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();
+    }
+
+
 }
