@@ -58,7 +58,6 @@ public class SettingsActivity extends AppCompatActivity {
             String dateTimeKey = "com.simon.vpohode.screens.SettingsActivity";
             String i = pref.toString();
 
-            Log.i("test ","i " + i);
         }
         return super.onOptionsItemSelected(item);
     }

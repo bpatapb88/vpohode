@@ -5,6 +5,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.ArrayList;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
@@ -24,7 +26,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DBFields.ISTOP.toFieldName() + " " + DBFields.ISTOP.toType() + ", "
                 + DBFields.TERMID.toFieldName() + " " + DBFields.TERMID.toType() + ", "
                 + DBFields.LAYER.toFieldName() + " " + DBFields.LAYER.toType() + ", "
-                + DBFields.COLOR.toFieldName() + " " + DBFields.COLOR.toType() + ");");
+                + DBFields.COLOR.toFieldName() + " " + DBFields.COLOR.toType() + ", "
+                + DBFields.FOTO.toFieldName() + " " + DBFields.FOTO.toType() + ");");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
@@ -35,11 +38,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }
+
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
     }
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index, null);
+    }
+    public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index, ArrayList<Integer[]> colors){
+        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index + " AND " + DBFields.COLOR.toFieldName() + " = " + colors.get(0)[0], null);
     }
 
 }

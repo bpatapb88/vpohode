@@ -1,10 +1,14 @@
 package com.simon.vpohode.screens;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -20,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -33,18 +39,26 @@ import com.simon.vpohode.Styles;
 import com.simon.vpohode.Templates;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
     TextView textcolor;
     EditText nameBox,termidBox;
+    private ImageView imageItem;
     Spinner spinner, spinnerTemplate;
-    Button delButton,colorButton;
+    Button delButton,colorButton, btBrowse;
     RadioGroup radGrpTop, radGrpLayer;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
     long userId=0;
+    private Uri uri;
     private static final int firstId = 1;
 
     @Override
@@ -58,6 +72,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         getSupportActionBar().setHomeButtonEnabled(true);
         setTitle(getString(R.string.title_item));
 
+        imageItem = findViewById(R.id.image_of_item);
         textcolor = findViewById(R.id.textColor);
         nameBox = findViewById(R.id.name);
         termidBox = findViewById(R.id.termid);
@@ -67,6 +82,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         radGrpLayer = findViewById(R.id.radios2);
         delButton = findViewById(R.id.deleteButton);
         colorButton = findViewById(R.id.color);
+        btBrowse = findViewById(R.id.bt_drowse);
+
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
 
@@ -149,6 +166,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 return true;
             }
         });
+
+        btBrowse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CropImage.startPickImageActivity(ConfigItem.this);
+            }
+        });
+
     }
 
     @Override
@@ -263,6 +288,53 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     @Override
     public void onDialogDismissed(int dialogId) {
         Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();
+    }
+
+    public String saveImageFile(Bitmap bitmap) {
+        FileOutputStream out = null;
+        String filename = getFilename();
+        try {
+            out = new FileOutputStream(filename);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return filename;
+    }
+    private String getFilename() {
+        File file = new File(Environment.getExternalStorageDirectory().getPath(), "Pictures/Marprobe");
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+
+        String uriSting = (file.getAbsolutePath() + "/"
+                + System.currentTimeMillis() + ".jpg");
+        return uriSting;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE
+                && resultCode == Activity.RESULT_OK) {
+            Uri imageuri = CropImage.getPickImageResultUri(this, data);
+            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageuri)) {
+                uri = imageuri;
+            } else {
+                startCrop(imageuri);
+            }
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            imageItem.setImageURI(result.getUri());
+            Toast.makeText(this, "Image of Item was loaded success!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    private void startCrop(Uri imageuri) {
+        CropImage.activity(imageuri)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .setMultiTouchEnabled(true)
+                .start(this);
     }
 
 

@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:textAlignment="center"
             android:text="Погода Сейчас" />
 
 
@@ -58,7 +59,7 @@
                 android:textColor="@android:color/secondary_text_light"
                 android:fontFamily="monospace"
                 style="@style/Widget.Shrine.Button"
-                app:icon="@drawable/ic_wardrobe"
+                app:icon="@drawable/ic_hanger"
                 />
 <Space
     android:layout_width="40dp"

@@ -16,6 +16,8 @@ import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.screens.ConfigItem;
 
+import java.util.ArrayList;
+
 public class LayoutManager {
 
     public static void invisible(int item, Menu menu){
@@ -76,6 +78,13 @@ public class LayoutManager {
         Cursor itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop);
         Double bestIndex = CountBestTermIndex.getBotIndex(itemCursor,term);
         itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,bestIndex);
+        return new SimpleCursorAdapter(contex, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+    }
+    public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term, ArrayList<Integer[]> colors){
+        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
+        Cursor itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop);
+        Double bestIndex = CountBestTermIndex.getBotIndex(itemCursor,term);
+        itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,bestIndex, colors);
         return new SimpleCursorAdapter(contex, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
     }
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term, int layer){

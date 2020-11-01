@@ -60,8 +60,6 @@ public class ShowItems extends AppCompatActivity {
         // connection to DB
         db = databaseHelper.getReadableDatabase();
 
-        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
-
         simpleCursorAdapter = LayoutManager.configListOfItems(this,db,0,term);
         botItemList.setAdapter(simpleCursorAdapter);
         botPallitra = ColorManager.savePallitra(simpleCursorAdapter.getCursor());
@@ -124,11 +122,9 @@ public class ShowItems extends AppCompatActivity {
             test = ColorManager.bestLooks(listOfLooks);
             Log.i("Last test for today ", " size " + test.size());
 
+            simpleCursorAdapter = LayoutManager.configListOfItems(this,db,0,term, test );
+            botItemList.setAdapter(simpleCursorAdapter);
         }
-
-
-
-
 
     }
     @Override

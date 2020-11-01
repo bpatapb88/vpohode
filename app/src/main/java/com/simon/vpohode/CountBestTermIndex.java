@@ -2,23 +2,25 @@ package com.simon.vpohode;
 import android.database.Cursor;
 
 public class CountBestTermIndex {
-    private static final int MAX_TEMPER = 31;
+    public static final int MAX_TEMPER = 33;
+    public static final double coefficient = 4;
+
     public static double getTopIndex(Cursor input, Double currentTemperature){
         double min = Integer.MAX_VALUE;
         double bestTopIndex = 0;
-        int cooficent;
+        int layers;
 
         if(currentTemperature >= 20){
-            cooficent = 3;
+            layers = 1;
         }else if(currentTemperature >= 9){
-            cooficent = 6;
+            layers = 2;
         }else{
-            cooficent = 9;
+            layers = 3;
         }
 
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((MAX_TEMPER - currentTemperature)/cooficent - input.getDouble(input.getColumnIndex("termindex")));
+                double x = Math.abs((MAX_TEMPER - currentTemperature)/(CountBestTermIndex.coefficient*layers) - input.getDouble(input.getColumnIndex("termindex")));
                 if (min > x) {
                     min = x;
                     bestTopIndex = input.getDouble(input.getColumnIndex("termindex"));

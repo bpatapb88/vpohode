@@ -19,6 +19,42 @@
             app:menu="@menu/menu_main"
             app:titleTextColor="@android:color/secondary_text_light"
             />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/image_of_item"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                />
+                <Button
+                    android:fontFamily="monospace"
+                    android:textColor="@android:color/secondary_text_light"
+                    style="@style/Widget.Shrine.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/bt_drowse"
+                    android:text="Выбрать"
+                    />
+                <Space
+                    android:layout_height="wrap_content"
+                    android:layout_width="20dp" />
+                <Button
+                    android:fontFamily="monospace"
+                    android:textColor="@android:color/secondary_text_light"
+                    style="@style/Widget.Shrine.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bt_reset"
+                    android:layout_weight="1"
+                    android:text="Стереть"
+                    />
+
+        </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,20 +78,25 @@
 
 
     </LinearLayout>
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Введите название"
-            android:padding="16dp"
-            />
+            android:orientation="horizontal">
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Введите название"
+                android:padding="16dp"
+                />
 
-        <EditText
-            android:id="@+id/termid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Теплоизоляция в CLO"
-            android:padding="16dp" />
+            <EditText
+                android:id="@+id/termid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Теплоизоляция в CLO"
+                android:padding="16dp" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/Style"
@@ -141,24 +182,7 @@
             android:layout_weight="1"
             android:padding="16dp"
             android:textAlignment="center"
-            android:text="@string/color"
-            />
-<Space
-    android:layout_width="20dp"
-    android:layout_height="wrap_content"
-    >
-</Space>
-        <Button
-            android:onClick="onClickColor"
-            android:id="@+id/color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/color"
-            android:fontFamily="monospace"
-            android:padding="16dp"
-            android:textColor="@android:color/secondary_text_light"
-            style="@style/Widget.Shrine.Button"
+            android:text="Цвет не выбран"
             />
     </LinearLayout>
         <LinearLayout
@@ -166,19 +190,36 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="16dp">
-
             <Button
                 android:id="@+id/deleteButton"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="monospace"
+                android:layout_weight="1"
                 android:onClick="delete"
                 android:padding="16dp"
                 android:text="Удалить"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
-
+                app:icon="@drawable/ic_baseline_delete_24"
+                />
+            <Space
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                >
+            </Space>
+            <Button
+                android:onClick="onClickColor"
+                android:id="@+id/color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/color"
+                android:fontFamily="monospace"
+                android:padding="16dp"
+                android:textColor="@android:color/secondary_text_light"
+                style="@style/Widget.Shrine.Button"
+                app:icon="@drawable/ic_baseline_color_lens_24"
                 />
 
         </LinearLayout>
