@@ -17,9 +17,11 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,13 +52,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     TextView textcolor;
     EditText nameBox,termidBox;
-    private ImageView imageItem;
+    ImageButton imageItem;
     Spinner spinner, spinnerTemplate;
-    Button delButton,colorButton, btBrowse;
+    Button delButton,colorButton;
     RadioGroup radGrpTop, radGrpLayer;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
+    Space x;
     long userId=0;
     private Uri uri;
     private static final int firstId = 1;
@@ -82,7 +85,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         radGrpLayer = findViewById(R.id.radios2);
         delButton = findViewById(R.id.deleteButton);
         colorButton = findViewById(R.id.color);
-        btBrowse = findViewById(R.id.bt_drowse);
+        x = findViewById(R.id.spacer);
 
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
@@ -131,6 +134,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         } else {
             // hide button Delete, It will be new Item
             delButton.setVisibility(View.GONE);
+            x.setVisibility(View.GONE);
+
         }
 
         // if Save button clicked do next:
@@ -167,13 +172,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
         });
 
-        btBrowse.setOnClickListener(new View.OnClickListener() {
+        imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CropImage.startPickImageActivity(ConfigItem.this);
             }
         });
-
     }
 
     @Override
