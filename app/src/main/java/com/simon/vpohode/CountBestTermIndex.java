@@ -1,26 +1,35 @@
 package com.simon.vpohode;
+
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.simon.vpohode.database.DatabaseHelper;
+
+import java.util.ArrayList;
 
 public class CountBestTermIndex {
-    public static final int MAX_TEMPER = 33;
-    public static final double coefficient = 4;
+
+    public static double getInterval(double temp){
+
+        double result = 0;
+        if(temp >= 20){
+            result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT);
+        }else if(temp >= 9){
+            result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT*2);
+        }else{
+            result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT*3);
+        }
+        return result;
+    }
 
     public static double getTopIndex(Cursor input, Double currentTemperature){
         double min = Integer.MAX_VALUE;
         double bestTopIndex = 0;
-        int layers;
-
-        if(currentTemperature >= 20){
-            layers = 1;
-        }else if(currentTemperature >= 9){
-            layers = 2;
-        }else{
-            layers = 3;
-        }
+        int layers = Rules.getLayers(currentTemperature);
 
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((MAX_TEMPER - currentTemperature)/(CountBestTermIndex.coefficient*layers) - input.getDouble(input.getColumnIndex("termindex")));
+                double x = Math.abs((Rules.MAX_TEMPER - currentTemperature)/(Rules.COEFFICIENT*layers) - input.getDouble(input.getColumnIndex("termindex")));
                 if (min > x) {
                     min = x;
                     bestTopIndex = input.getDouble(input.getColumnIndex("termindex"));
@@ -36,7 +45,7 @@ public class CountBestTermIndex {
         double bestBottomIndex = 0;
         if (input.moveToFirst()){
             do {
-                double x = Math.abs((MAX_TEMPER - currentTemperature)/3 - input.getDouble(input.getColumnIndex("termindex")));
+                double x = Math.abs((Rules.MAX_TEMPER - currentTemperature)/3 - input.getDouble(input.getColumnIndex("termindex")));
                 if (min > x) {
                     min = x;
                     bestBottomIndex = input.getDouble(input.getColumnIndex("termindex"));
@@ -45,6 +54,116 @@ public class CountBestTermIndex {
             while (input.moveToNext());
         }
         return bestBottomIndex;
+    }
+
+    public static ArrayList<int[]> getLooks(SQLiteDatabase db, double temp){
+        ArrayList<int[]> result = new ArrayList<>();
+        Cursor botItems,topItems,topItems2,topItems3;
+
+        int layers = Rules.getLayers(temp);
+
+        int[] look = new int[layers + 1];
+
+        double min = getInterval(temp) - Rules.ACCURACY;
+        double max = getInterval(temp) + Rules.ACCURACY;
+        double top;
+        double bot;
+
+        botItems = DatabaseHelper.getCursoreByIsTop(db,0);
+        topItems = DatabaseHelper.getCursoreByIsTop(db,1,1);
+
+        switch (layers){
+            case 1:
+                if(botItems.moveToFirst()){
+                    do{
+                        if(topItems.moveToFirst()){
+                         do{
+                             top = topItems.getDouble(topItems.getColumnIndex("termindex"));
+                             bot = botItems.getDouble(botItems.getColumnIndex("termindex"));
+                             if(top > min &&
+                                     top < max &&
+                                     bot > min &&
+                                     bot < max) {
+                                 look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
+                                 look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
+                                 result.add(look);
+                             }
+
+                         }while (topItems.moveToNext());
+                        }
+                    }while(botItems.moveToNext());
+                }
+                break;
+            case 2:
+                topItems2 = DatabaseHelper.getCursoreByIsTop(db,1,2);
+                if(botItems.moveToFirst()){
+                    do{
+                        if(topItems.moveToFirst()){
+                            do{
+                                if(topItems2.moveToFirst()){
+                                 do{
+                                     top = (topItems.getDouble(topItems.getColumnIndex("termindex")) +
+                                             topItems2.getDouble(topItems2.getColumnIndex("termindex")))/2;
+                                     bot = botItems.getDouble(botItems.getColumnIndex("termindex"));
+
+                                     if(bot > min &&
+                                             bot < max &&
+                                             top > min &&
+                                             top < max){
+                                         look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
+                                         look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
+                                         look[2] = topItems2.getInt(topItems2.getColumnIndex("_id"));
+
+                                         result.add(look);
+                                     }
+                                 }while(topItems2.moveToNext());
+                                }
+                            }while (topItems.moveToNext());
+                        }
+                    }while(botItems.moveToNext());
+                }
+                break;
+            case 3:
+                topItems2 = DatabaseHelper.getCursoreByIsTop(db,1,2);
+                topItems3 = DatabaseHelper.getCursoreByIsTop(db,1,3);
+                if(botItems.moveToFirst()){
+                    do{
+                        if(topItems.moveToFirst()){
+                            do{
+                                if(topItems2.moveToFirst()){
+                                    do{
+                                        if(topItems3.moveToFirst()){
+                                            do{
+                                                bot = botItems.getDouble(botItems.getColumnIndex("termindex"));
+                                                top = (topItems.getDouble(topItems.getColumnIndex("termindex")) +
+                                                        topItems2.getDouble(topItems2.getColumnIndex("termindex"))+
+                                                        topItems3.getDouble(topItems3.getColumnIndex("termindex")))/3;
+
+                                        if(bot > min &&
+                                                bot < max &&
+                                                top > min &&
+                                                top < max){
+                                            look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
+                                            look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
+                                            look[2] = topItems2.getInt(topItems2.getColumnIndex("_id"));
+                                            look[3] = topItems3.getInt(topItems3.getColumnIndex("_id"));
+
+                                            result.add(look);
+                                        }
+                                            }while (topItems3.moveToNext());
+
+                                        }
+                                    }while(topItems2.moveToNext());
+                                }
+                            }while (topItems.moveToNext());
+                        }
+                    }while(botItems.moveToNext());
+                }
+                break;
+
+        }
+        return result;
+
     }
 
 }

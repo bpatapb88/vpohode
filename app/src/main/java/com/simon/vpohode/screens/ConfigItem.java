@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Space;
@@ -54,7 +53,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     EditText nameBox,termidBox;
     ImageButton imageItem;
     Spinner spinner, spinnerTemplate;
-    Button delButton,colorButton;
+    Button delButton,colorButton, btReset;
     RadioGroup radGrpTop, radGrpLayer;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
@@ -83,6 +82,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         spinnerTemplate = findViewById(R.id.Template);
         radGrpTop = findViewById(R.id.radios);
         radGrpLayer = findViewById(R.id.radios2);
+        btReset = findViewById(R.id.bt_reset);
         delButton = findViewById(R.id.deleteButton);
         colorButton = findViewById(R.id.color);
         x = findViewById(R.id.spacer);
@@ -109,7 +109,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
-            termidBox.setText(String.valueOf(userCursor.getInt(4)));
+            termidBox.setText(String.valueOf(userCursor.getDouble(4)));
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
             textcolor.setTextColor(userCursor.getInt(6));
             textcolor.setBackgroundColor(userCursor.getInt(6));
@@ -176,6 +176,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onClick(View view) {
                 CropImage.startPickImageActivity(ConfigItem.this);
+            }
+        });
+
+        btReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageItem.setImageResource(0);
             }
         });
     }

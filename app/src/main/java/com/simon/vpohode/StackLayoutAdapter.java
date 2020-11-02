@@ -1,5 +1,7 @@
 package com.simon.vpohode;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.littlemango.stacklayoutmanager.StackLayoutManager;
+import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
@@ -17,12 +20,14 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
     private Toast mToast;
     private StackLayoutManager mStackLayoutManager;
     private RecyclerView mRecyclerView;
-    private ArrayList<String> text;
-    public StackLayoutAdapter(Toast mToast, StackLayoutManager mStackLayoutManager, RecyclerView mRecyclerView, ArrayList<String> text) {
+    private ArrayList<int[]> looks;
+    private SQLiteDatabase db;
+    public StackLayoutAdapter(Toast mToast, StackLayoutManager mStackLayoutManager, RecyclerView mRecyclerView, ArrayList<int[]> looks, SQLiteDatabase db) {
         this.mToast = mToast;
         this.mStackLayoutManager = mStackLayoutManager;
         this.mRecyclerView = mRecyclerView;
-        this.text = text;
+        this.looks = looks;
+        this.db = db;
     }
 
     @NonNull
@@ -57,7 +62,7 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
         }
         stackHolder.imageView.setImageResource(res);
 
-        stackHolder.textView.setText("" + text.get(position));
+        stackHolder.textView.setText("" + fillText(position,looks.get(position),db));
 
         stackHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +79,7 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
 
     @Override
     public int getItemCount() {
-        return text.size();
+        return looks.size();
     }
 
     class StackHolder extends RecyclerView.ViewHolder {
@@ -88,5 +93,17 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
             imageView = itemView.findViewById(R.id.imageView);
             textView = itemView.findViewById(R.id.textView);
         }
+    }
+    public static String fillText(int position, int[] look, SQLiteDatabase db){
+        String result = "";
+        for(int id : look) {
+            Cursor Item = DatabaseHelper.getItemByID(db, id);
+            if(Item.moveToFirst()){
+                do{
+                    result += "Name: " + Item.getString(Item.getColumnIndex("name")) + " \n";
+                }while (Item.moveToNext());
+            }
+        }
+        return result;
     }
 }

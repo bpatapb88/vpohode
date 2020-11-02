@@ -49,4 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index + " AND " + DBFields.COLOR.toFieldName() + " = " + colors.get(0)[0], null);
     }
 
+    public static Cursor getItemByID (SQLiteDatabase db, int id){
+        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ID.toFieldName() + " = " + id, null);
+    }
+
 }
