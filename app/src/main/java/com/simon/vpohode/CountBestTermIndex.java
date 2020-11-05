@@ -2,6 +2,7 @@ package com.simon.vpohode;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.simon.vpohode.database.DatabaseHelper;
 
@@ -62,7 +63,7 @@ public class CountBestTermIndex {
 
         int layers = Rules.getLayers(temp);
 
-        int[] look = new int[layers + 1];
+
 
         double min = getInterval(temp) - Rules.ACCURACY;
         double max = getInterval(temp) + Rules.ACCURACY;
@@ -84,6 +85,7 @@ public class CountBestTermIndex {
                                      top < max &&
                                      bot > min &&
                                      bot < max) {
+                                 int[] look = new int[layers + 1];
                                  look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
                                  look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
                                  result.add(look);
@@ -102,19 +104,19 @@ public class CountBestTermIndex {
                             do{
                                 if(topItems2.moveToFirst()){
                                  do{
-                                     top = (topItems.getDouble(topItems.getColumnIndex("termindex")) +
-                                             topItems2.getDouble(topItems2.getColumnIndex("termindex")))/2;
-                                     bot = botItems.getDouble(botItems.getColumnIndex("termindex"));
-
-                                     if(bot > min &&
-                                             bot < max &&
-                                             top > min &&
-                                             top < max){
+                                     top = (topItems.getDouble(4) +
+                                             topItems2.getDouble(4))/2;
+                                     bot = botItems.getDouble(4);
+                                     if(bot > min & bot < max & top > min & top < max)
+                                     {
+                                         int[] look = new int[layers + 1];
                                          look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
                                          look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
                                          look[2] = topItems2.getInt(topItems2.getColumnIndex("_id"));
-
                                          result.add(look);
+                                         if(result.size() == 7){
+                                             Log.i("Test123","look [5] " + result.get(5)[0]);
+                                         }
                                      }
                                  }while(topItems2.moveToNext());
                                 }
@@ -143,6 +145,7 @@ public class CountBestTermIndex {
                                                 bot < max &&
                                                 top > min &&
                                                 top < max){
+                                            int[] look = new int[layers + 1];
                                             look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
                                             look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
                                             look[2] = topItems2.getInt(topItems2.getColumnIndex("_id"));

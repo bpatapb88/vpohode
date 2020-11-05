@@ -100,7 +100,7 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
             Cursor Item = DatabaseHelper.getItemByID(db, id);
             if(Item.moveToFirst()){
                 do{
-                    result += "Name: " + Item.getString(Item.getColumnIndex("name")) + " \n";
+                    result += "Name: " + Item.getString(Item.getColumnIndex("name")) + " id "+Item.getString(Item.getColumnIndex("_id")) + " \n";
                 }while (Item.moveToNext());
             }
         }

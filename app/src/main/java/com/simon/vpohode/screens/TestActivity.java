@@ -2,6 +2,7 @@ package com.simon.vpohode.screens;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ public class TestActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.testlayout);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -43,6 +45,7 @@ public class TestActivity extends AppCompatActivity {
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
         db = databaseHelper.getReadableDatabase();
+
         ArrayList<int[]> looks = CountBestTermIndex.getLooks(db,term);
 
         mToast = Toast.makeText(TestActivity.this, "", Toast.LENGTH_SHORT);
