@@ -47,7 +47,6 @@ public class TestActivity extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
 
         ArrayList<int[]> looks = CountBestTermIndex.getLooks(db,term);
-
         mToast = Toast.makeText(TestActivity.this, "", Toast.LENGTH_SHORT);
         mRecyclerView = findViewById(R.id.recycleView);
         mStackLayoutManager = new StackLayoutManager();

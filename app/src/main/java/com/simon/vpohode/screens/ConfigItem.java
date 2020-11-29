@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -113,9 +114,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
             textcolor.setTextColor(userCursor.getInt(6));
             textcolor.setBackgroundColor(userCursor.getInt(6));
-            Log.i("Test color"," color is " + userCursor.getInt(6));
             //textcolor.setText("#" + (Integer.toHexString(userCursor.getInt(6)).substring(2).toUpperCase()));
-
+            imageItem.setImageURI(Uri.parse(userCursor.getString(7)));
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
                 if(userCursor.getInt(5) == 1){
@@ -160,6 +160,23 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         cv.put(DBFields.LAYER.toFieldName(), 3);
                     }
                     cv.put(DBFields.COLOR.toFieldName(),textcolor.getCurrentTextColor());
+
+                    //save image
+                    Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
+                    FileOutputStream out = null;
+                    File file = new File(Environment.getExternalStorageDirectory().getPath(), "Pictures/Marprobe");
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
+                    String uriSting = (file.getAbsolutePath() + "/"
+                            + System.currentTimeMillis() + ".jpg");
+                    try {
+                        out = new FileOutputStream(uriSting);
+                        bm.compress(Bitmap.CompressFormat.PNG, 100, out);
+                        cv.put(DBFields.FOTO.toFieldName(), uriSting);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
 
                     if (userId > 0) {
                         db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
@@ -317,7 +334,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         if (!file.exists()) {
             file.mkdirs();
         }
-
         String uriSting = (file.getAbsolutePath() + "/"
                 + System.currentTimeMillis() + ".jpg");
         return uriSting;
