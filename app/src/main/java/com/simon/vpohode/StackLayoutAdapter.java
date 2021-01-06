@@ -2,6 +2,8 @@ package com.simon.vpohode;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,9 +62,21 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
                 res = R.drawable.image6;
                 break;
         }
-        stackHolder.imageView.setImageResource(res);
 
-        stackHolder.textView.setText("" + fillText(position,looks.get(position),db));
+
+        stackHolder.imageView.setImageResource(res);
+        Log.i("Test image resource"," res = " + res);
+        String [] images = getImageResource(looks.get(position),db);
+        ImageView[] imageViews = {stackHolder.imageView, stackHolder.imageView2, stackHolder.imageView3, stackHolder.imageView4};
+        for(int j = 0 ; j < imageViews.length; j++){
+            if(images.length > j){
+                Log.i("Test image resource"," path of image " + images[j]);
+                imageViews[j].setImageURI(Uri.parse(images[j]));
+
+            }
+
+        }
+        //stackHolder.textView.setText("" + fillText(position,looks.get(position),db));
 
         stackHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,13 +98,17 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
 
     class StackHolder extends RecyclerView.ViewHolder {
         View itemView;
-        ImageView imageView;
+        ImageView imageView, imageView4, imageView2, imageView3;
         TextView textView;
 
         StackHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
             imageView = itemView.findViewById(R.id.imageView);
+            imageView2 = itemView.findViewById(R.id.imageView2);
+            imageView3 = itemView.findViewById(R.id.imageView3);
+            imageView4 = itemView.findViewById(R.id.imageView4);
+
             textView = itemView.findViewById(R.id.textView);
         }
     }
@@ -102,6 +120,19 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
                 do{
                     result += "Name: " + Item.getString(Item.getColumnIndex("name")) + " id "+Item.getString(Item.getColumnIndex("_id")) + " \n";
                 }while (Item.moveToNext());
+            }
+        }
+        return result;
+    }
+
+    public static String[] getImageResource (int[] look, SQLiteDatabase db){
+        String[] result = new String[look.length];
+        for(int i = 0; i<look.length; i++) {
+            Cursor Item = DatabaseHelper.getItemByID(db, look[i]);
+            if (Item.moveToFirst()) {
+                do {
+                    result[i] = Item.getString(Item.getColumnIndex("foto"));
+                } while (Item.moveToNext());
             }
         }
         return result;

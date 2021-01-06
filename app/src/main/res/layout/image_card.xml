@@ -19,21 +19,21 @@
         </ImageView>
         <ImageView
             android:id="@+id/imageView2"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ImageView>
         <ImageView
             android:id="@+id/imageView3"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         </ImageView>
         <ImageView
             android:id="@+id/imageView4"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

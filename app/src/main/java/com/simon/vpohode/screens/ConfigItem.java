@@ -301,7 +301,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setColorShape(ColorShape.CIRCLE)
                 .setDialogId(id)
                 .show(this);
-// полный список атрибутов класса ColorPickerDialog смотрите ниже
     }
     public void onClickColor(View view) {
                 createColorPickerDialog(firstId);
@@ -312,9 +311,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         float[] hsv = new float[3];
         Color.colorToHSV(color,hsv);
         textcolor.setText("#" + (Integer.toHexString(color).substring(2).toUpperCase()) + " hue " + hsv[0]);
-        for(float x: hsv) {
-            Log.i("Test color!!!", "- " + x);
-        }
         textcolor.setTextColor(Color.HSVToColor(hsv));
         textcolor.setBackgroundColor(Color.HSVToColor(hsv));
     }
