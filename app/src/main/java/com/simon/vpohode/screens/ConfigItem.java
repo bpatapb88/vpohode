@@ -274,6 +274,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     public void delete(View view){
+        userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
+        userCursor.moveToFirst();
+
+        File file = new File(userCursor.getString(7));
+        boolean deleted = file.delete();
+        Log.i("Test of delete Image", "is deleted? " + deleted + " path " + userCursor.getString(7));
         db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
         goHome();
     }
