@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }
-
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
     }

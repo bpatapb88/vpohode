@@ -3,7 +3,6 @@ package com.simon.vpohode.screens;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
 
 public class SettingsActivity extends AppCompatActivity {

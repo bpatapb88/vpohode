@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
 

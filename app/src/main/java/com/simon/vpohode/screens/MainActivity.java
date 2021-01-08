@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 
-import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
 
 import org.json.JSONArray;

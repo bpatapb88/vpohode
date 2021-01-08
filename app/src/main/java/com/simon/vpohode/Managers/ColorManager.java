@@ -1,4 +1,4 @@
-package com.simon.vpohode;
+package com.simon.vpohode.Managers;
 
 import android.database.Cursor;
 import android.graphics.Color;

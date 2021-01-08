@@ -1,4 +1,4 @@
-package com.simon.vpohode;
+package com.simon.vpohode.Managers;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
+
+import com.simon.vpohode.R;
+import com.simon.vpohode.Styles;
+import com.simon.vpohode.Templates;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.screens.ConfigItem;
@@ -30,7 +34,7 @@ public class LayoutManager {
         return adapter;
     }
 
-    public static ArrayAdapter<Templates> spinnerConfig(Templates[] input,Context context){
+    public static ArrayAdapter<Templates> spinnerConfig(Templates[] input, Context context){
         ArrayAdapter<Templates> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, input);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;

@@ -4,7 +4,9 @@ public class Item {
     private String name;
     private int Style;
     private String termid;
+    private String foto;
     private int top;
+    private int color;
     private int layer;
 
     public int getLayer() {
@@ -45,5 +47,21 @@ public class Item {
 
     public void setTop(int top) {
         this.top = top;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

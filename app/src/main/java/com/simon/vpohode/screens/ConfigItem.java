@@ -35,7 +35,8 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
 import com.simon.vpohode.Item;
-import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.Managers.ImageManager;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.Templates;
@@ -112,10 +113,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getDouble(4)));
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
-            textcolor.setTextColor(userCursor.getInt(6));
+            //textcolor.setTextColor(userCursor.getInt(6));
             textcolor.setBackgroundColor(userCursor.getInt(6));
-            //textcolor.setText("#" + (Integer.toHexString(userCursor.getInt(6)).substring(2).toUpperCase()));
-            imageItem.setImageURI(Uri.parse(userCursor.getString(7)));
+            textcolor.setText("#" + (Integer.toHexString(userCursor.getInt(6)).substring(2).toUpperCase()));
+            imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
                 if(userCursor.getInt(5) == 1){
@@ -163,21 +164,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
                     //save image
                     Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
-                    FileOutputStream out = null;
-                    File file = new File(Environment.getExternalStorageDirectory().getPath(), "Pictures/Marprobe");
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
-                    String uriSting = (file.getAbsolutePath() + "/"
-                            + System.currentTimeMillis() + ".jpg");
-                    try {
-                        out = new FileOutputStream(uriSting);
-                        bm.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        cv.put(DBFields.FOTO.toFieldName(), uriSting);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm,getApplicationContext()));
 
+                    // update or insert DB
                     if (userId > 0) {
                         db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
                     } else {
@@ -279,9 +268,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         File file = new File(userCursor.getString(7));
         boolean deleted = file.delete();
-        Log.i("Test of delete Image", "is deleted? " + deleted + " path " + userCursor.getString(7));
+        Toast.makeText(this, "Удалена " + deleted, Toast.LENGTH_SHORT).show();
         db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
         goHome();
+
     }
     private void goHome(){
         // close connection
@@ -320,26 +310,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();
     }
 
-    public String saveImageFile(Bitmap bitmap) {
-        FileOutputStream out = null;
-        String filename = getFilename();
-        try {
-            out = new FileOutputStream(filename);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return filename;
-    }
-    private String getFilename() {
-        File file = new File(Environment.getExternalStorageDirectory().getPath(), "Pictures/Marprobe");
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        String uriSting = (file.getAbsolutePath() + "/"
-                + System.currentTimeMillis() + ".jpg");
-        return uriSting;
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

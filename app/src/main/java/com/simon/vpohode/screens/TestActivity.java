@@ -2,7 +2,6 @@ package com.simon.vpohode.screens;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,8 +13,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.littlemango.stacklayoutmanager.StackLayoutManager;
-import com.simon.vpohode.CountBestTermIndex;
-import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.Managers.CountBestTermIndex;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.StackLayoutAdapter;
 import com.simon.vpohode.database.DatabaseHelper;

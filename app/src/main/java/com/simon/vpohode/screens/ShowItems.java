@@ -1,8 +1,6 @@
 package com.simon.vpohode.screens;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,10 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.simon.vpohode.ColorManager;
-import com.simon.vpohode.LayoutManager;
+import com.simon.vpohode.Managers.ColorManager;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
-import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;

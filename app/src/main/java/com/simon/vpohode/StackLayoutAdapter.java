@@ -41,38 +41,12 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final StackHolder stackHolder, int position) {
-        int res;
-        switch (position % 6) {
-            case 0:
-                res = R.drawable.image1;
-                break;
-            case 1:
-                res = R.drawable.image2;
-                break;
-            case 2:
-                res = R.drawable.image3;
-                break;
-            case 3:
-                res = R.drawable.image4;
-                break;
-            case 4:
-                res = R.drawable.image5;
-                break;
-            default:
-                res = R.drawable.image6;
-                break;
-        }
-
-
-        stackHolder.imageView.setImageResource(res);
-        Log.i("Test image resource"," res = " + res);
-        String [] images = getImageResource(looks.get(position),db);
+        ItemFC images = getImageResource(looks.get(position),db);
         ImageView[] imageViews = {stackHolder.imageView, stackHolder.imageView2, stackHolder.imageView3, stackHolder.imageView4};
         for(int j = 0 ; j < imageViews.length; j++){
-            if(images.length > j){
-                Log.i("Test image resource"," path of image " + images[j]);
-                imageViews[j].setImageURI(Uri.parse(images[j]));
-
+            if(images.colors.length > j){
+                imageViews[j].setImageURI(Uri.parse(images.fotos[j]));
+                imageViews[j].setBackgroundColor(images.colors[j]);
             }
 
         }
@@ -108,33 +82,23 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
             imageView2 = itemView.findViewById(R.id.imageView2);
             imageView3 = itemView.findViewById(R.id.imageView3);
             imageView4 = itemView.findViewById(R.id.imageView4);
-
             textView = itemView.findViewById(R.id.textView);
         }
     }
-    public static String fillText(int position, int[] look, SQLiteDatabase db){
-        String result = "";
-        for(int id : look) {
-            Cursor Item = DatabaseHelper.getItemByID(db, id);
-            if(Item.moveToFirst()){
-                do{
-                    result += "Name: " + Item.getString(Item.getColumnIndex("name")) + " id "+Item.getString(Item.getColumnIndex("_id")) + " \n";
-                }while (Item.moveToNext());
+
+    public static ItemFC getImageResource (int[] look, SQLiteDatabase db){
+        String[] imagesPath = new String[look.length];
+        Integer[] colors = new Integer[look.length];
+            for (int i = 0; i < look.length; i++) {
+                    Cursor Item = DatabaseHelper.getItemByID(db, look[i]);
+                    Item.moveToFirst();
+                    Log.i("Test420"," Test420 before set" + Item.getString(Item.getColumnIndex("foto")));
+                    imagesPath[i] = Item.getString(Item.getColumnIndex("foto"));
+                    colors[i] = Item.getInt(Item.getColumnIndex("color"));
             }
-        }
+        ItemFC result = new ItemFC(imagesPath,colors);
         return result;
     }
 
-    public static String[] getImageResource (int[] look, SQLiteDatabase db){
-        String[] result = new String[look.length];
-        for(int i = 0; i<look.length; i++) {
-            Cursor Item = DatabaseHelper.getItemByID(db, look[i]);
-            if (Item.moveToFirst()) {
-                do {
-                    result[i] = Item.getString(Item.getColumnIndex("foto"));
-                } while (Item.moveToNext());
-            }
-        }
-        return result;
-    }
+
 }
