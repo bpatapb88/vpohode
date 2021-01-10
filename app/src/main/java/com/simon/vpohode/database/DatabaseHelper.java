@@ -48,9 +48,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index, ArrayList<Integer[]> colors){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index + " AND " + DBFields.COLOR.toFieldName() + " = " + colors.get(0)[0], null);
     }
-
     public static Cursor getItemByID (SQLiteDatabase db, int id){
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ID.toFieldName() + " = " + id, null);
+    }
+
+    public static Cursor getItemByID (SQLiteDatabase db, int[] id){
+        String string = "";
+        for(int i = 0; i < id.length; i++){
+            if(i == (id.length-1)){
+                string += DBFields.ID.toFieldName() + " = " + id[i];
+            }else{
+                string += DBFields.ID.toFieldName() + " = " + id[i] + " OR ";
+            }
+        }
+        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + string, null);
     }
 
 }

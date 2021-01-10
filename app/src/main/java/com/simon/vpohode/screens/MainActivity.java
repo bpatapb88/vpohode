@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickShowItems (View view){
+        //Intent intent = new Intent(this, ShowItems.class);
         Intent intent = new Intent(this, TestActivity.class);
         intent.putExtra("term", avgTempertureCel);
         startActivity(intent);

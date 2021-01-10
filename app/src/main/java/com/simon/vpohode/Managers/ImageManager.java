@@ -2,9 +2,14 @@ package com.simon.vpohode.Managers;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.widget.ImageView;
+
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,6 +56,13 @@ public class ImageManager {
             e.printStackTrace();
         }
         return b;
+    }
+
+    public static boolean deleteImagesById(long id, SQLiteDatabase db){
+        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(id)});
+        cursor.moveToFirst();
+        File file = new File(cursor.getString(7));
+        return file.delete();
     }
 
 }

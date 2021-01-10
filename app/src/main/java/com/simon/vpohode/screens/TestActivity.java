@@ -1,7 +1,9 @@
 package com.simon.vpohode.screens;
 
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,9 +12,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.littlemango.stacklayoutmanager.StackLayoutManager;
+import com.simon.vpohode.Managers.ColorManager;
 import com.simon.vpohode.Managers.CountBestTermIndex;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
@@ -46,11 +50,24 @@ public class TestActivity extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
 
         ArrayList<int[]> looks = CountBestTermIndex.getLooks(db,term);
-        mToast = Toast.makeText(TestActivity.this, "", Toast.LENGTH_SHORT);
+        ArrayList<int[]> finalLooks = new ArrayList<>();
+        //check settings if needed count colors, default option - False
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        if(prefs.getBoolean("sync", false)){
+            for(int i = 0; i < looks.size(); i++){
+                if(ColorManager.isLookMatch(StackLayoutAdapter.getImageResource(looks.get(i),db).colors)){
+                    finalLooks.add(looks.get(i));
+                }
+            }
+        }else{
+            finalLooks = looks;
+        }
+
+        mToast = Toast.makeText(TestActivity.this, "Test activity started", Toast.LENGTH_SHORT);
         mRecyclerView = findViewById(R.id.recycleView);
         mStackLayoutManager = new StackLayoutManager();
         mRecyclerView.setLayoutManager(mStackLayoutManager);
-        mRecyclerView.setAdapter(new StackLayoutAdapter(mToast,mStackLayoutManager,mRecyclerView, looks, db));
+        mRecyclerView.setAdapter(new StackLayoutAdapter(mToast,mStackLayoutManager,mRecyclerView, finalLooks, db));
 
         findViewById(R.id.toolbar).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,7 +78,7 @@ public class TestActivity extends AppCompatActivity {
         mStackLayoutManager.setItemChangedListener(new StackLayoutManager.ItemChangedListener() {
             @Override
             public void onItemChanged(int position) {
-                getSupportActionBar().setTitle("Look " + position);
+                getSupportActionBar().setTitle("Look # " + (position + 1));
             }
         });
     }
@@ -71,6 +88,7 @@ public class TestActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         LayoutManager.invisible(R.id.save,menu);
         LayoutManager.invisible(R.id.search,menu);
+        LayoutManager.invisible(R.id.action_settings,menu);
 
         return true;
     }

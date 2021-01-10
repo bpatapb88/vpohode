@@ -61,6 +61,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     SQLiteDatabase db;
     Cursor userCursor;
     Space x;
+    boolean newImage = false;
     long userId=0;
     private Uri uri;
     private static final int firstId = 1;
@@ -136,7 +137,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             // hide button Delete, It will be new Item
             delButton.setVisibility(View.GONE);
             x.setVisibility(View.GONE);
-
         }
 
         // if Save button clicked do next:
@@ -162,9 +162,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     }
                     cv.put(DBFields.COLOR.toFieldName(),textcolor.getCurrentTextColor());
 
-                    //save image
-                    Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
-                    cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm,getApplicationContext()));
+                    //save image if image was changed or new
+                    if(newImage) {
+                        if(userId > 0){
+                            ImageManager.deleteImagesById(userId, db);
+                        }
+                        Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
+                        cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
+                    }
 
                     // update or insert DB
                     if (userId > 0) {
@@ -263,15 +268,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     public void delete(View view){
-        userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
-        userCursor.moveToFirst();
-
-        File file = new File(userCursor.getString(7));
-        boolean deleted = file.delete();
+        boolean deleted = ImageManager.deleteImagesById(userId, db);
         Toast.makeText(this, "Удалена " + deleted, Toast.LENGTH_SHORT).show();
         db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
         goHome();
-
     }
     private void goHome(){
         // close connection
@@ -326,6 +326,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             imageItem.setImageURI(result.getUri());
+            newImage = true;
             Toast.makeText(this, "Image of Item was loaded success!", Toast.LENGTH_SHORT).show();
         }
     }

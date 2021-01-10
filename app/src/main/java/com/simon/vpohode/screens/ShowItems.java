@@ -115,8 +115,7 @@ public class ShowItems extends AppCompatActivity {
 
             listOfLooks = ColorManager.colorLook(array);
 
-            ArrayList<Integer[]> test = new ArrayList<>();
-            test = ColorManager.bestLooks(listOfLooks);
+            ArrayList<Integer[]> test = ColorManager.bestLooks(listOfLooks);
             Log.i("Last test for today ", " size " + test.size());
 
             simpleCursorAdapter = LayoutManager.configListOfItems(this,db,0,term, test );

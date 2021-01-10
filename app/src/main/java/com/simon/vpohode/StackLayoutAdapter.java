@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.littlemango.stacklayoutmanager.StackLayoutManager;
+import com.simon.vpohode.Managers.ColorManager;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
     @Override
     public void onBindViewHolder(@NonNull final StackHolder stackHolder, int position) {
         ItemFC images = getImageResource(looks.get(position),db);
+        Log.i("Is look match? ", " answer - " + ColorManager.isLookMatch(images.colors));
         ImageView[] imageViews = {stackHolder.imageView, stackHolder.imageView2, stackHolder.imageView3, stackHolder.imageView4};
         for(int j = 0 ; j < imageViews.length; j++){
             if(images.colors.length > j){
@@ -89,13 +91,14 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
     public static ItemFC getImageResource (int[] look, SQLiteDatabase db){
         String[] imagesPath = new String[look.length];
         Integer[] colors = new Integer[look.length];
+        Cursor Item = DatabaseHelper.getItemByID(db, look);
+        if(Item.moveToFirst()) {
             for (int i = 0; i < look.length; i++) {
-                    Cursor Item = DatabaseHelper.getItemByID(db, look[i]);
-                    Item.moveToFirst();
-                    Log.i("Test420"," Test420 before set" + Item.getString(Item.getColumnIndex("foto")));
-                    imagesPath[i] = Item.getString(Item.getColumnIndex("foto"));
-                    colors[i] = Item.getInt(Item.getColumnIndex("color"));
+                imagesPath[i] = Item.getString(Item.getColumnIndex("foto"));
+                colors[i] = Item.getInt(Item.getColumnIndex("color"));
+                Item.moveToNext();
             }
+        }
         ItemFC result = new ItemFC(imagesPath,colors);
         return result;
     }

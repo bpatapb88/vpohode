@@ -45,6 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         LayoutManager.invisible(R.id.search,menu);
+        LayoutManager.invisible(R.id.save,menu);
         LayoutManager.invisible(R.id.action_settings,menu);
         return true;
     }
@@ -52,11 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
             finish();
-        }else if(item.getItemId() == R.id.save){
-            SharedPreferences pref = this.getSharedPreferences("com.simon.vpohode", Context.MODE_PRIVATE);
-            String dateTimeKey = "com.simon.vpohode.screens.SettingsActivity";
-            String i = pref.toString();
-
         }
         return super.onOptionsItemSelected(item);
     }

@@ -29,27 +29,27 @@ public class ColorManager {
     public static ArrayList<Integer[]> colorLook(Integer[][] allColors){
         ArrayList<Integer[]> listOfLooks = new ArrayList<>();
         if (allColors.length == 4){
-        for(int i = 0; i < allColors[0].length;i++){
-            for(int j = 0; j < allColors[1].length;j++){
-                for(int k = 0; k < allColors[2].length;k++){
-                    for(int l = 0; l < allColors[3].length;l++){
-                        listOfLooks.add(new Integer[]{allColors[0][i],allColors[1][j],allColors[2][k],allColors[3][l]});
+            for(int i = 0; i < allColors[0].length;i++){
+                for(int j = 0; j < allColors[1].length;j++){
+                    for(int k = 0; k < allColors[2].length;k++){
+                        for(int l = 0; l < allColors[3].length;l++){
+                            listOfLooks.add(new Integer[]{allColors[0][i],allColors[1][j],allColors[2][k],allColors[3][l]});
+                        }
                     }
                 }
             }
-        }
         }else if(allColors.length == 3){
             for(int i = 0; i < allColors[0].length;i++){
                 for(int j = 0; j < allColors[1].length;j++){
                     for(int k = 0; k < allColors[2].length;k++){
-                            listOfLooks.add(new Integer[]{allColors[0][i],allColors[1][j],allColors[2][k]});
+                        listOfLooks.add(new Integer[]{allColors[0][i],allColors[1][j],allColors[2][k]});
                     }
                 }
             }
         }else{
             for(int i = 0; i < allColors[0].length;i++){
                 for(int j = 0; j < allColors[1].length;j++){
-                        listOfLooks.add(new Integer[]{allColors[0][i],allColors[1][j]});
+                    listOfLooks.add(new Integer[]{allColors[0][i],allColors[1][j]});
                 }
             }
         }
@@ -92,11 +92,50 @@ public class ColorManager {
                             result.add(listOfLooks.get(i));
                         }
                         break;
-                    }
                 }
             }
+        }
         return result;
 
+    }
+
+    public static boolean isLookMatch(Integer[] listOfLooks){
+        float[][] looksHSV = new float[listOfLooks.length][3];
+        float[] hsv = new float[3];
+        ArrayList<Integer> neutral = new ArrayList<>();
+        ArrayList<Float> notNeutral = new ArrayList<>();
+
+        for(Integer j = 0; j < looksHSV.length; j++) {
+            Color.colorToHSV(listOfLooks[j],hsv);
+            looksHSV[j] = hsv;
+            looksHSV[j][0] = (int)looksHSV[j][0]/10;
+            if(looksHSV[j][1] < 0.2 || looksHSV[j][2] < 0.2){
+                neutral.add(j);
+            }else{
+                notNeutral.add(looksHSV[j][0]);
+            }
+        }
+        Collections.sort(notNeutral);
+        if(notNeutral.size() < 2){
+            return true;
+        }else{
+            switch (notNeutral.size()){
+                case 2:
+                    if((notNeutral.get(1) - notNeutral.get(0)) == 18){
+                        return true;
+                    }
+                    break;
+
+                case 3:
+                    if((notNeutral.get(1) - notNeutral.get(0) == 3) && (notNeutral.get(2) - notNeutral.get(1) == 3)){
+                        return true;
+                    }else if((notNeutral.get(1) - notNeutral.get(0) == 12) && (notNeutral.get(2) - notNeutral.get(1) == 12)){
+                        return true;
+                    }
+                    break;
+            }
+        }
+        return false;
     }
 
 }
