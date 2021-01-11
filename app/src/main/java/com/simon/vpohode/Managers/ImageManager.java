@@ -27,12 +27,11 @@ public class ImageManager {
         // Create imageDir
         String filename = System.currentTimeMillis() + ".jpg";
         File mypath=new File(directory,filename);
-
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 50, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -47,13 +46,21 @@ public class ImageManager {
 
     public static Bitmap loadImageFromStorage(String path) {
         Bitmap b = null;
+        FileInputStream fis = null;
         try {
             File f=new File(path);
-            b = BitmapFactory.decodeStream(new FileInputStream(f));
+            fis = new FileInputStream(f);
+            b = BitmapFactory.decodeStream(fis);
         }
         catch (FileNotFoundException e)
         {
             e.printStackTrace();
+        } finally {
+            try {
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return b;
     }

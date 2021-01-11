@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.simon.vpohode.CustomAdapter;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
@@ -21,7 +23,7 @@ public class Wardrobe extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private SimpleCursorAdapter topItemAdapter, bottomItemAdapter;
+    private CustomAdapter topItemAdapter, bottomItemAdapter;
     private ListView topItemList, bottomItemList;
     private TextView countTop,countBot;
 
@@ -99,6 +101,7 @@ public class Wardrobe extends AppCompatActivity {
         bottomItemList.setAdapter(bottomItemAdapter);
         // How many items in bottom?
         countBot.setText("На ноги: " + bottomItemAdapter.getCursor().getCount());
+
     }
     @Override
     public void onDestroy(){

@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
 
+import com.simon.vpohode.CustomAdapter;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.Templates;
@@ -52,16 +56,33 @@ public class LayoutManager {
 
     }
 
-    public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
+    public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
         //get cursor from db
         Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
+
+        MatrixCursor matrixCursor = new MatrixCursor(itemCursor.getColumnNames());
+
+        for(String x : matrixCursor.getColumnNames()) {
+            Log.i("MergeCursor", " " + x);
+        }
+
+
         // which column will be in ListView
-        String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.TERMID.toFieldName(), DBFields.ISTOP.toFieldName()};
+        String[] headers = new String[] {
+                DBFields.NAME.toFieldName(),
+                DBFields.TERMID.toFieldName(),
+                DBFields.STYLE.toFieldName()};
         // create adapter, send cursor
-        SimpleCursorAdapter ItemAdapter = new SimpleCursorAdapter(contex, R.layout.two_line_list_item,
-                itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
+        SimpleCursorAdapter ItemAdapter = new SimpleCursorAdapter(contex,
+                R.layout.two_line_list_item,
+                itemCursor,
+                headers,
+                new int[]{R.id.text1, R.id.text2, R.id.text3/*, R.id.imageView*/}, 0);
         // устанавливаем провайдер фильтрации
-        ItemAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+
+        CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
+
+        customAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
                 if (constraint == null || constraint.length() == 0) {
@@ -74,7 +95,7 @@ public class LayoutManager {
             }
         });
 
-        return ItemAdapter;
+        return customAdapter;
     }
 
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term){
