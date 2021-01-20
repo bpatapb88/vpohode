@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -331,8 +332,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
     }
     private void startCrop(Uri imageuri) {
+
         CropImage.activity(imageuri)
                 .setGuidelines(CropImageView.Guidelines.ON)
+                .setMinCropResultSize(2000,2000)
+                .setMaxCropResultSize(2000,2000)
                 .setMultiTouchEnabled(true)
                 .start(this);
     }

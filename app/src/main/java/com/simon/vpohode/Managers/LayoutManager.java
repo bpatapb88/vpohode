@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.database.MergeCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.Menu;
@@ -101,21 +100,21 @@ public class LayoutManager {
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term){
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
         Cursor itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop);
-        Double bestIndex = CountBestTermIndex.getBotIndex(itemCursor,term);
+        Double bestIndex = LookManager.getBotIndex(itemCursor,term);
         itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,bestIndex);
         return new SimpleCursorAdapter(contex, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
     }
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term, ArrayList<Integer[]> colors){
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
         Cursor itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop);
-        Double bestIndex = CountBestTermIndex.getBotIndex(itemCursor,term);
+        Double bestIndex = LookManager.getBotIndex(itemCursor,term);
         itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,bestIndex, colors);
         return new SimpleCursorAdapter(contex, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
     }
     public static SimpleCursorAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop, Double term, int layer){
         String[] headers = new String[] {DBFields.NAME.toFieldName(), DBFields.STYLE.toFieldName(), DBFields.TERMID.toFieldName(),};
         Cursor itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,layer);
-        Double bestIndex = CountBestTermIndex.getTopIndex(itemCursor,term);
+        Double bestIndex = LookManager.getTopIndex(itemCursor,term);
         itemCursor = DatabaseHelper.getCursoreByIsTop(db,istop,bestIndex);
         return new SimpleCursorAdapter(contex, R.layout.two_line_list_item, itemCursor, headers, new int[]{R.id.text1, R.id.text2, R.id.text3}, 0);
     }

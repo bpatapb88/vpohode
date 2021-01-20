@@ -1,18 +1,22 @@
 package com.simon.vpohode.Managers;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import com.simon.vpohode.Rules;
+import com.simon.vpohode.StackLayoutAdapter;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
-public class CountBestTermIndex {
+public class LookManager {
 
     public static double getInterval(double temp){
-
         double result = 0;
         if(temp >= 20){
             result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT);
@@ -58,7 +62,12 @@ public class CountBestTermIndex {
         return bestBottomIndex;
     }
 
-    public static ArrayList<int[]> getLooks(SQLiteDatabase db, double temp){
+    public static ArrayList<int[]> getLooks(double temp, Context context){
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
+
         ArrayList<int[]> result = new ArrayList<>();
         Cursor botItems,topItems,topItems2,topItems3;
 
@@ -86,6 +95,7 @@ public class CountBestTermIndex {
                                      top < max &&
                                      bot > min &&
                                      bot < max) {
+
                                  int[] look = new int[layers + 1];
                                  look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
                                  look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
@@ -125,6 +135,7 @@ public class CountBestTermIndex {
                         }
                     }while(botItems.moveToNext());
                 }
+                topItems2.close();
                 break;
             case 3:
                 topItems2 = DatabaseHelper.getCursoreByIsTop(db,1,2);
@@ -146,13 +157,34 @@ public class CountBestTermIndex {
                                                 bot < max &&
                                                 top > min &&
                                                 top < max){
-                                            int[] look = new int[layers + 1];
-                                            look[0] = botItems.getInt(botItems.getColumnIndex("_id"));
-                                            look[1] = topItems.getInt(topItems.getColumnIndex("_id"));
-                                            look[2] = topItems2.getInt(topItems2.getColumnIndex("_id"));
-                                            look[3] = topItems3.getInt(topItems3.getColumnIndex("_id"));
-
-                                            result.add(look);
+                                            //check if styles match
+                                            if(StyleManager.isLookMatchStyle(new String[]{botItems.getString(botItems.getColumnIndex("style")),
+                                                    topItems.getString(topItems.getColumnIndex("style")),
+                                                    topItems2.getString(topItems.getColumnIndex("style")),
+                                                    topItems3.getString(topItems.getColumnIndex("style"))},prefs)){
+                                                //check if color match
+                                                if(prefs.getBoolean("sync", false)) {
+                                                    if(ColorManager.isLookMatch(new Integer[]{
+                                                            botItems.getInt(botItems.getColumnIndex("color")),
+                                                            topItems.getInt(topItems.getColumnIndex("color")),
+                                                            topItems2.getInt(topItems.getColumnIndex("color")),
+                                                            topItems3.getInt(topItems.getColumnIndex("color"))})){
+                                                        int[] look = new int[layers + 1];
+                                                        look[3] = botItems.getInt(botItems.getColumnIndex("_id"));
+                                                        look[0] = topItems.getInt(topItems.getColumnIndex("_id"));
+                                                        look[1] = topItems2.getInt(topItems2.getColumnIndex("_id"));
+                                                        look[2] = topItems3.getInt(topItems3.getColumnIndex("_id"));
+                                                        result.add(look);
+                                                    }
+                                                }else{
+                                                    int[] look = new int[layers + 1];
+                                                    look[3] = botItems.getInt(botItems.getColumnIndex("_id"));
+                                                    look[0] = topItems.getInt(topItems.getColumnIndex("_id"));
+                                                    look[1] = topItems2.getInt(topItems2.getColumnIndex("_id"));
+                                                    look[2] = topItems3.getInt(topItems3.getColumnIndex("_id"));
+                                                    result.add(look);
+                                                }
+                                            }
                                         }
                                             }while (topItems3.moveToNext());
 
@@ -163,11 +195,14 @@ public class CountBestTermIndex {
                         }
                     }while(botItems.moveToNext());
                 }
+                topItems2.close();
+                topItems3.close();
                 break;
-
         }
+        botItems.close();
+        topItems.close();
+        db.close();
         return result;
-
     }
 
 }

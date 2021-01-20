@@ -59,7 +59,7 @@
                 android:textColor="@android:color/secondary_text_light"
                 android:fontFamily="monospace"
                 style="@style/Widget.Shrine.Button"
-                app:icon="@drawable/ic_hanger"
+                app:icon="@drawable/ic_wardrobe"
                 />
 <Space
     android:layout_width="40dp"
@@ -74,7 +74,7 @@
                 android:fontFamily="monospace"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
-                app:icon="@drawable/ic_showitems"
+                app:icon="@drawable/ic_look"
                 />
         </LinearLayout>
 

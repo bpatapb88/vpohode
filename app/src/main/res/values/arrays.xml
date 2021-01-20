@@ -1,13 +1,13 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="reply_entries">
-        <item>Reply</item>
-        <item>Reply to all</item>
+    <string-array name="show_entries">
+        <item>Carusel</item>
+        <item>One screen</item>
     </string-array>
 
-    <string-array name="reply_values">
-        <item>reply</item>
-        <item>reply_all</item>
+    <string-array name="show_values">
+        <item>carusel</item>
+        <item>all</item>
     </string-array>
 
 </resources>

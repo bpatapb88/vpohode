@@ -99,14 +99,14 @@ public class ColorManager {
 
     }
 
-    public static boolean isLookMatch(Integer[] listOfLooks){
-        float[][] looksHSV = new float[listOfLooks.length][3];
+    public static boolean isLookMatch(Integer[] listOfColors){
+        float[][] looksHSV = new float[listOfColors.length][3];
         float[] hsv = new float[3];
         ArrayList<Integer> neutral = new ArrayList<>();
         ArrayList<Float> notNeutral = new ArrayList<>();
 
         for(Integer j = 0; j < looksHSV.length; j++) {
-            Color.colorToHSV(listOfLooks[j],hsv);
+            Color.colorToHSV(listOfColors[j],hsv);
             looksHSV[j] = hsv;
             looksHSV[j][0] = (int)looksHSV[j][0]/10;
             if(looksHSV[j][1] < 0.2 || looksHSV[j][2] < 0.2){

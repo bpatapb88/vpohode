@@ -12,10 +12,8 @@ import android.widget.TextView;
 
 public class CustomAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;
-    private Context mContext;
     public CustomAdapter(Context context, Cursor c) {
         super(context, c);
-        mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }
 
@@ -41,6 +39,7 @@ public class CustomAdapter extends CursorAdapter {
         String name = c.getString(c.getColumnIndexOrThrow("name"));
         String style = c.getString(c.getColumnIndexOrThrow("style"));
         Double termindex = c.getDouble(c.getColumnIndexOrThrow("termindex"));
+        Integer istop = c.getInt(c.getColumnIndexOrThrow("istop"));
         Integer layer = c.getInt(c.getColumnIndexOrThrow("layer"));
 
         /**
@@ -75,7 +74,12 @@ public class CustomAdapter extends CursorAdapter {
         }else if(layer == 2){
             item_image.setImageResource(R.drawable.ic_layer2);
         }else{
-            item_image.setImageResource(R.drawable.ic_layer3);
+            if(istop == 1){
+                item_image.setImageResource(R.drawable.ic_layer3);
+            }else{
+                item_image.setImageResource(R.drawable.ic_layer3_bot);
+            }
+
         }
     }
 }

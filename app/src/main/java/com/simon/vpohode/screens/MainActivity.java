@@ -94,7 +94,26 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickShowItems (View view){
         //Intent intent = new Intent(this, ShowItems.class);
-        Intent intent = new Intent(this, TestActivity.class);
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        Intent intent;
+        if(prefs.getString("show","carusel").equals("carusel")){
+            intent = new Intent(this, TestActivity.class);
+        }else{
+            intent = new Intent(this, ShowItems.class);
+        }
+        Double temp = 1000d;
+        try {
+            temp = Double.valueOf(prefs.getString("temp", "1000"));
+        }catch (NumberFormatException e){
+            Log.i("TemperatureNow","temp = " + temp + " , avgTempertureCel = " + avgTempertureCel);
+
+            e.printStackTrace();
+        }
+        if(temp != 1000){
+            avgTempertureCel = temp;
+            Log.i("TemperatureNow","temp = " + temp + " , avgTempertureCel = " + avgTempertureCel);
+        }
+
         intent.putExtra("term", avgTempertureCel);
         startActivity(intent);
     }

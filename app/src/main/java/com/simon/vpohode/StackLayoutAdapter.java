@@ -42,16 +42,23 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull final StackHolder stackHolder, int position) {
-        ItemFC images = getImageResource(looks.get(position),db);
-        Log.i("Is look match? ", " answer - " + ColorManager.isLookMatch(images.colors));
+        ItemFCS images = getFotosColorsStyles(looks.get(position),db);
         ImageView[] imageViews = {stackHolder.imageView, stackHolder.imageView2, stackHolder.imageView3, stackHolder.imageView4};
         for(int j = 0 ; j < imageViews.length; j++){
             if(images.colors.length > j){
-                imageViews[j].setImageURI(Uri.parse(images.fotos[j]));
+                //imageViews[j].setImageURI(Uri.parse(images.fotos[j]));
                 imageViews[j].setBackgroundColor(images.colors[j]);
             }
 
         }
+        for(int j = 0 ; j < imageViews.length; j++){
+            if(images.colors.length > j){
+                imageViews[j].setImageURI(Uri.parse(images.fotos[j]));
+                //imageViews[j].setBackgroundColor(images.colors[j]);
+            }
+
+        }
+
         //stackHolder.textView.setText("" + fillText(position,looks.get(position),db));
 
         stackHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -88,18 +95,22 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
         }
     }
 
-    public static ItemFC getImageResource (int[] look, SQLiteDatabase db){
+    public static ItemFCS getFotosColorsStyles(int[] look, SQLiteDatabase db){
         String[] imagesPath = new String[look.length];
+        String[] styles = new String[look.length];
         Integer[] colors = new Integer[look.length];
+
         Cursor Item = DatabaseHelper.getItemByID(db, look);
         if(Item.moveToFirst()) {
             for (int i = 0; i < look.length; i++) {
                 imagesPath[i] = Item.getString(Item.getColumnIndex("foto"));
                 colors[i] = Item.getInt(Item.getColumnIndex("color"));
+                styles[i] = Item.getString(Item.getColumnIndex("style"));
                 Item.moveToNext();
             }
         }
-        ItemFC result = new ItemFC(imagesPath,colors);
+        Item.close();
+        ItemFCS result = new ItemFCS(imagesPath,colors,styles);
         return result;
     }
 
