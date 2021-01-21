@@ -67,14 +67,10 @@ public class LookManager {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
-
         ArrayList<int[]> result = new ArrayList<>();
         Cursor botItems,topItems,topItems2,topItems3;
 
         int layers = Rules.getLayers(temp);
-
-
-
         double min = getInterval(temp) - Rules.ACCURACY;
         double max = getInterval(temp) + Rules.ACCURACY;
         double top;

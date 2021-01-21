@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         if(prefs.getString("show","carusel").equals("carusel")){
             intent = new Intent(this, TestActivity.class);
         }else{
-            intent = new Intent(this, ShowItems.class);
+            intent = new Intent(this, LooksActivity.class);
         }
         Double temp = 1000d;
         try {
