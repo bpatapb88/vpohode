@@ -1,13 +1,22 @@
 package com.simon.vpohode;
 
 public class Item {
+    private int id;
     private String name;
-    private int Style;
-    private String termid;
+    private String style;
+    private Double termid;
     private String foto;
     private int top;
     private int color;
     private int layer;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getLayer() {
         return layer;
@@ -25,19 +34,19 @@ public class Item {
         this.name = name;
     }
 
-    public int getStyle() {
-        return Style;
+    public String getStyle() {
+        return style;
     }
 
-    public void setStyle(int style) {
-        Style = style;
+    public void setStyle(String style) {
+        this.style = style;
     }
 
-    public String getTermid() {
+    public Double getTermid() {
         return termid;
     }
 
-    public void setTermid(String termid) {
+    public void setTermid(Double termid) {
         this.termid = termid;
     }
 
@@ -63,5 +72,19 @@ public class Item {
 
     public void setColor(int color) {
         this.color = color;
+    }
+
+    public Item(int id, String name, String style, int top, Double termid, int layer, int color, String foto) {
+        this.id = id;
+        this.name = name;
+        this.style = style;
+        this.termid = termid;
+        this.foto = foto;
+        this.top = top;
+        this.color = color;
+        this.layer = layer;
+    }
+
+    public Item() {
     }
 }

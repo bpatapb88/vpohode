@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.LookManager;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
@@ -21,6 +23,7 @@ public class LooksActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private DatabaseHelper databaseHelper;
     private TextView textView1,textView2,textView3,textView4, title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,13 +45,14 @@ public class LooksActivity extends AppCompatActivity {
         Double term = extras.getDouble("term");
         databaseHelper = new DatabaseHelper(getApplicationContext());
         db = databaseHelper.getReadableDatabase();
-        ArrayList<int[]> looks = LookManager.getLooks(term, getApplicationContext());
+        ArrayList<Item[]> looks = LookManager.getLooks(term, getApplicationContext());
 
         if(looks.size() > 0){
-            textView1.setText("Item1 id = " + looks.get(0)[0]);
-            textView2.setText("Item1 id = " + looks.get(0)[1]);
-            textView3.setText("Item1 id = " + looks.get(0)[2]);
-            textView4.setText("Item1 id = " + looks.get(0)[3]);
+            textView1.setText("Item1 id = " + looks.get(0)[0].getId());
+            textView2.setText("Item1 id = " + looks.get(0)[1].getId());
+            textView3.setText("Item1 id = " + looks.get(0)[2].getId());
+            title.setText("Мы подобрали для вас " + looks.size() + " луков");
+//            textView4.setText("Item1 id = " + looks.get(0)[3].getId());
         }
 
 

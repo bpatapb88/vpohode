@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.simon.vpohode.Item;
+
 import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -53,13 +55,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ID.toFieldName() + " = " + id, null);
     }
 
-    public static Cursor getItemByID (SQLiteDatabase db, int[] id){
+    public static Cursor getItemByID (SQLiteDatabase db, Item[] id){
         String string = "";
         for(int i = 0; i < id.length; i++){
             if(i == (id.length-1)){
-                string += DBFields.ID.toFieldName() + " = " + id[i];
+                string += DBFields.ID.toFieldName() + " = " + id[i].getId();
             }else{
-                string += DBFields.ID.toFieldName() + " = " + id[i] + " OR ";
+                string += DBFields.ID.toFieldName() + " = " + id[i].getId() + " OR ";
             }
         }
         return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + string, null);

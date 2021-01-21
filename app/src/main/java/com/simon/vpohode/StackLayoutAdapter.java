@@ -23,9 +23,9 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
     private Toast mToast;
     private StackLayoutManager mStackLayoutManager;
     private RecyclerView mRecyclerView;
-    private ArrayList<int[]> looks;
+    private ArrayList<Item[]> looks;
     private SQLiteDatabase db;
-    public StackLayoutAdapter(Toast mToast, StackLayoutManager mStackLayoutManager, RecyclerView mRecyclerView, ArrayList<int[]> looks, SQLiteDatabase db) {
+    public StackLayoutAdapter(Toast mToast, StackLayoutManager mStackLayoutManager, RecyclerView mRecyclerView, ArrayList<Item[]> looks, SQLiteDatabase db) {
         this.mToast = mToast;
         this.mStackLayoutManager = mStackLayoutManager;
         this.mRecyclerView = mRecyclerView;
@@ -95,7 +95,7 @@ public class StackLayoutAdapter extends RecyclerView.Adapter<StackLayoutAdapter.
         }
     }
 
-    public static ItemFCS getFotosColorsStyles(int[] look, SQLiteDatabase db){
+    public static ItemFCS getFotosColorsStyles(Item[] look, SQLiteDatabase db){
         String[] imagesPath = new String[look.length];
         String[] styles = new String[look.length];
         Integer[] colors = new Integer[look.length];

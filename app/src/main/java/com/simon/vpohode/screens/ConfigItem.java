@@ -226,8 +226,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 if (spinnerTemplate.getSelectedItemPosition() != 0) {
                     if (selectedTemplate.getTop() == 0) {
                         nameBox.setText(selectedTemplate.getName());
-                        termidBox.setText(selectedTemplate.getTermid());
-                        spinner.setSelection(selectedTemplate.getStyle());
+                        termidBox.setText("" + selectedTemplate.getTermid());
+                        spinner.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
                         radGrpTop.check(R.id.top);
                         switch (selectedTemplate.getLayer()) {
                             case 1:
@@ -241,8 +241,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         }
                     } else {
                         nameBox.setText(selectedTemplate.getName());
-                        termidBox.setText(selectedTemplate.getTermid());
-                        spinner.setSelection(selectedTemplate.getStyle());
+                        termidBox.setText("" + selectedTemplate.getTermid());
+                        spinner.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
                         radGrpTop.check(R.id.bottom);
                     }
                 }

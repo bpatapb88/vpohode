@@ -13,6 +13,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.littlemango.stacklayoutmanager.StackLayoutManager;
+import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.LookManager;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
@@ -45,7 +46,7 @@ public class TestActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(getApplicationContext());
         db = databaseHelper.getReadableDatabase();
 
-        ArrayList<int[]> looks = LookManager.getLooks(term, getApplicationContext());
+        ArrayList<Item[]> looks = LookManager.getLooks(term, getApplicationContext());
 
         mToast = Toast.makeText(TestActivity.this, "Test activity started", Toast.LENGTH_SHORT);
         mRecyclerView = findViewById(R.id.recycleView);
