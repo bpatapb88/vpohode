@@ -6,11 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,10 +44,6 @@ import com.simon.vpohode.database.DatabaseHelper;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
     TextView textcolor;
@@ -63,6 +57,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     Cursor userCursor;
     Space x;
     boolean newImage = false;
+    boolean newColor = false;
     long userId=0;
     private Uri uri;
     private static final int firstId = 1;
@@ -145,40 +140,52 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.save){
-                    ContentValues cv = new ContentValues();
-                    cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
-                    cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
-                    cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
-                    if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
-                        cv.put(DBFields.ISTOP.toFieldName(), 1);
-                    } else {
-                        cv.put(DBFields.ISTOP.toFieldName(), 0);
-                    }
-                    if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer1){
-                        cv.put(DBFields.LAYER.toFieldName(), 1);
-                    }else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer2){
-                        cv.put(DBFields.LAYER.toFieldName(), 2);
+
+                    if(nameBox.getText().equals("") || termidBox.getText().equals("")) {
+                        Log.i("allisnotok","namebox = " + nameBox.getText() + " termid = " + termidBox.getText() + " textcolor = "
+                        + textcolor.getCurrentTextColor());
                     }else {
-                        cv.put(DBFields.LAYER.toFieldName(), 3);
-                    }
-                    cv.put(DBFields.COLOR.toFieldName(),textcolor.getCurrentTextColor());
-
-                    //save image if image was changed or new
-                    if(newImage) {
-                        if(userId > 0){
-                            ImageManager.deleteImagesById(userId, db);
+                        Log.i("allisok", "namebox = " + nameBox.getText() + " termid = " + termidBox.getText() + " textcolor = "
+                                + textcolor.getCurrentTextColor());
+                        ContentValues cv = new ContentValues();
+                        cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
+                        cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
+                        cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
+                        if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                            cv.put(DBFields.ISTOP.toFieldName(), 1);
+                        } else {
+                            cv.put(DBFields.ISTOP.toFieldName(), 0);
                         }
-                        Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
-                        cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
-                    }
+                        if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer1) {
+                            cv.put(DBFields.LAYER.toFieldName(), 1);
+                        } else if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer2) {
+                            cv.put(DBFields.LAYER.toFieldName(), 2);
+                        } else {
+                            cv.put(DBFields.LAYER.toFieldName(), 3);
+                        }
+                        if (newColor)
+                            cv.put(DBFields.COLOR.toFieldName(), textcolor.getCurrentTextColor());
 
-                    // update or insert DB
-                    if (userId > 0) {
-                        db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
-                    } else {
-                        db.insert(DatabaseHelper.TABLE, null, cv);
+                        //save image if image was changed or new
+                        if (newImage) {
+                            if (userId > 0) {
+                                ImageManager.deleteImagesById(userId, db);
+                            }
+                            Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
+                            cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
+                        }
+
+                        // update or insert DB
+
+                            if (userId > 0) {
+                                db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+                            } else {
+                                db.insert(DatabaseHelper.TABLE, null, cv);
+                            }
+                            cv.clear();
+                            goHome();
+
                     }
-                    goHome();
                 }
                 return true;
             }
@@ -301,6 +308,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     public void onColorSelected(int dialogId, int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color,hsv);
+        newColor = true;
         textcolor.setText("#" + (Integer.toHexString(color).substring(2).toUpperCase()) + " hue " + hsv[0]);
         textcolor.setTextColor(Color.HSVToColor(hsv));
         textcolor.setBackgroundColor(Color.HSVToColor(hsv));

@@ -63,7 +63,6 @@ public class ShowItems extends AppCompatActivity {
 
         if(term >= 20 ){
             topItemList12.setVisibility(View.GONE);
-
             topItemList13.setVisibility(View.GONE);
 
             simpleCursorAdapter = LayoutManager.configListOfItems(this,db,1,term, 1);

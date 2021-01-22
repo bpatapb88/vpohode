@@ -41,16 +41,21 @@
 
             <TextView
                 android:id="@+id/textView1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <ImageView
                 android:id="@+id/imageView1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="10dp"
+                android:layout_height="80dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
@@ -64,16 +69,21 @@
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="10dp"
+                android:layout_height="80dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
@@ -87,16 +97,21 @@
 
             <TextView
                 android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/imageView31"
+                android:layout_width="10dp"
+                android:layout_height="80dp"
                 tools:srcCompat="@tools:sample/avatars" />
 
         </LinearLayout>
@@ -110,16 +125,22 @@
 
             <TextView
                 android:id="@+id/textView4"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="TextView" />
 
             <ImageView
                 android:id="@+id/imageView4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="160dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
+                tools:srcCompat="@tools:sample/avatars"
+                />
+            <ImageView
+                android:id="@+id/imageView41"
+                android:layout_width="10dp"
+                android:layout_height="80dp"
                 tools:srcCompat="@tools:sample/avatars" />
         </LinearLayout>
     </LinearLayout>
