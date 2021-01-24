@@ -12,7 +12,6 @@
         android:background="@drawable/pole"
         tools:ignore="MissingConstraints"
         android:orientation="vertical"
-
         >
         <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -28,9 +27,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-
         >
+        <ImageView
+            android:paddingTop="85dp"
+            android:layout_gravity="center"
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/ic_icon"
+            />
+
 
         <TextView
             android:id="@+id/textViewWeather"

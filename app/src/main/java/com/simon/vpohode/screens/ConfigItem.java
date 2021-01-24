@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Space;
@@ -55,6 +56,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
+    LinearLayout layoutTop;
     Space x;
     boolean newImage = false;
     boolean newColor = false;
@@ -66,6 +68,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+        layoutTop = findViewById(R.id.layoutTop);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -125,7 +128,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 }
             }else{
                 radGrpTop.check(R.id.bottom);
-                radGrpLayer.setVisibility(View.GONE);
+                layoutTop.setVisibility(View.GONE);
             }
 
             userCursor.close();
@@ -266,9 +269,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 RadioButton bot = radioGroup.findViewById(R.id.bottom);
                 boolean isChecked = bot.isChecked();
                 if(isChecked){
-                    radGrpLayer.setVisibility(View.GONE);
+                    layoutTop.setVisibility(View.GONE);
                 } else {
-                    radGrpLayer.setVisibility(View.VISIBLE);
+                    layoutTop.setVisibility(View.VISIBLE);
                 }
             }
         });

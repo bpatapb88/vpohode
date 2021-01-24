@@ -97,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         Intent intent;
         if(prefs.getString("show","carusel").equals("carusel")){
-            intent = new Intent(this, TestActivity.class);
+            //intent = new Intent(this, TestActivity.class);
+            intent = new Intent(this, LooksActivity.class);
         }else{
             intent = new Intent(this, LooksActivity.class);
         }
