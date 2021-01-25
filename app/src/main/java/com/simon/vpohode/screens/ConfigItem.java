@@ -365,6 +365,4 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setMultiTouchEnabled(true)
                 .start(this);
     }
-
-
 }

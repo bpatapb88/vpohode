@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import androidx.preference.PreferenceManager;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Rules;
@@ -57,26 +58,7 @@ public class LookManager {
                                      top < max &&
                                      bot > min &&
                                      bot < max) {
-
-                                 Item[] look = new Item[layers + 1];
-                                 look[0] = new Item(botItems.getInt(botItems.getColumnIndex("_id")),
-                                         botItems.getString(botItems.getColumnIndex("name")),
-                                         botItems.getString(botItems.getColumnIndex("style")),
-                                         botItems.getInt(botItems.getColumnIndex("istop")),
-                                         botItems.getDouble(botItems.getColumnIndex("termindex")),
-                                         botItems.getInt(botItems.getColumnIndex("layer")),
-                                         botItems.getInt(botItems.getColumnIndex("color")),
-                                         botItems.getString(botItems.getColumnIndex("foto")));
-                                 look[1] = new Item(topItems.getInt(botItems.getColumnIndex("_id")),
-                                         topItems.getString(botItems.getColumnIndex("name")),
-                                         topItems.getString(botItems.getColumnIndex("style")),
-                                         topItems.getInt(botItems.getColumnIndex("istop")),
-                                         topItems.getDouble(botItems.getColumnIndex("termindex")),
-                                         topItems.getInt(botItems.getColumnIndex("layer")),
-                                         topItems.getInt(botItems.getColumnIndex("color")),
-                                         topItems.getString(botItems.getColumnIndex("foto")));
-
-                                 result.add(look);
+                                 result.add(itemCursorToArray(new Cursor[]{topItems, botItems},layers));
                              }
 
                          }while (topItems.moveToNext());
@@ -97,32 +79,7 @@ public class LookManager {
                                      bot = botItems.getDouble(4);
                                      if(bot > min & bot < max & top > min & top < max)
                                      {
-                                         Item[] look = new Item[layers + 1];
-                                         look[0] = new Item(botItems.getInt(botItems.getColumnIndex("_id")),
-                                                 botItems.getString(botItems.getColumnIndex("name")),
-                                                 botItems.getString(botItems.getColumnIndex("style")),
-                                                 botItems.getInt(botItems.getColumnIndex("istop")),
-                                                 botItems.getDouble(botItems.getColumnIndex("termindex")),
-                                                 botItems.getInt(botItems.getColumnIndex("layer")),
-                                                 botItems.getInt(botItems.getColumnIndex("color")),
-                                                 botItems.getString(botItems.getColumnIndex("foto")));
-                                         look[1] = new Item(topItems.getInt(topItems.getColumnIndex("_id")),
-                                                 topItems.getString(topItems.getColumnIndex("name")),
-                                                 topItems.getString(topItems.getColumnIndex("style")),
-                                                 topItems.getInt(topItems.getColumnIndex("istop")),
-                                                 topItems.getDouble(topItems.getColumnIndex("termindex")),
-                                                 topItems.getInt(topItems.getColumnIndex("layer")),
-                                                 topItems.getInt(topItems.getColumnIndex("color")),
-                                                 topItems.getString(topItems.getColumnIndex("foto")));
-                                         look[2] = new Item(topItems2.getInt(topItems2.getColumnIndex("_id")),
-                                                 topItems2.getString(topItems2.getColumnIndex("name")),
-                                                 topItems2.getString(topItems2.getColumnIndex("style")),
-                                                 topItems2.getInt(topItems2.getColumnIndex("istop")),
-                                                 topItems2.getDouble(topItems2.getColumnIndex("termindex")),
-                                                 topItems2.getInt(topItems2.getColumnIndex("layer")),
-                                                 topItems2.getInt(topItems2.getColumnIndex("color")),
-                                                 topItems2.getString(topItems2.getColumnIndex("foto")));
-                                         result.add(look);
+                                         result.add(itemCursorToArray(new Cursor[]{topItems, topItems2, botItems},layers));
                                      }
                                  }while(topItems2.moveToNext());
                                 }
@@ -143,6 +100,8 @@ public class LookManager {
                                     do{
                                         if(topItems3.moveToFirst()){
                                             do{
+
+
                                                 bot = botItems.getDouble(botItems.getColumnIndex("termindex"));
                                                 top = (topItems.getDouble(topItems.getColumnIndex("termindex")) +
                                                         topItems2.getDouble(topItems2.getColumnIndex("termindex"))+
@@ -164,80 +123,11 @@ public class LookManager {
                                                             topItems.getInt(topItems.getColumnIndex("color")),
                                                             topItems2.getInt(topItems.getColumnIndex("color")),
                                                             topItems3.getInt(topItems.getColumnIndex("color"))})){
-                                                        Item[] look = new Item[layers + 1];
 
-                                                        look[0] = new Item(topItems.getInt(topItems.getColumnIndex("_id")),
-                                                                topItems.getString(topItems.getColumnIndex("name")),
-                                                                topItems.getString(topItems.getColumnIndex("style")),
-                                                                topItems.getInt(topItems.getColumnIndex("istop")),
-                                                                topItems.getDouble(topItems.getColumnIndex("termindex")),
-                                                                topItems.getInt(topItems.getColumnIndex("layer")),
-                                                                topItems.getInt(topItems.getColumnIndex("color")),
-                                                                topItems.getString(topItems.getColumnIndex("foto")));
-                                                        look[1] = new Item(topItems2.getInt(topItems2.getColumnIndex("_id")),
-                                                                topItems2.getString(topItems2.getColumnIndex("name")),
-                                                                topItems2.getString(topItems2.getColumnIndex("style")),
-                                                                topItems2.getInt(topItems2.getColumnIndex("istop")),
-                                                                topItems2.getDouble(topItems2.getColumnIndex("termindex")),
-                                                                topItems2.getInt(topItems2.getColumnIndex("layer")),
-                                                                topItems2.getInt(topItems2.getColumnIndex("color")),
-                                                                topItems2.getString(topItems2.getColumnIndex("foto")));
-                                                        look[2] = new Item(topItems3.getInt(topItems3.getColumnIndex("_id")),
-                                                                topItems3.getString(topItems3.getColumnIndex("name")),
-                                                                topItems3.getString(topItems3.getColumnIndex("style")),
-                                                                topItems3.getInt(topItems3.getColumnIndex("istop")),
-                                                                topItems3.getDouble(topItems3.getColumnIndex("termindex")),
-                                                                topItems3.getInt(topItems3.getColumnIndex("layer")),
-                                                                topItems3.getInt(topItems3.getColumnIndex("color")),
-                                                                topItems3.getString(topItems3.getColumnIndex("foto")));
-                                                        look[3] = new Item(botItems.getInt(botItems.getColumnIndex("_id")),
-                                                                botItems.getString(botItems.getColumnIndex("name")),
-                                                                botItems.getString(botItems.getColumnIndex("style")),
-                                                                botItems.getInt(botItems.getColumnIndex("istop")),
-                                                                botItems.getDouble(botItems.getColumnIndex("termindex")),
-                                                                botItems.getInt(botItems.getColumnIndex("layer")),
-                                                                botItems.getInt(botItems.getColumnIndex("color")),
-                                                                botItems.getString(botItems.getColumnIndex("foto")));
-
-                                                        result.add(look);
+                                                        result.add(itemCursorToArray(new Cursor[]{topItems, topItems2, topItems3, botItems},layers));
                                                     }
                                                 }else{
-                                                    Item[] look = new Item[layers + 1];
-
-                                                    look[0] = new Item(topItems.getInt(topItems.getColumnIndex("_id")),
-                                                            topItems.getString(topItems.getColumnIndex("name")),
-                                                            topItems.getString(topItems.getColumnIndex("style")),
-                                                            topItems.getInt(topItems.getColumnIndex("istop")),
-                                                            topItems.getDouble(topItems.getColumnIndex("termindex")),
-                                                            topItems.getInt(topItems.getColumnIndex("layer")),
-                                                            topItems.getInt(topItems.getColumnIndex("color")),
-                                                            topItems.getString(topItems.getColumnIndex("foto")));
-                                                    look[1] = new Item(topItems2.getInt(topItems2.getColumnIndex("_id")),
-                                                            topItems2.getString(topItems2.getColumnIndex("name")),
-                                                            topItems2.getString(topItems2.getColumnIndex("style")),
-                                                            topItems2.getInt(topItems2.getColumnIndex("istop")),
-                                                            topItems2.getDouble(topItems2.getColumnIndex("termindex")),
-                                                            topItems2.getInt(topItems2.getColumnIndex("layer")),
-                                                            topItems2.getInt(topItems2.getColumnIndex("color")),
-                                                            topItems2.getString(topItems2.getColumnIndex("foto")));
-                                                    look[2] = new Item(topItems3.getInt(topItems3.getColumnIndex("_id")),
-                                                            topItems3.getString(topItems3.getColumnIndex("name")),
-                                                            topItems3.getString(topItems3.getColumnIndex("style")),
-                                                            topItems3.getInt(topItems3.getColumnIndex("istop")),
-                                                            topItems3.getDouble(topItems3.getColumnIndex("termindex")),
-                                                            topItems3.getInt(topItems3.getColumnIndex("layer")),
-                                                            topItems3.getInt(topItems3.getColumnIndex("color")),
-                                                            topItems3.getString(topItems3.getColumnIndex("foto")));
-                                                    look[3] = new Item(botItems.getInt(botItems.getColumnIndex("_id")),
-                                                            botItems.getString(botItems.getColumnIndex("name")),
-                                                            botItems.getString(botItems.getColumnIndex("style")),
-                                                            botItems.getInt(botItems.getColumnIndex("istop")),
-                                                            botItems.getDouble(botItems.getColumnIndex("termindex")),
-                                                            botItems.getInt(botItems.getColumnIndex("layer")),
-                                                            botItems.getInt(botItems.getColumnIndex("color")),
-                                                            botItems.getString(botItems.getColumnIndex("foto")));
-
-                                                    result.add(look);
+                                                        result.add(itemCursorToArray(new Cursor[]{topItems, topItems2, topItems3, botItems},layers));
                                                 }
                                             }
                                         }
@@ -265,6 +155,21 @@ public class LookManager {
         if(!accuracy.equals(0.5)){
             Rules.ACCURACY = Double.valueOf(accuracy);
         }
+    }
+
+    private static Item[] itemCursorToArray(Cursor[] cursors, Integer layers){
+        Item[] look = new Item[layers + 1];
+        for(int i = 0; i < layers+1; i++){
+            look[i] = new Item(cursors[i].getInt(cursors[i].getColumnIndex("_id")),
+                    cursors[i].getString(cursors[i].getColumnIndex("name")),
+                    cursors[i].getString(cursors[i].getColumnIndex("style")),
+                    cursors[i].getInt(cursors[i].getColumnIndex("istop")),
+                    cursors[i].getDouble(cursors[i].getColumnIndex("termindex")),
+                    cursors[i].getInt(cursors[i].getColumnIndex("layer")),
+                    cursors[i].getInt(cursors[i].getColumnIndex("color")),
+                    cursors[i].getString(cursors[i].getColumnIndex("foto")));
+        }
+        return look;
     }
 
 }
