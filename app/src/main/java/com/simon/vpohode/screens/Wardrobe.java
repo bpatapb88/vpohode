@@ -95,12 +95,12 @@ public class Wardrobe extends AppCompatActivity {
         topItemAdapter = LayoutManager.configListOfItems(this,db,1);
         topItemList.setAdapter(topItemAdapter);
         // How many items in top?
-        countTop.setText("На плечи: " + topItemAdapter.getCursor().getCount());
+        countTop.setText("Вещей на верх: " + topItemAdapter.getCursor().getCount());
 
         bottomItemAdapter = LayoutManager.configListOfItems(this,db,0);
         bottomItemList.setAdapter(bottomItemAdapter);
         // How many items in bottom?
-        countBot.setText("На ноги: " + bottomItemAdapter.getCursor().getCount());
+        countBot.setText("Вещей на низ: " + bottomItemAdapter.getCursor().getCount());
 
     }
     @Override

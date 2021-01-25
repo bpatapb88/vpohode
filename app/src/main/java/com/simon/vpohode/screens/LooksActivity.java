@@ -140,7 +140,7 @@ public class LooksActivity extends AppCompatActivity {
         title.setText("Мы подобрали для вас: " + (showinglook+1) + "/" + size);
 
         TextView[] textViews = {textView1,textView2,textView3,textView4};
-        ImageView[] imageViewsFoto = {imageView1,imageView1,imageView1,imageView1};
+        ImageView[] imageViewsFoto = {imageView1,imageView2,imageView3,imageView4};
         ImageView[] imageViewsColor = {imageView11,imageView21,imageView31,imageView41};
 
         for(int i = 0; i < look.length; i++){
