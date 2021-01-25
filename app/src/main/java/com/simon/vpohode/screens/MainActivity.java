@@ -95,26 +95,17 @@ public class MainActivity extends AppCompatActivity {
     public void onClickShowItems (View view){
         //Intent intent = new Intent(this, ShowItems.class);
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
-        Intent intent;
-        if(prefs.getString("show","carusel").equals("carusel")){
-            //intent = new Intent(this, TestActivity.class);
-            intent = new Intent(this, LooksActivity.class);
-        }else{
-            intent = new Intent(this, LooksActivity.class);
-        }
+        Intent intent = new Intent(this, LooksActivity.class);
+
         Double temp = 1000d;
         try {
             temp = Double.valueOf(prefs.getString("temp", "1000"));
         }catch (NumberFormatException e){
-            Log.i("TemperatureNow","temp = " + temp + " , avgTempertureCel = " + avgTempertureCel);
-
             e.printStackTrace();
         }
         if(temp != 1000){
             avgTempertureCel = temp;
-            Log.i("TemperatureNow","temp = " + temp + " , avgTempertureCel = " + avgTempertureCel);
         }
-
         intent.putExtra("term", avgTempertureCel);
         startActivity(intent);
     }
@@ -159,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
             String mainTem0 ="";
             String mainTem1 = "";
             String description = "";
-            Log.i("Post Execute test ","input " + s);
             try {
                     final JSONObject jsonObject = new JSONObject(s);
                     final JSONArray jsonArray = jsonObject.getJSONArray("list");
@@ -174,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
                     mainTem0 = main0.getString("feels_like");
                     JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");
                     mainTem1 = main1.getString("feels_like");
-                    Log.i("test temperature ","main0=" + mainTem0 + ", main1=" + mainTem1);
         } catch (JSONException e) {
             e.printStackTrace();
         }

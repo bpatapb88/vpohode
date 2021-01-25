@@ -38,48 +38,31 @@ public class CustomAdapter extends CursorAdapter {
     public void bindView(View v, Context context, Cursor c) {
         String name = c.getString(c.getColumnIndexOrThrow("name"));
         String style = c.getString(c.getColumnIndexOrThrow("style"));
-        Double termindex = c.getDouble(c.getColumnIndexOrThrow("termindex"));
         Integer istop = c.getInt(c.getColumnIndexOrThrow("istop"));
         Integer layer = c.getInt(c.getColumnIndexOrThrow("layer"));
-
-        /**
-         * Next set the title of the entry.
-         */
 
         TextView name_text = (TextView) v.findViewById(R.id.text1);
         if (name_text != null) {
             name_text.setText(name);
         }
 
-        /**
-         * Set Date
-         */
-
         TextView style_text = (TextView) v.findViewById(R.id.text3);
         if (style_text != null) {
             style_text.setText(style);
         }
 
-        /*TextView termindex_text = (TextView) v.findViewById(R.id.text2);
-        if (termindex_text != null) {
-            termindex_text.setText("termindex - " + layer);
-        }*/
-
-        /**
-         * Decide if we should display the paper clip icon denoting image attachment
-         */
         ImageView item_image = (ImageView) v.findViewById(R.id.imageView);
-        if(layer == 1){
-            item_image.setImageResource(R.drawable.ic_layer1);
-        }else if(layer == 2){
-            item_image.setImageResource(R.drawable.ic_layer2);
+        if(istop == 0){
+            item_image.setImageResource(R.drawable.ic_layer3_bot);
         }else{
-            if(istop == 1){
-                item_image.setImageResource(R.drawable.ic_layer3);
+            if(layer == 1){
+                item_image.setImageResource(R.drawable.ic_layer1);
+            }else if(layer == 2){
+                item_image.setImageResource(R.drawable.ic_layer2);
             }else{
-                item_image.setImageResource(R.drawable.ic_layer3_bot);
+                item_image.setImageResource(R.drawable.ic_layer3);
             }
-
         }
+
     }
 }

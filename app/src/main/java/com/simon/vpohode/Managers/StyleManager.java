@@ -1,7 +1,6 @@
 package com.simon.vpohode.Managers;
 
 import android.content.SharedPreferences;
-
 import java.util.ArrayList;
 
 public class StyleManager {

@@ -28,5 +28,6 @@
     <string name="scroll">scroll to </string>
     <string name="looks">Какие стили подбирать</string>
     <string name="developer">Для разработчиков</string>
+    <string name="accuracy">Разброс</string>
     <string name="lookpage">Мы подобрали для вас: </string>
 </resources>

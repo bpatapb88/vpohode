@@ -47,37 +47,41 @@
             android:text="Погода Сейчас" />
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
-
+            android:padding="5dp"
             >
             <Button
                 android:id="@+id/button"
                 android:text="Гардероб"
                 android:onClick="goToWardrobe"
+                app:icon="@drawable/ic_wardrobe"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="@android:color/secondary_text_light"
                 android:fontFamily="monospace"
+                android:layout_weight="1"
+                android:padding="16dp"
+                android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
-                app:icon="@drawable/ic_wardrobe"
+
                 />
 <Space
-    android:layout_width="40dp"
+    android:layout_width="20dp"
     android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/button2"
                 android:text="Подобрать"
                 android:onClick="onClickShowItems"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="monospace"
+                android:layout_weight="1"
+                android:padding="16dp"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
                 app:icon="@drawable/ic_look"

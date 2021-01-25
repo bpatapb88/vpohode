@@ -34,7 +34,7 @@ public class LooksActivity extends AppCompatActivity {
     private Integer showinglook = 0;
     private ImageView imageView1,imageView2,imageView3,imageView4, imageView11, imageView21, imageView31, imageView41;
     private LinearLayout item3,item4;
-    private Toast mToast;
+
 
 
 
@@ -75,6 +75,9 @@ public class LooksActivity extends AppCompatActivity {
         final ArrayList<Item[]> looks = LookManager.getLooks(term, getApplicationContext());
         if(looks.size() > 0) {
             fillLook(looks.get(0),looks.size(),context);
+        }else{
+            Toast.makeText(this, "Нет подходящего набора", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         next.setOnClickListener(new View.OnClickListener() {
@@ -136,60 +139,26 @@ public class LooksActivity extends AppCompatActivity {
     public void fillLook (final Item[] look, Integer size, final Context context){
         title.setText("Мы подобрали для вас: " + (showinglook+1) + "/" + size);
 
+        TextView[] textViews = {textView1,textView2,textView3,textView4};
+        ImageView[] imageViewsFoto = {imageView1,imageView1,imageView1,imageView1};
+        ImageView[] imageViewsColor = {imageView11,imageView21,imageView31,imageView41};
+
+        for(int i = 0; i < look.length; i++){
+            textViews[i].setText(look[i].getName() + " style " + look[i].getStyle());
+            if(look[i].getFoto() != null){
+                imageViewsFoto[i].setImageURI(Uri.parse(look[i].getFoto()));
+            }
+            imageViewsFoto[i].setOnClickListener(setListener(context,look[i].getId()));
+            imageViewsColor[i].setBackgroundColor(look[i].getColor());
+        }
+
         switch (look.length){
             case 2:
-                textView1.setText(look[0].getName() + " style " + look[0].getStyle());
-                imageView1.setImageURI(Uri.parse(look[0].getFoto()));
-                imageView1.setOnClickListener(setListener(context,look[0].getId()));
-                imageView11.setBackgroundColor(look[0].getColor());
-
-                textView2.setText(look[1].getName() + " style " + look[1].getStyle());
-                imageView2.setImageURI(Uri.parse(look[1].getFoto()));
-                imageView2.setOnClickListener(setListener(context,look[1].getId()));
-                imageView21.setBackgroundColor(look[1].getColor());
-
                 item3.setVisibility(View.GONE);
                 item4.setVisibility(View.GONE);
                 break;
             case 3:
-                textView1.setText(look[0].getName() + " style " + look[0].getStyle());
-                imageView1.setImageURI(Uri.parse(look[0].getFoto()));
-                imageView1.setOnClickListener(setListener(context,look[0].getId()));
-                imageView11.setBackgroundColor(look[0].getColor());
-
-                textView2.setText(look[1].getName() + " style " + look[1].getStyle());
-                imageView2.setImageURI(Uri.parse(look[1].getFoto()));
-                imageView2.setOnClickListener(setListener(context,look[1].getId()));
-                imageView21.setBackgroundColor(look[1].getColor());
-
-                textView3.setText(look[2].getName() + " style " + look[2].getStyle());
-                imageView3.setImageURI(Uri.parse(look[2].getFoto()));
-                imageView3.setOnClickListener(setListener(context,look[2].getId()));
-                imageView31.setBackgroundColor(look[2].getColor());
-
                 item4.setVisibility(View.GONE);
-                break;
-            case 4:
-                textView1.setText(look[0].getName() + " style " + look[0].getStyle());
-                imageView1.setImageURI(Uri.parse(look[0].getFoto()));
-                imageView1.setOnClickListener(setListener(context,look[0].getId()));
-                imageView11.setBackgroundColor(look[0].getColor());
-
-                textView2.setText(look[1].getName() + " style " + look[1].getStyle());
-                imageView2.setImageURI(Uri.parse(look[1].getFoto()));
-                imageView2.setOnClickListener(setListener(context,look[1].getId()));
-                imageView21.setBackgroundColor(look[1].getColor());
-
-                textView3.setText(look[2].getName() + " style " + look[2].getStyle());
-                imageView3.setImageURI(Uri.parse(look[2].getFoto()));
-                imageView3.setOnClickListener(setListener(context,look[2].getId()));
-                imageView31.setBackgroundColor(look[2].getColor());
-
-                textView4.setText(look[3].getName() + " style " + look[3].getStyle());
-                imageView4.setImageURI(Uri.parse(look[3].getFoto()));
-                imageView4.setOnClickListener(setListener(context,look[3].getId()));
-                imageView41.setBackgroundColor(look[3].getColor());
-
                 break;
         }
     }

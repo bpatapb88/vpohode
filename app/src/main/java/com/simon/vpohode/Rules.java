@@ -1,13 +1,23 @@
 package com.simon.vpohode;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.view.View;
+
+import androidx.preference.PreferenceManager;
+
+import com.simon.vpohode.screens.ConfigItem;
+import com.simon.vpohode.screens.LooksActivity;
+
 public class Rules {
+
     public static final int MAX_TEMPER = 33;
 
     //step
     public static final double COEFFICIENT = 4;
 
     //точность
-    public static final double ACCURACY = 0.5;
+    public static double ACCURACY = 0.5;
 
     public static int getLayers(double temp){
         int layers = 0;

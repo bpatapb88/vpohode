@@ -116,7 +116,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             //textcolor.setTextColor(userCursor.getInt(6));
             textcolor.setBackgroundColor(userCursor.getInt(6));
             textcolor.setText("#" + (Integer.toHexString(userCursor.getInt(6)).substring(2).toUpperCase()));
-            imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
+            if(userCursor.getString(7) != null){
+                imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
+            }
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
                 if(userCursor.getInt(5) == 1){
@@ -143,39 +145,54 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.save){
-
-                    if(nameBox.getText().equals("") || termidBox.getText().equals("")) {
-                        Log.i("allisnotok","namebox = " + nameBox.getText() + " termid = " + termidBox.getText() + " textcolor = "
-                        + textcolor.getCurrentTextColor());
+                    if(nameBox.getText().toString().equals("")) {
+                        Toast.makeText(getApplicationContext(), "Имя не выбрано", Toast.LENGTH_SHORT).show();
+                    }else if(textcolor.getText().toString().equals("Цвет не выбран")) {
+                        Toast.makeText(getApplicationContext(), "Цвет не выбран", Toast.LENGTH_SHORT).show();
+                    }else if(termidBox.getText().toString().equals("")){
+                        Toast.makeText(getApplicationContext(), "Заполните уровень теплоты 0.1 - 10", Toast.LENGTH_SHORT).show();
                     }else {
-                        Log.i("allisok", "namebox = " + nameBox.getText() + " termid = " + termidBox.getText() + " textcolor = "
-                                + textcolor.getCurrentTextColor());
                         ContentValues cv = new ContentValues();
                         cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
                         cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
                         cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
                         if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
                             cv.put(DBFields.ISTOP.toFieldName(), 1);
-                        } else {
+                        } else if(radGrpTop.getCheckedRadioButtonId() == R.id.bottom){
                             cv.put(DBFields.ISTOP.toFieldName(), 0);
+                        }else{
+                            Toast.makeText(getApplicationContext(), "Выберете на верх или низ", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                         if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer1) {
                             cv.put(DBFields.LAYER.toFieldName(), 1);
                         } else if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer2) {
                             cv.put(DBFields.LAYER.toFieldName(), 2);
-                        } else {
+                        } else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer3){
+                            cv.put(DBFields.LAYER.toFieldName(), 3);
+                        }else{
+                            if(radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                                Toast.makeText(getApplicationContext(), "Выберете слой", Toast.LENGTH_SHORT).show();
+                                return false;
+                            }
                             cv.put(DBFields.LAYER.toFieldName(), 3);
                         }
                         if (newColor)
                             cv.put(DBFields.COLOR.toFieldName(), textcolor.getCurrentTextColor());
 
                         //save image if image was changed or new
+                        if(imageItem.getDrawable() == null)
+                        {
+                            Toast.makeText(getApplicationContext(), "Добавьте фото", Toast.LENGTH_SHORT).show();
+                            return false;
+                        }
+
                         if (newImage) {
                             if (userId > 0) {
                                 ImageManager.deleteImagesById(userId, db);
                             }
-                            Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
-                            cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
+                                Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
+                                cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
                         }
 
                         // update or insert DB
@@ -197,14 +214,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.startPickImageActivity(ConfigItem.this);
+                //CropImage.startPickImageActivity(ConfigItem.this);
             }
         });
-
         btReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                imageItem.setImageResource(0);
+                CropImage.startPickImageActivity(ConfigItem.this);
+                //imageItem.setImageResource(0);
             }
         });
     }
@@ -343,11 +360,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
     }
     private void startCrop(Uri imageuri) {
-
         CropImage.activity(imageuri)
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMinCropResultSize(2000,2000)
-                .setMaxCropResultSize(2000,2000)
                 .setMultiTouchEnabled(true)
                 .start(this);
     }

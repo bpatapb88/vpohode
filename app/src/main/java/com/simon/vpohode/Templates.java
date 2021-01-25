@@ -22,58 +22,58 @@ public enum Templates {
     }
 
     public static Item fillTemplate (int input){
-        Item x = new Item();
+        Item templateOfItem = new Item();
         switch (input){
             case 1:
-                x.setName("Футболка");
-                x.setTermid(1d);
-                x.setStyle(Styles.CASUAL.toString());
-                x.setTop(0);
-                x.setLayer(1);
+                templateOfItem.setName("Футболка");
+                templateOfItem.setTermid(1d);
+                templateOfItem.setStyle(Styles.CASUAL.toString());
+                templateOfItem.setTop(0);
+                templateOfItem.setLayer(1);
                 break;
             case 2:
-                x.setName("Рубашка");
-                x.setTermid(2d);
-                x.setStyle(Styles.BUSINESS.toString());
-                x.setTop(0);
-                x.setLayer(1);
+                templateOfItem.setName("Рубашка");
+                templateOfItem.setTermid(2d);
+                templateOfItem.setStyle(Styles.BUSINESS.toString());
+                templateOfItem.setTop(0);
+                templateOfItem.setLayer(1);
                 break;
             case 3:
-                x.setName("Кофта");
-                x.setTermid(4d);
-                x.setStyle(Styles.CASUAL.toString());
-                x.setTop(0);
-                x.setLayer(2);
+                templateOfItem.setName("Кофта");
+                templateOfItem.setTermid(4d);
+                templateOfItem.setStyle(Styles.CASUAL.toString());
+                templateOfItem.setTop(0);
+                templateOfItem.setLayer(2);
                 break;
             case 4:
-                x.setName("Штаны");
-                x.setTermid(2d);
-                x.setStyle(Styles.CASUAL.toString());
-                x.setTop(1);
+                templateOfItem.setName("Штаны");
+                templateOfItem.setTermid(2d);
+                templateOfItem.setStyle(Styles.CASUAL.toString());
+                templateOfItem.setTop(1);
                 break;
             case 5:
-                x.setName("Джинсы");
-                x.setTermid(2d);
-                x.setStyle(Styles.CASUAL.toString());
-                x.setTop(1);
+                templateOfItem.setName("Джинсы");
+                templateOfItem.setTermid(2d);
+                templateOfItem.setStyle(Styles.CASUAL.toString());
+                templateOfItem.setTop(1);
                 break;
             case 6:
-                x.setName("Осеняя куртка");
-                x.setTermid(5d);
-                x.setStyle(Styles.CASUAL.toString());
-                x.setTop(0);
-                x.setLayer(3);
+                templateOfItem.setName("Осеняя куртка");
+                templateOfItem.setTermid(6d);
+                templateOfItem.setStyle(Styles.CASUAL.toString());
+                templateOfItem.setTop(0);
+                templateOfItem.setLayer(3);
                 break;
             case 7:
-                x.setName("Пальто");
-                x.setTermid(6d);
-                x.setStyle(Styles.CASUAL.toString());
-                x.setTop(0);
-                x.setLayer(3);
+                templateOfItem.setName("Пальто");
+                templateOfItem.setTermid(5d);
+                templateOfItem.setStyle(Styles.CASUAL.toString());
+                templateOfItem.setTop(0);
+                templateOfItem.setLayer(3);
                 break;
             // Шаблоны можно добавить тут + добавить имя в spinnerTemplate - --- - - - - --
         }
-        return x;
+        return templateOfItem;
 
     }
 

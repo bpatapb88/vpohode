@@ -27,23 +27,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="5dp"
         >
         <TextView
             android:id="@+id/header"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="29dp"
+            android:paddingLeft="10dp"
             android:textSize="18dp"
-            android:text="На плечи:"
+            android:text="Вещей на верх:"
             />
 
         <TextView
+            android:paddingLeft="10dp"
             android:id="@+id/header2"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="29dp"
             android:textSize="18dp"
-            android:text="На ноги:"
+            android:text="Вещей на низ:"
             />
     </LinearLayout>
     <LinearLayout

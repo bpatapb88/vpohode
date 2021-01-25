@@ -41,7 +41,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.littlemango:stacklayoutmanager:1.0.5'
+
     api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

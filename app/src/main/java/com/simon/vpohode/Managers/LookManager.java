@@ -4,13 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import androidx.preference.PreferenceManager;
-
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Rules;
-import com.simon.vpohode.StackLayoutAdapter;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -18,7 +14,7 @@ import java.util.ArrayList;
 public class LookManager {
 
     public static double getInterval(double temp){
-        double result = 0;
+        double result;
         if(temp >= 20){
             result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT);
         }else if(temp >= 9){
@@ -29,45 +25,14 @@ public class LookManager {
         return result;
     }
 
-    public static double getTopIndex(Cursor input, Double currentTemperature){
-        double min = Integer.MAX_VALUE;
-        double bestTopIndex = 0;
-        int layers = Rules.getLayers(currentTemperature);
-
-        if (input.moveToFirst()){
-            do {
-                double x = Math.abs((Rules.MAX_TEMPER - currentTemperature)/(Rules.COEFFICIENT*layers) - input.getDouble(input.getColumnIndex("termindex")));
-                if (min > x) {
-                    min = x;
-                    bestTopIndex = input.getDouble(input.getColumnIndex("termindex"));
-                }
-            }
-            while (input.moveToNext());
-        }
-        return bestTopIndex;
-    }
-
-    public static double getBotIndex(Cursor input, Double currentTemperature){
-        double min = Integer.MAX_VALUE;
-        double bestBottomIndex = 0;
-        if (input.moveToFirst()){
-            do {
-                double x = Math.abs((Rules.MAX_TEMPER - currentTemperature)/3 - input.getDouble(input.getColumnIndex("termindex")));
-                if (min > x) {
-                    min = x;
-                    bestBottomIndex = input.getDouble(input.getColumnIndex("termindex"));
-                }
-            }
-            while (input.moveToNext());
-        }
-        return bestBottomIndex;
-    }
-
     public static ArrayList<Item[]> getLooks(double temp, Context context){
 
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
+
+        setAccurancy(prefs);
+
         ArrayList<Item[]> result = new ArrayList<>();
         Cursor botItems,topItems,topItems2,topItems3;
 
@@ -293,6 +258,13 @@ public class LookManager {
         topItems.close();
         db.close();
         return result;
+    }
+
+    private static void setAccurancy(SharedPreferences prefs) {
+        String accuracy = prefs.getString("accuracy","0.5");
+        if(!accuracy.equals(0.5)){
+            Rules.ACCURACY = Double.valueOf(accuracy);
+        }
     }
 
 }

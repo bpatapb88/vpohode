@@ -61,5 +61,10 @@
             app:key="temp"
             app:title="@string/temp"
             app:useSimpleSummaryProvider="true" />
+        <EditTextPreference
+            app:key="accuracy"
+            app:title="@string/accuracy"
+            app:defaultValue="0.5"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 </PreferenceScreen>
