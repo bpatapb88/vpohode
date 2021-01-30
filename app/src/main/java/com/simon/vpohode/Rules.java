@@ -19,11 +19,20 @@ public class Rules {
     //точность
     public static double ACCURACY = 0.5;
 
-    public static int getLayers(double temp){
+    public static int getLayersTop(double temp){
         int layers = 0;
         if(temp >= 20){
             layers = 1;
         }else if(temp >= 9){
+            layers = 2;
+        }else{
+            layers = 3;
+        }
+        return layers;
+    }
+    public static int getLayersBot(double temp){
+        int layers = 0;
+        if(temp >= 5){
             layers = 2;
         }else{
             layers = 3;

@@ -26,6 +26,70 @@ public class LookManager {
         return result;
     }
 
+
+    public static ArrayList<Item[]> getLooksNew(double temp, Context context){
+        ArrayList<Item[]> result = new ArrayList<>();
+        ArrayList<Item[]> topItems = new ArrayList<>();
+        ArrayList<Item> botItems = new ArrayList<>();
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
+        setAccurancy(prefs);
+
+        double min = getInterval(temp) - Rules.ACCURACY;
+        double max = getInterval(temp) + Rules.ACCURACY;
+        double top;
+        double bot;
+        int topLayers = Rules.getLayersTop(temp); // 1-3
+        int botLayers = Rules.getLayersTop(temp); // 2-3
+
+        Cursor[] topCursors = new Cursor[3];
+
+        for(int i=0; i < topLayers; i++){
+            topCursors[i] = DatabaseHelper.getCursoreByIsTop(db,1,i+1);
+        }
+
+        if(topCursors[0].moveToFirst()){
+            do{
+                if(topCursors[1].moveToFirst()){
+                    do{
+                        if(topCursors[2].moveToFirst()){
+                           do{
+                               top = (topCursors[0].getDouble(topCursors[0].getColumnIndex("termindex")) +
+                                       topCursors[1].getDouble(topCursors[1].getColumnIndex("termindex"))+
+                                       topCursors[2].getDouble(topCursors[2].getColumnIndex("termindex")))/3;
+                               if(top > min &&
+                                       top < max){
+                                   topItems.add(new Item[]{cursorToItem(topCursors[0]),cursorToItem(topCursors[1]),cursorToItem(topCursors[2])});
+                               }
+                           }while (topCursors[2].moveToNext());
+                        }else{
+                                top = (topCursors[0].getDouble(topCursors[0].getColumnIndex("termindex")) +
+                                    topCursors[1].getDouble(topCursors[1].getColumnIndex("termindex")))/2;
+                            if(top > min &&
+                                    top < max){
+                                topItems.add(new Item[]{cursorToItem(topCursors[0]),cursorToItem(topCursors[1])});
+                            }
+                        }
+                    }while(topCursors[1].moveToNext());
+                }else{
+                    top = topCursors[0].getDouble(topCursors[0].getColumnIndex("termindex"));
+                    if(top > min &&
+                            top < max){
+                        topItems.add(new Item[]{cursorToItem(topCursors[0])});
+                    }
+                }
+            }while (topCursors[0].moveToNext());
+        }
+
+
+        for(Cursor cursor: topCursors){
+            cursor.close();
+        }
+
+        return topItems;
+    }
+
     public static ArrayList<Item[]> getLooks(double temp, Context context){
 
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
@@ -37,7 +101,7 @@ public class LookManager {
         ArrayList<Item[]> result = new ArrayList<>();
         Cursor botItems,topItems,topItems2,topItems3;
 
-        int layers = Rules.getLayers(temp);
+        int layers = Rules.getLayersTop(temp);
         double min = getInterval(temp) - Rules.ACCURACY;
         double max = getInterval(temp) + Rules.ACCURACY;
         double top;
@@ -170,6 +234,19 @@ public class LookManager {
                     cursors[i].getString(cursors[i].getColumnIndex("foto")));
         }
         return look;
+    }
+
+    private static Item cursorToItem(Cursor cursors){
+        Item item = new Item(cursors.getInt(cursors.getColumnIndex("_id")),
+                    cursors.getString(cursors.getColumnIndex("name")),
+                    cursors.getString(cursors.getColumnIndex("style")),
+                    cursors.getInt(cursors.getColumnIndex("istop")),
+                    cursors.getDouble(cursors.getColumnIndex("termindex")),
+                    cursors.getInt(cursors.getColumnIndex("layer")),
+                    cursors.getInt(cursors.getColumnIndex("color")),
+                    cursors.getString(cursors.getColumnIndex("foto")));
+
+        return item;
     }
 
 }

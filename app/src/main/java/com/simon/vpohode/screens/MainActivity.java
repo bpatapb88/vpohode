@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 if (avgTempertureCel >= 0) {
                     ifPlus = "+";
                 }
-                final String outputWeather = (int)Double.parseDouble(mainTem0) + CELSIUS_SYMBOL + description;
+                final String outputWeather = (int)Double.parseDouble(mainTem0) + " " + CELSIUS_SYMBOL + description;
                 // TODO change variable names
                 textViewWeather.setText(NOW_WORD + city + ": " + ifPlus + outputWeather);
         }

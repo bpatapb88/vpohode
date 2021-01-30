@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/pole">
 
     <LinearLayout
@@ -172,19 +173,19 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/imageLayer1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_layer1" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/imageLayer2"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_layer2" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/imageLayer3"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_layer3" />

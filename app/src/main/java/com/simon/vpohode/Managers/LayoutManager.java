@@ -58,22 +58,9 @@ public class LayoutManager {
     public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
         //get cursor from db
         Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
-
-        // which column will be in ListView
-        String[] headers = new String[] {
-                DBFields.NAME.toFieldName(),
-                DBFields.TERMID.toFieldName(),
-                DBFields.STYLE.toFieldName()};
         // create adapter, send cursor
-        SimpleCursorAdapter ItemAdapter = new SimpleCursorAdapter(contex,
-                R.layout.two_line_list_item,
-                itemCursor,
-                headers,
-                new int[]{R.id.text1, R.id.text2, R.id.text3/*, R.id.imageView*/}, 0);
-        // устанавливаем провайдер фильтрации
-
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
-
+        // устанавливаем провайдер фильтрации
         customAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
@@ -86,6 +73,13 @@ public class LayoutManager {
                 }
             }
         });
+        return customAdapter;
+    }
+    public static CustomAdapter configListOfItemsNew(Context contex, final SQLiteDatabase db, final int istop){
+        //get cursor from db
+        Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
+        // create adapter, send cursor
+        CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
 
         return customAdapter;
     }

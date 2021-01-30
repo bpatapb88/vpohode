@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.simon.vpohode.CustomAdapter;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.LookManager;
 import com.simon.vpohode.Managers.LayoutManager;
@@ -31,6 +33,8 @@ public class LooksActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private TextView textView1,textView2,textView3,textView4, title;
     private Button next,back;
+    private CustomAdapter itemsAdapter;
+    private ListView listOfItems;
     private Integer showinglook = 0;
     private ImageView imageView1,imageView2,imageView3,imageView4, imageView11, imageView21, imageView31, imageView41;
     private LinearLayout item3,item4;
@@ -66,6 +70,8 @@ public class LooksActivity extends AppCompatActivity {
 
         item3 = findViewById(R.id.item3);
         item4 = findViewById(R.id.item4);
+
+        listOfItems = findViewById(R.id.list_items);
 
         final Context context = this;
         Bundle extras = getIntent().getExtras();
@@ -129,6 +135,16 @@ public class LooksActivity extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        /*itemsAdapter = LayoutManager.configListOfItemsNew(this,db,1);
+        listOfItems.setAdapter(itemsAdapter);*/
+
+    }
+
     @Override
     public void onDestroy(){
         super.onDestroy();
@@ -149,6 +165,7 @@ public class LooksActivity extends AppCompatActivity {
                 imageViewsFoto[i].setImageURI(Uri.parse(look[i].getFoto()));
             }
             imageViewsFoto[i].setOnClickListener(setListener(context,look[i].getId()));
+            imageViewsFoto[i].setBackgroundColor(look[i].getColor());
             imageViewsColor[i].setBackgroundColor(look[i].getColor());
         }
 

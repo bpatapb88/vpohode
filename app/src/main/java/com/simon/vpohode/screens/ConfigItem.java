@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -53,6 +54,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     Spinner spinner, spinnerTemplate;
     Button delButton,colorButton, btReset;
     RadioGroup radGrpTop, radGrpLayer;
+    Integer[] radioButtonsLayers;
     DatabaseHelper sqlHelper;
     SQLiteDatabase db;
     Cursor userCursor;
@@ -92,6 +94,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
 
+        radioButtonsLayers = new Integer[]{R.id.layer1, R.id.layer2, R.id.layer3};
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
@@ -119,18 +122,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             }
+            radGrpLayer.check(radioButtonsLayers[userCursor.getInt(5)-1]);
             if (userCursor.getInt(3) == 1){
                 radGrpTop.check(R.id.top);
-                if(userCursor.getInt(5) == 1){
-                    radGrpLayer.check(R.id.layer1);
-                }else if(userCursor.getInt(5) == 2 ){
-                    radGrpLayer.check(R.id.layer2);
-                }else {
-                    radGrpLayer.check(R.id.layer3);
-                }
             }else{
                 radGrpTop.check(R.id.bottom);
-                layoutTop.setVisibility(View.GONE);
             }
 
             userCursor.close();
@@ -285,10 +281,18 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton bot = radioGroup.findViewById(R.id.bottom);
                 boolean isChecked = bot.isChecked();
+                ImageView imageLayer1 = findViewById(R.id.imageLayer1);
+                ImageView imageLayer2 = findViewById(R.id.imageLayer2);
+                ImageView imageLayer3 = findViewById(R.id.imageLayer3);
+                RadioButton radioButtonLayer3 = findViewById(R.id.layer3);
+
                 if(isChecked){
-                    layoutTop.setVisibility(View.GONE);
+                    imageLayer2.setImageResource(R.drawable.ic_layer3_bot);
+                    radioButtonLayer3.setText("Обувь");
+                    //layoutTop.setVisibility(View.GONE);
                 } else {
-                    layoutTop.setVisibility(View.VISIBLE);
+                    radioButtonLayer3.setText("Третий слой");
+                    //layoutTop.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -313,12 +317,19 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private void createColorPickerDialog(int id) {
         ColorPickerDialog.newBuilder()
                 .setColor(Color.RED)
-                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
-                .setAllowCustom(false)
+                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                .setAllowCustom(true)
                 .setAllowPresets(true)
-                .setColorShape(ColorShape.CIRCLE)
+                .setShowColorShades(true)
+                .setSelectedButtonText(R.string.select)
+                .setPresetsButtonText(R.string.colorPresent)
+                .setCustomButtonText(R.string.colorCustom)
+                .setDialogTitle(R.string.colorSet)
+                .setColorShape(ColorShape.SQUARE)
                 .setDialogId(id)
                 .show(this);
+
+
     }
     public void onClickColor(View view) {
                 createColorPickerDialog(firstId);

@@ -30,4 +30,8 @@
     <string name="developer">Для разработчиков</string>
     <string name="accuracy">Разброс</string>
     <string name="lookpage">Мы подобрали для вас: </string>
+    <string name="colorSet">Выбери цвет</string>
+    <string name="select">Выбрать</string>
+    <string name="colorCustom">Градиенты</string>
+    <string name="colorPresent">Примеры</string>
 </resources>
