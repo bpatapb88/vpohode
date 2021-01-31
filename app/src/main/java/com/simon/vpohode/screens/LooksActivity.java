@@ -78,6 +78,10 @@ public class LooksActivity extends AppCompatActivity {
         Double term = extras.getDouble("term");
         databaseHelper = new DatabaseHelper(getApplicationContext());
         db = databaseHelper.getReadableDatabase();
+
+        LookManager.topItems = LookManager.getArrayListofAllItems(term, getApplicationContext());
+        Item[][] allLooks = LookManager.getLooks2(0,null);
+
         final ArrayList<Item[]> looks = LookManager.getLooks(term, getApplicationContext());
         if(looks.size() > 0) {
             fillLook(looks.get(0),looks.size(),context);

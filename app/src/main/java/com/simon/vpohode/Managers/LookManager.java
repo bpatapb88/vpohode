@@ -27,6 +27,77 @@ public class LookManager {
     }
 
 
+    public static ArrayList<Item[]> topItems = new ArrayList<>();
+
+    public static ArrayList<Item[]> getArrayListofAllItems(double temp, Context context){
+
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+        int layers = Rules.getLayersTop(temp);
+
+        ArrayList<Item[]> result = new ArrayList<>();
+        Cursor tempCursor = null;
+
+        for(int i = 0; i < layers; i++){
+            tempCursor = DatabaseHelper.getCursoreByIsTop(db,1,1+i);
+            ArrayList<Item> items = new ArrayList<>();
+            if(tempCursor.moveToFirst()){
+                do{
+                    items.add(cursorToItem(tempCursor));
+                }while (tempCursor.moveToNext());
+            }
+            Item[] items1 = new Item[items.size()];
+            for (int j =0; j<items.size();j++){
+                items1[j] = items.get(i);
+            }
+            result.add(items1);
+        }
+        tempCursor.close();
+        return result;
+    }
+
+    public static Item[][] getLooks2(int index, Item[][] items) {
+        if(topItems.size() == 0){
+            return null;
+        }else if(topItems.size() == 1){
+            return new Item[][]{topItems.get(0)};
+        }else{
+            int count;
+            if(items == null){
+                //index should be always 0
+                count = topItems.get(index).length * topItems.get(index+1).length;
+                Item[][] draftLooks = new Item[count][index + 2];
+                for(int i = 0; i< topItems.get(index).length; i++){
+                    for(int j = 0; j < topItems.get(index+1).length; j++){
+                        draftLooks[count-1][0] = topItems.get(index)[i];
+                        draftLooks[count-1][1] = topItems.get(index+1)[j];
+                        count--;
+                    }
+                }
+                return draftLooks;
+            }else{
+
+                    count = topItems.get(index).length * topItems.get(index + 1).length * topItems.get(index + 2).length;
+                    Item[][] draftLooks = new Item[count][index + 2];
+                    for (int i = 0; i < items.length; i++) {
+                        for (int j = 0; j < topItems.get(index + 2).length; j++) {
+                            for (int z = 0; z < items[0].length; z++) {
+                                draftLooks[count - 1][z] = items[i][z];
+                            }
+                            draftLooks[count - 1][items[0].length] = topItems.get(i)[j];
+                            count--;
+                        }
+                    }
+                if(topItems.size() > index + 1) {
+                    return getLooks2(index + 1, draftLooks);
+                }else{
+                    return draftLooks;
+                }
+            }
+        }
+    }
+
     public static ArrayList<Item[]> getLooksNew(double temp, Context context){
         ArrayList<Item[]> result = new ArrayList<>();
         ArrayList<Item[]> topItems = new ArrayList<>();
