@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/pole">
 
     <LinearLayout
@@ -26,11 +26,17 @@
             android:orientation="horizontal">
             <ImageButton
                 android:id="@+id/image_of_item"
-                android:layout_width="120dp"
+                android:layout_width="110dp"
                 android:layout_height="120dp"
                 android:scaleType="centerInside"
                 android:layout_gravity="center"
                 android:layout_weight="0"
+                android:src="@drawable/ic_baseline_photo_camera_24"
+                />
+            <ImageView
+                android:id="@+id/colorView"
+                android:layout_width="10dp"
+                android:layout_height="120dp"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -60,14 +66,15 @@
             android:orientation="horizontal">
 
             <Button
+                android:onClick="onClickColor"
                 android:fontFamily="monospace"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
                 android:layout_width="120dp"
                 android:layout_height="match_parent"
-                android:id="@+id/bt_reset"
-                app:icon="@drawable/ic_baseline_photo_camera_24"
-                android:text="Фото"
+                android:id="@+id/btnColor"
+                app:icon="@drawable/ic_baseline_color_lens_24"
+                android:text="@string/color"
                 />
 
             <EditText
@@ -191,68 +198,45 @@
                     app:srcCompat="@drawable/ic_layer3" />
             </LinearLayout>
         </LinearLayout>
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="5dp">
-
-        <TextView
-            android:id="@+id/textColor"
+        android:padding="15dp"
+        android:gravity="bottom"
+        android:layout_gravity="bottom|center_horizontal">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:layout_weight="1"
+            android:padding="15dp"
+            android:textColor="@android:color/secondary_text_light"
+            style="@style/Widget.Shrine.Button"
+            android:id="@+id/deleteButton"
+            android:onClick="delete"
+            android:text="Удалить"
+            app:icon="@drawable/ic_baseline_delete_24"
+            />
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            >
+        </Space>
+        <Button
+            android:id="@+id/btnsave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:padding="16dp"
-            android:textAlignment="center"
-            android:text="Цвет не выбран"
+            android:text="@string/save"
+            android:fontFamily="monospace"
+            android:padding="15dp"
+            android:textColor="@android:color/secondary_text_light"
+            style="@style/Widget.Shrine.Button"
+            app:icon="@drawable/ic_baseline_filter_drama_24"
             />
     </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="5dp">
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="monospace"
-                android:layout_weight="1"
-                android:padding="16dp"
-                android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.Shrine.Button"
-
-                android:id="@+id/deleteButton"
-                android:onClick="delete"
-                android:text="Удалить"
-                app:icon="@drawable/ic_baseline_delete_24"
-                />
-            <Space
-                android:id="@+id/spacer"
-                android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                >
-            </Space>
-            <Button
-                android:onClick="onClickColor"
-                android:id="@+id/color"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/color"
-                android:fontFamily="monospace"
-                android:padding="16dp"
-                android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.Shrine.Button"
-                app:icon="@drawable/ic_baseline_color_lens_24"
-                />
-
-        </LinearLayout>
-
-
-
-
-
-
-    </LinearLayout>
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

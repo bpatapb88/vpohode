@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,11 +80,8 @@ public class LooksActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(getApplicationContext());
         db = databaseHelper.getReadableDatabase();
 
-        LookManager.topItems = LookManager.getArrayListofAllItems(term, getApplicationContext());
-        Item[][] allLooks = LookManager.getLooks2(0,null);
-
-        final ArrayList<Item[]> looks = LookManager.getLooks(term, getApplicationContext());
-        if(looks.size() > 0) {
+        final ArrayList<Item[]> looks = LookManager.getLooksVersion2(term, getApplicationContext());
+        if(looks != null) {
             fillLook(looks.get(0),looks.size(),context);
         }else{
             Toast.makeText(this, "Нет подходящего набора", Toast.LENGTH_SHORT).show();

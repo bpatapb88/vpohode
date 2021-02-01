@@ -45,25 +45,25 @@
             android:textAlignment="center"
             android:text="Погода Сейчас" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="horizontal"
-            android:layout_marginTop="20dp"
-            android:padding="5dp"
+            android:padding="15dp"
+            android:gravity="bottom"
+            android:layout_gravity="bottom|center_horizontal"
             >
             <Button
                 android:id="@+id/button"
                 android:text="Гардероб"
                 android:onClick="goToWardrobe"
                 app:icon="@drawable/ic_wardrobe"
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:layout_weight="1"
-                android:padding="16dp"
+                android:padding="15dp"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
 
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="monospace"
                 android:layout_weight="1"
-                android:padding="16dp"
+                android:padding="15dp"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
                 app:icon="@drawable/ic_look"
@@ -87,53 +87,6 @@
 
 
         </LinearLayout>
-L<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        >
-        <ImageView
-            android:layout_gravity="start"
-            android:id="@+id/leftArrow"
-            android:scaleType="fitStart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@drawable/ic_left_arrow" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1">
-            <TextView
-                android:paddingTop="68dp"
-                android:id="@+id/textView5"
-                android:textSize="15dp"
-                android:fontFamily="@font/hoefler_text_regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="1. Создай гардероб"
-                />
-            <TextView
-                android:id="@+id/textView6"
-                android:paddingTop="28dp"
-                android:gravity="right"
-                android:textSize="15dp"
-                android:fontFamily="@font/hoefler_text_regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2. Подбери набор"
-                />
-        </LinearLayout>
-
-        <ImageView
-            android:scaleType="fitStart"
-            android:id="@+id/rigthArrow"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_rigth_arrow"
-            android:layout_weight="1"/>
-    </LinearLayout>
     </LinearLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

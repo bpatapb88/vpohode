@@ -34,4 +34,5 @@
     <string name="select">Выбрать</string>
     <string name="colorCustom">Градиенты</string>
     <string name="colorPresent">Примеры</string>
+    <string name="save">Сохранить</string>
 </resources>

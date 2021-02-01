@@ -7,9 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +24,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Space;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,14 +47,15 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
-    TextView textcolor;
     EditText nameBox,termidBox;
+    ImageView colorView;
     ImageButton imageItem;
     Spinner spinner, spinnerTemplate;
-    Button delButton,colorButton, btReset;
+    Button delButton, saveButton, btColor;
     RadioGroup radGrpTop, radGrpLayer;
     Integer[] radioButtonsLayers;
     DatabaseHelper sqlHelper;
+    ColorDrawable colorInicator;
     SQLiteDatabase db;
     Cursor userCursor;
     LinearLayout layoutTop;
@@ -78,17 +78,17 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         getSupportActionBar().setHomeButtonEnabled(true);
         setTitle(getString(R.string.title_item));
 
+        colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
-        textcolor = findViewById(R.id.textColor);
         nameBox = findViewById(R.id.name);
         termidBox = findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
         radGrpTop = findViewById(R.id.radios);
         radGrpLayer = findViewById(R.id.radios2);
-        btReset = findViewById(R.id.bt_reset);
+        btColor = findViewById(R.id.btnColor);
         delButton = findViewById(R.id.deleteButton);
-        colorButton = findViewById(R.id.color);
+        saveButton = findViewById(R.id.btnsave);
         x = findViewById(R.id.spacer);
 
         sqlHelper = new DatabaseHelper(this);
@@ -116,9 +116,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getDouble(4)));
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
-            //textcolor.setTextColor(userCursor.getInt(6));
-            textcolor.setBackgroundColor(userCursor.getInt(6));
-            textcolor.setText("#" + (Integer.toHexString(userCursor.getInt(6)).substring(2).toUpperCase()));
+            colorView.setBackgroundColor(userCursor.getInt(6));
+            imageItem.setBackgroundColor(userCursor.getInt(6));
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             }
@@ -137,89 +136,83 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
 
         // if Save button clicked do next:
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.save){
-                    if(nameBox.getText().toString().equals("")) {
-                        Toast.makeText(getApplicationContext(), "Имя не выбрано", Toast.LENGTH_SHORT).show();
-                    }else if(textcolor.getText().toString().equals("Цвет не выбран")) {
-                        Toast.makeText(getApplicationContext(), "Цвет не выбран", Toast.LENGTH_SHORT).show();
-                    }else if(termidBox.getText().toString().equals("")){
-                        Toast.makeText(getApplicationContext(), "Заполните уровень теплоты 0.1 - 10", Toast.LENGTH_SHORT).show();
-                    }else {
-                        ContentValues cv = new ContentValues();
-                        cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
-                        cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
-                        cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
-                        if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
-                            cv.put(DBFields.ISTOP.toFieldName(), 1);
-                        } else if(radGrpTop.getCheckedRadioButtonId() == R.id.bottom){
-                            cv.put(DBFields.ISTOP.toFieldName(), 0);
-                        }else{
-                            Toast.makeText(getApplicationContext(), "Выберете на верх или низ", Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                        if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer1) {
-                            cv.put(DBFields.LAYER.toFieldName(), 1);
-                        } else if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer2) {
-                            cv.put(DBFields.LAYER.toFieldName(), 2);
-                        } else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer3){
-                            cv.put(DBFields.LAYER.toFieldName(), 3);
-                        }else{
-                            if(radGrpTop.getCheckedRadioButtonId() == R.id.top) {
-                                Toast.makeText(getApplicationContext(), "Выберете слой", Toast.LENGTH_SHORT).show();
-                                return false;
-                            }
-                            cv.put(DBFields.LAYER.toFieldName(), 3);
-                        }
-                        if (newColor)
-                            cv.put(DBFields.COLOR.toFieldName(), textcolor.getCurrentTextColor());
+            public void onClick(View view) {
 
-                        //save image if image was changed or new
-                        if(imageItem.getDrawable() == null)
-                        {
-                            Toast.makeText(getApplicationContext(), "Добавьте фото", Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-
-                        if (newImage) {
-                            if (userId > 0) {
-                                ImageManager.deleteImagesById(userId, db);
-                            }
-                                Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
-                                cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
-                        }
-
-                        // update or insert DB
-
-                            if (userId > 0) {
-                                db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
-                            } else {
-                                db.insert(DatabaseHelper.TABLE, null, cv);
-                            }
-                            cv.clear();
-                            goHome();
-
+                if(nameBox.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Имя не выбрано", Toast.LENGTH_SHORT).show();
+                }else if(!newColor && userId==0) {
+                    Toast.makeText(getApplicationContext(), "Цвет не выбран", Toast.LENGTH_SHORT).show();
+                }else if(termidBox.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Заполните уровень теплоты 0.1 - 10", Toast.LENGTH_SHORT).show();
+                }else {
+                    ContentValues cv = new ContentValues();
+                    cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
+                    cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
+                    cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
+                    if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                        cv.put(DBFields.ISTOP.toFieldName(), 1);
+                    } else if(radGrpTop.getCheckedRadioButtonId() == R.id.bottom){
+                        cv.put(DBFields.ISTOP.toFieldName(), 0);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "Выберете на верх или низ", Toast.LENGTH_SHORT).show();
                     }
+                    if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer1) {
+                        cv.put(DBFields.LAYER.toFieldName(), 1);
+                    } else if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer2) {
+                        cv.put(DBFields.LAYER.toFieldName(), 2);
+                    } else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer3){
+                        cv.put(DBFields.LAYER.toFieldName(), 3);
+                    }else{
+                        if(radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                            Toast.makeText(getApplicationContext(), "Выберете слой", Toast.LENGTH_SHORT).show();
+                        }
+                        cv.put(DBFields.LAYER.toFieldName(), 3);
+                    }
+                    if (newColor) {
+                        colorInicator = (ColorDrawable) colorView.getBackground();
+                        cv.put(DBFields.COLOR.toFieldName(), colorInicator.getColor());
+                    }
+                    //save image if image was changed or new
+                    if (newImage) {
+                        if (userId > 0) {
+                            ImageManager.deleteImagesById(userId, db);
+                        }
+                        Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
+                        cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
+                    }else{
+                        if (userId == 0) {
+                            Toast.makeText(getApplicationContext(), "Добавьте фото", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    // update or insert DB
+                    if (userId > 0) {
+                        db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+                    } else {
+                        db.insert(DatabaseHelper.TABLE, null, cv);
+                    }
+                    cv.clear();
+                    goHome();
                 }
-                return true;
+
             }
         });
 
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //CropImage.startPickImageActivity(ConfigItem.this);
+                CropImage.startPickImageActivity(ConfigItem.this);
             }
         });
-        btReset.setOnClickListener(new View.OnClickListener() {
+        /*btReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.startPickImageActivity(ConfigItem.this);
-                //imageItem.setImageResource(0);
+                imageItem.setImageResource(0);
             }
-        });
+        });*/
     }
 
     @Override
@@ -227,6 +220,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         LayoutManager.invisible(R.id.search,menu);
+        LayoutManager.invisible(R.id.save,menu);
         LayoutManager.invisible(R.id.action_settings,menu);
         return true;
     }
@@ -340,13 +334,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         float[] hsv = new float[3];
         Color.colorToHSV(color,hsv);
         newColor = true;
-        textcolor.setText("#" + (Integer.toHexString(color).substring(2).toUpperCase()) + " hue " + hsv[0]);
-        textcolor.setTextColor(Color.HSVToColor(hsv));
-        textcolor.setBackgroundColor(Color.HSVToColor(hsv));
+        colorView.setBackgroundColor(Color.HSVToColor(hsv));
+        imageItem.setBackgroundColor(Color.HSVToColor(hsv));
     }
 
     @Override
     public void onDialogDismissed(int dialogId) {
+        if(newColor)
         Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();
     }
 

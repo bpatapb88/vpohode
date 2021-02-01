@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 import com.simon.vpohode.Item;
@@ -26,139 +27,98 @@ public class LookManager {
         return result;
     }
 
-
-    public static ArrayList<Item[]> topItems = new ArrayList<>();
-
-    public static ArrayList<Item[]> getArrayListofAllItems(double temp, Context context){
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        SQLiteDatabase db = databaseHelper.getReadableDatabase();
-
-        int layers = Rules.getLayersTop(temp);
-
-        ArrayList<Item[]> result = new ArrayList<>();
-        Cursor tempCursor = null;
-
-        for(int i = 0; i < layers; i++){
-            tempCursor = DatabaseHelper.getCursoreByIsTop(db,1,1+i);
-            ArrayList<Item> items = new ArrayList<>();
-            if(tempCursor.moveToFirst()){
-                do{
-                    items.add(cursorToItem(tempCursor));
-                }while (tempCursor.moveToNext());
-            }
-            Item[] items1 = new Item[items.size()];
-            for (int j =0; j<items.size();j++){
-                items1[j] = items.get(i);
-            }
-            result.add(items1);
-        }
-        tempCursor.close();
-        return result;
-    }
-
-    public static Item[][] getLooks2(int index, Item[][] items) {
-        if(topItems.size() == 0){
-            return null;
-        }else if(topItems.size() == 1){
-            return new Item[][]{topItems.get(0)};
-        }else{
-            int count;
-            if(items == null){
-                //index should be always 0
-                count = topItems.get(index).length * topItems.get(index+1).length;
-                Item[][] draftLooks = new Item[count][index + 2];
-                for(int i = 0; i< topItems.get(index).length; i++){
-                    for(int j = 0; j < topItems.get(index+1).length; j++){
-                        draftLooks[count-1][0] = topItems.get(index)[i];
-                        draftLooks[count-1][1] = topItems.get(index+1)[j];
-                        count--;
-                    }
-                }
-                return draftLooks;
-            }else{
-
-                    count = topItems.get(index).length * topItems.get(index + 1).length * topItems.get(index + 2).length;
-                    Item[][] draftLooks = new Item[count][index + 2];
-                    for (int i = 0; i < items.length; i++) {
-                        for (int j = 0; j < topItems.get(index + 2).length; j++) {
-                            for (int z = 0; z < items[0].length; z++) {
-                                draftLooks[count - 1][z] = items[i][z];
-                            }
-                            draftLooks[count - 1][items[0].length] = topItems.get(i)[j];
-                            count--;
-                        }
-                    }
-                if(topItems.size() > index + 1) {
-                    return getLooks2(index + 1, draftLooks);
-                }else{
-                    return draftLooks;
-                }
-            }
-        }
-    }
-
-    public static ArrayList<Item[]> getLooksNew(double temp, Context context){
-        ArrayList<Item[]> result = new ArrayList<>();
-        ArrayList<Item[]> topItems = new ArrayList<>();
-        ArrayList<Item> botItems = new ArrayList<>();
+    public static ArrayList<Item[]> getLooksVersion2 (double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
+
         setAccurancy(prefs);
 
-        double min = getInterval(temp) - Rules.ACCURACY;
-        double max = getInterval(temp) + Rules.ACCURACY;
-        double top;
-        double bot;
-        int topLayers = Rules.getLayersTop(temp); // 1-3
-        int botLayers = Rules.getLayersTop(temp); // 2-3
+        int layersTop = Rules.getLayersTop(temp);
+        int layersBot = Rules.getLayersBot(temp);
 
-        Cursor[] topCursors = new Cursor[3];
-
-        for(int i=0; i < topLayers; i++){
-            topCursors[i] = DatabaseHelper.getCursoreByIsTop(db,1,i+1);
+        Cursor[] cursorLayersTop = new Cursor[layersTop];
+        for(int i = 0; i< cursorLayersTop.length; i++){
+            cursorLayersTop[i] = DatabaseHelper.getCursoreByIsTop(db,1,i+1);
         }
 
-        if(topCursors[0].moveToFirst()){
-            do{
-                if(topCursors[1].moveToFirst()){
-                    do{
-                        if(topCursors[2].moveToFirst()){
-                           do{
-                               top = (topCursors[0].getDouble(topCursors[0].getColumnIndex("termindex")) +
-                                       topCursors[1].getDouble(topCursors[1].getColumnIndex("termindex"))+
-                                       topCursors[2].getDouble(topCursors[2].getColumnIndex("termindex")))/3;
-                               if(top > min &&
-                                       top < max){
-                                   topItems.add(new Item[]{cursorToItem(topCursors[0]),cursorToItem(topCursors[1]),cursorToItem(topCursors[2])});
-                               }
-                           }while (topCursors[2].moveToNext());
-                        }else{
-                                top = (topCursors[0].getDouble(topCursors[0].getColumnIndex("termindex")) +
-                                    topCursors[1].getDouble(topCursors[1].getColumnIndex("termindex")))/2;
-                            if(top > min &&
-                                    top < max){
-                                topItems.add(new Item[]{cursorToItem(topCursors[0]),cursorToItem(topCursors[1])});
-                            }
-                        }
-                    }while(topCursors[1].moveToNext());
-                }else{
-                    top = topCursors[0].getDouble(topCursors[0].getColumnIndex("termindex"));
-                    if(top > min &&
-                            top < max){
-                        topItems.add(new Item[]{cursorToItem(topCursors[0])});
-                    }
+        Cursor[] cursorLayersBot = new Cursor[layersBot-1];
+        for(int i = 0; i< cursorLayersBot.length; i++){
+            cursorLayersBot[i] = DatabaseHelper.getCursoreByIsTop(db,0,i+1);
+        }
+
+        Item[][] topLooks = cursorsToArray(cursorLayersTop);
+        Item[][] botLooks = cursorsToArray(cursorLayersBot);
+
+        ArrayList<Item[]> readyTopLooks = referedToTemp(topLooks,temp);
+        ArrayList<Item[]> readyBotLooks = referedToTemp(botLooks,temp);
+
+        if(readyTopLooks.size()==0 || readyBotLooks.size()==0){
+            System.out.println("Fuck!!!" + readyTopLooks.size() + " ili bot " + readyBotLooks.size());
+            return null;
+        }else{
+            System.out.println("Good!! top items " + readyTopLooks.size() + " and bot " + readyBotLooks.size());
+            ArrayList<Item[]> result = new ArrayList<>();
+            for(int i =0; i<readyTopLooks.size();i++){
+                for(int j =0; j<readyBotLooks.size();j++){
+                    result.add(sumOfArray(readyTopLooks.get(i),readyBotLooks.get(j)));
                 }
-            }while (topCursors[0].moveToNext());
+            }
+            return result;
         }
+    }
 
-
-        for(Cursor cursor: topCursors){
-            cursor.close();
+    public static Item[] sumOfArray(Item[] items1, Item[] items2){
+        Item[] result = new Item[items1.length + items2.length];
+        int count =0;
+        for(int i = 0; i < items1.length;i++){
+            result[i] = items1[i];
+            count++;
         }
+        for(int j = 0; j< items2.length; j++){
+            result[count++]=items2[j];
+        }
+        return result;
+    }
 
-        return topItems;
+    public static ArrayList<Item[]> referedToTemp(Item[][] looks, Double temp){
+        ArrayList<Item[]> matchedLooks = new ArrayList<>();
+        for(Item[] look: looks){
+            double merginalIndex=0;
+            for(int i = 0; i < look.length;i++){
+                merginalIndex += look[i].getTermid();
+            }
+            merginalIndex = merginalIndex/look.length;
+            double min = getInterval(temp) - Rules.ACCURACY;
+            double max = getInterval(temp) + Rules.ACCURACY;
+            if(merginalIndex > min && merginalIndex < max){
+                matchedLooks.add(look);
+            }
+        }
+        return matchedLooks;
+    }
+
+    public static Item[][] cursorsToArray(Cursor[] input){
+        int sizeOfOutput = 1;
+        for(Cursor cursor: input){
+            cursor.moveToFirst();
+            sizeOfOutput = sizeOfOutput*cursor.getCount();
+        }
+        int counterSteps=input.length-1;
+        Item[][] result = new Item[sizeOfOutput][input.length];
+        for(int i = 0; i<result.length;i++){
+            for(int j = 0;j<input.length;j++){
+                result[i][j]=cursorToItem(input[j]);
+            }
+            for(int x = 0; x < input.length; x++){
+                if(input[x].moveToNext()){
+                    break;
+                }else{
+                    input[x].moveToFirst();
+                }
+            }
+        }
+        return result;
     }
 
     public static ArrayList<Item[]> getLooks(double temp, Context context){
