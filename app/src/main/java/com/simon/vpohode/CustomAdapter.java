@@ -53,7 +53,7 @@ public class CustomAdapter extends CursorAdapter {
 
         ImageView item_image = (ImageView) v.findViewById(R.id.imageView);
         if(istop == 0){
-            item_image.setImageResource(R.drawable.ic_layer3_bot);
+            item_image.setImageResource(R.drawable.ic_layer2_bot);
         }else{
             if(layer == 1){
                 item_image.setImageResource(R.drawable.ic_layer1);

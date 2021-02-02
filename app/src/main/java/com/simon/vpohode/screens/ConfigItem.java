@@ -281,11 +281,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 RadioButton radioButtonLayer3 = findViewById(R.id.layer3);
 
                 if(isChecked){
-                    imageLayer2.setImageResource(R.drawable.ic_layer3_bot);
+                    imageLayer1.setImageResource(R.drawable.ic_layer1_bot);
+                    imageLayer2.setImageResource(R.drawable.ic_layer2_bot);
+                    imageLayer3.setImageResource(R.drawable.ic_layer_boots);
                     radioButtonLayer3.setText("Обувь");
                     //layoutTop.setVisibility(View.GONE);
                 } else {
                     radioButtonLayer3.setText("Третий слой");
+                    imageLayer1.setImageResource(R.drawable.ic_layer1);
+                    imageLayer2.setImageResource(R.drawable.ic_layer2);
+                    imageLayer3.setImageResource(R.drawable.ic_layer3);
                     //layoutTop.setVisibility(View.VISIBLE);
                 }
             }
