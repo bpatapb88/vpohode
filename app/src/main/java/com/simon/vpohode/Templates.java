@@ -8,7 +8,9 @@ public enum Templates {
     PANTS("Штаны"),
     JEANS("Джинсы"),
     JACKET("Осеняя куртка"),
-    COAT("Пальто");
+    COAT("Пальто"),
+    KALSONY("Kalsony"),
+    SNIKERS("Krosovki");
 
     private String templates;
 
@@ -50,12 +52,14 @@ public enum Templates {
                 templateOfItem.setTermid(2d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(1);
+                templateOfItem.setLayer(2);
                 break;
             case 5:
                 templateOfItem.setName("Джинсы");
                 templateOfItem.setTermid(2d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(1);
+                templateOfItem.setLayer(2);
                 break;
             case 6:
                 templateOfItem.setName("Осеняя куртка");
@@ -69,6 +73,20 @@ public enum Templates {
                 templateOfItem.setTermid(5d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(0);
+                templateOfItem.setLayer(3);
+                break;
+            case 8:
+                templateOfItem.setName("Kalsony");
+                templateOfItem.setTermid(2d);
+                templateOfItem.setStyle(Styles.HOME.toString());
+                templateOfItem.setTop(1);
+                templateOfItem.setLayer(1);
+                break;
+            case 9:
+                templateOfItem.setName("Krosovki");
+                templateOfItem.setTermid(2d);
+                templateOfItem.setStyle(Styles.SPORT.toString());
+                templateOfItem.setTop(1);
                 templateOfItem.setLayer(3);
                 break;
             // Шаблоны можно добавить тут + добавить имя в spinnerTemplate - --- - - - - --

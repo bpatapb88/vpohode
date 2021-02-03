@@ -48,11 +48,13 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
     EditText nameBox,termidBox;
-    ImageView colorView;
+    ImageView colorView,imageLayer1,imageLayer2,imageLayer3;
+
     ImageButton imageItem;
     Spinner spinner, spinnerTemplate;
     Button delButton, saveButton, btColor;
-    RadioGroup radGrpTop, radGrpLayer;
+    RadioGroup radGrpIsTop, radGrpLayer;
+    RadioButton radioButtonLayer3;
     Integer[] radioButtonsLayers;
     DatabaseHelper sqlHelper;
     ColorDrawable colorInicator;
@@ -84,12 +86,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         termidBox = findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
-        radGrpTop = findViewById(R.id.radios);
+        radGrpIsTop = findViewById(R.id.radios);
         radGrpLayer = findViewById(R.id.radios2);
         btColor = findViewById(R.id.btnColor);
         delButton = findViewById(R.id.deleteButton);
         saveButton = findViewById(R.id.btnsave);
         x = findViewById(R.id.spacer);
+        imageLayer1 = findViewById(R.id.imageLayer1);
+        imageLayer2 = findViewById(R.id.imageLayer2);
+        imageLayer3 = findViewById(R.id.imageLayer3);
+        radioButtonLayer3 = findViewById(R.id.layer3);
 
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
@@ -123,9 +129,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
             radGrpLayer.check(radioButtonsLayers[userCursor.getInt(5)-1]);
             if (userCursor.getInt(3) == 1){
-                radGrpTop.check(R.id.top);
+                radGrpIsTop.check(R.id.top);
+                reBuildIcons(false);
             }else{
-                radGrpTop.check(R.id.bottom);
+                radGrpIsTop.check(R.id.bottom);
+                reBuildIcons(true);
             }
 
             userCursor.close();
@@ -152,9 +160,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
                     cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
                     cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
-                    if (radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                    if (radGrpIsTop.getCheckedRadioButtonId() == R.id.top) {
                         cv.put(DBFields.ISTOP.toFieldName(), 1);
-                    } else if(radGrpTop.getCheckedRadioButtonId() == R.id.bottom){
+                    } else if(radGrpIsTop.getCheckedRadioButtonId() == R.id.bottom){
                         cv.put(DBFields.ISTOP.toFieldName(), 0);
                     }else{
                         Toast.makeText(getApplicationContext(), "Выберете на верх или низ", Toast.LENGTH_SHORT).show();
@@ -166,7 +174,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     } else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer3){
                         cv.put(DBFields.LAYER.toFieldName(), 3);
                     }else{
-                        if(radGrpTop.getCheckedRadioButtonId() == R.id.top) {
+                        if(radGrpIsTop.getCheckedRadioButtonId() == R.id.top) {
                             Toast.makeText(getApplicationContext(), "Выберете слой", Toast.LENGTH_SHORT).show();
                         }
                         cv.put(DBFields.LAYER.toFieldName(), 3);
@@ -241,11 +249,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
                 Item selectedTemplate = Templates.fillTemplate(spinnerTemplate.getSelectedItemPosition());
                 if (spinnerTemplate.getSelectedItemPosition() != 0) {
-                    if (selectedTemplate.getTop() == 0) {
+
                         nameBox.setText(selectedTemplate.getName());
                         termidBox.setText("" + selectedTemplate.getTermid());
                         spinner.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
-                        radGrpTop.check(R.id.top);
+                        if(selectedTemplate.getTop() == 0){
+                            radGrpIsTop.check(R.id.top);
+                        }else{
+                            radGrpIsTop.check(R.id.bottom);
+                        }
+
                         switch (selectedTemplate.getLayer()) {
                             case 1:
                                 radGrpLayer.check(R.id.layer1);
@@ -256,12 +269,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                             case 3:
                                 radGrpLayer.check(R.id.layer3);
                         }
-                    } else {
-                        nameBox.setText(selectedTemplate.getName());
-                        termidBox.setText("" + selectedTemplate.getTermid());
-                        spinner.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
-                        radGrpTop.check(R.id.bottom);
-                    }
+
                 }
             }
             @Override
@@ -270,29 +278,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
 
         });
-        radGrpTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radGrpIsTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton bot = radioGroup.findViewById(R.id.bottom);
                 boolean isChecked = bot.isChecked();
-                ImageView imageLayer1 = findViewById(R.id.imageLayer1);
-                ImageView imageLayer2 = findViewById(R.id.imageLayer2);
-                ImageView imageLayer3 = findViewById(R.id.imageLayer3);
-                RadioButton radioButtonLayer3 = findViewById(R.id.layer3);
-
-                if(isChecked){
-                    imageLayer1.setImageResource(R.drawable.ic_layer1_bot);
-                    imageLayer2.setImageResource(R.drawable.ic_layer2_bot);
-                    imageLayer3.setImageResource(R.drawable.ic_layer_boots);
-                    radioButtonLayer3.setText("Обувь");
-                    //layoutTop.setVisibility(View.GONE);
-                } else {
-                    radioButtonLayer3.setText("Третий слой");
-                    imageLayer1.setImageResource(R.drawable.ic_layer1);
-                    imageLayer2.setImageResource(R.drawable.ic_layer2);
-                    imageLayer3.setImageResource(R.drawable.ic_layer3);
-                    //layoutTop.setVisibility(View.VISIBLE);
-                }
+                reBuildIcons(isChecked);
             }
         });
 
@@ -374,5 +365,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setMultiTouchEnabled(true)
                 .start(this);
+    }
+
+    private void reBuildIcons(boolean isBotChecked){
+        if(isBotChecked){
+            imageLayer1.setImageResource(R.drawable.ic_layer1_bot);
+            imageLayer2.setImageResource(R.drawable.ic_layer2_bot);
+            imageLayer3.setImageResource(R.drawable.ic_layer_boots);
+            radioButtonLayer3.setText("Обувь");
+        } else {
+            radioButtonLayer3.setText("Третий слой");
+            imageLayer1.setImageResource(R.drawable.ic_layer1);
+            imageLayer2.setImageResource(R.drawable.ic_layer2);
+            imageLayer3.setImageResource(R.drawable.ic_layer3);
+        }
+
     }
 }

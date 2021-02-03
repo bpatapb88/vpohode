@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import androidx.preference.PreferenceManager;
+
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Rules;
 import com.simon.vpohode.database.DatabaseHelper;
@@ -38,22 +38,24 @@ public class LookManager {
         Item[][] topLooks = cursorsToArray(cursorLayersTop);
         Item[][] botLooks = cursorsToArray(cursorLayersBot);
 
+        closeCursors(cursorLayersBot);
+        closeCursors(cursorLayersTop);
+
         ArrayList<Item[]> readyTopLooks = referedToTemp(topLooks,temp);
         ArrayList<Item[]> readyBotLooks = referedToTemp(botLooks,temp);
 
+        ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0){
-            closeCursors(cursorLayersBot);
             return null;
         }else{
-            ArrayList<Item[]> result = new ArrayList<>();
+
             for(int i =0; i<readyTopLooks.size();i++){
                 for(int j =0; j<readyBotLooks.size();j++){
                     result.add(sumOfArray(readyTopLooks.get(i),readyBotLooks.get(j)));
                 }
             }
-            closeCursors(cursorLayersBot);
-            return result;
         }
+        return result;
     }
 
     public static void closeCursors(Cursor[] cursors){
