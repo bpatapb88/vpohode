@@ -42,7 +42,7 @@ public class LookManager {
         closeCursors(cursorLayersTop);
 
         ArrayList<Item[]> readyTopLooks = referedToTemp(topLooks,temp);
-        ArrayList<Item[]> readyBotLooks = referedToTemp(botLooks,temp);
+        ArrayList<Item[]> readyBotLooks = referedToTemp(botLooks,temp, true);
 
         ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0){
@@ -119,21 +119,53 @@ public class LookManager {
             for(int i = 0; i < look.length;i++){
                 merginalIndex += look[i].getTermid();
             }
-            merginalIndex = merginalIndex/look.length;
-            double min = getInterval(temp) - Rules.ACCURACY;
-            double max = getInterval(temp) + Rules.ACCURACY;
-            if(merginalIndex > min && merginalIndex < max){
+
+            int layers = Rules.getLayersTop(temp);
+
+            double neededTemp = 0;
+            switch (layers){
+                case 1:
+                    neededTemp = ((int) (33 - temp))/4 + 1;
+                    break;
+                case 2:
+                    neededTemp = ((int) (21 - temp))/3 + 2;
+                    break;
+                case 3:
+                    neededTemp = ((int) (6 - temp))/3 + 3;
+                    break;
+            }
+
+            if(merginalIndex == neededTemp){
                 matchedLooks.add(look);
             }
+        }
+        return matchedLooks;
+    }
+    public static ArrayList<Item[]> referedToTemp (Item[][] looks, Double temp, boolean x){
+        ArrayList<Item[]> matchedLooks = new ArrayList<>();
+        for(Item[] look: looks){
+            double merginalIndex=0;
+            for(int i = 0; i < look.length;i++){
+                merginalIndex += look[i].getTermid();
+            }
+
+            int layers = Rules.getLayersBot(temp);
+            if(layers == 2){
+
+            }else{
+
+            }
+
+                matchedLooks.add(look);
         }
         return matchedLooks;
     }
 
     public static double getInterval(double temp){
         double result;
-        if(temp >= 20){
+        if(temp >= 21){
             result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT);
-        }else if(temp >= 9){
+        }else if(temp >= 6){
             result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT*2);
         }else{
             result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT*3);

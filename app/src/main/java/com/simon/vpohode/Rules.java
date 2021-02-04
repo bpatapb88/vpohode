@@ -21,9 +21,9 @@ public class Rules {
 
     public static int getLayersTop(double temp){
         int layers = 0;
-        if(temp >= 20){
+        if(temp >= 21){
             layers = 1;
-        }else if(temp >= 9){
+        }else if(temp >= 6){
             layers = 2;
         }else{
             layers = 3;

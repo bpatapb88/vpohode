@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     RadioButton radioButtonLayer3;
     Integer[] radioButtonsLayers;
     DatabaseHelper sqlHelper;
+    SeekBar seekBar;
     ColorDrawable colorInicator;
     SQLiteDatabase db;
     Cursor userCursor;
@@ -96,6 +98,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageLayer2 = findViewById(R.id.imageLayer2);
         imageLayer3 = findViewById(R.id.imageLayer3);
         radioButtonLayer3 = findViewById(R.id.layer3);
+        seekBar = findViewById(R.id.seekBar);
 
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
@@ -103,7 +106,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         radioButtonsLayers = new Integer[]{R.id.layer1, R.id.layer2, R.id.layer3};
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        seekBar.setProgress(1);
         // configure spinner
         spinner.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
         spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(Templates.values(),this));
@@ -121,6 +124,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             termidBox.setText(String.valueOf(userCursor.getDouble(4)));
+            seekBar.setProgress(3);
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             imageItem.setBackgroundColor(userCursor.getInt(6));
