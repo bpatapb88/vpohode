@@ -1,10 +1,15 @@
 package com.simon.vpohode.screens;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -44,8 +49,6 @@ public class LooksActivity extends AppCompatActivity {
         next = findViewById(R.id.next);
         back = findViewById(R.id.back);
 
-        listOfItems = findViewById(R.id.list_items);
-
         Bundle extras = getIntent().getExtras();
         Double term = extras.getDouble("term");
         databaseHelper = new DatabaseHelper(getApplicationContext());
@@ -55,7 +58,7 @@ public class LooksActivity extends AppCompatActivity {
         final ArrayList<Item[]> looks2 = LookManager.getLooks(term, getApplicationContext());
 
         if(looks2 != null) {
-            fillLook2(looks2.get(0),looks2.size());
+            fillLook2(looks2.get(0),looks2.size(),this,this);
         }else{
             Toast.makeText(this, "Нет подходящего набора", Toast.LENGTH_SHORT).show();
             finish();
@@ -66,7 +69,7 @@ public class LooksActivity extends AppCompatActivity {
             public void onClick(View view) {
                 showinglook ++;
                 if(showinglook < looks2.size()) {
-                    fillLook2(looks2.get(showinglook), looks2.size());
+                    fillLook2(looks2.get(showinglook), looks2.size(),view.getContext(), getActivity());
                 }else{
                     Toast.makeText(view.getContext(), "Это Последний набор", Toast.LENGTH_SHORT).show();
                     showinglook --;
@@ -78,7 +81,7 @@ public class LooksActivity extends AppCompatActivity {
             public void onClick(View view) {
                 showinglook --;
                 if(showinglook >= 0) {
-                    fillLook2(looks2.get(showinglook), looks2.size());
+                    fillLook2(looks2.get(showinglook), looks2.size(),view.getContext(), getActivity());
                 }else{
                     Toast.makeText(view.getContext(), "Это самый первый набор", Toast.LENGTH_SHORT).show();
                     showinglook++;
@@ -124,15 +127,34 @@ public class LooksActivity extends AppCompatActivity {
         db.close();
     }
 
-    public void fillLook2 (final Item[] look, Integer size){
+    public void fillLook2 (final Item[] look, Integer size,final Context context, final Activity activity){
         title.setText("Мы подобрали для вас: " + (showinglook+1) + "/" + size);
 
-        ArrayList<Item> preparedLook = new ArrayList<>();
+        final ArrayList<Item> preparedLook = new ArrayList<>();
         for(Item item: look){
             preparedLook.add(item);
         }
         itemsAdapter = new LooksAdapter(this, preparedLook);
         listOfItems.setAdapter(itemsAdapter);
+        listOfItems.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                id = preparedLook.get(position).getId();
+                Intent intent = new Intent(context, ConfigItem.class);
+                intent.putExtra("id", id);
+                activity.startActivity(intent);
+            }
+        });
+    }
+    private Activity getActivity() {
+        Context context = this;
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity)context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
     }
 }
 

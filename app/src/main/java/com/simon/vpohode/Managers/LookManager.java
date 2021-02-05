@@ -35,23 +35,30 @@ public class LookManager {
             cursorLayersBot[i] = DatabaseHelper.getCursoreByIsTop(db,0,i+1);
         }
 
+        Cursor[] cursorLayersBoots = new Cursor[]{DatabaseHelper.getCursoreByIsTop(db,0,3)};
+
+
         Item[][] topLooks = cursorsToArray(cursorLayersTop);
         Item[][] botLooks = cursorsToArray(cursorLayersBot);
+        Item[][] bootsLooks = cursorsToArray(cursorLayersBoots);
 
         closeCursors(cursorLayersBot);
         closeCursors(cursorLayersTop);
+        closeCursors(cursorLayersBoots);
 
-        ArrayList<Item[]> readyTopLooks = referedToTemp(topLooks,temp);
-        ArrayList<Item[]> readyBotLooks = referedToTemp(botLooks,temp, true);
+        ArrayList<Item[]> readyTopLooks = referedToTempTop(topLooks,temp);
+        ArrayList<Item[]> readyBotLooks = referedToTempBot(botLooks,temp);
+        ArrayList<Item[]> readyBootsLooks = referedToTempBoots(bootsLooks,temp);
 
         ArrayList<Item[]> result = new ArrayList<>();
-        if(readyTopLooks.size()==0 || readyBotLooks.size()==0){
+        if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
             return null;
         }else{
-
             for(int i =0; i<readyTopLooks.size();i++){
                 for(int j =0; j<readyBotLooks.size();j++){
-                    result.add(sumOfArray(readyTopLooks.get(i),readyBotLooks.get(j)));
+                    for(int y = 0; y<readyBootsLooks.size();y++) {
+                        result.add(sumOfArray(readyTopLooks.get(i), readyBotLooks.get(j),readyBootsLooks.get(y)));
+                    }
                 }
             }
         }
@@ -64,15 +71,18 @@ public class LookManager {
         }
     }
 
-    public static Item[] sumOfArray(Item[] items1, Item[] items2){
-        Item[] result = new Item[items1.length + items2.length];
-        int count =0;
+    public static Item[] sumOfArray(Item[] items1, Item[] items2, Item[] items3){
+        Item[] result = new Item[items1.length + items2.length + items3.length];
+        int count = 0;
         for(int i = 0; i < items1.length;i++){
             result[i] = items1[i];
             count++;
         }
         for(int j = 0; j< items2.length; j++){
             result[count++]=items2[j];
+        }
+        for(int y=0;y<items3.length;y++){
+            result[count++]=items3[y];
         }
         return result;
     }
@@ -112,7 +122,7 @@ public class LookManager {
         return item;
     }
 
-    public static ArrayList<Item[]> referedToTemp (Item[][] looks, Double temp){
+    public static ArrayList<Item[]> referedToTempTop(Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double merginalIndex=0;
@@ -135,13 +145,15 @@ public class LookManager {
                     break;
             }
 
-            if(merginalIndex == neededTemp){
+            if(merginalIndex == neededTemp && merginalIndex < 9){
+                matchedLooks.add(look);
+            }else if(merginalIndex == 9){
                 matchedLooks.add(look);
             }
         }
         return matchedLooks;
     }
-    public static ArrayList<Item[]> referedToTemp (Item[][] looks, Double temp, boolean x){
+    public static ArrayList<Item[]> referedToTempBot (Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double merginalIndex=0;
@@ -151,12 +163,55 @@ public class LookManager {
 
             int layers = Rules.getLayersBot(temp);
             if(layers == 2){
+                if(temp > 21){
+                    if(merginalIndex==1)
+                    matchedLooks.add(look);
+                }else{
+                    if(merginalIndex==2){
+                        matchedLooks.add(look);
+                    }
+                }
 
             }else{
+                if(temp > (-3)){
+                    if(look[0].getTermid() == 1 && look[1].getTermid() ==2){
+                        matchedLooks.add(look);
+                    }
+                }else if(temp > (-10)){
+                    if(look[0].getTermid() == 1 && look[1].getTermid() ==3){
+                        matchedLooks.add(look);
+                    }
+                }else{
+                    if(look[0].getTermid() > 1 && look[1].getTermid() == 3){
+                        matchedLooks.add(look);
+                    }
+
+                }
 
             }
 
-                matchedLooks.add(look);
+        }
+        return matchedLooks;
+    }
+    public static ArrayList<Item[]> referedToTempBoots (Item[][] looks, Double temp){
+        ArrayList<Item[]> matchedLooks = new ArrayList<>();
+        for(Item[] look: looks){
+            double termIndex=look[0].getTermid();
+
+            if(temp > 21){
+                if(termIndex == 1){
+                    matchedLooks.add(look);
+                }
+            }else if(temp > 6){
+                if(termIndex == 2){
+                    matchedLooks.add(look);
+                }
+            }else{
+                if(termIndex == 3) {
+                    matchedLooks.add(look);
+                }
+            }
+
         }
         return matchedLooks;
     }
