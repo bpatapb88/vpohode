@@ -42,14 +42,14 @@ public enum Templates {
                 break;
             case 3:
                 templateOfItem.setName("Кофта");
-                templateOfItem.setTermid(4d);
+                templateOfItem.setTermid(3d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(0);
                 templateOfItem.setLayer(2);
                 break;
             case 4:
                 templateOfItem.setName("Штаны");
-                templateOfItem.setTermid(2d);
+                templateOfItem.setTermid(3d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(1);
                 templateOfItem.setLayer(2);
@@ -63,21 +63,21 @@ public enum Templates {
                 break;
             case 6:
                 templateOfItem.setName("Осеняя куртка");
-                templateOfItem.setTermid(6d);
+                templateOfItem.setTermid(1d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(0);
                 templateOfItem.setLayer(3);
                 break;
             case 7:
                 templateOfItem.setName("Пальто");
-                templateOfItem.setTermid(5d);
+                templateOfItem.setTermid(2d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(0);
                 templateOfItem.setLayer(3);
                 break;
             case 8:
                 templateOfItem.setName("Kalsony");
-                templateOfItem.setTermid(2d);
+                templateOfItem.setTermid(1d);
                 templateOfItem.setStyle(Styles.HOME.toString());
                 templateOfItem.setTop(1);
                 templateOfItem.setLayer(1);

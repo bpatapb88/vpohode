@@ -55,6 +55,7 @@
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/pole"
 
                     />
             </LinearLayout>
@@ -93,18 +94,19 @@
                 android:progress="2"
                 android:background="@drawable/tempbackground"/>
         </LinearLayout>
-        <EditText
+        <!--<EditText
             android:id="@+id/termid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Теплота"
-            android:padding="16dp" />
+            android:padding="16dp" />-->
 
         <Spinner
             android:id="@+id/Style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:background="@drawable/pole"
             />
 
         <RadioGroup

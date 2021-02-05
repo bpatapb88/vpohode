@@ -85,7 +85,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
         nameBox = findViewById(R.id.name);
-        termidBox = findViewById(R.id.termid);
+        //termidBox = findViewById(R.id.termid);
         spinner = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
         radGrpIsTop = findViewById(R.id.radios);
@@ -123,8 +123,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
-            termidBox.setText(String.valueOf(userCursor.getDouble(4)));
-            seekBar.setProgress(3);
+            //termidBox.setText(String.valueOf(userCursor.getDouble(4)));
+            seekBar.setProgress((int) userCursor.getDouble(4) - 1);
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             imageItem.setBackgroundColor(userCursor.getInt(6));
@@ -157,12 +157,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     Toast.makeText(getApplicationContext(), "Имя не выбрано", Toast.LENGTH_SHORT).show();
                 }else if(!newColor && userId==0) {
                     Toast.makeText(getApplicationContext(), "Цвет не выбран", Toast.LENGTH_SHORT).show();
-                }else if(termidBox.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(), "Заполните уровень теплоты 0.1 - 10", Toast.LENGTH_SHORT).show();
                 }else {
                     ContentValues cv = new ContentValues();
                     cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
-                    cv.put(DBFields.TERMID.toFieldName(), Double.parseDouble(termidBox.getText().toString()));
+                    cv.put(DBFields.TERMID.toFieldName(), Double.valueOf(seekBar.getProgress() + 1));
                     cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
                     if (radGrpIsTop.getCheckedRadioButtonId() == R.id.top) {
                         cv.put(DBFields.ISTOP.toFieldName(), 1);
@@ -255,7 +253,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 if (spinnerTemplate.getSelectedItemPosition() != 0) {
 
                         nameBox.setText(selectedTemplate.getName());
-                        termidBox.setText("" + selectedTemplate.getTermid());
+                        double x = selectedTemplate.getTermid() - 1;
+                        seekBar.setProgress((int) x);
+                        //termidBox.setText("" + (int)x);
                         spinner.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
                         if(selectedTemplate.getTop() == 0){
                             radGrpIsTop.check(R.id.top);
