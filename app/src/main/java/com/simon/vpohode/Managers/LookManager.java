@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class LookManager {
 
+    public static String message = "";
+
     public static ArrayList<Item[]> getLooks(double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
@@ -30,9 +32,9 @@ public class LookManager {
             cursorLayersTop[i] = DatabaseHelper.getCursoreByIsTop(db,1,i+1);
         }
 
-        Cursor[] cursorLayersBot = new Cursor[layersBot-1];
+        Cursor[] cursorLayersBot = new Cursor[layersBot];
         for(int i = 0; i< cursorLayersBot.length; i++){
-            cursorLayersBot[i] = DatabaseHelper.getCursoreByIsTop(db,0,i+1);
+            cursorLayersBot[i] = DatabaseHelper.getCursoreByIsTop(db,0,2-i);
         }
 
         Cursor[] cursorLayersBoots = new Cursor[]{DatabaseHelper.getCursoreByIsTop(db,0,3)};
@@ -45,6 +47,7 @@ public class LookManager {
         closeCursors(cursorLayersBot);
         closeCursors(cursorLayersTop);
         closeCursors(cursorLayersBoots);
+        db.close();
 
         ArrayList<Item[]> readyTopLooks = referedToTempTop(topLooks,temp);
         ArrayList<Item[]> readyBotLooks = referedToTempBot(botLooks,temp);
@@ -52,17 +55,45 @@ public class LookManager {
 
         ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
+            if(readyTopLooks.size() == 0){
+                message += " вещей на низ,";
+            }
+            if(readyBotLooks.size() == 0){
+                message += " вещей на верх,";
+            }
+            if(readyBootsLooks.size() == 0){
+                message += " обуви,";
+            }
             return null;
         }else{
             for(int i =0; i<readyTopLooks.size();i++){
                 for(int j =0; j<readyBotLooks.size();j++){
                     for(int y = 0; y<readyBootsLooks.size();y++) {
-                        result.add(sumOfArray(readyTopLooks.get(i), readyBotLooks.get(j),readyBootsLooks.get(y)));
+                        Item[] finalLook = sumOfArray(readyTopLooks.get(i), readyBotLooks.get(j),readyBootsLooks.get(y));
+                        boolean checkColor = prefs.getBoolean("sync",false);
+                        if(checkColor == false) {
+                            result.add(finalLook);
+                        }else{
+                            System.out.println(checkColor);
+                            Integer[] colors = new Integer[finalLook.length];
+                            int counter = 0;
+                            for(Item item: finalLook){
+                                colors[counter++] = item.getColor();
+                            }
+                            if(ColorManager.isLookMatch(colors)){
+                                result.add(finalLook);
+                            }
+                        }
                     }
                 }
             }
         }
-        return result;
+        if(result.size()==0){
+            message = " по цвету вещей";
+            return null;
+        }else{
+            return result;
+        }
     }
 
     public static void closeCursors(Cursor[] cursors){
@@ -162,7 +193,7 @@ public class LookManager {
             }
 
             int layers = Rules.getLayersBot(temp);
-            if(layers == 2){
+            if(layers == 1){
                 if(temp > 21){
                     if(merginalIndex==1)
                     matchedLooks.add(look);

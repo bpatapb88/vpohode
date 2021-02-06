@@ -308,9 +308,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         startActivity(intent);
     }
 
-    private void createColorPickerDialog(int id) {
+    private void createColorPickerDialog(long id) {
+            colorInicator = (ColorDrawable) colorView.getBackground();
+            int color = Color.RED;
+
+            if(id>0){
+                colorInicator = (ColorDrawable) colorView.getBackground();
+                color=colorInicator.getColor();
+            }else if(newColor){
+                colorInicator = (ColorDrawable) colorView.getBackground();
+                color=colorInicator.getColor();
+            }
+
         ColorPickerDialog.newBuilder()
-                .setColor(Color.RED)
+                .setColor(color)
                 .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
                 .setAllowCustom(true)
                 .setAllowPresets(true)
@@ -320,13 +331,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setCustomButtonText(R.string.colorCustom)
                 .setDialogTitle(R.string.colorSet)
                 .setColorShape(ColorShape.SQUARE)
-                .setDialogId(id)
+                .setDialogId((int) id)
                 .show(this);
 
 
     }
     public void onClickColor(View view) {
-                createColorPickerDialog(firstId);
+                createColorPickerDialog(userId);
     }
 
     @Override

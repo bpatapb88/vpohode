@@ -33,9 +33,9 @@ public class Rules {
     public static int getLayersBot(double temp){
         int layers = 0;
         if(temp >= 5){
-            layers = 2;
+            layers = 1;
         }else{
-            layers = 3;
+            layers = 2;
         }
         return layers;
     }

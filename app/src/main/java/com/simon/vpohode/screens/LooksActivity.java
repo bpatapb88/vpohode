@@ -60,7 +60,8 @@ public class LooksActivity extends AppCompatActivity {
         if(looks2 != null) {
             fillLook2(looks2.get(0),looks2.size(),this,this);
         }else{
-            Toast.makeText(this, "Нет подходящего набора", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Нет пододящих/ей " + LookManager.message, Toast.LENGTH_SHORT).show();
+            LookManager.message = "";
             finish();
         }
 
