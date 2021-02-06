@@ -2,12 +2,21 @@ package com.simon.vpohode.Managers;
 
 
 import android.graphics.Color;
+
+import com.simon.vpohode.Item;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class ColorManager {
 
-    public static boolean isLookMatch(Integer[] listOfColors){
+    public static boolean isLookMatch(Item[] finalLook){
+        Integer[] listOfColors = new Integer[finalLook.length];
+        int counter = 0;
+        for(Item item: finalLook){
+            listOfColors[counter++] = item.getColor();
+        }
+
         float[][] looksHSV = new float[listOfColors.length][3];
         float[] hsv = new float[3];
         ArrayList<Integer> neutral = new ArrayList<>();

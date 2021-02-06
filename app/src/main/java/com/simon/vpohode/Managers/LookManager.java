@@ -56,10 +56,10 @@ public class LookManager {
         ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
             if(readyTopLooks.size() == 0){
-                message += " вещей на низ,";
+                message += " вещей на верх,";
             }
             if(readyBotLooks.size() == 0){
-                message += " вещей на верх,";
+                message += " вещей на низ,";
             }
             if(readyBootsLooks.size() == 0){
                 message += " обуви,";
@@ -72,15 +72,11 @@ public class LookManager {
                         Item[] finalLook = sumOfArray(readyTopLooks.get(i), readyBotLooks.get(j),readyBootsLooks.get(y));
                         boolean checkColor = prefs.getBoolean("sync",false);
                         if(checkColor == false) {
+                            if(StyleManager.isLookMatchStyle(finalLook,prefs))
                             result.add(finalLook);
                         }else{
-                            System.out.println(checkColor);
-                            Integer[] colors = new Integer[finalLook.length];
-                            int counter = 0;
-                            for(Item item: finalLook){
-                                colors[counter++] = item.getColor();
-                            }
-                            if(ColorManager.isLookMatch(colors)){
+                            if(ColorManager.isLookMatch(finalLook)){
+                                if(StyleManager.isLookMatchStyle(finalLook,prefs))
                                 result.add(finalLook);
                             }
                         }
@@ -205,15 +201,15 @@ public class LookManager {
 
             }else{
                 if(temp > (-3)){
-                    if(look[0].getTermid() == 1 && look[1].getTermid() ==2){
+                    if(look[1].getTermid() == 1 && look[0].getTermid() ==2){
                         matchedLooks.add(look);
                     }
                 }else if(temp > (-10)){
-                    if(look[0].getTermid() == 1 && look[1].getTermid() ==3){
+                    if(look[1].getTermid() == 1 && look[0].getTermid() ==3){
                         matchedLooks.add(look);
                     }
                 }else{
-                    if(look[0].getTermid() > 1 && look[1].getTermid() == 3){
+                    if(look[1].getTermid() > 1 && look[0].getTermid() == 3){
                         matchedLooks.add(look);
                     }
 

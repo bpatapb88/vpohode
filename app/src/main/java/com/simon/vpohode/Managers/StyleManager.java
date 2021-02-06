@@ -1,11 +1,20 @@
 package com.simon.vpohode.Managers;
 
 import android.content.SharedPreferences;
+
+import com.simon.vpohode.Item;
+
 import java.util.ArrayList;
 
 public class StyleManager {
 
-    public static boolean isLookMatchStyle (String[] styles, SharedPreferences prefs){
+    public static boolean isLookMatchStyle (Item[] finalLook, SharedPreferences prefs){
+        String[] styles = new String[finalLook.length];
+        int counter = 0;
+        for(Item item: finalLook){
+            styles[counter++] = item.getStyle();
+        }
+
         ArrayList<String> notCheckedStyles = StyleManager.notCheckedStyles(prefs);
         for(String temp : styles){
             if(notCheckedStyles.contains(temp)){
@@ -15,7 +24,7 @@ public class StyleManager {
         return true;
     }
 
-    public static ArrayList<String> notCheckedStyles(SharedPreferences pref){
+    private static ArrayList<String> notCheckedStyles(SharedPreferences pref){
         ArrayList<String> notCheckedStyles = new ArrayList<>();
         if(!pref.getBoolean("check_box_casual", true)){
             notCheckedStyles.add("Кэжуал");
