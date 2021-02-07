@@ -14,7 +14,7 @@
     <string name="sync_header">Фильтры</string>
     <!-- Messages Preferences -->
     <string name="city">Город</string>
-    <string name="temp">Температура</string>
+    <string name="temp">Задать температуру в ручную</string>
     <string name="show_style">Отображать вещи:</string>
 
     <!-- Sync Preferences -->
@@ -28,7 +28,7 @@
     <string name="scroll">scroll to </string>
     <string name="looks">Какие стили подбирать</string>
     <string name="developer">Для разработчиков</string>
-    <string name="accuracy">Разброс</string>
+    <string name="accuracy">Разброс по цветам</string>
     <string name="lookpage">Мы подобрали для вас: </string>
     <string name="colorSet">Выбери цвет</string>
     <string name="select">Выбрать</string>

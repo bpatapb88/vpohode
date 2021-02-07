@@ -58,6 +58,9 @@ public class LooksActivity extends AppCompatActivity {
         final ArrayList<Item[]> looks2 = LookManager.getLooks(term, getApplicationContext());
 
         if(looks2 != null) {
+            if(!MainActivity.rain.equals(""))
+                Toast.makeText(this, "Незабудь взять ЗОНТ!", Toast.LENGTH_SHORT).show();
+
             fillLook2(looks2.get(0),looks2.size(),this,this);
         }else{
             Toast.makeText(this, "Нет пододящих/ей " + LookManager.message, Toast.LENGTH_SHORT).show();

@@ -4,6 +4,7 @@ package com.simon.vpohode.Managers;
 import android.graphics.Color;
 
 import com.simon.vpohode.Item;
+import com.simon.vpohode.Rules;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +17,7 @@ public class ColorManager {
         for(Item item: finalLook){
             listOfColors[counter++] = item.getColor();
         }
+        System.out.println("Kolichestvo cvetov "+listOfColors.length);
 
         float[][] looksHSV = new float[listOfColors.length][3];
         float[] hsv = new float[3];
@@ -29,6 +31,7 @@ public class ColorManager {
             if(looksHSV[j][1] < 0.2 || looksHSV[j][2] < 0.2){
                 neutral.add(j);
             }else{
+                System.out.println("color " + looksHSV[j][0]);
                 notNeutral.add(looksHSV[j][0]);
             }
         }
@@ -38,15 +41,14 @@ public class ColorManager {
         }else{
             switch (notNeutral.size()){
                 case 2:
-                    if((notNeutral.get(1) - notNeutral.get(0)) == 18){
+                    if(Math.abs((notNeutral.get(1) - notNeutral.get(0)) - 18) < Rules.ACCURACY){
                         return true;
                     }
                     break;
-
                 case 3:
-                    if((notNeutral.get(1) - notNeutral.get(0) == 3) && (notNeutral.get(2) - notNeutral.get(1) == 3)){
+                    if(Math.abs((notNeutral.get(1) - notNeutral.get(0) - 3))<Rules.ACCURACY && Math.abs((notNeutral.get(2) - notNeutral.get(1) - 3))<Rules.ACCURACY){
                         return true;
-                    }else if((notNeutral.get(1) - notNeutral.get(0) == 12) && (notNeutral.get(2) - notNeutral.get(1) == 12)){
+                    }else if(Math.abs((notNeutral.get(1) - notNeutral.get(0) - 12))<Rules.ACCURACY && Math.abs((notNeutral.get(2) - notNeutral.get(1) - 12))<Rules.ACCURACY){
                         return true;
                     }
                     break;

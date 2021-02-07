@@ -26,6 +26,7 @@
             android:orientation="horizontal"
             android:padding="5dp">
             <ImageButton
+                android:background="@color/colorAccent"
                 android:id="@+id/image_of_item"
                 android:layout_width="110dp"
                 android:layout_height="120dp"
@@ -35,6 +36,7 @@
                 android:src="@drawable/ic_baseline_photo_camera_24"
                 />
             <ImageView
+                android:background="@color/colorAccent"
                 android:id="@+id/colorView"
                 android:layout_width="10dp"
                 android:layout_height="120dp"
@@ -87,7 +89,7 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="48dp"
-                app:srcCompat="@drawable/ic_beach"/>
+                app:srcCompat="@drawable/ic_sun"/>
             <SeekBar
                 android:layout_weight="25"
                 android:id="@+id/seekBar"

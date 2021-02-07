@@ -21,8 +21,19 @@
     <PreferenceCategory app:title="@string/sync_header">
 
         <SwitchPreferenceCompat
+            app:key="weather"
+            app:defaultValue="true"
+            app:title="Подбирать по погоде" />
+        <SwitchPreferenceCompat
             app:key="sync"
+            app:defaultValue="false"
             app:title="Подбирать по цветам" />
+        <EditTextPreference
+            app:dependency="sync"
+            app:key="accuracy"
+            app:title="@string/accuracy"
+            app:defaultValue="0.5"
+            app:useSimpleSummaryProvider="true" />
 
         <!--<SwitchPreferenceCompat
             app:dependency="sync"
@@ -33,7 +44,8 @@
 
 
     </PreferenceCategory>
-<PreferenceCategory app:title="@string/looks">
+<PreferenceCategory app:title="@string/looks"
+    >
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_casual"
@@ -61,10 +73,5 @@
             app:key="temp"
             app:title="@string/temp"
             app:useSimpleSummaryProvider="true" />
-        <!--<EditTextPreference
-            app:key="accuracy"
-            app:title="@string/accuracy"
-            app:defaultValue="0.5"
-            app:useSimpleSummaryProvider="true" />-->
     </PreferenceCategory>
 </PreferenceScreen>

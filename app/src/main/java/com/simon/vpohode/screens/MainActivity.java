@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
+    public static String rain;
     private String city = "Brno";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.welcome));
@@ -160,6 +160,10 @@ public class MainActivity extends AppCompatActivity {
                     JSONArray forecast = weatherIn3HoursAll.getJSONArray("weather");
                     JSONObject weather = forecast.getJSONObject(0);
                     description = weather.getString("description");
+                    rain = "";
+                    if(description.equals("дождь")){
+                        rain = description;
+                    }
                     JSONObject main0 = currentWeatherAll.getJSONObject("main");
                     mainTem0 = main0.getString("feels_like");
                     JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");
@@ -167,6 +171,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+
         // save the temperature
                 avgTempertureCel = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
                 String ifPlus = "";
@@ -174,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     ifPlus = "+";
                 }
                 final String outputWeather = (int)Double.parseDouble(mainTem0) + " " + CELSIUS_SYMBOL + description;
-                // TODO change variable names
+
                 textViewWeather.setText(NOW_WORD + city + ": " + ifPlus + outputWeather);
         }
     }

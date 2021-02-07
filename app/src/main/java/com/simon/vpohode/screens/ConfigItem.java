@@ -352,8 +352,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     @Override
     public void onDialogDismissed(int dialogId) {
-        if(newColor)
-        Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();
+       /* if(newColor)
+        Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();*/
     }
 
     @Override
@@ -373,7 +373,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             imageItem.setImageURI(result.getUri());
             newImage = true;
-            Toast.makeText(this, "Image of Item was loaded success!", Toast.LENGTH_SHORT).show();
         }
     }
     private void startCrop(Uri imageuri) {

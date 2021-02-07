@@ -22,6 +22,8 @@ public class LookManager {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
 
+        setAccurancy(prefs);
+
         int layersTop = Rules.getLayersTop(temp);
         int layersBot = Rules.getLayersBot(temp);
 
@@ -47,9 +49,16 @@ public class LookManager {
         closeCursors(cursorLayersBoots);
         db.close();
 
+
         ArrayList<Item[]> readyTopLooks = referedToTempTop(topLooks,temp);
         ArrayList<Item[]> readyBotLooks = referedToTempBot(botLooks,temp);
         ArrayList<Item[]> readyBootsLooks = referedToTempBoots(bootsLooks,temp);
+
+        if(!prefs.getBoolean("weather",true)){
+            readyTopLooks = getAllLooks(topLooks);
+            readyBotLooks = getAllLooks(botLooks);
+            readyBootsLooks = getAllLooks(bootsLooks);
+        }
 
         ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
@@ -151,6 +160,14 @@ public class LookManager {
         return item;
     }
 
+    public static ArrayList<Item[]> getAllLooks(Item[][] looks){
+        ArrayList<Item[]> matchedLooks = new ArrayList<>();
+        for(Item[] look: looks){
+            matchedLooks.add(look);
+        }
+        return matchedLooks;
+    }
+
     public static ArrayList<Item[]> referedToTempTop(Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
@@ -245,11 +262,11 @@ public class LookManager {
         return matchedLooks;
     }
 
-    /*private static void setAccurancy(SharedPreferences prefs) {
+    private static void setAccurancy(SharedPreferences prefs) {
         String accuracy = prefs.getString("accuracy","0.5");
         if(!accuracy.equals(0.5)){
             Rules.ACCURACY = Double.valueOf(accuracy);
         }
-    }*/
+    }
 
 }
