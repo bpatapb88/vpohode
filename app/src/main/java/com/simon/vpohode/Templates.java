@@ -7,10 +7,10 @@ public enum Templates {
     SWEATER("Кофта"),
     PANTS("Штаны"),
     JEANS("Джинсы"),
-    JACKET("Осеняя куртка"),
+    JACKET("Осенняя куртка"),
     COAT("Пальто"),
     KALSONY("Кальсоны"),
-    SNIKERS("Кросовки");
+    SNIKERS("Кроссовки");
 
     private String templates;
 
@@ -62,7 +62,7 @@ public enum Templates {
                 templateOfItem.setLayer(2);
                 break;
             case 6:
-                templateOfItem.setName("Осеняя куртка");
+                templateOfItem.setName("Осенняя куртка");
                 templateOfItem.setTermid(1d);
                 templateOfItem.setStyle(Styles.CASUAL.toString());
                 templateOfItem.setTop(0);
@@ -83,7 +83,7 @@ public enum Templates {
                 templateOfItem.setLayer(1);
                 break;
             case 9:
-                templateOfItem.setName("Кросовки");
+                templateOfItem.setName("Кроссовки");
                 templateOfItem.setTermid(2d);
                 templateOfItem.setStyle(Styles.SPORT.toString());
                 templateOfItem.setTop(1);

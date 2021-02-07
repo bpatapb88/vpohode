@@ -44,4 +44,14 @@ public class StyleManager {
         return notCheckedStyles;
     }
 
+    public static ArrayList<Item[]> filterStyle(ArrayList<Item[]> looks, SharedPreferences prefs){
+        ArrayList<Item[]> result = new ArrayList<>();
+        for(Item[] look: looks){
+            if(isLookMatchStyle(look,prefs)){
+                result.add(look);
+            }
+        }
+        return result;
+    }
+
 }

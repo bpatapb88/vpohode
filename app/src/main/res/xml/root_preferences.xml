@@ -8,13 +8,13 @@
             app:title="@string/city"
             app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
+        <!--<ListPreference
             app:defaultValue="carusel"
             app:entries="@array/show_entries"
             app:entryValues="@array/show_values"
             app:key="show"
             app:title="@string/show_style"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true" />-->
 
     </PreferenceCategory>
 
@@ -24,12 +24,12 @@
             app:key="sync"
             app:title="Подбирать по цветам" />
 
-        <SwitchPreferenceCompat
+        <!--<SwitchPreferenceCompat
             app:dependency="sync"
             app:key="attachment"
             app:summaryOff="Все цвета"
             app:summaryOn="Исключены темные и постельные тона"
-            app:title="Подбирать яркий образ" />
+            app:title="Подбирать яркий образ" />-->
 
 
     </PreferenceCategory>
@@ -61,10 +61,10 @@
             app:key="temp"
             app:title="@string/temp"
             app:useSimpleSummaryProvider="true" />
-        <EditTextPreference
+        <!--<EditTextPreference
             app:key="accuracy"
             app:title="@string/accuracy"
             app:defaultValue="0.5"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true" />-->
     </PreferenceCategory>
 </PreferenceScreen>

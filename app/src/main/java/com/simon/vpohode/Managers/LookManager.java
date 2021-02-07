@@ -22,8 +22,6 @@ public class LookManager {
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
 
-        setAccurancy(prefs);
-
         int layersTop = Rules.getLayersTop(temp);
         int layersBot = Rules.getLayersBot(temp);
 
@@ -72,11 +70,9 @@ public class LookManager {
                         Item[] finalLook = sumOfArray(readyTopLooks.get(i), readyBotLooks.get(j),readyBootsLooks.get(y));
                         boolean checkColor = prefs.getBoolean("sync",false);
                         if(checkColor == false) {
-                            if(StyleManager.isLookMatchStyle(finalLook,prefs))
                             result.add(finalLook);
                         }else{
                             if(ColorManager.isLookMatch(finalLook)){
-                                if(StyleManager.isLookMatchStyle(finalLook,prefs))
                                 result.add(finalLook);
                             }
                         }
@@ -88,7 +84,13 @@ public class LookManager {
             message = " по цвету вещей";
             return null;
         }else{
-            return result;
+            result = StyleManager.filterStyle(result,prefs);
+            if(result.size()==0){
+                message = " по стилю вещей";
+                return null;
+            }else{
+                return result;
+            }
         }
     }
 
@@ -243,23 +245,11 @@ public class LookManager {
         return matchedLooks;
     }
 
-    public static double getInterval(double temp){
-        double result;
-        if(temp >= 21){
-            result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT);
-        }else if(temp >= 6){
-            result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT*2);
-        }else{
-            result = (Rules.MAX_TEMPER - temp)/(Rules.COEFFICIENT*3);
-        }
-        return result;
-    }
-
-    private static void setAccurancy(SharedPreferences prefs) {
+    /*private static void setAccurancy(SharedPreferences prefs) {
         String accuracy = prefs.getString("accuracy","0.5");
         if(!accuracy.equals(0.5)){
             Rules.ACCURACY = Double.valueOf(accuracy);
         }
-    }
+    }*/
 
 }

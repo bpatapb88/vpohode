@@ -80,10 +80,16 @@
                 android:text="@string/color"
                 />
             <Space
+                android:layout_weight="1"
                 android:layout_width="5dp"
                 android:layout_height="wrap_content"
                 ></Space>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="48dp"
+                app:srcCompat="@drawable/ic_beach"/>
             <SeekBar
+                android:layout_weight="25"
                 android:id="@+id/seekBar"
                 style="@style/Widget.AppCompat.SeekBar"
                 android:layout_width="match_parent"
@@ -93,6 +99,10 @@
                 android:max="2"
                 android:progress="2"
                 android:background="@drawable/tempbackground"/>
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="48dp"
+                app:srcCompat="@drawable/ic_snow" />
         </LinearLayout>
         <!--<EditText
             android:id="@+id/termid"

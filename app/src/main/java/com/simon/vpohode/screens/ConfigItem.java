@@ -118,6 +118,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
         // if 0, add
         if (userId > 0) {
+            spinnerTemplate.setVisibility(View.GONE);
             // get item by id from db
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
                     DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});

@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">Dresser</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Настройки</string>
     <string name="title_wardrobe">Гардероб</string>
     <string name="title_item">Вещь</string>
     <string name="show_item">Подборка</string>
     <string name="search">Ищем</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="template">Шаблон: </string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">Настройки</string>
     <string name="color">Цвет</string>
     <!-- Preference Titles -->
     <string name="weather_header">Погода</string>
-    <string name="sync_header">Sync</string>
+    <string name="sync_header">Фильтры</string>
     <!-- Messages Preferences -->
     <string name="city">Город</string>
     <string name="temp">Температура</string>
