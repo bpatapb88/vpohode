@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Managers.LayoutManager;
+import com.simon.vpohode.Managers.WeatherManager;
 import com.simon.vpohode.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,6 +27,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
 
     // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+    // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
@@ -147,41 +144,17 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             super.onPostExecute(s);
-            String mainTem0 ="";
-            String mainTem1 = "";
-            String description = "";
-            try {
-                    final JSONObject jsonObject = new JSONObject(s);
-                    final JSONArray jsonArray = jsonObject.getJSONArray("list");
-                    // current weather
-                    final JSONObject currentWeatherAll = jsonArray.getJSONObject(0);
-                    // weather in 3 hours
-                    JSONObject weatherIn3HoursAll = jsonArray.getJSONObject(1);
-                    JSONArray forecast = weatherIn3HoursAll.getJSONArray("weather");
-                    JSONObject weather = forecast.getJSONObject(0);
-                    description = weather.getString("description");
-                    rain = "";
-                    if(description.equals("дождь")){
-                        rain = description;
-                    }
-                    JSONObject main0 = currentWeatherAll.getJSONObject("main");
-                    mainTem0 = main0.getString("feels_like");
-                    JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");
-                    mainTem1 = main1.getString("feels_like");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-
+            WeatherManager weatherManager = new WeatherManager();
+            avgTempertureCel = weatherManager.getAverange(s);
 
         // save the temperature
-                avgTempertureCel = (Double.parseDouble(mainTem0) + Double.parseDouble(mainTem1))/2;
+                avgTempertureCel = (Double.parseDouble(weatherManager.getFeelTem0()) + Double.parseDouble(weatherManager.getFeelTem1()))/2;
                 String ifPlus = "";
                 if (avgTempertureCel >= 0) {
                     ifPlus = "+";
                 }
-                final String outputWeather = (int)Double.parseDouble(mainTem0) + " " + CELSIUS_SYMBOL + description;
-
+                final String outputWeather = (int)Double.parseDouble(weatherManager.getFeelTem0()) + " " + CELSIUS_SYMBOL + weatherManager.getDescription();
                 textViewWeather.setText(NOW_WORD + city + ": " + ifPlus + outputWeather);
         }
     }
