@@ -4,6 +4,8 @@
     <string name="title_wardrobe">Гардероб</string>
     <string name="title_item">Вещь</string>
     <string name="show_item">Подборка</string>
+    <string name="bot_items">Ноги</string>
+    <string name="top_items">Торс</string>
     <string name="search">Ищем</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="template">Шаблон: </string>

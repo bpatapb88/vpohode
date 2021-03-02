@@ -25,24 +25,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp">
-            <ImageButton
-                android:background="@color/colorAccent"
-                android:id="@+id/image_of_item"
-                android:layout_width="110dp"
-                android:layout_height="120dp"
-                android:scaleType="centerInside"
-                android:layout_gravity="center"
-                android:layout_weight="0"
-                android:src="@drawable/ic_baseline_photo_camera_24"
-                />
-            <ImageView
-                android:background="@color/colorAccent"
-                android:id="@+id/colorView"
-                android:layout_width="10dp"
-                android:layout_height="120dp"
-                />
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <EditText
@@ -58,9 +43,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/pole"
-
                     />
             </LinearLayout>
+            <ImageView
+                android:background="@color/colorAccent"
+                android:id="@+id/colorView"
+                android:layout_width="10dp"
+                android:layout_height="120dp"
+                />
+            <ImageButton
+                android:background="@color/colorAccent"
+                android:id="@+id/image_of_item"
+                android:layout_width="110dp"
+                android:layout_height="120dp"
+                android:scaleType="centerInside"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:src="@drawable/ic_baseline_photo_camera_24"
+                />
 
         </LinearLayout>
 
@@ -69,23 +69,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="5dp">
-            <Button
-                android:onClick="onClickColor"
-                android:fontFamily="monospace"
-                android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.Shrine.Button"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:paddingRight="5dp"
-                android:id="@+id/btnColor"
-                app:icon="@drawable/ic_baseline_color_lens_24"
-                android:text="@string/color"
-                />
-            <Space
-                android:layout_weight="1"
-                android:layout_width="5dp"
-                android:layout_height="wrap_content"
-                ></Space>
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="48dp"
@@ -105,6 +88,23 @@
                 android:layout_width="30dp"
                 android:layout_height="48dp"
                 app:srcCompat="@drawable/ic_snow" />
+            <Space
+                android:layout_weight="1"
+                android:layout_width="5dp"
+                android:layout_height="wrap_content"
+                ></Space>
+            <Button
+                android:onClick="onClickColor"
+                android:fontFamily="monospace"
+                android:textColor="@android:color/secondary_text_light"
+                style="@style/Widget.Shrine.Button"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:id="@+id/btnColor"
+                app:icon="@drawable/ic_baseline_color_lens_24"
+                android:text="@string/color"
+                />
         </LinearLayout>
         <!--<EditText
             android:id="@+id/termid"
@@ -112,82 +112,61 @@
             android:layout_height="wrap_content"
             android:hint="Теплота"
             android:padding="16dp" />-->
-
-        <Spinner
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+    <Spinner
             android:id="@+id/Style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:background="@drawable/pole"
-            />
-
-        <RadioGroup
-            android:id="@+id/radios"
+            android:layout_weight="1" />
+    <Switch
+        android:id="@+id/top_bot"
+        android:layout_width="120dp"
+        android:layout_height="match_parent"
+        android:text="Торс/Ноги"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="13dp"
+        android:layout_marginLeft="5dp"
+        />
+</LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:id="@+id/layoutTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <RadioButton
-                android:layoutDirection="rtl"
-                android:textAlignment="textEnd"
-                android:id="@+id/top"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="10dp"
-                android:buttonTint="@android:color/secondary_text_light"
-                android:text="На верх"
-                android:textColor="@android:color/secondary_text_light"/>
-
-            <RadioButton
-                android:layoutDirection="rtl"
-                android:textAlignment="textEnd"
-                android:id="@+id/bottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:buttonTint="@android:color/secondary_text_light"
-                android:padding="10dp"
-                android:text="На низ"
-                android:textColor="@android:color/secondary_text_light"
-                />
-        </RadioGroup>
-
-        <LinearLayout
-            android:id="@+id/layoutTop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <RadioGroup
                 android:id="@+id/radios2"
-                android:layout_width="210dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_weight="1">
 
                 <RadioButton
                     android:id="@+id/layer1"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:buttonTint="@android:color/secondary_text_light"
-                    android:layoutDirection="rtl"
-                    android:text="Первый слой"
-                    android:textAlignment="textStart"
-                    android:textColor="@android:color/secondary_text_light" />
+                    />
 
                 <RadioButton
                     android:id="@+id/layer2"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:buttonTint="@android:color/secondary_text_light"
-                    android:layoutDirection="rtl"
-                    android:text="Второй слой"
-                    android:textAlignment="textStart"
-                    android:textColor="@android:color/secondary_text_light" />
+                    />
 
                 <RadioButton
                     android:id="@+id/layer3"
@@ -195,38 +174,46 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:buttonTint="@android:color/secondary_text_light"
-                    android:layoutDirection="rtl"
-                    android:text="Третий слой"
-                    android:textAlignment="textStart"
-                    android:textColor="@android:color/secondary_text_light" />
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    />
             </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:orientation="vertical">
+                android:gravity="right"
+                android:layout_marginTop="-30dp"
+                android:orientation="horizontal"
 
+                >
                 <ImageView
                     android:id="@+id/imageLayer1"
+                    android:layout_weight="1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_layer1" />
 
                 <ImageView
                     android:id="@+id/imageLayer2"
+                    android:layout_weight="1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_layer2" />
 
                 <ImageView
                     android:id="@+id/imageLayer3"
+                    android:layout_weight="1"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     app:srcCompat="@drawable/ic_layer3" />
+
             </LinearLayout>
+
         </LinearLayout>
+
+
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

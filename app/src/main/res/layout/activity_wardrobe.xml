@@ -36,7 +36,7 @@
             android:layout_height="29dp"
             android:paddingLeft="10dp"
             android:textSize="18dp"
-            android:text="Вещей на верх:"
+            android:text="Вещей на торс:"
             />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="29dp"
             android:textSize="18dp"
-            android:text="Вещей на низ:"
+            android:text="Вещей на ноги:"
             />
     </LinearLayout>
     <LinearLayout

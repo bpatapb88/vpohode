@@ -63,10 +63,10 @@ public class LookManager {
         ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
             if(readyTopLooks.size() == 0){
-                message += " вещей на верх,";
+                message += " вещей на торс,";
             }
             if(readyBotLooks.size() == 0){
-                message += " вещей на низ,";
+                message += " вещей на ноги,";
             }
             if(readyBootsLooks.size() == 0){
                 message += " обуви,";
