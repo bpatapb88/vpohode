@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
+
 import com.simon.vpohode.Item;
 import com.simon.vpohode.LooksAdapter;
 import com.simon.vpohode.Managers.LookManager;
@@ -37,6 +40,12 @@ public class LooksActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(prefs.getBoolean("theme", true)){
+            getTheme().applyStyle(R.style.AppTheme,true);
+        }else{
+            getTheme().applyStyle(R.style.OverlayThemeRose,true);
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_looks);

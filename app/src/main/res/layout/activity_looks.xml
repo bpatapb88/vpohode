@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorAccent"
+            android:background="?attr/colorAccent"
             android:fontFamily="monospace"
             app:menu="@menu/menu_main"
             app:titleTextColor="@android:color/secondary_text_light"

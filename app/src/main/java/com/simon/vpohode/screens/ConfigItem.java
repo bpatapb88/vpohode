@@ -2,6 +2,7 @@ package com.simon.vpohode.screens;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -33,6 +34,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
@@ -75,6 +77,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if(prefs.getBoolean("theme", true)){
+            getTheme().applyStyle(R.style.AppTheme,true);
+        }else{
+            getTheme().applyStyle(R.style.OverlayThemeRose,true);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         layoutTop = findViewById(R.id.layoutTop);

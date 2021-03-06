@@ -3,6 +3,11 @@
 
     <PreferenceCategory app:title="@string/weather_header">
 
+        <SwitchPreferenceCompat
+            app:key="theme"
+            app:defaultValue="true"
+            app:title="Сменить тему" />
+
         <EditTextPreference
             app:key="city"
             app:title="@string/city"

@@ -10,13 +10,15 @@
         <item name="buttonBarPositiveButtonStyle">@style/positiveBtnStyle</item>
         <item name="buttonBarNeutralButtonStyle">@style/positiveBtnStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/positiveBtnStyle</item>
-
+    </style>
+    <style name="OverlayThemeRose" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_rose</item>
+        <item name="colorAccent">@color/colorAccent_rose</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary_rose</item>
     </style>
 
     <style name="Widget.Shrine.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorAccent</item>
-        <item name="android:theme">@style/AppTheme</item>
-        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
     <style name="Widget.Shrine.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/TextAppearance.Shrine.TextInputLayout.HintText</item>
