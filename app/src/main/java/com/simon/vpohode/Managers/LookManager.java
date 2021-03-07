@@ -1,5 +1,6 @@
 package com.simon.vpohode.Managers;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -9,6 +10,7 @@ import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Rules;
+import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -155,8 +157,9 @@ public class LookManager {
                 cursors.getDouble(cursors.getColumnIndex("termindex")),
                 cursors.getInt(cursors.getColumnIndex("layer")),
                 cursors.getInt(cursors.getColumnIndex("color")),
-                cursors.getString(cursors.getColumnIndex("foto")));
-
+                cursors.getString(cursors.getColumnIndex("foto")),
+                cursors.getInt(cursors.getColumnIndex("used")),
+                cursors.getString(cursors.getColumnIndex("created")));
         return item;
     }
 
@@ -267,6 +270,18 @@ public class LookManager {
         if(!accuracy.equals(0.5)){
             Rules.ACCURACY = Double.valueOf(accuracy);
         }
+    }
+
+    public static void useLook(Integer showingLook, ArrayList<Item[]> looks, Context context){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        for(Item item : looks.get(showingLook)) {
+            cv.put(DBFields.USED.toFieldName(), item.getUsed() + 1);
+            db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + item.getId(), null);
+            cv.clear();
+        }
+        db.close();
     }
 
 }

@@ -9,6 +9,8 @@ public class Item {
     private int top;
     private int color;
     private int layer;
+    private int used;
+    private String created;
 
     public int getId() {
         return id;
@@ -74,7 +76,23 @@ public class Item {
         this.color = color;
     }
 
-    public Item(int id, String name, String style, int top, Double termid, int layer, int color, String foto) {
+    public int getUsed() {
+        return used;
+    }
+
+    public void setUsed(int used) {
+        this.used = used;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public Item(int id, String name, String style, int top, Double termid, int layer, int color, String foto, int used, String created) {
         this.id = id;
         this.name = name;
         this.style = style;
@@ -83,6 +101,8 @@ public class Item {
         this.top = top;
         this.color = color;
         this.layer = layer;
+        this.used = used;
+        this.created = created;
     }
 
     public Item() {

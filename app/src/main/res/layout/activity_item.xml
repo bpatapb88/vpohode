@@ -44,6 +44,32 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/pole"
                     />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:id="@+id/usedLayout">
+                    <TextView
+                        android:id="@+id/created"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Использовалась: "
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/secondary_text_light"
+                        />
+                    <NumberPicker
+                        android:id="@+id/used"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        />
+
+
+                </LinearLayout>
+
             </LinearLayout>
             <ImageView
                 android:background="?attr/colorAccent"
@@ -209,7 +235,6 @@
                     app:srcCompat="@drawable/ic_layer3" />
 
             </LinearLayout>
-
         </LinearLayout>
 
 

@@ -23,22 +23,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:id="@+id/title"
+
+        <ListView
+            android:id="@+id/list_items"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:textAlignment="center"
-            android:padding="10dp"
-            android:text="@string/lookpage" />
-            <ListView
-                android:id="@+id/list_items"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:layout_weight="1"
-                />
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="85dp"
+            />
 
     </LinearLayout>
     </LinearLayout>
@@ -47,9 +42,10 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:padding="15dp"
+        android:padding="10dp"
         android:gravity="bottom"
-        android:layout_gravity="bottom|center_horizontal">
+        android:layout_gravity="bottom|center_horizontal"
+        >
         <Button
             android:id="@+id/back"
             android:layout_width="match_parent"
@@ -58,8 +54,25 @@
             android:textColor="@android:color/secondary_text_light"
             style="@style/Widget.Shrine.Button"
             android:layout_weight="1"
-            android:padding="15dp"
-            android:text="Back" />
+            android:padding="12dp"
+            android:text="Назад"
+            android:textSize="10dp"
+            app:icon="@drawable/back"/>
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"></Space>
+        <Button
+            android:id="@+id/usethislook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:textColor="@android:color/secondary_text_light"
+            style="@style/Widget.Shrine.Button"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:text="Надеть"
+            android:textSize="10dp"
+            app:icon="@drawable/useit"/>
         <Space
             android:layout_width="15dp"
             android:layout_height="match_parent"></Space>
@@ -71,7 +84,9 @@
             android:textColor="@android:color/secondary_text_light"
             style="@style/Widget.Shrine.Button"
             android:layout_weight="1"
-            android:padding="15dp"
-            android:text="Next" />
+            android:padding="12dp"
+            android:textSize="10dp"
+            android:text="Вперед"
+            app:icon="@drawable/next"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

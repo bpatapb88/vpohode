@@ -22,12 +22,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,6 +52,10 @@ import com.simon.vpohode.database.DatabaseHelper;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
     EditText nameBox;
@@ -69,11 +75,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     LinearLayout layoutTop;
     Space x;
     Switch topBot;
+    NumberPicker usedTimes;
     boolean newImage = false;
     boolean newColor = false;
     long userId=0;
     private Uri uri;
     private static final int firstId = 1;
+    private Calendar calendar;
+    private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +120,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         radioButtonLayer3 = findViewById(R.id.layer3);
         seekBar = findViewById(R.id.seekBar);
         topBot = findViewById(R.id.top_bot);
-
+        usedTimes = findViewById(R.id.used);
+        usedTimes.setMaxValue(2147483647);
+        usedTimes.setMinValue(0);
+        usedTimes.setWrapSelectorWheel(false);
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
 
@@ -141,6 +153,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             imageItem.setBackgroundColor(userCursor.getInt(6));
+            usedTimes.setValue(userCursor.getInt(8));
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             }
@@ -152,9 +165,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 topBot.setChecked(true);
                 reBuildIcons(true);
             }
-
+            TextView created = findViewById(R.id.created);
+            created.setText("C " + userCursor.getString(9) + " надевал(-а): ");
             userCursor.close();
         } else {
+            LinearLayout usedLayout = findViewById(R.id.usedLayout);
+            usedLayout.setVisibility(View.GONE);
             // hide button Delete, It will be new Item
             delButton.setVisibility(View.GONE);
             x.setVisibility(View.GONE);
@@ -167,7 +183,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             public void onClick(View view) {
                 boolean allIsOk = true;
                 if(nameBox.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Название не выбрано", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Введите название", Toast.LENGTH_SHORT).show();
                     allIsOk=false;
                 }else if(!newColor && userId==0) {
                     Toast.makeText(getApplicationContext(), "Цвет не выбран", Toast.LENGTH_SHORT).show();
@@ -215,11 +231,17 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     // update or insert DB
                     if(allIsOk) {
                         if (userId > 0) {
+                            cv.put(DBFields.USED.toFieldName(), usedTimes.getValue());
                             db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
                         } else {
+                            cv.put(DBFields.USED.toFieldName(), 0);
+                            calendar = Calendar.getInstance();
+                            String currentTime = dateFormat.format(calendar.getTime());
+                            cv.put(DBFields.CREATED.toFieldName(), currentTime);
                             db.insert(DatabaseHelper.TABLE, null, cv);
                         }
                         cv.clear();
+                        db.close();
                         goHome();
                     }
                 }

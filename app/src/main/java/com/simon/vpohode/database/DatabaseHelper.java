@@ -2,9 +2,8 @@ package com.simon.vpohode.database;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import com.simon.vpohode.Item;
 
@@ -13,7 +12,8 @@ import java.util.ArrayList;
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
-    public static final String TABLE = "items"; // Name of Table
+    public static final String TABLE = "items";// Name of Table
+    public static final String rawQueryPart = "SELECT * FROM " + TABLE + " WHERE ";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
     }
@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate (SQLiteDatabase db) {
 
-        db.execSQL ("CREATE TABLE items ("
+        db.execSQL ("CREATE TABLE " + TABLE + " ("
                 + DBFields.ID.toFieldName()
                 + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + DBFields.NAME.toFieldName() + " " + DBFields.NAME.toType() + ", "
@@ -30,7 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DBFields.TERMID.toFieldName() + " " + DBFields.TERMID.toType() + ", "
                 + DBFields.LAYER.toFieldName() + " " + DBFields.LAYER.toType() + ", "
                 + DBFields.COLOR.toFieldName() + " " + DBFields.COLOR.toType() + ", "
-                + DBFields.FOTO.toFieldName() + " " + DBFields.FOTO.toType() + ");");
+                + DBFields.FOTO.toFieldName() + " " + DBFields.FOTO.toType() + ", "
+                + DBFields.USED.toFieldName() + " " + DBFields.USED.toType() + ", "
+                + DBFields.CREATED.toFieldName() + " " + DBFields.CREATED.toType() + ");");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
@@ -39,20 +41,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
-
-        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
+        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
-        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
+        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
     }
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index){
-        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index, null);
+        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index, null);
     }
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index, ArrayList<Integer[]> colors){
-        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index + " AND " + DBFields.COLOR.toFieldName() + " = " + colors.get(0)[0], null);
+        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index + " AND " + DBFields.COLOR.toFieldName() + " = " + colors.get(0)[0], null);
     }
     public static Cursor getItemByID (SQLiteDatabase db, int id){
-        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + DBFields.ID.toFieldName() + " = " + id, null);
+        return db.rawQuery(rawQueryPart + DBFields.ID.toFieldName() + " = " + id, null);
     }
 
     public static Cursor getItemByID (SQLiteDatabase db, Item[] id){
@@ -64,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 string += DBFields.ID.toFieldName() + " = " + id[i].getId() + " OR ";
             }
         }
-        return db.rawQuery("SELECT * FROM "+ DatabaseHelper.TABLE + " WHERE " + string, null);
+        return db.rawQuery(rawQueryPart + string, null);
     }
 
 }

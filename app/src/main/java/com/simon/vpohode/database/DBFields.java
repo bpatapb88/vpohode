@@ -8,7 +8,9 @@ public enum  DBFields {
     TERMID("termindex","DOUBLE"),
     LAYER("layer", "INTEGER"),
     COLOR("color", "INTEGER"),
-    FOTO("foto", "TEXT");
+    FOTO("foto", "TEXT"),
+    USED("used", "INTEGER"),
+    CREATED("created", "TEXT");
 
     private String dbField;
     private String dbType;
