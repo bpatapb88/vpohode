@@ -1,4 +1,5 @@
 package com.simon.vpohode.screens;
+
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -6,11 +7,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +56,7 @@ import com.simon.vpohode.database.DatabaseHelper;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -252,15 +257,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //test to download picture from net
+                //new DownloadImageTask((ImageView) view).execute("https://www.pikpng.com/pngl/b/89-893659_free-icons-png-link-icon-vector-clipart.png");
                 CropImage.startPickImageActivity(ConfigItem.this);
             }
         });
-        /*btReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                imageItem.setImageResource(0);
-            }
-        });*/
     }
 
     @Override
@@ -409,6 +410,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             newImage = true;
         }
     }
+
     private void startCrop(Uri imageuri) {
         CropImage.activity(imageuri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -429,5 +431,30 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             imageLayer3.setImageResource(R.drawable.ic_layer3);
         }
 
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error Image", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 }
