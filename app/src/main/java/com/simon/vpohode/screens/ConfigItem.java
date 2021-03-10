@@ -2,6 +2,7 @@ package com.simon.vpohode.screens;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -59,6 +60,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
@@ -88,7 +90,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private static final int firstId = 1;
     private Calendar calendar;
     private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
+    private Context internContext = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -218,6 +220,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     if (newColor) {
                         colorInicator = (ColorDrawable) colorView.getBackground();
                         cv.put(DBFields.COLOR.toFieldName(), colorInicator.getColor());
+                        System.out.println("Color is " + colorInicator.getColor());
                     }
                     //save image if image was changed or new
                     if (newImage) {
@@ -287,10 +290,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         spinnerTemplate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
-                Item selectedTemplate = Templates.fillTemplate(spinnerTemplate.getSelectedItemPosition());
+                Item selectedTemplate = Templates.fillTemplate2(spinnerTemplate.getSelectedItem().toString());
                 if (spinnerTemplate.getSelectedItemPosition() != 0) {
-
                         nameBox.setText(selectedTemplate.getName());
                         double x = selectedTemplate.getTermid() - 1;
                         seekBar.setProgress((int) x);
@@ -313,6 +314,15 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                                 radGrpLayer.check(R.id.layer3);
                         }
 
+                        if(selectedTemplate.getColor() != 0){
+                            System.out.println("Promo Template! " + selectedTemplate.getColor());
+                            colorView.setBackgroundColor(selectedTemplate.getColor());
+                            imageItem.setBackgroundColor(selectedTemplate.getColor());
+                            new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
+                            newColor = true;
+                            newImage = true;
+                        }
+
                 }
             }
             @Override
@@ -325,6 +335,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 reBuildIcons(b);
+                ArrayList<Templates> arrayTemplate = new ArrayList<>();
+                for(Templates x : Templates.values()){
+                    if(Templates.fillTemplate2(x.toString()) != null) {
+                        if((Templates.fillTemplate2(x.toString()).getTop() == 0) != b){
+                            System.out.println(x.toString());
+                            arrayTemplate.add(x);
+                        }
+                    }
+                }
+                Templates[] array = new Templates[arrayTemplate.size()];
+                for(int i = 0; i < arrayTemplate.size(); i++){
+                    array[i] = arrayTemplate.get(i);
+                }
+                spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(array, internContext));
             }
         });
     }
