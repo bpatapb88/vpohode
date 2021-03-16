@@ -85,6 +85,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="16dp"
         style="@style/Widget.Shrine.Button"
-        app:srcCompat="@drawable/ic_add_24" />
+        app:srcCompat="@drawable/ic_add_24"
+        app:icon = "@drawable/ic_add_24"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

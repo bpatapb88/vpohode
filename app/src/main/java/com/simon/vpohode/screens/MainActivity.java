@@ -2,10 +2,9 @@ package com.simon.vpohode.screens;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +24,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.jar.Attributes;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,12 +35,26 @@ public class MainActivity extends AppCompatActivity {
     private Double avgTempertureCel;
     public static String rain;
     private String city = "Brno";
-    private SharedPreferences prefs;
+    private SharedPreferences preferences;
+    private Locale locale;
+    private String lang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        lang=getResources().getConfiguration().locale.getCountry();
+        System.out.println(lang);
+        /*lang = preferences.getString("lang", "default");
+        if (lang.equals("default")) {
+            lang=getResources().getConfiguration().locale.getCountry();
+        }*/
+        /*locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, null);*/
+
         if(prefs.getBoolean("theme", true)){
             getTheme().applyStyle(R.style.AppTheme,true);
         }else{
@@ -65,19 +78,25 @@ public class MainActivity extends AppCompatActivity {
         });
 
         textViewWeather = findViewById(R.id.textViewWeather);
-        //show the weather
 
-        //String city = editTextCity.getText().toString().trim();
-
-       // task.onPostExecute(url,1);
-        System.out.println("onCreate");
     }
+
+   /* @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, null);
+    }*/
 
     @Override
     public void onResume(){
         super.onResume();
-        prefs= PreferenceManager.getDefaultSharedPreferences(this);
-        city = prefs.getString("city", "Brno");
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        city = preferences.getString("city", "Brno");
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city);
         task.execute(weatherURLWithCity);
@@ -122,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     private class DownloadTask extends AsyncTask <String, Void, String> {
         private final static String CELSIUS_SYMBOL = "\u2103 ";
+
         private final static String NOW_WORD = "Сейчас в городе ";
 
         @Override

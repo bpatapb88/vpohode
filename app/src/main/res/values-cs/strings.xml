@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name">Dresser</string>
-    <string name="action_settings">Настройки</string>
-    <string name="title_wardrobe">Гардероб</string>
-    <string name="title_item">Вещь</string>
-    <string name="show_item">Подборка</string>
-    <string name="bot_items">Ноги</string>
-    <string name="top_items">Торс</string>
-    <string name="search">Ищем</string>
-    <string name="welcome">Добро пожаловать!</string>
-    <string name="template">Шаблон: </string>
+    <string name="action_settings">Nastaveni</string>
+    <string name="title_wardrobe">Šatník</string>
+    <string name="title_item">Věc</string>
+    <string name="show_item">Sestaveni</string>
+    <string name="bot_items">Noha</string>
+    <string name="top_items">Trup</string>
+    <string name="search">Hledame</string>
+    <string name="welcome">Vítejte</string>
+    <string name="template">Šablona: </string>
 
-    <string name="color">Цвет</string>
+    <string name="color">Barva</string>
     <!-- Preference Titles -->
     <string name="weather_header">Погода</string>
     <string name="sync_header">Фильтры</string>

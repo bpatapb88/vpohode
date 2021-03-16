@@ -17,7 +17,6 @@ public class ColorManager {
         for(Item item: finalLook){
             listOfColors[counter++] = item.getColor();
         }
-        System.out.println("Kolichestvo cvetov "+listOfColors.length);
 
         float[][] looksHSV = new float[listOfColors.length][3];
         float[] hsv = new float[3];
@@ -31,7 +30,6 @@ public class ColorManager {
             if(looksHSV[j][1] < 0.2 || looksHSV[j][2] < 0.2){
                 neutral.add(j);
             }else{
-                System.out.println("color " + looksHSV[j][0]);
                 notNeutral.add(looksHSV[j][0]);
             }
         }

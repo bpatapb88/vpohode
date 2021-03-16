@@ -43,7 +43,8 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:textAlignment="center"
-            android:text="Погода Сейчас" />
+            android:text="@string/weather_header" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,7 +57,7 @@
             >
             <Button
                 android:id="@+id/button"
-                android:text="Гардероб"
+                android:text="@string/title_wardrobe"
                 android:onClick="goToWardrobe"
                 app:icon="@drawable/ic_wardrobe"
                 android:layout_width="match_parent"
@@ -73,7 +74,7 @@
     android:layout_height="wrap_content"/>
             <Button
                 android:id="@+id/button2"
-                android:text="Подобрать"
+                android:text="@string/show_item"
                 android:onClick="onClickShowItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
