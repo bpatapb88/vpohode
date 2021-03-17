@@ -2,7 +2,6 @@ package com.simon.vpohode.screens;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
-    private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+    private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
     public static String rain;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
         lang=getResources().getConfiguration().locale.getCountry();
         System.out.println(lang);
         /*lang = preferences.getString("lang", "default");
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         city = preferences.getString("city", "Brno");
         DownloadTask task = new DownloadTask();
-        String weatherURLWithCity = String.format(weatherURL, city);
+        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
         task.execute(weatherURLWithCity);
     }
 
@@ -141,8 +141,6 @@ public class MainActivity extends AppCompatActivity {
 
     private class DownloadTask extends AsyncTask <String, Void, String> {
         private final static String CELSIUS_SYMBOL = "\u2103 ";
-
-        private final static String NOW_WORD = "Сейчас в городе ";
 
         @Override
         protected String doInBackground(String... strings) {
@@ -188,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                     ifPlus = "+";
                 }
                 final String outputWeather = (int)Double.parseDouble(weatherManager.getFeelTem0()) + " " + CELSIUS_SYMBOL + weatherManager.getDescription();
-                textViewWeather.setText(NOW_WORD + city + ": " + ifPlus + outputWeather);
+                textViewWeather.setText(getResources().getString(R.string.now_word) + " " + city + ": " + ifPlus + outputWeather);
         }
     }
 }

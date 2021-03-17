@@ -67,7 +67,7 @@ public class LooksActivity extends AppCompatActivity {
 
         if(looks2 != null) {
             if(!MainActivity.rain.equals(""))
-                Toast.makeText(this, "Незабудь взять ЗОНТ!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.umbrella), Toast.LENGTH_SHORT).show();
             fillLook2(looks2.get(0),looks2.size(),this,this);
             toolbar.setTitle("Наборов: " + 1 + "/" + looks2.size());
         }else{

@@ -9,7 +9,6 @@
     <string name="search">Ищем</string>
     <string name="welcome">Добро пожаловать!</string>
     <string name="template">Шаблон: </string>
-
     <string name="color">Цвет</string>
     <!-- Preference Titles -->
     <string name="weather_header">Погода</string>
@@ -37,4 +36,6 @@
     <string name="colorCustom">Градиенты</string>
     <string name="colorPresent">Примеры</string>
     <string name="save">Сохранить</string>
+    <string name="umbrella">"Незабудь взять ЗОНТ!"</string>
+    <string name="now_word">Сейчас в городе</string>
 </resources>
