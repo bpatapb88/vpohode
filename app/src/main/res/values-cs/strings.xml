@@ -9,15 +9,57 @@
     <string name="search">Hledame</string>
     <string name="welcome">Vítejte</string>
     <string name="template">Šablona: </string>
-
     <string name="color">Barva</string>
+    <string name="back">Zpět</string>
+    <string name="use">Obléct</string>
+    <string name="forward">Další</string>
+    <string name="first_look">Je to první sada</string>
+    <string name="last_look">Je to poslední sada</string>
+    <string name="sets">Sady</string>
+    <string name="deleted">Odstraněno</string>
+    <string name="delete">Smazat</string>
+
+    <!--Wardrope -->
+    <string name="enter_name">Zadejte nazev</string>
+    <string name="tors">Věci nad pásem:</string>
+    <string name="legs">Věci pod pásem:</string>
+
     <!-- Preference Titles -->
-    <string name="weather_header">Pocasi</string>
+    <string name="weather_header">Počasí</string>
     <string name="sync_header">Filtry</string>
     <!-- Messages Preferences -->
-    <string name="city">Mesto</string>
+    <string name="change_theme">Změnit  barvy</string>
+    <string name="city">Město</string>
     <string name="temp">Nastavit teplotu natvrdo</string>
     <string name="show_style">Vybrat si styl:</string>
+    <string name="weather_set">Vybirat podle počasí</string>
+    <string name="colors_set">Vybirat podle barvy</string>
+
+    <!--Item -->
+    <string name="used_times">Použitý:</string>
+    <string name="color_not_set">Chybí barva</string>
+    <string name="choose_layer">Vyberte typ oblečení</string>
+    <string name="choose_foto">Chybí foto</string>
+    <string name="from">Od</string>
+    <string name="created">nosil(a)</string>
+    <string name="typ_item">Torzo/Nohy</string>
+
+    <string name="none">Styl není vybrán</string>
+    <string name="casual">Neformální</string>
+    <string name="business">Formální</string>
+    <string name="elegant">Elegantní</string>
+    <string name="sport">Sportovní </string>
+    <string name="home">Domácí</string>
+
+    <!-- Looks -->
+    <string name="no_match">Nenašli jsme vhodné </string>
+    <string name="no_top">oblečení pro horní část těla,</string>
+    <string name="no_bot">oblečení pro dolní část těla,</string>
+    <string name="no_foot">obuv,</string>
+    <string name="no_color">по цвету вещей</string>
+    <string name="no_style">по стилю вещей</string>
+    <string name="warm">Сhráni teplo - </string>
+
 
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
@@ -38,5 +80,5 @@
     <string name="colorPresent">Priklady</string>
     <string name="save">Ulozit</string>
     <string name="umbrella">Vezmi si destnik!</string>
-    <string name="now_word">Pocasi ve meste</string>
+    <string name="now_word">Počasí ve městě </string>
 </resources>

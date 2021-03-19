@@ -54,7 +54,7 @@ public class LooksAdapter extends ArrayAdapter<Item> {
         style.setText(currentMovie.getStyle());
 
         TextView temp = listItem.findViewById(R.id.tempItem);
-        temp.setText("Греет на " + currentMovie.getTermid());
+        temp.setText(getContext().getResources().getString(R.string.warm) + " " + currentMovie.getTermid());
 
         return listItem;
     }

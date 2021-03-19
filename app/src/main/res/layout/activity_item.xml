@@ -31,7 +31,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
-                    android:hint="Введите название"
+                    android:hint="@string/enter_name"
                     android:padding="16dp"/>
                 <Spinner
                     android:id="@+id/Template"
@@ -49,7 +49,7 @@
                         android:id="@+id/created"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:text="Использовалась: "
+                        android:text="@string/used_times"
                         android:gravity="center"
                         android:layout_weight="1"
                         android:textColor="@android:color/secondary_text_light"/>
@@ -118,12 +118,6 @@
                 android:text="@string/color"
                 />
         </LinearLayout>
-        <!--<EditText
-            android:id="@+id/termid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Теплота"
-            android:padding="16dp" />-->
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -140,7 +134,7 @@
         android:id="@+id/top_bot"
         android:layout_width="120dp"
         android:layout_height="match_parent"
-        android:text="Торс/Ноги"
+        android:text="@string/typ_item"
         android:textColor="@android:color/secondary_text_light"
         android:textSize="13dp"
         android:layout_marginLeft="5dp"
@@ -244,7 +238,7 @@
             style="@style/Widget.Shrine.Button"
             android:id="@+id/deleteButton"
             android:onClick="delete"
-            android:text="Удалить"
+            android:text="@string/delete"
             app:icon="@drawable/ic_baseline_delete_24"
             />
         <Space

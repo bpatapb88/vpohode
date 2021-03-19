@@ -69,9 +69,9 @@ public class LooksActivity extends AppCompatActivity {
             if(!MainActivity.rain.equals(""))
                 Toast.makeText(this, getResources().getString(R.string.umbrella), Toast.LENGTH_SHORT).show();
             fillLook2(looks2.get(0),looks2.size(),this,this);
-            toolbar.setTitle("Наборов: " + 1 + "/" + looks2.size());
+            toolbar.setTitle(getResources().getString(R.string.sets) + ": " + 1 + "/" + looks2.size());
         }else{
-            Toast.makeText(this, "Нет пододящих/ей " + LookManager.message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.no_match) + " " + LookManager.message, Toast.LENGTH_SHORT).show();
             LookManager.message = "";
             finish();
         }
@@ -83,7 +83,7 @@ public class LooksActivity extends AppCompatActivity {
                 if(showingLook < looks2.size()) {
                     fillLook2(looks2.get(showingLook), looks2.size(),view.getContext(), getActivity());
                 }else{
-                    Toast.makeText(view.getContext(), "Это Последний набор", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.last_look), Toast.LENGTH_SHORT).show();
                     showingLook--;
                 }
             }
@@ -95,7 +95,7 @@ public class LooksActivity extends AppCompatActivity {
                 if(showingLook >= 0) {
                     fillLook2(looks2.get(showingLook), looks2.size(),view.getContext(), getActivity());
                 }else{
-                    Toast.makeText(view.getContext(), "Это самый первый набор", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), getResources().getString(R.string.first_look), Toast.LENGTH_SHORT).show();
                     showingLook++;
                 }
             }
@@ -147,8 +147,7 @@ public class LooksActivity extends AppCompatActivity {
     }
 
     public void fillLook2 (final Item[] look, Integer size,final Context context, final Activity activity){
-        toolbar.setTitle("Наборов: " + (showingLook +1) + "/" + size);
-        //title.setText("Мы подобрали для вас: " + (showinglook+1) + "/" + size);
+        toolbar.setTitle(getResources().getString(R.string.sets) + ": " + (showingLook +1) + "/" + size);
 
         final ArrayList<Item> preparedLook = new ArrayList<>();
         for(Item item: look){

@@ -9,14 +9,14 @@ import java.util.ArrayList;
 public class StyleManager {
 
     public static boolean isLookMatchStyle (Item[] finalLook, SharedPreferences prefs){
-        String[] styles = new String[finalLook.length];
+        Integer[] styles = new Integer[finalLook.length];
         int counter = 0;
         for(Item item: finalLook){
             styles[counter++] = item.getStyle();
         }
 
         ArrayList<String> notCheckedStyles = StyleManager.notCheckedStyles(prefs);
-        for(String temp : styles){
+        for(Integer temp : styles){
             if(notCheckedStyles.contains(temp)){
                 return false;
             }

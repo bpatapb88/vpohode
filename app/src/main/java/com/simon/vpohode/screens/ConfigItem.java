@@ -139,6 +139,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         seekBar.setProgress(1);
         // configure spinner
+
         spinner.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
         spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(Templates.values(),this));
 
@@ -157,7 +158,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             nameBox.setText(userCursor.getString(1));
             //termidBox.setText(String.valueOf(userCursor.getDouble(4)));
             seekBar.setProgress((int) userCursor.getDouble(4) - 1);
-            spinner.setSelection(Styles.getOrdinalByString(userCursor.getString(2)));
+            spinner.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             imageItem.setBackgroundColor(userCursor.getInt(6));
             usedTimes.setValue(userCursor.getInt(8));
@@ -173,7 +174,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 reBuildIcons(true);
             }
             TextView created = findViewById(R.id.created);
-            created.setText("C " + userCursor.getString(9) + " надевал(-а): ");
+            created.setText(getResources().getString(R.string.from)+ " " + userCursor.getString(9) + " "+ getResources().getString(R.string.created) + ": ");
             userCursor.close();
         } else {
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
@@ -190,16 +191,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             public void onClick(View view) {
                 boolean allIsOk = true;
                 if(nameBox.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Введите название", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.enter_name), Toast.LENGTH_SHORT).show();
                     allIsOk=false;
                 }else if(!newColor && userId==0) {
-                    Toast.makeText(getApplicationContext(), "Цвет не выбран", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.color_not_set), Toast.LENGTH_SHORT).show();
                     allIsOk=false;
                 }else {
                     ContentValues cv = new ContentValues();
                     cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
                     cv.put(DBFields.TERMID.toFieldName(), Double.valueOf(seekBar.getProgress() + 1));
-                    cv.put(DBFields.STYLE.toFieldName(), spinner.getSelectedItem().toString());
+                    cv.put(DBFields.STYLE.toFieldName(), Styles.stringToResource(getResources(),spinner.getSelectedItem().toString()));
                     if (!topBot.isChecked()) {
                         cv.put(DBFields.ISTOP.toFieldName(), 1);
                     }else {
@@ -213,14 +214,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     } else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer3){
                         cv.put(DBFields.LAYER.toFieldName(), 3);
                     }else{
-                        Toast.makeText(getApplicationContext(), "Выберете слой", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_layer), Toast.LENGTH_SHORT).show();
                         allIsOk=false;
                     }
 
                     if (newColor) {
                         colorInicator = (ColorDrawable) colorView.getBackground();
                         cv.put(DBFields.COLOR.toFieldName(), colorInicator.getColor());
-                        System.out.println("Color is " + colorInicator.getColor());
                     }
                     //save image if image was changed or new
                     if (newImage) {
@@ -231,7 +231,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
                     }else{
                         if (userId == 0) {
-                            Toast.makeText(getApplicationContext(), "Добавьте фото", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_foto), Toast.LENGTH_SHORT).show();
                             allIsOk=false;
                         }
                     }
@@ -260,8 +260,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //test to download picture from net
-                //new DownloadImageTask((ImageView) view).execute("https://www.pikpng.com/pngl/b/89-893659_free-icons-png-link-icon-vector-clipart.png");
                 CropImage.startPickImageActivity(ConfigItem.this);
             }
         });
@@ -315,7 +313,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         }
 
                         if(selectedTemplate.getColor() != 0){
-                            System.out.println("Promo Template! " + selectedTemplate.getColor());
                             colorView.setBackgroundColor(selectedTemplate.getColor());
                             imageItem.setBackgroundColor(selectedTemplate.getColor());
                             new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
@@ -355,7 +352,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     public void delete(View view){
         boolean deleted = ImageManager.deleteImagesById(userId, db);
-        Toast.makeText(this, "Удалена " + deleted, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getResources().getString(R.string.deleted) + " " + deleted, Toast.LENGTH_SHORT).show();
         db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
         goHome();
     }

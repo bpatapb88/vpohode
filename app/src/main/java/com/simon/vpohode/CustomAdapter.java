@@ -37,7 +37,7 @@ public class CustomAdapter extends CursorAdapter {
     @Override
     public void bindView(View v, Context context, Cursor c) {
         String name = c.getString(c.getColumnIndexOrThrow("name"));
-        String style = c.getString(c.getColumnIndexOrThrow("style"));
+        Integer style = c.getInt(c.getColumnIndexOrThrow("style"));
         Integer istop = c.getInt(c.getColumnIndexOrThrow("istop"));
         Integer layer = c.getInt(c.getColumnIndexOrThrow("layer"));
 
@@ -48,7 +48,7 @@ public class CustomAdapter extends CursorAdapter {
 
         TextView style_text = (TextView) v.findViewById(R.id.text3);
         if (style_text != null) {
-            style_text.setText(style);
+            style_text.setText(context.getResources().getString(style));
         }
 
         ImageView item_image = (ImageView) v.findViewById(R.id.imageView);

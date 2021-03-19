@@ -10,14 +10,56 @@
     <string name="welcome">Добро пожаловать!</string>
     <string name="template">Шаблон: </string>
     <string name="color">Цвет</string>
+    <string name="back">Назад</string>
+    <string name="use">Надел</string>
+    <string name="forward">Вперед</string>
+    <string name="first_look">Это самый первый набор</string>
+    <string name="last_look">Это последний набор</string>
+    <string name="sets">Наборов</string>
+    <string name="deleted">Удалена</string>
+    <string name="delete">Удалить</string>
+
+
+    <!--Wardrope -->
+    <string name="enter_name">Введи название</string>
+    <string name="tors">Вещей на торс:</string>
+    <string name="legs">Вещей на низ:</string>
+
+    <!--Item -->
+    <string name="used_times">Использовалась:</string>
+    <string name="color_not_set">Цвет не выбран</string>
+    <string name="choose_layer">Выберете слой</string>
+    <string name="choose_foto">Добавьте фото</string>
+    <string name="from">С</string>
+    <string name="created">надевал(a)</string>
+    <string name="typ_item">Торс/Ноги</string>
+
+    <string name="none">Стиль не выбран</string>
+    <string name="casual">Кэжуал</string>
+    <string name="business">Бизнес</string>
+    <string name="elegant">Элегантный</string>
+    <string name="sport">Спорт</string>
+    <string name="home">Домашнее</string>
+
+    <!-- Looks -->
+    <string name="no_match">Не хватае</string>
+    <string name="no_top">вещей на торс,</string>
+    <string name="no_bot">вещей на ноги,</string>
+    <string name="no_foot">обуви,</string>
+    <string name="no_color">по цвету вещей</string>
+    <string name="no_style">по стилю вещей</string>
+    <string name="warm">Греет на </string>
+
     <!-- Preference Titles -->
     <string name="weather_header">Погода</string>
     <string name="sync_header">Фильтры</string>
     <!-- Messages Preferences -->
+    <string name="change_theme">Сменить цвета</string>
     <string name="city">Город</string>
     <string name="temp">Задать температуру в ручную</string>
     <string name="show_style">Отображать вещи:</string>
-
+    <string name="weather_set">Подбирать по погоде</string>
+    <string name="colors_set">Подбирать по цветам</string>
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>

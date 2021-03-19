@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Item;
+import com.simon.vpohode.R;
 import com.simon.vpohode.Rules;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
@@ -65,13 +66,13 @@ public class LookManager {
         ArrayList<Item[]> result = new ArrayList<>();
         if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
             if(readyTopLooks.size() == 0){
-                message += " вещей на торс,";
+                message += context.getResources().getString(R.string.no_top);
             }
             if(readyBotLooks.size() == 0){
-                message += " вещей на ноги,";
+                message += context.getResources().getString(R.string.no_bot);
             }
             if(readyBootsLooks.size() == 0){
-                message += " обуви,";
+                message += context.getResources().getString(R.string.no_foot);
             }
             return null;
         }else{
@@ -92,12 +93,12 @@ public class LookManager {
             }
         }
         if(result.size()==0){
-            message = " по цвету вещей";
+            message = context.getResources().getString(R.string.no_color);
             return null;
         }else{
             result = StyleManager.filterStyle(result,prefs);
             if(result.size()==0){
-                message = " по стилю вещей";
+                message = context.getResources().getString(R.string.no_style);
                 return null;
             }else{
                 return result;
@@ -152,7 +153,7 @@ public class LookManager {
     private static Item cursorToItem(Cursor cursors){
         Item item = new Item(cursors.getInt(cursors.getColumnIndex("_id")),
                 cursors.getString(cursors.getColumnIndex("name")),
-                cursors.getString(cursors.getColumnIndex("style")),
+                cursors.getInt(cursors.getColumnIndex("style")),
                 cursors.getInt(cursors.getColumnIndex("istop")),
                 cursors.getDouble(cursors.getColumnIndex("termindex")),
                 cursors.getInt(cursors.getColumnIndex("layer")),

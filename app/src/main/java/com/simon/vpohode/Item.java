@@ -3,7 +3,7 @@ package com.simon.vpohode;
 public class Item {
     private int id;
     private String name;
-    private String style;
+    private int style;
     private Double termid;
     private String foto;
     private int top;
@@ -36,11 +36,11 @@ public class Item {
         this.name = name;
     }
 
-    public String getStyle() {
+    public int getStyle() {
         return style;
     }
 
-    public void setStyle(String style) {
+    public void setStyle(int style) {
         this.style = style;
     }
 
@@ -92,7 +92,7 @@ public class Item {
         this.created = created;
     }
 
-    public Item(int id, String name, String style, int top, Double termid, int layer, int color, String foto, int used, String created) {
+    public Item(int id, String name, int style, int top, Double termid, int layer, int color, String foto, int used, String created) {
         this.id = id;
         this.name = name;
         this.style = style;

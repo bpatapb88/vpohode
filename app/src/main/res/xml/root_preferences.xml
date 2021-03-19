@@ -5,7 +5,7 @@
         <SwitchPreferenceCompat
             app:key="theme"
             app:defaultValue="true"
-            app:title="Сменить тему" />
+            app:title="@string/change_theme" />
 
         <EditTextPreference
             app:key="city"
@@ -27,11 +27,11 @@
         <SwitchPreferenceCompat
             app:key="weather"
             app:defaultValue="true"
-            app:title="Подбирать по погоде" />
+            app:title="@string/weather_set" />
         <SwitchPreferenceCompat
             app:key="sync"
             app:defaultValue="false"
-            app:title="Подбирать по цветам" />
+            app:title="@string/colors_set" />
         <EditTextPreference
             app:dependency="sync"
             app:key="accuracy"
@@ -53,23 +53,23 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_casual"
-        android:title="Кэжуал" />
+        android:title="@string/casual" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_business"
-        android:title="Бизнес" />
+        android:title="@string/business"/>
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_elegant"
-        android:title="Элегантный" />
+        android:title="@string/elegant" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_sport"
-        android:title="Спорт" />
+        android:title="@string/sport" />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_home"
-        android:title="Домашнее" />
+        android:title="@string/home" />
 </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/developer">

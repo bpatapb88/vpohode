@@ -64,7 +64,7 @@ public class Wardrobe extends AppCompatActivity {
         LayoutManager.invisible(R.id.save,menu);
         MenuItem search = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) search.getActionView();
-        searchView.setQueryHint("Введи название!");
+        searchView.setQueryHint(getResources().getString(R.string.enter_name));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -105,12 +105,12 @@ public class Wardrobe extends AppCompatActivity {
         topItemAdapter = LayoutManager.configListOfItems(this,db,1);
         topItemList.setAdapter(topItemAdapter);
         // How many items in top?
-        countTop.setText("Вещей на верх: " + topItemAdapter.getCursor().getCount());
+        countTop.setText( getResources().getString(R.string.tors) + " " + topItemAdapter.getCursor().getCount());
 
         bottomItemAdapter = LayoutManager.configListOfItems(this,db,0);
         bottomItemList.setAdapter(bottomItemAdapter);
         // How many items in bottom?
-        countBot.setText("Вещей на низ: " + bottomItemAdapter.getCursor().getCount());
+        countBot.setText( getResources().getString(R.string.legs)+" " + bottomItemAdapter.getCursor().getCount());
 
     }
     @Override

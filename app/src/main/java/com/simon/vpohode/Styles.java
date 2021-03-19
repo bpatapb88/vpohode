@@ -1,27 +1,38 @@
 package com.simon.vpohode;
 
+import android.content.Context;
+import android.content.res.Resources;
+
 public enum Styles {
-    NONE("Стиль не выбран"),
-    CASUAL("Кэжуал"),
-    BUSINESS("Бизнес"),
-    ELEGANT("Элегантный"),
-    SPORT("Спорт"),
-    HOME("Домашнее");
+    NONE(R.string.none),
+    CASUAL(R.string.casual),
+    BUSINESS(R.string.business),
+    ELEGANT(R.string.elegant),
+    SPORT(R.string.sport),
+    HOME(R.string.home);
 
-    private String styles;
+    private int styles;
 
-    Styles (String nStyles) {
+    Styles (int nStyles) {
         styles = nStyles;
     }
 
-    @Override
-    public String toString() {
+    public int toInt() {
         return styles;
     }
 
-    public static int getOrdinalByString (String input){
+    public static int stringToResource(Resources resource, String style){
+        for(Styles x : Styles.values()){
+            if(resource.getString(x.toInt()).equals(style)){
+                return x.toInt();
+            }
+        }
+        return -1;
+    }
+
+    public static int getOrdinalByString (int input){
         for (Styles s : Styles.values()){
-            if (s.styles.equals(input)){
+            if (s.styles == input){
                 return s.ordinal();
             }
         }

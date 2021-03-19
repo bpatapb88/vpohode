@@ -3,7 +3,7 @@ package com.simon.vpohode.database;
 public enum  DBFields {
     ID("_id", "INTEGER"),
     NAME("name", "TEXT"),
-    STYLE( "style","TEXT"),
+    STYLE( "style","INTEGER"),
     ISTOP( "istop","INTEGER"),
     TERMID("termindex","DOUBLE"),
     LAYER("layer", "INTEGER"),

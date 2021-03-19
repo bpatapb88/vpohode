@@ -31,8 +31,12 @@ public class LayoutManager {
         MenuItem menuItem = menu.findItem(item);
         menuItem.setVisible(false);
     }
-    public static ArrayAdapter<Styles> spinnerConfig(Styles[] input, Context context){
-        ArrayAdapter<Styles> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, input);
+    public static ArrayAdapter<String> spinnerConfig(Styles[] input, Context context){
+        String[] inputString = new String[input.length];
+        for(int i = 0; i<input.length;i++){
+            inputString[i] = context.getResources().getString(input[i].toInt());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, inputString);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;
     }
