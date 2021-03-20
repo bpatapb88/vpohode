@@ -51,7 +51,7 @@ import com.simon.vpohode.Managers.ImageManager;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
-import com.simon.vpohode.Templates;
+import com.simon.vpohode.Managers.TemplatesManager;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -69,7 +69,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     ImageView colorView,imageLayer1,imageLayer2,imageLayer3;
 
     ImageButton imageItem;
-    Spinner spinner, spinnerTemplate;
+    Spinner spinnerStyle, spinnerTemplate;
     Button delButton, saveButton, btColor;
     RadioGroup radGrpLayer;
     RadioButton radioButtonLayer3;
@@ -114,7 +114,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
         nameBox = findViewById(R.id.name);
-        spinner = findViewById(R.id.Style);
+        spinnerStyle = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
         radGrpLayer = findViewById(R.id.radios2);
         btColor = findViewById(R.id.btnColor);
@@ -140,8 +140,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         seekBar.setProgress(1);
         // configure spinner
 
-        spinner.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
-        spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(Templates.values(),this));
+        spinnerStyle.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
+
+        String[] namesTemplates =  getResources().getStringArray(R.array.templates);
+        spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(namesTemplates,this));
+        //spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(getResources().getStringArray(R.array.templates),this));
 
         Bundle extras = getIntent().getExtras();
 
@@ -158,7 +161,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             nameBox.setText(userCursor.getString(1));
             //termidBox.setText(String.valueOf(userCursor.getDouble(4)));
             seekBar.setProgress((int) userCursor.getDouble(4) - 1);
-            spinner.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
+            spinnerStyle.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             imageItem.setBackgroundColor(userCursor.getInt(6));
             usedTimes.setValue(userCursor.getInt(8));
@@ -200,7 +203,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     ContentValues cv = new ContentValues();
                     cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
                     cv.put(DBFields.TERMID.toFieldName(), Double.valueOf(seekBar.getProgress() + 1));
-                    cv.put(DBFields.STYLE.toFieldName(), Styles.stringToResource(getResources(),spinner.getSelectedItem().toString()));
+                    cv.put(DBFields.STYLE.toFieldName(), Styles.stringToResource(getResources(), spinnerStyle.getSelectedItem().toString()));
                     if (!topBot.isChecked()) {
                         cv.put(DBFields.ISTOP.toFieldName(), 1);
                     }else {
@@ -288,13 +291,15 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         spinnerTemplate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Item selectedTemplate = Templates.fillTemplate2(spinnerTemplate.getSelectedItem().toString());
-                if (spinnerTemplate.getSelectedItemPosition() != 0) {
+
+                Item selectedTemplate = TemplatesManager.getItemFromTemplate(spinnerTemplate.getSelectedItem().toString(), getResources());
+
+                if (!spinnerTemplate.getSelectedItem().toString().equals(getResources().getStringArray(R.array.templates)[0])) {
                         nameBox.setText(selectedTemplate.getName());
                         double x = selectedTemplate.getTermid() - 1;
                         seekBar.setProgress((int) x);
-                        //termidBox.setText("" + (int)x);
-                        spinner.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
+
+                        spinnerStyle.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
                         if(selectedTemplate.getTop() == 0){
                             topBot.setChecked(false);
                         }else{
@@ -312,7 +317,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                                 radGrpLayer.check(R.id.layer3);
                         }
 
-                        if(selectedTemplate.getColor() != 0){
+                        if(selectedTemplate.getColor() != 0 && !selectedTemplate.getFoto().equals("")){
                             colorView.setBackgroundColor(selectedTemplate.getColor());
                             imageItem.setBackgroundColor(selectedTemplate.getColor());
                             new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
@@ -332,20 +337,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 reBuildIcons(b);
-                ArrayList<Templates> arrayTemplate = new ArrayList<>();
-                for(Templates x : Templates.values()){
-                    if(Templates.fillTemplate2(x.toString()) != null) {
-                        if((Templates.fillTemplate2(x.toString()).getTop() == 0) != b){
-                            System.out.println(x.toString());
-                            arrayTemplate.add(x);
+                ArrayList<String> arrayTemplate = new ArrayList<>();
+                String[] arrayTemplatesFromResource = getResources().getStringArray(R.array.templates);
+                for(int i = 0; i < arrayTemplatesFromResource.length; i++){
+                    if(TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources()) != null) {
+                        if((TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources()).getTop() == 0) != b){
+                            arrayTemplate.add(arrayTemplatesFromResource[i]);
                         }
                     }
                 }
-                Templates[] array = new Templates[arrayTemplate.size()];
+                String[] array = new String[arrayTemplate.size()];
                 for(int i = 0; i < arrayTemplate.size(); i++){
                     array[i] = arrayTemplate.get(i);
                 }
-                spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(array, internContext));
+                spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(array, internContext));
             }
         });
     }

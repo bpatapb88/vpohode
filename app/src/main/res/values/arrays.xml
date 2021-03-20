@@ -19,5 +19,15 @@
         <item>en</item>
         <item>ru</item>
     </string-array>
+    <string-array name="templates">
+        <item>Выбери шаблон</item>
+        <item>Футболка</item>
+        <item>Рубашка</item>
+        <item>Кофта</item>
+        <item>Штаны</item>
+        <item>Джинсы Moms Straight Cut</item>
+        <item>Осенняя куртка</item>
+        <item>Пальто</item>
+    </string-array>
 
 </resources>

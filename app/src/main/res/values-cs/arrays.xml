@@ -19,5 +19,16 @@
         <item>en</item>
         <item>ru</item>
     </string-array>
-
+    <string-array name="templates">
+        <item>Vybrat šablona</item>
+        <item>Tričko</item>
+        <item>Košile</item>
+        <item>Mikina</item>
+        <item>Kalhoty</item>
+        <item>Bunda</item>
+        <item>Kabát</item>
+        <item>Spodky</item>
+        <item>Tenisky</item>
+        <item>Džíny Moms Straight Cut</item>
+    </string-array>
 </resources>

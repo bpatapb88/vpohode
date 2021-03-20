@@ -1,6 +1,5 @@
 package com.simon.vpohode;
 
-import android.content.Context;
 import android.content.res.Resources;
 
 public enum Styles {
