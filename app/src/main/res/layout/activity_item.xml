@@ -107,7 +107,7 @@
                 ></Space>
             <Button
                 android:onClick="onClickColor"
-                android:fontFamily="monospace"
+
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
                 android:layout_width="120dp"
@@ -231,7 +231,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
+
             android:layout_weight="1"
             android:padding="15dp"
             android:textColor="@android:color/secondary_text_light"
@@ -253,7 +253,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/save"
-            android:fontFamily="monospace"
             android:padding="15dp"
             android:textColor="@android:color/secondary_text_light"
             style="@style/Widget.Shrine.Button"

@@ -16,7 +16,6 @@
         <item name="colorAccent">@color/colorAccent_rose</item>
         <item name="android:textColorPrimary">@color/textColorPrimary_rose</item>
     </style>
-
     <style name="Widget.Shrine.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorAccent</item>
     </style>
@@ -26,7 +25,6 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="boxStrokeColor">@color/textInputOutlineColor</item>
     </style>
-
     <style name="TextAppearance.Shrine.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
@@ -37,12 +35,7 @@
     <style name="Widget.Shrine.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
-
-
-
     <style name="positiveBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
-
-
 </resources>

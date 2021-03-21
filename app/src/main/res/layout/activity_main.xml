@@ -34,7 +34,7 @@
             android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:src="@drawable/ic_iconv3_dresser_"
+            android:src="@drawable/ic_iconv4_dresser_"
             />
 
         <TextView
@@ -62,12 +62,11 @@
                 app:icon="@drawable/ic_wardrobe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="monospace"
+
                 android:layout_weight="1"
                 android:padding="15dp"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
-
                 />
 <Space
     android:layout_width="20dp"
@@ -78,7 +77,6 @@
                 android:onClick="onClickShowItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="monospace"
                 android:layout_weight="1"
                 android:padding="15dp"
                 android:textColor="@android:color/secondary_text_light"

@@ -52,7 +52,6 @@
             android:id="@+id/back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
             android:textColor="@android:color/secondary_text_light"
             style="@style/Widget.Shrine.Button"
             android:layout_weight="1"
@@ -67,7 +66,7 @@
             android:id="@+id/usethislook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
+
             android:textColor="@android:color/secondary_text_light"
             style="@style/Widget.Shrine.Button"
             android:layout_weight="1"
@@ -82,7 +81,7 @@
             android:id="@+id/next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
+
             android:textColor="@android:color/secondary_text_light"
             style="@style/Widget.Shrine.Button"
             android:layout_weight="1"
