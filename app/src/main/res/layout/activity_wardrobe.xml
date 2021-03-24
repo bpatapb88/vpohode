@@ -20,7 +20,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorAccent"
         app:menu="@menu/menu_main"
-        android:fontFamily="monospace"
+        android:theme="@style/Widget.Shrine.Toolbar"
         app:titleTextColor="@android:color/secondary_text_light"
         />
     <LinearLayout

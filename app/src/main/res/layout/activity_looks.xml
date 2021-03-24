@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorAccent"
-            android:fontFamily="monospace"
+            android:theme="@style/Widget.Shrine.Toolbar"
             app:menu="@menu/menu_main"
             app:titleTextColor="@android:color/secondary_text_light"
             />
@@ -33,9 +33,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:paddingBottom="85dp"
-            
             />
-
 
     </LinearLayout>
     </LinearLayout>

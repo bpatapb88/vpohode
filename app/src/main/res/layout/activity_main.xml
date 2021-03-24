@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorAccent"
-        android:fontFamily="monospace"
+        android:theme="@style/Widget.Shrine.Toolbar"
         app:menu="@menu/menu_main"
         app:titleTextColor="@android:color/secondary_text_light"
         />
@@ -42,9 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
+            android:fontFamily="@font/montserrat_medium"
             android:textAlignment="center"
             android:text="@string/weather_header" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,9 +62,8 @@
                 app:icon="@drawable/ic_wardrobe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="32px"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
                 />
@@ -78,13 +77,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:padding="15dp"
+                android:padding="30px"
                 android:textColor="@android:color/secondary_text_light"
                 style="@style/Widget.Shrine.Button"
                 app:icon="@drawable/ic_look"
                 />
-
-
         </LinearLayout>
     </LinearLayout>
     </RelativeLayout>

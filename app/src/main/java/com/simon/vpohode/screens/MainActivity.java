@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.welcome));
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {

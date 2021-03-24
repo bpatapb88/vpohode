@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorAccent"
-            android:fontFamily="monospace"
+            android:theme="@style/Widget.Shrine.Toolbar"
             app:menu="@menu/menu_main"
             app:titleTextColor="@android:color/secondary_text_light"/>
         <LinearLayout
@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
                 <EditText
+                    android:fontFamily="@font/montserrat_medium"
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
@@ -51,6 +52,7 @@
                         android:layout_height="55dp"
                         android:text="@string/used_times"
                         android:gravity="center"
+                        android:fontFamily="@font/montserrat_medium"
                         android:layout_weight="1"
                         android:textColor="@android:color/secondary_text_light"/>
                     <NumberPicker
@@ -130,15 +132,30 @@
             android:padding="16dp"
             android:background="@drawable/pole"
             android:layout_weight="1" />
-    <Switch
-        android:id="@+id/top_bot"
-        android:layout_width="120dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="80dp"
         android:layout_height="match_parent"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/typ_item"
-        android:textColor="@android:color/secondary_text_light"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
         android:textSize="13dp"
         android:layout_marginLeft="5dp"
+        android:textColor="@android:color/secondary_text_light"
         />
+    <Switch
+
+        android:id="@+id/top_bot"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        />
+    </LinearLayout>
 </LinearLayout>
         <LinearLayout
             android:layout_marginTop="15dp"
