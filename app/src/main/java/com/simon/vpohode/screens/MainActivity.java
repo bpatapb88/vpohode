@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Managers.LayoutManager;
@@ -72,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId() == R.id.action_settings){
                     goToSettings(item.getActionView());
+                }else if(item.getItemId() == R.id.action_help){
+                    FragmentManager fm = getSupportFragmentManager();
+                    CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
+                    editNameDialogFragment.show(fm, "fragment_edit_name");
                 }
                 return true;
             }

@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Dresser</string>
-    <string name="action_settings">Nastaveni</string>
+    <string name="action_settings">Nastavení</string>
     <string name="title_wardrobe">Šatník</string>
     <string name="title_item">Věc</string>
-    <string name="show_item">Sestaveni</string>
+    <string name="show_item">Souprava</string>
     <string name="bot_items">Noha</string>
     <string name="top_items">Trup</string>
-    <string name="search">Hledame</string>
+    <string name="search">Hledáme</string>
     <string name="welcome">Vítejte</string>
     <string name="template">Šablona: </string>
     <string name="color">Barva</string>
@@ -20,15 +20,15 @@
     <string name="delete">Smazat</string>
 
     <!--Wardrope -->
-    <string name="enter_name">Zadejte nazev</string>
-    <string name="tors">Věci nad pásem:</string>
-    <string name="legs">Věci pod pásem:</string>
+    <string name="enter_name">Zadejte název</string>
+    <string name="tors">Věci na torzo:</string>
+    <string name="legs">Věci na nohy:</string>
 
     <!-- Preference Titles -->
     <string name="weather_header">Počasí</string>
     <string name="sync_header">Filtry</string>
     <!-- Messages Preferences -->
-    <string name="change_theme">Změnit  barvy</string>
+    <string name="change_theme">Změnit barvy</string>
     <string name="city">Město</string>
     <string name="temp">Nastavit teplotu natvrdo</string>
     <string name="show_style">Vybrat si styl:</string>
@@ -56,12 +56,13 @@
     <string name="no_top">oblečení pro horní část těla,</string>
     <string name="no_bot">oblečení pro dolní část těla,</string>
     <string name="no_foot">obuv,</string>
-    <string name="no_color">по цвету вещей</string>
-    <string name="no_style">по стилю вещей</string>
+    <string name="no_color">podle barvy</string>
+    <string name="no_style">podle stylu</string>
     <string name="warm">Сhráni teplo - </string>
 
 
     <!-- Sync Preferences -->
+    <string name="help">Nápověda</string>
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
@@ -70,15 +71,15 @@
 
     <string name="smooth_scroll">smoothScroll to </string>
     <string name="scroll">scroll to </string>
-    <string name="looks">Jake styly vybrat</string>
-    <string name="developer">Pro vyvojare</string>
-    <string name="accuracy">Barevny rozptyl</string>
-    <string name="lookpage">Vybrali jsme pro vas: </string>
+    <string name="looks">Jaké styly zvolit</string>
+    <string name="developer">Pro vývojáře</string>
+    <string name="accuracy">Rozptyl barev</string>
+    <string name="lookpage">Vybrali jsme pro vás: </string>
     <string name="colorSet">Vyberte si barvu</string>
     <string name="select">Vybrat</string>
-    <string name="colorCustom">Prechody</string>
-    <string name="colorPresent">Priklady</string>
-    <string name="save">Ulozit</string>
-    <string name="umbrella">Vezmi si destnik!</string>
+    <string name="colorCustom">Přechody</string>
+    <string name="colorPresent">Příklady</string>
+    <string name="save">Uložit</string>
+    <string name="umbrella">Vezmi si deštník!</string>
     <string name="now_word">Počasí ve městě </string>
 </resources>

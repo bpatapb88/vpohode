@@ -61,6 +61,7 @@
     <string name="weather_set">Подбирать по погоде</string>
     <string name="colors_set">Подбирать по цветам</string>
     <!-- Sync Preferences -->
+    <string name="help">Инструкция</string>
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails

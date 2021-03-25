@@ -3,15 +3,15 @@
     <color name="colorPrimary">#E0E0E0</color>
     <color name="colorPrimaryDark">#7E8FFF</color>
     <color name="colorAccent">#D0D2FE</color>
-    <color name="textColorPrimary">#2d3045</color>
+    <color name="textColorPrimary">#1F2440</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>
     <color name="loginPageBackgroundColor">#FFFFFF</color>
     <color name="productGridBackgroundColor">#FFFFFF</color>
     <color name="textInputOutlineColor">@color/colorPrimaryDark</color>
-    <color name="toolbar">#373737</color>
+    <color name="toolbar">#1F2440</color>
 
     <color name="colorAccent_rose">#ffd1d1</color>
-    <color name="textColorPrimary_rose">#442C2E</color>
-    <color name="colorPrimaryDark_rose">#FF7E7E</color>
+    <color name="textColorPrimary_rose">#1F2440</color>
+    <color name="colorPrimaryDark_rose">#FF96A0</color>
 
 </resources>
