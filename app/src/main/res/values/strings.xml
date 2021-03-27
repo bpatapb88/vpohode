@@ -1,67 +1,66 @@
 <resources>
     <string name="app_name">Dresser</string>
-    <string name="action_settings">Настройки</string>
-    <string name="title_wardrobe">Гардероб</string>
-    <string name="title_item">Вещь</string>
-    <string name="show_item">Подборка</string>
-    <string name="bot_items">Ноги</string>
-    <string name="top_items">Торс</string>
-    <string name="search">Ищем</string>
-    <string name="welcome">Добро пожаловать!</string>
-    <string name="template">Шаблон: </string>
-    <string name="color">Цвет</string>
-    <string name="back">Назад</string>
-    <string name="use">Надел</string>
-    <string name="forward">Вперед</string>
-    <string name="first_look">Это самый первый набор</string>
-    <string name="last_look">Это последний набор</string>
-    <string name="sets">Наборов</string>
-    <string name="deleted">Удалена</string>
-    <string name="delete">Удалить</string>
-
+    <string name="action_settings">Settings</string>
+    <string name="title_wardrobe">Wardrobe</string>
+    <string name="title_item">Thing</string>
+    <string name="show_item">Selection</string>
+    <string name="bot_items">Legs</string>
+    <string name="top_items">Torso</string>
+    <string name="search">Search</string>
+    <string name="welcome">Welcome!</string>
+    <string name="template">Template: </string>
+    <string name="color">Color</string>
+    <string name="back">Back</string>
+    <string name="use">Select</string>
+    <string name="forward">Next</string>
+    <string name="first_look">This is the first set</string>
+    <string name="last_look">This is the last set</string>
+    <string name="sets">Sets</string>
+    <string name="deleted">Removed</string>
+    <string name="delete">Delete</string>
 
     <!--Wardrope -->
-    <string name="enter_name">Введи название</string>
-    <string name="tors">Вещей на торс:</string>
-    <string name="legs">Вещей на низ:</string>
+    <string name="enter_name">Enter the name</string>
+    <string name="tors">Top things:</string>
+    <string name="legs">Bottom things:</string>
 
     <!--Item -->
-    <string name="used_times">Использовалась:</string>
-    <string name="color_not_set">Цвет не выбран</string>
-    <string name="choose_layer">Выберете слой</string>
-    <string name="choose_foto">Добавьте фото</string>
-    <string name="from">С</string>
-    <string name="created">надевал(a)</string>
-    <string name="typ_item">Торс/Ноги</string>
+    <string name="used_times">Used:</string>
+    <string name="color_not_set">No color selected</string>
+    <string name="choose_layer">Select a layer</string>
+    <string name="choose_foto">Add photo</string>
+    <string name="from">From</string>
+    <string name="created">put on</string>
+    <string name="typ_item">Torso/Legs</string>
 
-    <string name="none">Стиль не выбран</string>
-    <string name="casual">Кэжуал</string>
-    <string name="business">Бизнес</string>
-    <string name="elegant">Элегантный</string>
-    <string name="sport">Спорт</string>
-    <string name="home">Домашнее</string>
+    <string name="none">Style not selected</string>
+    <string name="casual">Casual</string>
+    <string name="business">Business</string>
+    <string name="elegant">Elegant</string>
+    <string name="sport">Sport</string>
+    <string name="home">Home</string>
 
     <!-- Looks -->
-    <string name="no_match">Не хватае</string>
-    <string name="no_top">вещей на торс,</string>
-    <string name="no_bot">вещей на ноги,</string>
-    <string name="no_foot">обуви,</string>
-    <string name="no_color">по цвету вещей</string>
-    <string name="no_style">по стилю вещей</string>
-    <string name="warm">Греет на </string>
+    <string name="no_match">Lacks</string>
+    <string name="no_top">top things,</string>
+    <string name="no_bot">bottom things,</string>
+    <string name="no_foot">shoes,</string>
+    <string name="no_color">things in color,</string>
+    <string name="no_style">things in style,</string>
+    <string name="warm">Warms on </string>
 
     <!-- Preference Titles -->
-    <string name="weather_header">Погода</string>
-    <string name="sync_header">Фильтры</string>
+    <string name="weather_header">Weather</string>
+    <string name="sync_header">Filters</string>
     <!-- Messages Preferences -->
-    <string name="change_theme">Сменить цвета</string>
-    <string name="city">Город</string>
-    <string name="temp">Задать температуру в ручную</string>
-    <string name="show_style">Отображать вещи:</string>
-    <string name="weather_set">Подбирать по погоде</string>
-    <string name="colors_set">Подбирать по цветам</string>
+    <string name="change_theme">Change theme</string>
+    <string name="city">City</string>
+    <string name="temp">Set the temperature manually</string>
+    <string name="show_style">Display things:</string>
+    <string name="weather_set">Match by the weather</string>
+    <string name="colors_set">Match by color</string>
     <!-- Sync Preferences -->
-    <string name="help">Инструкция</string>
+    <string name="help">Instructions</string>
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
@@ -70,15 +69,15 @@
 
     <string name="smooth_scroll">smoothScroll to </string>
     <string name="scroll">scroll to </string>
-    <string name="looks">Какие стили подбирать</string>
-    <string name="developer">Для разработчиков</string>
-    <string name="accuracy">Разброс по цветам</string>
-    <string name="lookpage">Мы подобрали для вас: </string>
-    <string name="colorSet">Выбери цвет</string>
-    <string name="select">Выбрать</string>
-    <string name="colorCustom">Градиенты</string>
-    <string name="colorPresent">Примеры</string>
-    <string name="save">Сохранить</string>
-    <string name="umbrella">"Незабудь взять ЗОНТ!"</string>
-    <string name="now_word">Сейчас в городе</string>
+    <string name="looks">What styles to pick</string>
+    <string name="developer">For developers</string>
+    <string name="accuracy">Color scatter</string>
+    <string name="lookpage">Match for you: </string>
+    <string name="colorSet">Select color</string>
+    <string name="select">Select</string>
+    <string name="colorCustom">Gradients</string>
+    <string name="colorPresent">Examples</string>
+    <string name="save">Save</string>
+    <string name="umbrella">Do not forget to take the UMBRELLA!</string>
+    <string name="now_word">Now in the city</string>
 </resources>

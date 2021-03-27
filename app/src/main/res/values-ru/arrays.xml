@@ -1,0 +1,26 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="show_entries">
+        <item>Carusel</item>
+        <item>One screen</item>
+    </string-array>
+
+    <string-array name="show_values">
+        <item>carusel</item>
+        <item>all</item>
+    </string-array>
+
+    <string-array name="templates">
+        <item>Выбери шаблон</item>
+        <item>Футболка</item>
+        <item>Рубашка</item>
+        <item>Кофта</item>
+        <item>Штаны</item>
+        <item>Куртка</item>
+        <item>Пальто</item>
+        <item>Исподнее</item>
+        <item>Кроссовки</item>
+        <item>Джинсы Moms Straight Cut</item>
+    </string-array>
+
+</resources>

@@ -9,27 +9,18 @@
         <item>carusel</item>
         <item>all</item>
     </string-array>
-    <string-array name="entries_lang">
-        <item>Язык аппарата</item>
-        <item>Английский</item>
-        <item>Русский</item>
-    </string-array>
-    <string-array name="entryvalues_lang">
-        <item>default</item>
-        <item>en</item>
-        <item>ru</item>
-    </string-array>
+
     <string-array name="templates">
-        <item>Выбери шаблон</item>
-        <item>Футболка</item>
-        <item>Рубашка</item>
-        <item>Кофта</item>
-        <item>Штаны</item>
-        <item>Куртка</item>
-        <item>Пальто</item>
-        <item>Исподнее</item>
-        <item>Кроссовки</item>
-        <item>Джинсы Moms Straight Cut</item>
+        <item>Choose template</item>
+        <item>Tshirt</item>
+        <item>Shirt</item>
+        <item>Sweatshirt</item>
+        <item>Pants</item>
+        <item>Jacket</item>
+        <item>Coat</item>
+        <item>Underwear</item>
+        <item>Sneakers</item>
+        <item>Jeans Moms Straight Cut</item>
     </string-array>
 
 </resources>

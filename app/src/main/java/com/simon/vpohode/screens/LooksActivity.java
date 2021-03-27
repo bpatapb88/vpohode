@@ -71,7 +71,8 @@ public class LooksActivity extends AppCompatActivity {
             fillLook2(looks2.get(0),looks2.size(),this,this);
             toolbar.setTitle(getResources().getString(R.string.sets) + ": " + 1 + "/" + looks2.size());
         }else{
-            Toast.makeText(this, getResources().getString(R.string.no_match) + " " + LookManager.message, Toast.LENGTH_SHORT).show();
+            String lacks = LookManager.message.substring(0, LookManager.message.length() - 1);
+            Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
             LookManager.message = "";
             finish();
         }
