@@ -2,11 +2,13 @@ package com.simon.vpohode.screens;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
     private Locale locale;
     private String lang;
+    private ImageView logo;
+    private AnimationDrawable frameAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
+
+        logo = findViewById(R.id.logo);
+        logo.setBackgroundResource(R.drawable.animation);
+        frameAnimation = (AnimationDrawable) logo.getBackground();
 
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.welcome));
@@ -106,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
         task.execute(weatherURLWithCity);
+        frameAnimation.start();
     }
 
     @Override

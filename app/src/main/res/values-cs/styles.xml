@@ -40,7 +40,6 @@
         <item name="textAllCaps">false</item>
     </style>
     <style name="Widget.Shrine.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
-
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
     <style name="positiveBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">

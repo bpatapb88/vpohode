@@ -17,6 +17,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+
         android:background="?attr/colorAccent"
         android:theme="@style/Widget.Shrine.Toolbar"
         app:menu="@menu/menu_main"
@@ -24,17 +25,18 @@
         />
 
     <LinearLayout
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
         <ImageView
             android:paddingTop="85dp"
+            android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:id="@+id/logo"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="300dp"
-            android:src="@drawable/ic_iconv4_dresser_"
             />
 
         <TextView
