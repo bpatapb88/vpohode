@@ -124,6 +124,7 @@ public class LooksActivity extends AppCompatActivity {
         LayoutManager.invisible(R.id.save,menu);
         LayoutManager.invisible(R.id.search,menu);
         LayoutManager.invisible(R.id.action_settings,menu);
+        LayoutManager.invisible(R.id.action_help,menu);
 
         return true;
     }

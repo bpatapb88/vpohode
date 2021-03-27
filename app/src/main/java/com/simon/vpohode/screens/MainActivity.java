@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         lang=getResources().getConfiguration().locale.getCountry();
-        System.out.println(lang);
+
         /*lang = preferences.getString("lang", "default");
         if (lang.equals("default")) {
             lang=getResources().getConfiguration().locale.getCountry();
