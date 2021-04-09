@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".screens.MainActivity">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -35,8 +34,8 @@
             android:layout_marginTop="20dp"
             android:layout_gravity="center"
             android:id="@+id/logo"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             />
 
         <TextView
@@ -51,38 +50,102 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="15dp"
             android:gravity="bottom"
             android:layout_gravity="bottom|center_horizontal"
             >
-            <Button
-                android:id="@+id/button"
-                android:text="@string/title_wardrobe"
-                android:onClick="goToWardrobe"
-                app:icon="@drawable/ic_wardrobe"
+
+
+
+
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="32px"
-                android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.Shrine.Button"
-                />
-<Space
-    android:layout_width="20dp"
-    android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/button2"
-                android:text="@string/show_item"
-                android:onClick="onClickShowItems"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="30px"
-                android:textColor="@android:color/secondary_text_light"
-                style="@style/Widget.Shrine.Button"
-                app:icon="@drawable/ic_look"
-                />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:padding="16dp"
+                        android:layout_weight="1"
+                        android:id="@+id/card"
+                        app:cardCornerRadius="20dp"
+                        android:background="#F2F2F2"
+
+                        >
+                        <ImageView
+                            android:id="@+id/ic_circleselect"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_circleselect"
+                            android:layout_gravity="center_vertical"
+                            android:paddingLeft="20dp"
+                            android:elevation="2dp"
+                            android:background="@drawable/myrect"
+                            />
+                    </androidx.cardview.widget.CardView>
+                    <Button
+                        android:id="@+id/button"
+                        android:text="@string/title_wardrobe"
+                        android:onClick="goToWardrobe"
+                        app:icon="@drawable/ic_wardrobe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="32px"
+                        android:textColor="@android:color/secondary_text_light"
+                        style="@style/Widget.Shrine.Button"
+                        />
+
+
+                    <Button
+                        android:id="@+id/button2"
+                        android:text="@string/show_item"
+                        android:onClick="onClickShowItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="30px"
+                        android:textColor="@android:color/secondary_text_light"
+                        style="@style/Widget.Shrine.Button"
+                        app:icon="@drawable/ic_look"
+                        />
+                    <Button
+                        android:id="@+id/button3"
+                        android:text="@string/show_item"
+                        android:onClick="onClickShowItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="30px"
+                        android:textColor="@android:color/secondary_text_light"
+                        style="@style/Widget.Shrine.Button"
+                        app:icon="@drawable/ic_look"
+                        />
+                    <Button
+                        android:id="@+id/button4"
+                        android:text="@string/show_item"
+                        android:onClick="onClickShowItems"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="30px"
+                        android:textColor="@android:color/secondary_text_light"
+                        style="@style/Widget.Shrine.Button"
+                        app:icon="@drawable/ic_look"
+                        />
+
+                </LinearLayout>
+            </ScrollView>
+
+
+
+
         </LinearLayout>
     </LinearLayout>
     </RelativeLayout>

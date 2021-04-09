@@ -10,9 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private String lang;
     private ImageView logo;
     private AnimationDrawable frameAnimation;
+    private CardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo);
         logo.setBackgroundResource(R.drawable.animation);
         frameAnimation = (AnimationDrawable) logo.getBackground();
+
+        cardView = findViewById(R.id.card);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Something", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         setSupportActionBar(toolbar);
         setTitle(getString(R.string.welcome));
