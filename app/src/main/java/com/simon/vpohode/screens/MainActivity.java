@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(), "Something", Toast.LENGTH_SHORT).show();
+                cardView.setElevation(0);
             }
         });
 
@@ -105,17 +106,6 @@ public class MainActivity extends AppCompatActivity {
         textViewWeather = findViewById(R.id.textViewWeather);
 
     }
-
-   /* @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
-        super.onConfigurationChanged(newConfig);
-        locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config, null);
-    }*/
 
     @Override
     public void onResume(){

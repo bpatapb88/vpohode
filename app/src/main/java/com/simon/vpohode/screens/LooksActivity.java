@@ -63,6 +63,7 @@ public class LooksActivity extends AppCompatActivity {
         Double term = extras.getDouble("term");
 
         listOfItems = findViewById(R.id.list_items);
+
         looks2 = LookManager.getLooks(term, getApplicationContext());
 
         if(looks2 != null) {

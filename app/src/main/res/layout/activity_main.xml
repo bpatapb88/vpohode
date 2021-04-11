@@ -43,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:fontFamily="@font/montserrat_medium"
+            android:fontFamily="@font/montserrat_alternates_medium"
             android:textAlignment="center"
             android:text="@string/weather_header" />
         <LinearLayout
@@ -56,14 +56,10 @@
             android:layout_gravity="bottom|center_horizontal"
             >
 
-
-
-
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -75,18 +71,36 @@
                         android:layout_weight="1"
                         android:id="@+id/card"
                         app:cardCornerRadius="20dp"
-                        android:background="#F2F2F2"
 
+                        app:cardElevation="3dp"
                         >
                         <ImageView
                             android:id="@+id/ic_circleselect"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_circleselect"
+                            android:src="@drawable/ic_whh_circleselectic2"
                             android:layout_gravity="center_vertical"
-                            android:paddingLeft="20dp"
-                            android:elevation="2dp"
-                            android:background="@drawable/myrect"
+                            android:layout_marginLeft="20dp"
+                            />
+                        <TextView
+                            android:layout_marginLeft="76dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_width="235dp"
+                            android:layout_height="15dp"
+                            android:text="Собираешся выйти в свет?"
+                            android:textSize="12dp"
+                            android:textColor="@android:color/black"
+                            android:fontFamily="@font/montserrat_alternates_medium"
+                            />
+                        <TextView
+                            android:layout_marginLeft="76dp"
+                            android:layout_marginTop="39dp"
+                            android:layout_width="235dp"
+                            android:layout_height="25dp"
+                            android:text="Подобрать набор"
+                            android:textSize="18dp"
+                            android:textColor="@android:color/black"
+                            android:fontFamily="@font/montserrat_alternates_semibold"
                             />
                     </androidx.cardview.widget.CardView>
                     <Button
