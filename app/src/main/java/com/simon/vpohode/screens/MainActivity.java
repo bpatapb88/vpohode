@@ -5,20 +5,13 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
 import androidx.preference.PreferenceManager;
 
-import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.WeatherManager;
 import com.simon.vpohode.R;
 
@@ -28,7 +21,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,28 +32,12 @@ public class MainActivity extends AppCompatActivity {
     public static String rain;
     private String city = "Brno";
     private SharedPreferences preferences;
-    private Locale locale;
-    private String lang;
     private ImageView logo;
     private AnimationDrawable frameAnimation;
-    private CardView cardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-
-        lang=getResources().getConfiguration().locale.getCountry();
-
-        /*lang = preferences.getString("lang", "default");
-        if (lang.equals("default")) {
-            lang=getResources().getConfiguration().locale.getCountry();
-        }*/
-        /*locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config, null);*/
 
         if(prefs.getBoolean("theme", true)){
             getTheme().applyStyle(R.style.AppTheme,true);
@@ -71,37 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
         logo = findViewById(R.id.logo);
         logo.setBackgroundResource(R.drawable.animation);
         frameAnimation = (AnimationDrawable) logo.getBackground();
 
-        cardView = findViewById(R.id.card);
-        cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Something", Toast.LENGTH_SHORT).show();
-                cardView.setElevation(0);
-            }
-        });
-
-        setSupportActionBar(toolbar);
-        setTitle(getString(R.string.welcome));
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if(item.getItemId() == R.id.action_settings){
-                    goToSettings(item.getActionView());
-                }else if(item.getItemId() == R.id.action_help){
-                    FragmentManager fm = getSupportFragmentManager();
-                    CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
-                    editNameDialogFragment.show(fm, "fragment_edit_name");
-                }
-                return true;
-            }
-
-        });
+       /* FragmentManager fm = getSupportFragmentManager();
+        CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "fragment_edit_name");*/
 
         textViewWeather = findViewById(R.id.textViewWeather);
 
@@ -116,16 +69,6 @@ public class MainActivity extends AppCompatActivity {
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
         task.execute(weatherURLWithCity);
         frameAnimation.start();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        LayoutManager.invisible(R.id.save,menu);
-        LayoutManager.invisible(R.id.search,menu);
-
-        return true;
     }
 
     public void goToWardrobe(View view){                                        //TODO create new class view manager
@@ -202,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     ifPlus = "+";
                 }
                 final String outputWeather = (int)Double.parseDouble(weatherManager.getFeelTem0()) + " " + CELSIUS_SYMBOL + weatherManager.getDescription();
-                textViewWeather.setText(getResources().getString(R.string.now_word) + " " + city + ": " + ifPlus + outputWeather);
+                textViewWeather.setText(city + ": " + ifPlus + outputWeather);
         }
     }
 }
