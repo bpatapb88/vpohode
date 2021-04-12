@@ -38,6 +38,7 @@
         <item name="android:fontFamily">@font/montserrat_alternates_bold</item>
         <item name="backgroundTint">?attr/colorPrimaryDark</item>
         <item name="textAllCaps">false</item>
+        <item name="background">@drawable/button</item>
     </style>
     <style name="Widget.Shrine.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>

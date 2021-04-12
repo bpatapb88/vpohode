@@ -3,7 +3,10 @@ package com.simon.vpohode.screens;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -30,6 +33,13 @@ public class LoginActivity extends AppCompatActivity {
         logo = findViewById(R.id.logo);
         logo.setBackgroundResource(R.drawable.animation);
         frameAnimation = (AnimationDrawable) logo.getBackground();
+
+        //hidden keyboard by default
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+    }
+
+    public void toastShow(View view){
+        Toast.makeText(view.getContext(), "Pressed", Toast.LENGTH_SHORT).show();
     }
 
     @Override
