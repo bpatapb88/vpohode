@@ -182,12 +182,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         } else {
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
             usedLayout.setVisibility(View.GONE);
-            // hide button Delete, It will be new Item
+            // hide edit_text Delete, It will be new Item
             delButton.setVisibility(View.GONE);
             x.setVisibility(View.GONE);
         }
 
-        // if Save button clicked do next:
+        // if Save edit_text clicked do next:
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

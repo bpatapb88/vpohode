@@ -31,15 +31,16 @@ public class MainActivity extends AppCompatActivity {
     private Double avgTempertureCel;
     public static String rain;
     private String city = "Brno";
+
     private SharedPreferences preferences;
     private ImageView logo;
     private AnimationDrawable frameAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(prefs.getBoolean("theme", true)){
+        if(preferences.getBoolean("theme", true)){
             getTheme().applyStyle(R.style.AppTheme,true);
         }else{
             getTheme().applyStyle(R.style.OverlayThemeRose,true);
@@ -63,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         city = preferences.getString("city", "Brno");
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
@@ -77,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void goToSettings(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    public void logOff(View view){
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
 

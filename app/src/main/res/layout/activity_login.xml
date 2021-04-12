@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".screens.LoginActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pole"
+        tools:ignore="MissingConstraints"
+        android:orientation="vertical"
+        >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="37dp"
+                android:layout_gravity="center_horizontal"
+                />
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Вам будет что надеть!"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="22sp"
+                android:fontFamily="@font/montserrat_alternates_bold"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_alternates_medium"
+                android:gravity="center"
+                android:text="Введите почту и пароль, чтобы войти"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="66dp"
+                android:layout_marginTop="20dp"
+                android:textColor="#4059FF"
+                android:textSize="14sp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/edit_text"
+                android:hint="Введите почту"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="66dp"
+                android:hint="Введите пароль"
+                android:textColor="#4059FF"
+                android:textSize="14sp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@drawable/edit_text"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Забыли пароль?"
+                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_alternates_medium"
+                android:gravity="right"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                />
+            <Button
+                android:layout_marginTop="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Войти"
+                android:background="@drawable/button"
+                android:textAllCaps="false"
+                android:paddingHorizontal="40dp"
+                />
+        </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
