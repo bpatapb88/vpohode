@@ -13,79 +13,133 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorAccent"
-        app:menu="@menu/menu_main"
-        android:theme="@style/Widget.Shrine.Toolbar"
-        app:titleTextColor="@android:color/secondary_text_light"
-        />
+        android:layout_height="94dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="16dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
+            android:onClick="goHome"
+            android:src="@drawable/ic_right"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="28dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:textSize="11sp"
+                android:textAlignment="textEnd"
+                android:text="каталог вещей"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_alternates_bold"
+                android:textSize="22sp"
+                android:textColor="#4059FF"
+                android:textAlignment="textEnd"
+                android:text="Гардероб"
+                />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_wardrobe"
+            android:layout_marginTop="22dp"
+            />
+
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp"
-        >
-        <TextView
-            android:id="@+id/header"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="horizontal">
+        <EditText
+            android:focusedByDefault="false"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="29dp"
-            android:paddingLeft="10dp"
-            android:textSize="18dp"
-            android:text="@string/tors"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="30dp"
+            android:hint="Введите пароль"
+            android:textColor="#4059FF"
+            android:textSize="14sp"
+            android:background="@drawable/edit_text"
+            android:drawableLeft="@drawable/ic_search_24"
+            android:drawablePadding="16dp"
+            android:layout_gravity="left"
             />
+        <ImageView
 
-        <TextView
-            android:paddingLeft="10dp"
-            android:id="@+id/header2"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="29dp"
-            android:textSize="18dp"
-            android:text="@string/legs"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_filter"
+            android:layout_marginRight="0dp"
             />
     </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pole">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:background="@drawable/pole"
+        android:orientation="vertical"
         >
+        <androidx.cardview.widget.CardView
+            android:id="@+id/add_item2"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="addNewItem"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/kajomka"
+                />
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_plus"
+                android:layout_margin="20dp"
+                />
+            <TextView
+                android:layout_marginLeft="76dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_alternates_bold"
+                android:text="Добавить"/>
+        </androidx.cardview.widget.CardView>
         <ListView
             android:id="@+id/list"
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="0dp"
+            android:divider="@null"
+            android:clickable="false"
         />
         <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.03" />
-        <ListView
-            android:id="@+id/list2"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            />
-
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add"
-        android:onClick="addNewItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="16dp"
-        style="@style/Widget.Shrine.Button"
-        app:srcCompat="@drawable/ic_add_24"
-        app:icon = "@drawable/ic_add_24"/>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

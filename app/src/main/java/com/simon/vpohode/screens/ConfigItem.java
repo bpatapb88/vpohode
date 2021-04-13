@@ -67,8 +67,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     EditText nameBox;
     ImageView colorView,imageLayer1,imageLayer2,imageLayer3;
-
     ImageButton imageItem;
+    CropImageView mCropImageView;
     Spinner spinnerStyle, spinnerTemplate;
     Button delButton, saveButton, btColor;
     RadioGroup radGrpLayer;
@@ -155,8 +155,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         if (userId > 0) {
             spinnerTemplate.setVisibility(View.GONE);
             // get item by id from db
-            userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " +
-                    DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
+            userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             //termidBox.setText(String.valueOf(userCursor.getDouble(4)));
@@ -441,7 +440,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private void startCrop(Uri imageuri) {
         CropImage.activity(imageuri)
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMultiTouchEnabled(true)
+
                 .start(this);
     }
 
@@ -466,7 +465,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
-
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -479,7 +477,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
             return mIcon11;
         }
-
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }

@@ -105,9 +105,10 @@
                 >
                 <ImageView
                     android:layout_gravity="center_horizontal"
-                    android:id="@+id/logo"
-                    android:layout_width="200dp"
+                    android:id="@+id/foto_city"
+                    android:layout_width="match_parent"
                     android:layout_height="165dp"
+                    android:scaleType="centerCrop"
                     />
             </androidx.cardview.widget.CardView>
 
@@ -140,7 +141,6 @@
                     android:id="@+id/card"
                     app:cardCornerRadius="20dp"
                     android:onClick="onClickShowItems"
-                    android:elevation="3dp"
                     android:stateListAnimator="@animator/card_view"
                     android:clickable="true"
                     >
@@ -183,13 +183,12 @@
                         android:onClick="goToWardrobe"
                         android:elevation="3dp"
                         android:stateListAnimator="@animator/card_view"
-
                         >
                         <ImageView
                             android:id="@+id/ic_circleselect"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_whh_circleselectic2"
+                            android:src="@drawable/ic_wardrobe"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             />
@@ -215,14 +214,12 @@
                             />
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
-
                         android:layout_width="match_parent"
                         android:layout_height="80dp"
                         android:layout_weight="1"
                         android:id="@+id/card3"
                         app:cardCornerRadius="20dp"
                         android:onClick="goToSettings"
-                        android:elevation="3dp"
                         android:stateListAnimator="@animator/card_view"
                         android:layout_marginHorizontal="16dp"
                         android:layout_marginTop="24dp"
@@ -230,7 +227,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_whh_circleselectic2"
+                            android:src="@drawable/ic_settings"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             />
@@ -263,14 +260,12 @@
                         android:layout_weight="1"
                         android:id="@+id/card4"
                         app:cardCornerRadius="20dp"
-                        android:elevation="3dp"
                         android:stateListAnimator="@animator/card_view"
                         >
                         <ImageView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_whh_circleselectic2"
+                            android:src="@drawable/ic_washer"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="20dp"
                             />

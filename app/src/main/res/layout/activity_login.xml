@@ -47,31 +47,38 @@
                 android:gravity="center"
                 android:text="Введите почту и пароль, чтобы войти"
                 />
+
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:paddingLeft="66dp"
+                android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text"
+                android:focusedByDefault="false"
+                android:gravity="center_vertical"
+                android:hint="Введите почту"
+                android:paddingLeft="30dp"
                 android:textColor="#4059FF"
                 android:textSize="14sp"
-                android:focusedByDefault="false"
-                android:layout_marginHorizontal="16dp"
-                android:background="@drawable/edit_text"
-                android:hint="Введите почту"
+
+                android:drawableLeft="@drawable/ic_mail_20"
+                android:drawablePadding="16dp"
                 />
+
             <EditText
                 android:focusedByDefault="false"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center_vertical"
-                android:paddingLeft="66dp"
+                android:paddingLeft="30dp"
                 android:hint="Введите пароль"
                 android:textColor="#4059FF"
                 android:textSize="14sp"
                 android:layout_marginHorizontal="16dp"
                 android:background="@drawable/edit_text"
+                android:drawableLeft="@drawable/ic_lock"
+                android:drawablePadding="16dp"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -89,7 +96,7 @@
                 android:layout_weight="1"
                 app:cardCornerRadius="25dp"
                 android:layout_marginTop="30dp"
-                android:clickable="true"
+                android:onClick="toastShow"
                 android:stateListAnimator="@animator/card_view"
                 android:layout_gravity="center_horizontal"
                 >

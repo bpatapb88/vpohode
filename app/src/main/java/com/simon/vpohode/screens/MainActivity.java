@@ -2,9 +2,12 @@ package com.simon.vpohode.screens;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,10 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private Double avgTempertureCel;
     public static String rain;
     private String city = "Brno";
-
     private SharedPreferences preferences;
-    private ImageView logo;
-    private AnimationDrawable frameAnimation;
+    private ImageView fotoCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +47,16 @@ public class MainActivity extends AppCompatActivity {
             getTheme().applyStyle(R.style.OverlayThemeRose,true);
         }
 
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        logo = findViewById(R.id.logo);
-        logo.setBackgroundResource(R.drawable.animation);
-        frameAnimation = (AnimationDrawable) logo.getBackground();
+        fotoCity = findViewById(R.id.foto_city);
 
        /* FragmentManager fm = getSupportFragmentManager();
         CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
         editNameDialogFragment.show(fm, "fragment_edit_name");*/
-
         textViewWeather = findViewById(R.id.textViewWeather);
-
     }
 
     @Override
@@ -68,7 +66,21 @@ public class MainActivity extends AppCompatActivity {
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
         task.execute(weatherURLWithCity);
-        frameAnimation.start();
+
+        DownloadImageTask downloadImageTask = new DownloadImageTask(fotoCity);
+        switch (city){
+            case "Brno":
+                downloadImageTask.execute("http://utazasok.org/wp-content/uploads/2019/03/Brno2.jpg");
+                break;
+            case "Moscow":
+                downloadImageTask.execute("https://www.moscow-driver.com/photos/var/albums/Personalized_Tours/2018-01-25_Moscow_Winter_Photo_Tour/ALP-2018-0125-268-Old-Kremlin-Against-Modern-Moskva-City-in-Winter.jpg");
+                break;
+            case "Екатеринбург":
+                downloadImageTask.execute("https://nesiditsa.ru/wp-content/uploads/2012/10/Ekaterinburg.jpg");
+                break;
+            default:
+                downloadImageTask.execute("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.healthwire.co%2Fwp-content%2Fuploads%2F2020%2F07%2Fweather.png");
+        }
     }
 
     public void goToWardrobe(View view){                                        //TODO create new class view manager
@@ -131,9 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return result.toString();
         }
-
         @Override
-
         protected void onPostExecute (String s){
             if (s.equals("End")){
                 return;
@@ -153,4 +163,28 @@ public class MainActivity extends AppCompatActivity {
                 textViewWeather.setText(city + ": " + ifPlus + outputWeather);
         }
     }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error Image", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
+    }
+
 }

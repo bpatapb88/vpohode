@@ -276,4 +276,5 @@
             app:icon="@drawable/ic_baseline_filter_drama_24"
             />
     </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

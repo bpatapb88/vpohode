@@ -40,6 +40,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public static Cursor getCursor (SQLiteDatabase db){
+        return db.rawQuery("SELECT * FROM " + TABLE, null);
+    }
+
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
         return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }

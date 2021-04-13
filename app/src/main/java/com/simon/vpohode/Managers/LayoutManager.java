@@ -48,7 +48,7 @@ public class LayoutManager {
 
     public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
         //get cursor from db
-        Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
+        Cursor itemCursor =  DatabaseHelper.getCursor(db);
         // create adapter, send cursor
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
         // устанавливаем провайдер фильтрации

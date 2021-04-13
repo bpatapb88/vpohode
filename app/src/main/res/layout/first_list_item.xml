@@ -4,16 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/add_item"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp"
+        android:layout_margin="16dp">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/kajomka"
+            />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_plus"
+            android:layout_margin="20dp"
+            />
+        <TextView
+            android:layout_marginLeft="76dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_alternates_bold"
+            android:text="Добавить"/>
+    </androidx.cardview.widget.CardView>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="20dp"
         android:stateListAnimator="@animator/card_view"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="10dp"
-        >
+        android:layout_margin="16dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,11 +73,10 @@
                 <TextView android:id="@+id/text1"
                     android:textSize="16sp"
                     android:fontFamily="@font/montserrat_alternates_bold"
-                    android:textColor="@android:color/black"
                     android:text="Name"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="24dp"
+                    android:layout_height="wrap_content"
                     />
             </LinearLayout>
 

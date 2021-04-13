@@ -13,10 +13,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.CustomAdapter;
 import com.simon.vpohode.Managers.LayoutManager;
+import com.simon.vpohode.Managers.ListViewManager;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
 
@@ -24,9 +26,8 @@ public class Wardrobe extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private CustomAdapter topItemAdapter, bottomItemAdapter;
-    private ListView topItemList, bottomItemList;
-    private TextView countTop,countBot;
+    private CustomAdapter topItemAdapter;
+    private ListView topItemList;
 
 
     @Override
@@ -40,19 +41,8 @@ public class Wardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wardrobe);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        setTitle(getString(R.string.title_wardrobe));
-
-        countTop = findViewById(R.id.header);
-        countBot = findViewById(R.id.header2);
         topItemList = findViewById(R.id.list);
-        bottomItemList = findViewById(R.id.list2);
-
-        topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
-        bottomItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
+        //topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
     }
@@ -63,21 +53,6 @@ public class Wardrobe extends AppCompatActivity {
         LayoutManager.invisible(R.id.action_settings,menu);
         LayoutManager.invisible(R.id.save,menu);
         LayoutManager.invisible(R.id.action_help,menu);
-        MenuItem search = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) search.getActionView();
-        searchView.setQueryHint(getResources().getString(R.string.enter_name));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String s) {
-                topItemAdapter.getFilter().filter(s);
-                bottomItemAdapter.getFilter().filter(s);
-                return true;
-            }
-        });
         return true;
     }
     @Override
@@ -88,6 +63,11 @@ public class Wardrobe extends AppCompatActivity {
         }
         //finish();
         return super.onOptionsItemSelected(item);
+    }
+
+    public void goHome(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void addNewItem(View view){
@@ -105,21 +85,13 @@ public class Wardrobe extends AppCompatActivity {
         // fill list depends of: is item top or not? 1=top 0=bottom
         topItemAdapter = LayoutManager.configListOfItems(this,db,1);
         topItemList.setAdapter(topItemAdapter);
-        // How many items in top?
-        countTop.setText( getResources().getString(R.string.tors) + " " + topItemAdapter.getCursor().getCount());
-
-        bottomItemAdapter = LayoutManager.configListOfItems(this,db,0);
-        bottomItemList.setAdapter(bottomItemAdapter);
-        // How many items in bottom?
-        countBot.setText( getResources().getString(R.string.legs)+" " + bottomItemAdapter.getCursor().getCount());
-
+        ListViewManager.getListViewSize(topItemList);
     }
     @Override
     public void onDestroy(){
         super.onDestroy();
         // close connection
         topItemAdapter.getCursor().close();
-        bottomItemAdapter.getCursor().close();
         db.close();
     }
 }

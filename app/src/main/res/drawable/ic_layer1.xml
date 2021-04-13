@@ -2,7 +2,7 @@
     android:viewportHeight="60" android:viewportWidth="60"
     android:width="60dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:tint="?attr/colorControlNormal"
+    android:tint="#4059FF"
     >
     <path android:fillColor="#FFFFFF" android:pathData="M82.52,-29.82c0.97,0 0.97,-1.5 0,-1.5C81.55,-31.32 81.55,-29.82 82.52,-29.82L82.52,-29.82z"/>
     <path android:fillColor="#FFFFFF" android:pathData="M25.59,27.49c1.45,0 1.45,-2.25 0,-2.25C24.14,25.24 24.14,27.49 25.59,27.49L25.59,27.49z"/>
