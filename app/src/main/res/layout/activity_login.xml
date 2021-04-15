@@ -60,7 +60,6 @@
                 android:paddingLeft="30dp"
                 android:textColor="#4059FF"
                 android:textSize="14sp"
-
                 android:drawableLeft="@drawable/ic_mail_20"
                 android:drawablePadding="16dp"
                 />

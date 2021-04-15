@@ -7,20 +7,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.CustomAdapter;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.ListViewManager;
-import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.R;
+import com.simon.vpohode.database.DatabaseHelper;
 
 public class Wardrobe extends AppCompatActivity {
 
@@ -45,6 +43,9 @@ public class Wardrobe extends AppCompatActivity {
         //topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
 
         databaseHelper = new DatabaseHelper(getApplicationContext());
+
+        //hidden keyboard by default
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

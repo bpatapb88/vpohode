@@ -70,7 +70,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     ImageButton imageItem;
     CropImageView mCropImageView;
     Spinner spinnerStyle, spinnerTemplate;
-    Button delButton, saveButton, btColor;
+    Button delButton, saveButton;
     RadioGroup radGrpLayer;
     RadioButton radioButtonLayer3;
     Integer[] radioButtonsLayers;
@@ -117,7 +117,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         spinnerStyle = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
         radGrpLayer = findViewById(R.id.radios2);
-        btColor = findViewById(R.id.btnColor);
+
         delButton = findViewById(R.id.deleteButton);
         saveButton = findViewById(R.id.btnsave);
         x = findViewById(R.id.spacer);
@@ -277,6 +277,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         LayoutManager.invisible(R.id.action_help,menu);
         return true;
     }
+
+    public void goHome(View view){
+        finish();
+    }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == android.R.id.home)
