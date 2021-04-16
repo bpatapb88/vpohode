@@ -262,16 +262,29 @@
                 android:textSize="24sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 />
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"/>
+
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="#4059FF"
                 android:text="Средне"/>
 
         </LinearLayout>
+        <SeekBar
+            android:layout_marginTop="30dp"
+            android:layout_marginHorizontal="16dp"
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:thumbTint="#4059FF"
+            android:background="@drawable/seekbar_drawable_progress"
+            android:max="2"
+            android:progress="1"
+            />
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -341,17 +354,7 @@
                 android:layout_width="30dp"
                 android:layout_height="48dp"
                 app:srcCompat="@drawable/ic_sun"/>
-            <SeekBar
-                android:layout_weight="25"
-                android:id="@+id/seekBar"
-                style="@style/Widget.AppCompat.SeekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:max="2"
-                android:progress="2"
-                android:background="@drawable/tempbackground"/>
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="48dp"
