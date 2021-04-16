@@ -46,5 +46,9 @@
     <style name="positiveBtnStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">@color/textColorPrimary</item>
     </style>
+    <style name="NumberPickerCustomText">
+        <item name="android:textSize">14sp</item> // add if you want to change size
+        <item name="android:fontFamily">@font/montserrat_alternates_medium</item> // add font (this font folder is present in res folder)
+    </style>
 
 </resources>

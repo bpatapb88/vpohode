@@ -16,8 +16,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -37,10 +35,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -49,9 +45,9 @@ import com.jaredrummler.android.colorpicker.ColorShape;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.ImageManager;
 import com.simon.vpohode.Managers.LayoutManager;
+import com.simon.vpohode.Managers.TemplatesManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
-import com.simon.vpohode.Managers.TemplatesManager;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -104,12 +100,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         layoutTop = findViewById(R.id.layoutTop);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        setTitle(getString(R.string.title_item));
 
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
@@ -267,28 +257,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        LayoutManager.invisible(R.id.search,menu);
-        LayoutManager.invisible(R.id.save,menu);
-        LayoutManager.invisible(R.id.action_settings,menu);
-        LayoutManager.invisible(R.id.action_help,menu);
-        return true;
-    }
-
     public void goHome(View view){
         finish();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home)
-            finish();
-
-        return super.onOptionsItemSelected(item);
-    }
     @Override
     public void onResume() {
         super.onResume();
