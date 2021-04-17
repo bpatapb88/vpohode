@@ -55,4 +55,11 @@ public class ColorManager {
         return false;
     }
 
+    public static String convertIntToHex(int color){
+        String colorHexSelected = Integer.toHexString(color);
+        colorHexSelected = colorHexSelected.substring(2);
+        colorHexSelected = colorHexSelected.toUpperCase();
+        return colorHexSelected;
+    }
+
 }

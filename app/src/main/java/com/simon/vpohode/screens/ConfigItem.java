@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
@@ -43,6 +43,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
 import com.simon.vpohode.Item;
+import com.simon.vpohode.Managers.ColorManager;
 import com.simon.vpohode.Managers.ImageManager;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.TemplatesManager;
@@ -61,10 +62,12 @@ import java.util.Calendar;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
-    EditText nameBox;
-    ImageView colorView,imageLayer1,imageLayer2,imageLayer3;
+    EditText nameBox, usedTime;
+    TextView colorHex, warmText;
+    ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus;
+    ImageView[] imagesOfLayers;
     ImageButton imageItem;
-    CropImageView mCropImageView;
+
     Spinner spinnerStyle, spinnerTemplate;
     Button delButton, saveButton;
     RadioGroup radGrpLayer;
@@ -78,12 +81,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     LinearLayout layoutTop;
     Space x;
     Switch topBot;
-    NumberPicker usedTimes;
     boolean newImage = false;
     boolean newColor = false;
     long userId=0;
     private Uri uri;
-    private static final int firstId = 1;
+
     private Calendar calendar;
     private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     private Context internContext = this;
@@ -100,7 +102,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         layoutTop = findViewById(R.id.layoutTop);
-
+        colorHex = findViewById(R.id.colorHex);
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
         nameBox = findViewById(R.id.name);
@@ -116,20 +118,41 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageLayer3 = findViewById(R.id.imageLayer3);
         radioButtonLayer3 = findViewById(R.id.layer3);
         seekBar = findViewById(R.id.seekBar);
+        warmText = findViewById(R.id.warmText);
         topBot = findViewById(R.id.top_bot);
-        usedTimes = findViewById(R.id.used);
-        usedTimes.setMaxValue(2147483647);
-        usedTimes.setMinValue(0);
-        usedTimes.setWrapSelectorWheel(false);
+
+        usedTime = findViewById(R.id.usedTimes);
+        minus = findViewById(R.id.minus);
+        plus = findViewById(R.id.plus);
+
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
+
+        imagesOfLayers = new ImageView[]{imageLayer1, imageLayer2, imageLayer3};
+        imageLayer1.setOnClickListener(setListenerToLayer(imagesOfLayers));
+        imageLayer2.setOnClickListener(setListenerToLayer(imagesOfLayers));
+        imageLayer3.setOnClickListener(setListenerToLayer(imagesOfLayers));
 
         radioButtonsLayers = new Integer[]{R.id.layer1, R.id.layer2, R.id.layer3};
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         seekBar.setProgress(1);
-        // configure spinner
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                setWarmText(seekBar.getProgress());
+            }
+        });
+        // configure spinner
         spinnerStyle.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
 
         String[] namesTemplates =  getResources().getStringArray(R.array.templates);
@@ -149,15 +172,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             //termidBox.setText(String.valueOf(userCursor.getDouble(4)));
+
             seekBar.setProgress((int) userCursor.getDouble(4) - 1);
+            setWarmText((int) userCursor.getDouble(4) - 1);
+
             spinnerStyle.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
+            colorHex.setText("#" + ColorManager.convertIntToHex(userCursor.getInt(6)));
             imageItem.setBackgroundColor(userCursor.getInt(6));
-            usedTimes.setValue(userCursor.getInt(8));
+            usedTime.setText(String.valueOf(userCursor.getInt(8)));
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             }
             radGrpLayer.check(radioButtonsLayers[userCursor.getInt(5)-1]);
+            reDrawImage(imagesOfLayers[userCursor.getInt(5)-1], true);
             if (userCursor.getInt(3) == 1){
                 topBot.setChecked(false);
                 reBuildIcons(false);
@@ -231,7 +259,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     // update or insert DB
                     if(allIsOk) {
                         if (userId > 0) {
-                            cv.put(DBFields.USED.toFieldName(), usedTimes.getValue());
+                            cv.put(DBFields.USED.toFieldName(), Integer.parseInt(usedTime.getText().toString()));
                             db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
                         } else {
                             cv.put(DBFields.USED.toFieldName(), 0);
@@ -255,8 +283,79 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 CropImage.startPickImageActivity(ConfigItem.this);
             }
         });
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentString = usedTime.getText().toString();
+                int currentInt = Integer.parseInt(currentString);
+                if(currentInt > 0 ){
+                    currentInt--;
+                    usedTime.setText(String.valueOf(currentInt));
+                }
+            }
+        });
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentString = usedTime.getText().toString();
+                int currentInt = Integer.parseInt(currentString);
+                if(currentInt < Integer.MAX_VALUE){
+                    currentInt++;
+                    usedTime.setText(String.valueOf(currentInt));
+                }
+            }
+        });
     }
 
+    private void setWarmText(int progress){
+        switch (progress){
+            case 0:
+                warmText.setText("Холодное");
+                break;
+            case 1:
+                warmText.setText("Среднее");
+                break;
+            case 2:
+                warmText.setText("Теплое");
+                break;
+        }
+    }
+
+    private View.OnClickListener setListenerToLayer(final ImageView[] imagesOfLayers){
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for(ImageView imageView : imagesOfLayers){
+                    reDrawImage(imageView,v.getId() == imageView.getId());
+                    System.out.println(isImageChecked(imageView));
+                }
+            }
+        };
+        return onClickListener;
+    }
+
+    private void reDrawImage(ImageView imageView, boolean isCheked){
+        Drawable drawable = imageView.getDrawable();
+        if(isCheked){
+            drawable.setTint(getColor(R.color.colorAccent));
+            imageView.setBackground(getDrawable(R.drawable.gradient));
+        }else{
+            drawable.setTint(getColor(R.color.colorPrimaryDark));
+            imageView.setBackground(getDrawable(R.color.colorAccent));
+        }
+        imageView.setImageDrawable(drawable);
+    }
+
+    private boolean isImageChecked(ImageView imageView){
+        String temp = imageView.getBackground().toString();
+        temp = temp.substring(26,31);
+        if(temp.equals("Color")){
+            return false;
+        }
+        return true;
+    }
     public void goHome(View view){
         finish();
     }
@@ -296,6 +395,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
                         if(selectedTemplate.getColor() != 0 && !selectedTemplate.getFoto().equals("")){
                             colorView.setBackgroundColor(selectedTemplate.getColor());
+                            colorHex.setText("#" + ColorManager.convertIntToHex(selectedTemplate.getColor()));
                             imageItem.setBackgroundColor(selectedTemplate.getColor());
                             new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
                             newColor = true;
@@ -350,7 +450,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private void createColorPickerDialog(long id) {
             colorInicator = (ColorDrawable) colorView.getBackground();
             int color = Color.RED;
-
             if(id>0){
                 colorInicator = (ColorDrawable) colorView.getBackground();
                 color=colorInicator.getColor();
@@ -358,7 +457,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 colorInicator = (ColorDrawable) colorView.getBackground();
                 color=colorInicator.getColor();
             }
-
         ColorPickerDialog.newBuilder()
                 .setColor(color)
                 .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
@@ -385,6 +483,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         Color.colorToHSV(color,hsv);
         newColor = true;
         colorView.setBackgroundColor(Color.HSVToColor(hsv));
+        colorHex.setText("#" + ColorManager.convertIntToHex(Color.HSVToColor(hsv)));
         imageItem.setBackgroundColor(Color.HSVToColor(hsv));
     }
 
@@ -422,16 +521,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     private void reBuildIcons(boolean isBotChecked){
+        Drawable[] drawables;
         if(isBotChecked){
-            imageLayer1.setImageResource(R.drawable.ic_layer1_bot);
-            imageLayer2.setImageResource(R.drawable.ic_layer2_bot);
-            imageLayer3.setImageResource(R.drawable.ic_layer_boots);
-            //radioButtonLayer3.setText("Обувь");
+            drawables = new Drawable[]{getDrawable(R.drawable.ic_layer1_bot), getDrawable(R.drawable.ic_layer2_bot), getDrawable(R.drawable.ic_layer_boots)};
         } else {
-            //radioButtonLayer3.setText("Третий слой");
-            imageLayer1.setImageResource(R.drawable.ic_layer1);
-            imageLayer2.setImageResource(R.drawable.ic_layer2);
-            imageLayer3.setImageResource(R.drawable.ic_layer3);
+            drawables = new Drawable[]{getDrawable(R.drawable.ic_layer1), getDrawable(R.drawable.ic_layer2), getDrawable(R.drawable.ic_layer3)};
+        }
+
+        for (int i = 0; i < drawables.length; i++){
+            if(isImageChecked(imagesOfLayers[i])){
+                drawables[i].setTint(getColor(R.color.colorAccent));
+            }else{
+                drawables[i].setTint(getColor(R.color.colorPrimaryDark));
+            }
+            imagesOfLayers[i].setImageDrawable(drawables[i]);
         }
 
     }
