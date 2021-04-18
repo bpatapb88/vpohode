@@ -1,53 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-    android:layout_weight="1"
-android:gravity="end"
-android:layout_gravity="end"
-android:padding="5dp"
->
-    <ImageView
-        android:id="@+id/imageViewPhoto"
-        android:layout_width="63dp"
-        android:layout_height="70dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
-        android:scaleType="centerCrop" />
-    <ImageView
-        android:layout_toLeftOf="@+id/imageViewPhoto"
-        android:id="@+id/imageViewColor"
-        android:layout_width="7dp"
-        android:layout_height="70dp"
-        />
-    <TextView
-        android:paddingLeft="3dp"
-        android:id="@+id/nameItem"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:fontFamily="@font/montserrat_alternates_medium"
-        android:layout_toLeftOf="@+id/imageViewColor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-    <TextView
-        android:paddingLeft="3dp"
-        android:id="@+id/styleItem"
-        android:fontFamily="@font/montserrat_alternates_medium"
-        android:layout_toLeftOf="@+id/imageViewColor"
-        android:layout_below="@+id/nameItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-    <TextView
-        android:paddingLeft="3dp"
-        android:id="@+id/tempItem"
-        android:fontFamily="@font/montserrat_alternates_medium"
-        android:layout_toLeftOf="@+id/imageViewColor"
-        android:layout_below="@+id/styleItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.cardview.widget.CardView
+        android:layout_width="154dp"
+        android:layout_height="260dp"
+        android:layout_marginVertical="8dp"
+        app:cardCornerRadius="20dp">
+        <ImageView
+            android:layout_width="154dp"
+            android:layout_height="260dp"
+            android:background="@drawable/gradient"/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="154dp"
+            android:layout_height="154dp"
+            app:cardCornerRadius="20dp"
+            android:stateListAnimator="@animator/card_view"
+            >
+            <ImageView
+                android:id="@+id/imageViewPhoto"
+                android:layout_width="154dp"
+                android:layout_height="154dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
+                android:scaleType="centerCrop"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/nameItem"
+            android:layout_marginHorizontal="16dp"
+            android:textSize="14dp"
+            android:fontFamily="@font/montserrat_alternates_bold"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="170dp"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text="TextView"/>
+        <TextView
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="193dp"
+            android:id="@+id/styleItem"
+            android:fontFamily="@font/montserrat_alternates_medium"
+            android:textSize="10dp"
+            android:textColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"/>
+        <TextView
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="208dp"
+            android:id="@+id/tempItem"
+            android:fontFamily="@font/montserrat_alternates_medium"
+            android:textSize="10dp"
+            android:textColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"/>
+        <ImageView
+            android:id="@+id/imageViewColor"
+            android:layout_width="7dp"
+            android:layout_height="70dp"
+            />
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>

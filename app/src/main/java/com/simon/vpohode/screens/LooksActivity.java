@@ -6,11 +6,14 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ public class LooksActivity extends AppCompatActivity {
     private Button next,back, usethislook;
     private LooksAdapter itemsAdapter;
     private ListView listOfItems;
+    LinearLayout testSwipe;
     private Integer showingLook = 0;
     private Toolbar toolbar;
     public static ArrayList<Item[]> looks2;

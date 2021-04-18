@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
@@ -67,18 +68,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus;
     ImageView[] imagesOfLayers;
     ImageButton imageItem;
-
     Spinner spinnerStyle, spinnerTemplate;
-    Button delButton, saveButton;
-    RadioGroup radGrpLayer;
-    RadioButton radioButtonLayer3;
-    Integer[] radioButtonsLayers;
+    CardView delButton, saveButton;
     DatabaseHelper sqlHelper;
     SeekBar seekBar;
     ColorDrawable colorInicator;
     SQLiteDatabase db;
     Cursor userCursor;
-    LinearLayout layoutTop;
     Space x;
     Switch topBot;
     boolean newImage = false;
@@ -101,22 +97,18 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-        layoutTop = findViewById(R.id.layoutTop);
         colorHex = findViewById(R.id.colorHex);
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
         nameBox = findViewById(R.id.name);
         spinnerStyle = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
-        radGrpLayer = findViewById(R.id.radios2);
-
         delButton = findViewById(R.id.deleteButton);
         saveButton = findViewById(R.id.btnsave);
         x = findViewById(R.id.spacer);
         imageLayer1 = findViewById(R.id.imageLayer1);
         imageLayer2 = findViewById(R.id.imageLayer2);
         imageLayer3 = findViewById(R.id.imageLayer3);
-        radioButtonLayer3 = findViewById(R.id.layer3);
         seekBar = findViewById(R.id.seekBar);
         warmText = findViewById(R.id.warmText);
         topBot = findViewById(R.id.top_bot);
@@ -133,7 +125,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageLayer2.setOnClickListener(setListenerToLayer(imagesOfLayers));
         imageLayer3.setOnClickListener(setListenerToLayer(imagesOfLayers));
 
-        radioButtonsLayers = new Integer[]{R.id.layer1, R.id.layer2, R.id.layer3};
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         seekBar.setProgress(1);
@@ -166,7 +157,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
         // if 0, add
         if (userId > 0) {
-            spinnerTemplate.setVisibility(View.GONE);
+            LinearLayout templateLayout = findViewById(R.id.template_layout);
+            templateLayout.setVisibility(View.GONE);
             // get item by id from db
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
@@ -184,7 +176,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             }
-            radGrpLayer.check(radioButtonsLayers[userCursor.getInt(5)-1]);
             reDrawImage(imagesOfLayers[userCursor.getInt(5)-1], true);
             if (userCursor.getInt(3) == 1){
                 topBot.setChecked(false);
@@ -200,6 +191,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
             usedLayout.setVisibility(View.GONE);
             // hide edit_text Delete, It will be new Item
+
             delButton.setVisibility(View.GONE);
             x.setVisibility(View.GONE);
         }
@@ -227,15 +219,17 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         cv.put(DBFields.ISTOP.toFieldName(), 0);
                     }
 
-                    if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer1) {
-                        cv.put(DBFields.LAYER.toFieldName(), 1);
-                    } else if (radGrpLayer.getCheckedRadioButtonId() == R.id.layer2) {
-                        cv.put(DBFields.LAYER.toFieldName(), 2);
-                    } else if(radGrpLayer.getCheckedRadioButtonId() == R.id.layer3){
-                        cv.put(DBFields.LAYER.toFieldName(), 3);
-                    }else{
+                    int chekedLayer = 0;
+                    for(int i = 0 ; i < imagesOfLayers.length ; i++){
+                        if(isImageChecked(imagesOfLayers[i])){
+                            chekedLayer = i + 1;
+                        }
+                    }
+                    if(chekedLayer == 0 ){
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_layer), Toast.LENGTH_SHORT).show();
                         allIsOk=false;
+                    }else{
+                        cv.put(DBFields.LAYER.toFieldName(), chekedLayer);
                     }
 
                     if (newColor) {
@@ -382,15 +376,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                             topBot.setChecked(true);
                         }
 
-                        switch (selectedTemplate.getLayer()) {
-                            case 1:
-                                radGrpLayer.check(R.id.layer1);
-                                break;
-                            case 2:
-                                radGrpLayer.check(R.id.layer2);
-                                break;
-                            case 3:
-                                radGrpLayer.check(R.id.layer3);
+                        for(int i = 0 ; i < imagesOfLayers.length; i++){
+                            reDrawImage(imagesOfLayers[i],(i+1) == selectedTemplate.getLayer());
                         }
 
                         if(selectedTemplate.getColor() != 0 && !selectedTemplate.getFoto().equals("")){
