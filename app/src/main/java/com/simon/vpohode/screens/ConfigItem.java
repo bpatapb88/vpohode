@@ -509,11 +509,17 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     private void reBuildIcons(boolean isBotChecked){
         Drawable[] drawables;
+        Drawable layerDr1,layerDr2,layerDr3;
         if(isBotChecked){
-            drawables = new Drawable[]{getDrawable(R.drawable.ic_layer1_bot), getDrawable(R.drawable.ic_layer2_bot), getDrawable(R.drawable.ic_layer_boots)};
+            layerDr1 = getDrawable(R.drawable.ic_layer1_bot);
+            layerDr2 = getDrawable(R.drawable.ic_layer2_bot);
+            layerDr3 = getDrawable(R.drawable.ic_layer_boots);
         } else {
-            drawables = new Drawable[]{getDrawable(R.drawable.ic_layer1), getDrawable(R.drawable.ic_layer2), getDrawable(R.drawable.ic_layer3)};
+            layerDr1 = getDrawable(R.drawable.ic_layer1);
+            layerDr2 = getDrawable(R.drawable.ic_layer2);
+            layerDr3 = getDrawable(R.drawable.ic_layer3);
         }
+        drawables = new Drawable[]{layerDr1,layerDr2,layerDr3};
 
         for (int i = 0; i < drawables.length; i++){
             if(isImageChecked(imagesOfLayers[i])){
