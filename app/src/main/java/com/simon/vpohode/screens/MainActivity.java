@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -98,19 +97,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickShowItems (View view){
-        //Intent intent = new Intent(this, ShowItems.class);
-        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         Intent intent = new Intent(this, LooksActivity.class);
-
         Double temp = 1000d;
         try {
-            temp = Double.valueOf(prefs.getString("temp", "1000"));
+            temp = Double.valueOf(preferences.getString("temp", "1000"));
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
         if(temp != 1000){
             avgTempertureCel = temp;
         }
+        intent.putExtra("term", avgTempertureCel);
+        startActivity(intent);
+    }
+
+    public void scrollTest(View view){
+        Double temp = 1000d;
+        try {
+            temp = Double.valueOf(preferences.getString("temp", "1000"));
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        if(temp != 1000){
+            avgTempertureCel = temp;
+        }
+        Intent intent = new Intent(this, ScrollingLooksActivity.class);
         intent.putExtra("term", avgTempertureCel);
         startActivity(intent);
     }

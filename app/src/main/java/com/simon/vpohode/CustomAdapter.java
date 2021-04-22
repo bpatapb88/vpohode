@@ -3,6 +3,7 @@ package com.simon.vpohode;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,23 +76,30 @@ public class CustomAdapter extends CursorAdapter {
         }
 
         ImageView item_image = (ImageView) v.findViewById(R.id.imageView);
-        if(istop == 0){
-            if(layer == 1){
-                item_image.setImageResource(R.drawable.ic_layer1_bot);
-            }else if(layer == 2){
-                item_image.setImageResource(R.drawable.ic_layer2_bot);
-            }else{
-                item_image.setImageResource(R.drawable.ic_layer_boots);
-            }
+        setImageIcon(item_image,istop,layer);
+    }
+    private void setImageIcon(ImageView imageView, Integer isTop, Integer layer){
+        Drawable drawable;
+        Context context = imageView.getContext();
+        if(isTop == 0 && layer == 1){
+            drawable = context.getDrawable(R.drawable.ic_layer1_bot);
+        }else if(isTop == 0 && layer == 2){
+            drawable = context.getDrawable(R.drawable.ic_layer2_bot);
+        }else if(isTop == 0 && layer == 3){
+            drawable = context.getDrawable(R.drawable.ic_layer_boots);
+        }else if(isTop == 1 && layer == 1){
+            drawable = context.getDrawable(R.drawable.ic_layer1);
+        }else if(isTop == 1 && layer == 2){
+            drawable = context.getDrawable(R.drawable.ic_layer2);
+        }else if(isTop == 1 && layer == 3){
+            drawable = context.getDrawable(R.drawable.ic_layer3);
         }else{
-            if(layer == 1){
-                item_image.setImageResource(R.drawable.ic_layer1);
-            }else if(layer == 2){
-                item_image.setImageResource(R.drawable.ic_layer2);
-            }else{
-                item_image.setImageResource(R.drawable.ic_layer3);
-            }
+            System.out.println("Error - Layer or isTop is not correct!");
+            return;
         }
-
+        if(!drawable.equals(null)){
+            drawable.setTint(imageView.getContext().getColor(R.color.colorPrimaryDark));
+            imageView.setImageDrawable(drawable);
+        }
     }
 }
