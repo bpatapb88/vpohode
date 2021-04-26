@@ -1,6 +1,8 @@
 package com.simon.vpohode.screens;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +17,7 @@ import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
 
 import java.util.ArrayList;
+
 
 public class ScrollingLooksActivity extends AppCompatActivity {
     public static ArrayList<Item[]> looks;
@@ -36,9 +39,13 @@ public class ScrollingLooksActivity extends AppCompatActivity {
         TabLayoutMediator tabLayoutMediator= new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy(){
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText("Look # " + (position + 1));
+               tab.setText("" + (position+1));
             }
         });
         tabLayoutMediator.attach();
+    }
+    public void goHome(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

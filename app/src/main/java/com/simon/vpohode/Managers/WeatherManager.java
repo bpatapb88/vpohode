@@ -35,7 +35,6 @@ public class WeatherManager {
             JSONArray forecast = weatherIn3HoursAll.getJSONArray("weather");
             JSONObject weather = forecast.getJSONObject(0);
             description = weather.getString("description");
-            MainActivity.rain = "";
             if(description.equals("дождь")){
                 MainActivity.rain = description;
             }

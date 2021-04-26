@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
     private TextView textViewWeather;
     private Double avgTempertureCel;
-    public static String rain;
+    public static String rain = "";
     private String city = "Brno";
     private SharedPreferences preferences;
     private ImageView fotoCity;
