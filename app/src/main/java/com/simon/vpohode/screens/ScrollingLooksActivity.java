@@ -3,6 +3,7 @@ package com.simon.vpohode.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 public class ScrollingLooksActivity extends AppCompatActivity {
     public static ArrayList<Item[]> looks;
+    private ViewPager2 pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +32,17 @@ public class ScrollingLooksActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         Double term = extras.getDouble("term");
         looks = LookManager.getLooks(term, getApplicationContext());
+        if(looks == null){
+            String lacks = LookManager.message.substring(0, LookManager.message.length() - 1);
+            Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
+            LookManager.message = "";
+            finish();
+        }
 
-        ViewPager2 pager=(ViewPager2)findViewById(R.id.pager);
+        if(!MainActivity.rain.equals(""))
+            Toast.makeText(this, getResources().getString(R.string.umbrella), Toast.LENGTH_SHORT).show();
+
+        pager=(ViewPager2)findViewById(R.id.pager);
         FragmentStateAdapter pageAdapter = new MyAdapter(this, looks);
         pager.setAdapter(pageAdapter);
 
@@ -47,5 +58,10 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     public void goHome(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void useButtonClick(View view){
+        LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
+        finish();
     }
 }

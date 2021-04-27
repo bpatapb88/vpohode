@@ -1,4 +1,5 @@
 package com.simon.vpohode;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.simon.vpohode.Managers.ImageManager;
+import com.simon.vpohode.screens.ConfigItem;
 
 public class PageFragment extends Fragment {
 
@@ -51,12 +53,21 @@ public class PageFragment extends Fragment {
                 result.findViewById(R.id.colorView5),
                 result.findViewById(R.id.colorView6)};
         Item[] items = MyAdapter.getLooks().get(pageNumber);
-
         LinearLayout rightLayout = result.findViewById(R.id.right_layout);
         LinearLayout leftLayout = result.findViewById(R.id.left_layout);
 
         for(int i = 0 ; i < items.length; i++){
+            final int id = i;
             View relativeLayout = inflater.inflate(R.layout.list_item,container,false);
+            relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ConfigItem.class);
+                    long itemId = MyAdapter.getLooks().get(pageNumber)[id].getId();
+                    intent.putExtra("id", itemId);
+                    getActivity().startActivity(intent);
+                }
+            });
             ImageView photo = relativeLayout.findViewById(R.id.imageViewPhoto);
             photo.setImageBitmap(ImageManager.loadImageFromStorage(items[i].getFoto()));
             TextView name = relativeLayout.findViewById(R.id.nameItem);
