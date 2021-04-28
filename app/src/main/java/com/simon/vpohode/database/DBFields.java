@@ -10,7 +10,9 @@ public enum  DBFields {
     COLOR("color", "INTEGER"),
     FOTO("foto", "TEXT"),
     USED("used", "INTEGER"),
-    CREATED("created", "TEXT");
+    CREATED("created", "TEXT"),
+    INWASH("inwash", "BOOLEAN"),
+    BRAND("brand", "TEXT");
 
     private String dbField;
     private String dbType;

@@ -1,6 +1,5 @@
 package com.simon.vpohode.Managers;
 
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -24,7 +23,5 @@ public class ListViewManager {
         ViewGroup.LayoutParams params=myListView.getLayoutParams();
         params.height=totalHeight + (myListView.getDividerHeight() * (myListAdapter.getCount() - 1)) + 20;
         myListView.setLayoutParams(params);
-        // print height of adapter on log
-        System.out.println("height of listItem:" +  String.valueOf(totalHeight));
     }
 }

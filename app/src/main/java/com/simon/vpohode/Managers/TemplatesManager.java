@@ -27,23 +27,23 @@ public class TemplatesManager {
 
         switch (templateID){
             case 1:
-                return new Item(0,arrayTemplate[templateID], Styles.CASUAL.toInt(),0,1d,1,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID], Styles.CASUAL.toInt(),0,1d,1,0,"",0,"",false,"");
             case 2:
-                return new Item(0,arrayTemplate[templateID],Styles.BUSINESS.toInt(),0,2d,1,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.BUSINESS.toInt(),0,2d,1,0,"",0,"",false,"");
             case 3:
-                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),0,2d,2,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),0,2d,2,0,"",0,"",false,"");
             case 4:
-                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),1,3d,2,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),1,3d,2,0,"",0,"",false,"");
             case 5:
-                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),0,3d,3,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),0,3d,3,0,"",0,"",false,"");
             case 6:
-                return new Item(0,arrayTemplate[templateID],Styles.ELEGANT.toInt(),0,2d,3,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.ELEGANT.toInt(),0,2d,3,0,"",0,"",false,"");
             case 7:
-                return new Item(0,arrayTemplate[templateID],Styles.HOME.toInt(),1,1d,1,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.HOME.toInt(),1,1d,1,0,"",0,"",false,"");
             case 8:
-                return new Item(0,arrayTemplate[templateID],Styles.SPORT.toInt(),1,2d,3,0,"",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.SPORT.toInt(),1,2d,3,0,"",0,"",false,"");
             case 9:
-                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),1,2d,2,-12961222,"https://thumb.tildacdn.com/tild6137-3566-4031-a636-663934313261/-/format/webp/2330_grey_5.jpg",0,"");
+                return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),1,2d,2,-12961222,"https://thumb.tildacdn.com/tild6137-3566-4031-a636-663934313261/-/format/webp/2330_grey_5.jpg",0,"",false,"BLCV");
             // Шаблоны можно добавить тут + добавить имя в spinnerTemplate - --- - - - - --
         }
         return null;

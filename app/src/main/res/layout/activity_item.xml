@@ -48,14 +48,14 @@
                     android:layout_marginLeft="16dp"
                     />
                 <ImageView
-
+                    android:id="@+id/wash_item"
                     android:src="@drawable/ic_washer"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginTop="64dp"
                     android:layout_marginRight="16dp"
                     android:layout_gravity="right"
-
+                    android:onClick="washItem"
                     />
 
             </androidx.cardview.widget.CardView>
@@ -143,22 +143,19 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"/>
             <EditText
-
+                android:id="@+id/brand"
                 android:layout_width="222dp"
                 android:layout_gravity="right"
-
                 android:fontFamily="@font/montserrat_alternates_medium"
                 android:textColor="#4059FF"
                 android:textSize="14sp"
-
                 android:hint="Введите бренд"
                 android:layout_marginHorizontal="16dp"
                 android:paddingLeft="30dp"
                 android:layout_height="50dp"
                 android:drawablePadding="16dp"
-
                 android:background="@drawable/edit_text"
-                android:drawableLeft="@drawable/ic_search_24"
+                android:drawableLeft="@drawable/ic_label"
                 android:focusedByDefault="false"
                 />
         </LinearLayout>

@@ -66,9 +66,11 @@ public class LayoutManager {
         });
         return customAdapter;
     }
-    public static CustomAdapter configListOfItemsNew(Context contex, final SQLiteDatabase db, final int istop){
+
+
+    public static CustomAdapter configListOfItemsInWash(Context contex, final SQLiteDatabase db){
         //get cursor from db
-        Cursor itemCursor =  DatabaseHelper.getCursoreByIsTop(db,istop);
+        Cursor itemCursor =  DatabaseHelper.getCursoreInWash(db);
         // create adapter, send cursor
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
 

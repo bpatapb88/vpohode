@@ -86,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Wardrobe.class);
         startActivity(intent);
     }
+
+    public void goToWash(View view){                                        //TODO create new class view manager
+        Intent intent = new Intent(this, WashActivity.class);
+        startActivity(intent);
+    }
     public void goToSettings(View view){
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);

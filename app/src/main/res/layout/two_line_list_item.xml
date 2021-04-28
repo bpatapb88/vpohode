@@ -59,6 +59,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:cardCornerRadius="15dp"
+                android:id="@+id/color_card"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
                 >
@@ -68,6 +69,13 @@
                     android:layout_height="30dp"
                     android:background="@color/colorPrimaryDark_rose"
                     android:scaleType="fitXY"
+                    />
+                <CheckBox
+                    android:visibility="gone"
+                    android:id="@+id/checkbox"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:buttonTint="@color/colorPrimaryDark"
                     />
             </androidx.cardview.widget.CardView>
             <ImageView

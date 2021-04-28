@@ -61,7 +61,7 @@ import java.util.Calendar;
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
     EditText nameBox, usedTime;
-    TextView colorHex, warmText;
+    TextView colorHex, warmText, brand;
     ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus;
     ImageView[] imagesOfLayers;
     ImageButton imageItem;
@@ -109,6 +109,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         seekBar = findViewById(R.id.seekBar);
         warmText = findViewById(R.id.warmText);
         topBot = findViewById(R.id.top_bot);
+        brand = findViewById(R.id.brand);
 
         usedTime = findViewById(R.id.usedTimes);
         minus = findViewById(R.id.minus);
@@ -160,15 +161,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             userCursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
+            brand.setText(userCursor.getString(11));
             //termidBox.setText(String.valueOf(userCursor.getDouble(4)));
-
             seekBar.setProgress((int) userCursor.getDouble(4) - 1);
             setWarmText((int) userCursor.getDouble(4) - 1);
-
             spinnerStyle.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             colorHex.setText("#" + ColorManager.convertIntToHex(userCursor.getInt(6)));
-
             usedTime.setText(String.valueOf(userCursor.getInt(8)));
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
@@ -183,6 +182,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
             TextView created = findViewById(R.id.created);
             created.setText(getResources().getString(R.string.from)+ " " + userCursor.getString(9) + " "+ getResources().getString(R.string.created) + ": ");
+
+            if(userCursor.getInt(10) > 0){
+                Toast.makeText(getApplicationContext(), "inWash - " + userCursor.getInt(10), Toast.LENGTH_SHORT).show();
+            }
+
             userCursor.close();
         } else {
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
@@ -208,6 +212,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 }else {
                     ContentValues cv = new ContentValues();
                     cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
+                    cv.put(DBFields.BRAND.toFieldName(), brand.getText().toString());
+                    cv.put(DBFields.INWASH.toFieldName(),false);
                     cv.put(DBFields.TERMID.toFieldName(), Double.valueOf(seekBar.getProgress() + 1));
                     cv.put(DBFields.STYLE.toFieldName(), Styles.stringToResource(getResources(), spinnerStyle.getSelectedItem().toString()));
                     if (!topBot.isChecked()) {
@@ -347,6 +353,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
         return true;
     }
+
     public void goHome(View view){
         finish();
     }
@@ -381,6 +388,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                             colorView.setBackgroundColor(selectedTemplate.getColor());
                             colorHex.setText("#" + ColorManager.convertIntToHex(selectedTemplate.getColor()));
                             new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
+                            brand.setText(selectedTemplate.getBrand());
                             newColor = true;
                             newImage = true;
                         }
@@ -474,7 +482,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         newColor = true;
         colorView.setBackgroundColor(Color.HSVToColor(hsv));
         colorHex.setText("#" + ColorManager.convertIntToHex(Color.HSVToColor(hsv)));
-        imageItem.setBackgroundColor(Color.HSVToColor(hsv));
     }
 
     @Override
@@ -508,6 +515,15 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setGuidelines(CropImageView.Guidelines.ON)
 
                 .start(this);
+    }
+
+    public void washItem(View view){
+        ContentValues cv = new ContentValues();
+        cv.put(DBFields.INWASH.toFieldName(),true);
+        db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+        cv.clear();
+        // move to main activity
+        goHome();
     }
 
     private void reBuildIcons(boolean isBotChecked){

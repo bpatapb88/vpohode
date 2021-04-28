@@ -53,7 +53,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginVertical="5dp"
                 android:layout_marginRight="8dp"
-                android:stateListAnimator="@animator/card_view"
+                app:cardElevation="3dp"
                 app:cardCornerRadius="10dp">
 
                 <ImageView
@@ -71,7 +71,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginVertical="5dp"
                 android:layout_marginHorizontal="8dp"
-                android:stateListAnimator="@animator/card_view"
+                app:cardElevation="3dp"
                 app:cardCornerRadius="10dp">
                 <ImageView
                     android:id="@+id/colorView2"
@@ -89,8 +89,9 @@
                 android:layout_marginVertical="5dp"
                 android:layout_marginHorizontal="8dp"
                 android:alpha="0"
+
                 app:cardCornerRadius="10dp"
-                app:cardElevation="0dp">
+                app:cardElevation="3dp">
 
                 <ImageView
                     android:id="@+id/colorView3"
@@ -115,7 +116,7 @@
                     android:layout_marginRight="8dp"
                     android:alpha="0"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="3dp">
 
                     <ImageView
                         android:id="@+id/colorView4"
@@ -132,7 +133,7 @@
                     android:layout_marginHorizontal="8dp"
                     android:alpha="0"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="3dp">
 
                     <ImageView
                         android:id="@+id/colorView5"
@@ -149,7 +150,7 @@
                     android:layout_marginHorizontal="8dp"
                     android:alpha="0"
                     app:cardCornerRadius="10dp"
-                    app:cardElevation="0dp">
+                    app:cardElevation="3dp">
 
                     <ImageView
                         android:id="@+id/colorView6"

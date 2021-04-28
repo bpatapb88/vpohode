@@ -32,7 +32,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DBFields.COLOR.toFieldName() + " " + DBFields.COLOR.toType() + ", "
                 + DBFields.FOTO.toFieldName() + " " + DBFields.FOTO.toType() + ", "
                 + DBFields.USED.toFieldName() + " " + DBFields.USED.toType() + ", "
-                + DBFields.CREATED.toFieldName() + " " + DBFields.CREATED.toType() + ");");
+                + DBFields.CREATED.toFieldName() + " " + DBFields.CREATED.toType() + ", "
+                + DBFields.INWASH.toFieldName() + " " + DBFields.INWASH.toType() + ", "
+                + DBFields.BRAND.toFieldName() + " " + DBFields.BRAND.toType() + ");");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
@@ -47,6 +49,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
         return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop, null);
     }
+
+    public static Cursor getCursoreInWash (SQLiteDatabase db){
+        return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 1", null);
+    }
+
+
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
         return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
     }

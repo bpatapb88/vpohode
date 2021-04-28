@@ -160,7 +160,9 @@ public class LookManager {
                 cursors.getInt(cursors.getColumnIndex("color")),
                 cursors.getString(cursors.getColumnIndex("foto")),
                 cursors.getInt(cursors.getColumnIndex("used")),
-                cursors.getString(cursors.getColumnIndex("created")));
+                cursors.getString(cursors.getColumnIndex("created")),
+                cursors.getInt(cursors.getColumnIndex("inwash")) > 0,
+                cursors.getString(cursors.getColumnIndex("brand")));
         return item;
     }
 

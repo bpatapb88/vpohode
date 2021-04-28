@@ -11,6 +11,8 @@ public class Item {
     private int layer;
     private int used;
     private String created;
+    private boolean inwash;
+    private String brand;
 
     public int getId() {
         return id;
@@ -92,7 +94,23 @@ public class Item {
         this.created = created;
     }
 
-    public Item(int id, String name, int style, int top, Double termid, int layer, int color, String foto, int used, String created) {
+    public boolean isInWash() {
+        return inwash;
+    }
+
+    public void setInWash(boolean inwash) {
+        this.inwash = inwash;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public Item(int id, String name, int style, int top, Double termid, int layer, int color, String foto, int used, String created, boolean inwash, String brand) {
         this.id = id;
         this.name = name;
         this.style = style;
@@ -103,6 +121,8 @@ public class Item {
         this.layer = layer;
         this.used = used;
         this.created = created;
+        this.inwash = inwash;
+        this.brand = brand;
     }
 
     public Item() {

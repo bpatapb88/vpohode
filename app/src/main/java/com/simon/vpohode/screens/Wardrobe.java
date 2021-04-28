@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
@@ -46,24 +43,6 @@ public class Wardrobe extends AppCompatActivity {
 
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        LayoutManager.invisible(R.id.action_settings,menu);
-        LayoutManager.invisible(R.id.save,menu);
-        LayoutManager.invisible(R.id.action_help,menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-        //finish();
-        return super.onOptionsItemSelected(item);
     }
 
     public void goHome(View view){
