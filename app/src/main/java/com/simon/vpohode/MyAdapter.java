@@ -24,6 +24,9 @@ public class MyAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
+        if(looks == null){
+            return 0;
+        }
         return looks.size();
     }
 

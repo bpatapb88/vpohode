@@ -20,14 +20,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.Spinner;
@@ -171,7 +168,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             spinnerStyle.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
             colorHex.setText("#" + ColorManager.convertIntToHex(userCursor.getInt(6)));
-            imageItem.setBackgroundColor(userCursor.getInt(6));
+
             usedTime.setText(String.valueOf(userCursor.getInt(8)));
             if(userCursor.getString(7) != null){
                 imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
@@ -368,7 +365,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         nameBox.setText(selectedTemplate.getName());
                         double x = selectedTemplate.getTermid() - 1;
                         seekBar.setProgress((int) x);
-
+                        setWarmText((int) x);
                         spinnerStyle.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
                         if(selectedTemplate.getTop() == 0){
                             topBot.setChecked(false);
@@ -383,7 +380,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         if(selectedTemplate.getColor() != 0 && !selectedTemplate.getFoto().equals("")){
                             colorView.setBackgroundColor(selectedTemplate.getColor());
                             colorHex.setText("#" + ColorManager.convertIntToHex(selectedTemplate.getColor()));
-                            imageItem.setBackgroundColor(selectedTemplate.getColor());
                             new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
                             newColor = true;
                             newImage = true;
@@ -402,11 +398,17 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 reBuildIcons(b);
                 ArrayList<String> arrayTemplate = new ArrayList<>();
+                String currentTemplate = spinnerTemplate.getSelectedItem().toString();
+                int counter = 0;
                 String[] arrayTemplatesFromResource = getResources().getStringArray(R.array.templates);
+
                 for(int i = 0; i < arrayTemplatesFromResource.length; i++){
-                    if(TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources()) != null) {
-                        if((TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources()).getTop() == 0) != b){
-                            arrayTemplate.add(arrayTemplatesFromResource[i]);
+                    Item template = TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources());
+                    if(template != null && (template.getTop() == 0) != b ) {
+                        arrayTemplate.add(arrayTemplatesFromResource[i]);
+
+                        if(arrayTemplatesFromResource[i].equals(currentTemplate)){
+                            counter =  arrayTemplate.size() - 1;
                         }
                     }
                 }
@@ -415,6 +417,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     array[i] = arrayTemplate.get(i);
                 }
                 spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(array, internContext));
+                spinnerTemplate.setSelection(counter);
             }
         });
     }

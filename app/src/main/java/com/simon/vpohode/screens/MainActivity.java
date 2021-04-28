@@ -96,21 +96,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickShowItems (View view){
-        Intent intent = new Intent(this, LooksActivity.class);
-        Double temp = 1000d;
-        try {
-            temp = Double.valueOf(preferences.getString("temp", "1000"));
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-        }
-        if(temp != 1000){
-            avgTempertureCel = temp;
-        }
-        intent.putExtra("term", avgTempertureCel);
-        startActivity(intent);
-    }
-
     public void scrollTest(View view){
         Double temp = 1000d;
         try {

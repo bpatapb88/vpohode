@@ -140,7 +140,7 @@
                     android:layout_weight="1"
                     android:id="@+id/card"
                     app:cardCornerRadius="20dp"
-                    android:onClick="onClickShowItems"
+                    android:onClick="scrollTest"
                     android:stateListAnimator="@animator/card_view"
                     android:clickable="true"
                     >
@@ -259,7 +259,6 @@
                         android:layout_marginVertical="24dp"
                         android:layout_weight="1"
                         android:id="@+id/card4"
-                        android:onClick="scrollTest"
                         app:cardCornerRadius="20dp"
                         android:stateListAnimator="@animator/card_view"
                         >

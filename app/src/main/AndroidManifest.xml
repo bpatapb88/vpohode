@@ -33,7 +33,6 @@
             ></activity>
         <activity android:name=".screens.Wardrobe" android:windowSoftInputMode="stateVisible|adjustPan"></activity>
         <activity android:name=".screens.LoginActivity" android:windowSoftInputMode="stateVisible|adjustPan"></activity>
-        <activity android:name=".screens.LooksActivity"></activity>
         <activity android:name=".screens.ScrollingLooksActivity"></activity>
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
