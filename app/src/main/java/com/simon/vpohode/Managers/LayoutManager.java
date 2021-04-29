@@ -48,7 +48,7 @@ public class LayoutManager {
 
     public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
         //get cursor from db
-        Cursor itemCursor =  DatabaseHelper.getCursor(db);
+        Cursor itemCursor =  DatabaseHelper.getCursorWardrobe(db);
         // create adapter, send cursor
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
         // устанавливаем провайдер фильтрации
@@ -70,7 +70,7 @@ public class LayoutManager {
 
     public static CustomAdapter configListOfItemsInWash(Context contex, final SQLiteDatabase db){
         //get cursor from db
-        Cursor itemCursor =  DatabaseHelper.getCursoreInWash(db);
+        Cursor itemCursor =  DatabaseHelper.getCursorInWash(db);
         // create adapter, send cursor
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
 

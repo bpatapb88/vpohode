@@ -5,10 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.simon.vpohode.Item;
-
-import java.util.ArrayList;
-
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
@@ -42,42 +38,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public static Cursor getCursor (SQLiteDatabase db){
-        return db.rawQuery("SELECT * FROM " + TABLE, null);
+    public static Cursor getCursorWardrobe(SQLiteDatabase db){
+        return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 0", null);
     }
 
-    public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop){
-        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop, null);
-    }
-
-    public static Cursor getCursoreInWash (SQLiteDatabase db){
+    public static Cursor getCursorInWash(SQLiteDatabase db){
         return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 1", null);
     }
 
-
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
-        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer, null);
-    }
-    public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index){
-        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index, null);
-    }
-    public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, double index, ArrayList<Integer[]> colors){
-        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " =" + istop + " AND " + DBFields.TERMID.toFieldName() + " = " + index + " AND " + DBFields.COLOR.toFieldName() + " = " + colors.get(0)[0], null);
-    }
-    public static Cursor getItemByID (SQLiteDatabase db, int id){
-        return db.rawQuery(rawQueryPart + DBFields.ID.toFieldName() + " = " + id, null);
-    }
-
-    public static Cursor getItemByID (SQLiteDatabase db, Item[] id){
-        String string = "";
-        for(int i = 0; i < id.length; i++){
-            if(i == (id.length-1)){
-                string += DBFields.ID.toFieldName() + " = " + id[i].getId();
-            }else{
-                string += DBFields.ID.toFieldName() + " = " + id[i].getId() + " OR ";
-            }
-        }
-        return db.rawQuery(rawQueryPart + string, null);
+        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer + " AND " + DBFields.INWASH.toFieldName() + " = 0", null);
     }
 
 }

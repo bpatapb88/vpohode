@@ -21,7 +21,6 @@
             app:useSimpleSummaryProvider="true" />-->
 
     </PreferenceCategory>
-
     <PreferenceCategory app:title="@string/sync_header">
 
         <SwitchPreferenceCompat
@@ -53,23 +52,29 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_casual"
-        android:title="@string/casual" />
+        android:title="@string/casual"
+        android:widgetLayout="@layout/preferences_category"
+        />
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_business"
-        android:title="@string/business"/>
+        android:title="@string/business"
+        android:widgetLayout="@layout/preferences_category"/>
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_elegant"
-        android:title="@string/elegant" />
+        android:title="@string/elegant"
+        android:widgetLayout="@layout/preferences_category"/>
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_sport"
-        android:title="@string/sport" />
+        android:title="@string/sport"
+        android:widgetLayout="@layout/preferences_category"/>
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="check_box_home"
-        android:title="@string/home" />
+        android:title="@string/home"
+        android:widgetLayout="@layout/preferences_category"/>
 </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/developer">

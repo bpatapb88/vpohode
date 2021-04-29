@@ -19,7 +19,7 @@
         >
         <activity
             android:name=".screens.SettingsActivity"
-            android:label="@string/action_settings"></activity>
+            ></activity>
 
         <activity android:name=".screens.MainActivity">
             <intent-filter>

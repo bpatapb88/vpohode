@@ -62,7 +62,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     EditText nameBox, usedTime;
     TextView colorHex, warmText, brand;
-    ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus;
+    ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus, washItemImg;
     ImageView[] imagesOfLayers;
     ImageButton imageItem;
     Spinner spinnerStyle, spinnerTemplate;
@@ -94,6 +94,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
+        washItemImg = findViewById(R.id.wash_item);
         colorHex = findViewById(R.id.colorHex);
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
@@ -181,7 +182,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 reBuildIcons(true);
             }
             TextView created = findViewById(R.id.created);
-            created.setText(getResources().getString(R.string.from)+ " " + userCursor.getString(9) + " "+ getResources().getString(R.string.created) + ": ");
+            created.setText("Создано " + userCursor.getString(9));
 
             if(userCursor.getInt(10) > 0){
                 Toast.makeText(getApplicationContext(), "inWash - " + userCursor.getInt(10), Toast.LENGTH_SHORT).show();
@@ -192,7 +193,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
             usedLayout.setVisibility(View.GONE);
             // hide edit_text Delete, It will be new Item
-
+            washItemImg.setVisibility(View.GONE);
             delButton.setVisibility(View.GONE);
             x.setVisibility(View.GONE);
         }

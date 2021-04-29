@@ -37,6 +37,9 @@ public class ScrollingLooksActivity extends AppCompatActivity {
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
             LookManager.message = "";
             finish();
+        }else if(looks.size() == 1){
+            TabLayout tabLayout = findViewById(R.id.tab_layout);
+            tabLayout.setVisibility(View.GONE);
         }
 
         if(!MainActivity.rain.equals(""))
