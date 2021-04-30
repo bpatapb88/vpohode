@@ -1,4 +1,5 @@
 package com.simon.vpohode;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.simon.vpohode.Managers.ImageManager;
+import com.simon.vpohode.AssyncTasks.TakeImageFromStorage;
 import com.simon.vpohode.screens.ConfigItem;
 
 public class PageFragment extends Fragment {
@@ -69,7 +70,11 @@ public class PageFragment extends Fragment {
                 }
             });
             ImageView photo = relativeLayout.findViewById(R.id.imageViewPhoto);
-            photo.setImageBitmap(ImageManager.loadImageFromStorage(items[i].getFoto()));
+            //photo.setImageBitmap(ImageManager.loadImageFromStorage(items[i].getFoto()));
+
+            TakeImageFromStorage takeImageFromStorage = new TakeImageFromStorage(photo);
+            takeImageFromStorage.execute(items[i].getFoto());
+
             TextView name = relativeLayout.findViewById(R.id.nameItem);
             name.setText(items[i].getName());
             TextView style = relativeLayout.findViewById(R.id.styleItem);
