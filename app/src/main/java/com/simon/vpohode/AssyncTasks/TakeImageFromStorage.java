@@ -1,5 +1,6 @@
 package com.simon.vpohode.AssyncTasks;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -12,10 +13,23 @@ import java.io.IOException;
 
 public class TakeImageFromStorage extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
+    ProgressDialog p;
 
     public TakeImageFromStorage(ImageView bmImage) {
         this.bmImage = bmImage;
     }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        p = new ProgressDialog(bmImage.getContext());
+        p.setMessage("Please wait...It is downloading");
+        p.setIndeterminate(false);
+        p.setCancelable(false);
+        p.show();
+    }
+
+
     @Override
     protected Bitmap doInBackground(String... path) {
         String pathCurrent = path[0];
@@ -41,5 +55,6 @@ public class TakeImageFromStorage extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
+        p.hide();
     }
 }

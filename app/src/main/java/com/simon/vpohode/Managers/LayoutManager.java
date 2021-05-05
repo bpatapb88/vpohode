@@ -56,11 +56,10 @@ public class LayoutManager {
             @Override
             public Cursor runQuery(CharSequence constraint) {
                 if (constraint == null || constraint.length() == 0) {
-                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = " + istop, null);
+                    return DatabaseHelper.getCursorWardrobe(db);
                 }
                 else {
-                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " +
-                            DBFields.NAME.toFieldName() + " like ?", new String[]{"%" + constraint.toString() + "%"});
+                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.INWASH.toFieldName() + " = 0 AND " + DBFields.NAME.toFieldName() + " like ?", new String[]{"%" + constraint.toString() + "%"});
                 }
             }
         });

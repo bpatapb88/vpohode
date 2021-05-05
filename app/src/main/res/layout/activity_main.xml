@@ -48,7 +48,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/ic_avatar_foreground"
+                        android:src="@mipmap/ic_logo_round"
                         android:scaleType="centerInside"
                         />
                 </androidx.cardview.widget.CardView>
@@ -62,7 +62,7 @@
                     <TextView
                         android:layout_width="193dp"
                         android:layout_height="wrap_content"
-                        android:text="Добро пожаловать"
+                        android:text="Добро пожаловать в"
                         android:textSize="12dp"
                         android:textAllCaps="true"
                         android:fontFamily="@font/montserrat_alternates_bold"
@@ -73,7 +73,7 @@
                         android:fontFamily="@font/montserrat_alternates_bold"
                         android:textSize="22sp"
                         android:textColor="#4059FF"
-                        android:text="Semen Simanov"
+                        android:text="Dresser"
                         />
 
                 </LinearLayout>
@@ -153,8 +153,9 @@
                         />
                     <TextView
                         android:layout_marginLeft="76dp"
+                        android:layout_marginRight="16dp"
                         android:layout_marginTop="20dp"
-                        android:layout_width="235dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Собираешся выйти в свет?"
                         android:textSize="12dp"
@@ -195,7 +196,8 @@
                         <TextView
                             android:layout_marginLeft="76dp"
                             android:layout_marginTop="20dp"
-                            android:layout_width="235dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Хотите добавить больше вещей?"
                             android:textSize="12dp"
@@ -234,7 +236,8 @@
                         <TextView
                             android:layout_marginLeft="76dp"
                             android:layout_marginTop="20dp"
-                            android:layout_width="235dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Настроить приложение под себя?"
                             android:textSize="12dp"
@@ -273,8 +276,9 @@
                         <TextView
                             android:layout_marginLeft="76dp"
                             android:layout_marginTop="20dp"
-                            android:layout_width="235dp"
-                            android:layout_height="15dp"
+                            android:layout_marginRight="16dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="Посмотреть вещи в стирке?"
                             android:textSize="12dp"
                             android:textColor="@android:color/black"

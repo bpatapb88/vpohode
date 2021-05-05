@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +26,7 @@ public class Wardrobe extends AppCompatActivity {
     private SQLiteDatabase db;
     private CustomAdapter topItemAdapter;
     private ListView topItemList;
+    private EditText searchItem;
 
 
     @Override
@@ -35,7 +39,7 @@ public class Wardrobe extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wardrobe);
-
+        searchItem = findViewById(R.id.search_item);
         topItemList = findViewById(R.id.list);
         //topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
 
@@ -66,6 +70,24 @@ public class Wardrobe extends AppCompatActivity {
         topItemAdapter = LayoutManager.configListOfItems(this,db,1);
         topItemList.setAdapter(topItemAdapter);
         ListViewManager.getListViewSize(topItemList);
+
+        searchItem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                topItemAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
     @Override
     public void onDestroy(){

@@ -38,27 +38,37 @@
             android:layout_marginTop="170dp"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="TextView"/>
+            android:text="Название"/>
         <TextView
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="193dp"
+            android:id="@+id/brandItem"
+            android:fontFamily="@font/montserrat_alternates_medium"
+            android:textSize="10dp"
+            android:textColor="@color/colorAccent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Бренд"/>
+        <TextView
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="208dp"
             android:id="@+id/styleItem"
             android:fontFamily="@font/montserrat_alternates_medium"
             android:textSize="10dp"
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"/>
+            android:text="Стиль"/>
         <TextView
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="208dp"
-            android:id="@+id/tempItem"
+            android:layout_marginTop="223dp"
+            android:id="@+id/usedItem"
             android:fontFamily="@font/montserrat_alternates_medium"
             android:textSize="10dp"
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"/>
+            android:text="Надевалось"/>
     </androidx.cardview.widget.CardView>
 
 

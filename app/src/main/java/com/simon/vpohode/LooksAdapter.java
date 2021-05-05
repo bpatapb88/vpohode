@@ -47,7 +47,7 @@ public class LooksAdapter extends ArrayAdapter<Item> {
         TextView style = listItem.findViewById(R.id.styleItem);
         style.setText(currentMovie.getStyle());
 
-        TextView temp = listItem.findViewById(R.id.tempItem);
+        TextView temp = listItem.findViewById(R.id.brandItem);
         temp.setText(getContext().getResources().getString(R.string.warm) + " " + currentMovie.getTermid());
 
         return listItem;

@@ -56,10 +56,14 @@ public class PageFragment extends Fragment {
         Item[] items = MyAdapter.getLooks().get(pageNumber);
         LinearLayout rightLayout = result.findViewById(R.id.right_layout);
         LinearLayout leftLayout = result.findViewById(R.id.left_layout);
+        View relativeLayout;
+        ImageView photo;
+        TakeImageFromStorage takeImageFromStorage;
+        TextView name,style,brand,usedItem;
 
         for(int i = 0 ; i < items.length; i++){
             final int id = i;
-            View relativeLayout = inflater.inflate(R.layout.list_item,container,false);
+            relativeLayout = inflater.inflate(R.layout.list_item,container,false);
             relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -69,16 +73,22 @@ public class PageFragment extends Fragment {
                     getActivity().startActivity(intent);
                 }
             });
-            ImageView photo = relativeLayout.findViewById(R.id.imageViewPhoto);
-            //photo.setImageBitmap(ImageManager.loadImageFromStorage(items[i].getFoto()));
-
-            TakeImageFromStorage takeImageFromStorage = new TakeImageFromStorage(photo);
+            photo = relativeLayout.findViewById(R.id.imageViewPhoto);
+            takeImageFromStorage = new TakeImageFromStorage(photo);
             takeImageFromStorage.execute(items[i].getFoto());
 
-            TextView name = relativeLayout.findViewById(R.id.nameItem);
+            name = relativeLayout.findViewById(R.id.nameItem);
             name.setText(items[i].getName());
-            TextView style = relativeLayout.findViewById(R.id.styleItem);
-            style.setText(items[i].getStyle());
+
+            brand = relativeLayout.findViewById(R.id.brandItem);
+            brand.setText(items[i].getBrand());
+
+            style = relativeLayout.findViewById(R.id.styleItem);
+            style.setText("Стиль: " + getResources().getString(items[i].getStyle()));
+
+            usedItem = relativeLayout.findViewById(R.id.usedItem);
+            usedItem.setText("Надевалось: " + items[i].getUsed());
+
             if((i%2) == 0){
                 leftLayout.addView(relativeLayout);
             }else{
