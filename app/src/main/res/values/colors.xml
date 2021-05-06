@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#E0E0E0</color>
-    <color name="colorPrimaryDark">#4059FF</color>
+    <color name="colorPrimary">#4059FF</color>
+    <color name="colorBackground">#f4f5f7</color>
+    <color name="colorPrimaryDark">#3C2BFF</color>
     <color name="colorAccent">#D0D2FE</color>
+    <color name="colorCardView">#FFFFFF</color>
     <color name="textColorPrimary">#1F2440</color>
+    <color name="textColorHint">#8A8A8A</color>
     <color name="toolbarIconColor">@color/textColorPrimary</color>
     <color name="loginPageBackgroundColor">#FFFFFF</color>
     <color name="productGridBackgroundColor">#FFFFFF</color>
@@ -11,7 +14,10 @@
     <color name="toolbar">#1F2440</color>
 
     <color name="colorAccent_rose">#ffd1d1</color>
-    <color name="textColorPrimary_rose">#1F2440</color>
+    <color name="textColorPrimaryDark">#1F2440</color>
+    <color name="textColorHintDark">#BDBDBD</color>
     <color name="colorPrimaryDark_rose">#FF96A0</color>
-
+    <color name="colorPrimaryBlackTheme">#6B73FF</color>
+    <color name="colorCardViewDark">#261D32</color>
+    <color name="colorBackgroundDark">#1a1125</color>
 </resources>

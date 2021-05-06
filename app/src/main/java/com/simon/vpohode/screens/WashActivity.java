@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.ListViewManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.database.DBFields;
@@ -47,11 +48,8 @@ public class WashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getBoolean("theme", true)){
-            getTheme().applyStyle(R.style.AppTheme,true);
-        }else{
-            getTheme().applyStyle(R.style.OverlayThemeRose,true);
-        }
+        LayoutManager.setTheme(prefs, getTheme());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wash);
 

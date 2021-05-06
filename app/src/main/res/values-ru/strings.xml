@@ -54,7 +54,7 @@
     <string name="weather_header">Погода</string>
     <string name="sync_header">Фильтры</string>
     <!-- Messages Preferences -->
-    <string name="change_theme">Сменить цвета</string>
+    <string name="change_theme">Темная тема</string>
     <string name="city">Город</string>
     <string name="temp">Задать температуру в ручную</string>
     <string name="show_style">Отображать вещи:</string>

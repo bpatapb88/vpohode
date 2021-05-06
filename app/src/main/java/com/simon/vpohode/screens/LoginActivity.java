@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
         if(prefs.getBoolean("theme", true)){
             getTheme().applyStyle(R.style.AppTheme,true);
         }else{
-            getTheme().applyStyle(R.style.OverlayThemeRose,true);
+            getTheme().applyStyle(R.style.OverlayThemeDark,true);
         }
 
         super.onCreate(savedInstanceState);

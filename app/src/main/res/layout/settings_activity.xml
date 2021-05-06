@@ -1,17 +1,54 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    android:orientation="vertical"
+    android:background="?attr/colorOnBackground"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorAccent"
-        android:theme="@style/Widget.Shrine.Toolbar"
-        app:menu="@menu/menu_main"
-        app:titleTextColor="@android:color/secondary_text_light"
-        />
+        android:layout_height="94dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="16dp">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="16dp"
+            android:onClick="goHome"
+            android:src="@drawable/ic_right"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="28dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAllCaps="true"
+                android:layout_marginRight="8dp"
+                android:textSize="11sp"
+                android:textAlignment="textEnd"
+                android:text="Настрой приложение под себя"
+                android:textColor="?android:textColorHint"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:fontFamily="@font/montserrat_alternates_bold"
+                android:textSize="22sp"
+                android:textColor="?attr/colorPrimary"
+                android:textAlignment="textEnd"
+                android:text="Настройки"
+                />
+        </LinearLayout>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_settings"
+            android:layout_marginTop="22dp"
+            />
+    </LinearLayout>
     <FrameLayout
         android:id="@+id/settings"
         android:layout_width="match_parent"

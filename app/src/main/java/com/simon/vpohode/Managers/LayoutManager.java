@@ -3,6 +3,8 @@ package com.simon.vpohode.Managers;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FilterQueryProvider;
 
 import com.simon.vpohode.CustomAdapter;
+import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
@@ -74,5 +77,13 @@ public class LayoutManager {
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
 
         return customAdapter;
+    }
+
+    public static void setTheme(SharedPreferences preferences, Resources.Theme theme){
+        if(preferences.getBoolean("theme", true)){
+            theme.applyStyle(R.style.OverlayThemeDark,true);
+        }else{
+            theme.applyStyle(R.style.AppTheme,true);
+        }
     }
 }

@@ -1,18 +1,21 @@
 package com.simon.vpohode.screens;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.simon.vpohode.Item;
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.LookManager;
 import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
@@ -26,6 +29,9 @@ public class ScrollingLooksActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        LayoutManager.setTheme(prefs, getTheme());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_looks);
 

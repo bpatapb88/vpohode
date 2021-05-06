@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
@@ -11,33 +12,29 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreferenceCompat;
 
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.R;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static int currentTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getBoolean("theme", true)){
-            getTheme().applyStyle(R.style.AppTheme,true);
-        }else{
-            getTheme().applyStyle(R.style.OverlayThemeRose,true);
-        }
-        setContentView(R.layout.settings_activity);
 
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        LayoutManager.setTheme(prefs, getTheme());
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
-
-        /*ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }*/
+    }
+    public void goHome(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

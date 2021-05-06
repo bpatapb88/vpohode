@@ -6,11 +6,12 @@
             app:key="theme"
             app:defaultValue="true"
             app:title="@string/change_theme" />
-
         <EditTextPreference
             app:key="city"
             app:title="@string/city"
-            app:useSimpleSummaryProvider="true" />
+            app:useSimpleSummaryProvider="true"
+
+            />
 
         <!--<ListPreference
             app:defaultValue="carusel"

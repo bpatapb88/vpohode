@@ -32,11 +32,7 @@ public class Wardrobe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(prefs.getBoolean("theme", true)){
-            getTheme().applyStyle(R.style.AppTheme,true);
-        }else{
-            getTheme().applyStyle(R.style.OverlayThemeRose,true);
-        }
+        LayoutManager.setTheme(prefs, getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wardrobe);
         searchItem = findViewById(R.id.search_item);

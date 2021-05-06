@@ -53,7 +53,7 @@
     <string name="weather_header">Weather</string>
     <string name="sync_header">Filters</string>
     <!-- Messages Preferences -->
-    <string name="change_theme">Change theme</string>
+    <string name="change_theme">Dark theme</string>
     <string name="city">City</string>
     <string name="temp">Set the temperature manually</string>
     <string name="show_style">Display things:</string>

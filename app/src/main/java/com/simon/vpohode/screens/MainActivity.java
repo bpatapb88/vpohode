@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.WeatherManager;
 import com.simon.vpohode.R;
 
@@ -39,19 +40,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
-        if(preferences.getBoolean("theme", true)){
-            getTheme().applyStyle(R.style.AppTheme,true);
-        }else{
-            getTheme().applyStyle(R.style.OverlayThemeRose,true);
-        }
-
+        LayoutManager.setTheme(preferences, getTheme());
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         fotoCity = findViewById(R.id.foto_city);
-
        /* FragmentManager fm = getSupportFragmentManager();
         CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
         editNameDialogFragment.show(fm, "fragment_edit_name");*/

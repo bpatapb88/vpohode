@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/pole"
+        android:background="?attr/colorOnBackground"
         tools:ignore="MissingConstraints"
         android:orientation="vertical"
         >
@@ -30,7 +30,6 @@
             >
             <androidx.cardview.widget.CardView
                 android:id="@+id/avatar"
-                android:onClick="logOff"
                 android:layout_width="46dp"
                 android:layout_height="46dp"
                 app:cardCornerRadius="23dp"
@@ -38,7 +37,8 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/shape_oval"/>
+                    android:background="?attr/colorOnBackground"
+                    android:src="@drawable/shape_oval"/>
                 <androidx.cardview.widget.CardView
                     android:layout_width="38dp"
                     android:layout_height="38dp"
@@ -49,6 +49,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@mipmap/ic_logo_round"
+                        android:background="?attr/colorOnBackground"
                         android:scaleType="centerInside"
                         />
                 </androidx.cardview.widget.CardView>
@@ -64,6 +65,7 @@
                         android:layout_height="wrap_content"
                         android:text="Добро пожаловать в"
                         android:textSize="12dp"
+                        android:textColor="?android:textColorHint"
                         android:textAllCaps="true"
                         android:fontFamily="@font/montserrat_alternates_bold"
                         />
@@ -72,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_alternates_bold"
                         android:textSize="22sp"
-                        android:textColor="#4059FF"
+                        android:textColor="?attr/colorPrimary"
                         android:text="Dresser"
                         />
 
@@ -119,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:textSize="14sp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorBackground"
             android:fontFamily="@font/montserrat_alternates_bold"
             android:gravity="right"
             android:text="@string/weather_header"/>
@@ -144,6 +146,10 @@
                     android:stateListAnimator="@animator/card_view"
                     android:clickable="true"
                     >
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:colorControlActivated"/>
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -159,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:text="Собираешся выйти в свет?"
                         android:textSize="12dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:textColorHint"
                         android:fontFamily="@font/montserrat_alternates_medium"
                         />
                     <TextView
@@ -169,7 +175,7 @@
                         android:layout_height="25dp"
                         android:text="Подобрать набор"
                         android:textSize="18dp"
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:textColorPrimary"
                         android:fontFamily="@font/montserrat_alternates_bold"
                         />
                 </androidx.cardview.widget.CardView>
@@ -185,6 +191,10 @@
                         android:elevation="3dp"
                         android:stateListAnimator="@animator/card_view"
                         >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:colorControlActivated"/>
                         <ImageView
                             android:id="@+id/ic_circleselect"
                             android:layout_width="wrap_content"
@@ -201,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:text="Хотите добавить больше вещей?"
                             android:textSize="12dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="?android:textColorHint"
                             android:fontFamily="@font/montserrat_alternates_medium"
                             />
                         <TextView
@@ -211,7 +221,7 @@
                             android:layout_height="25dp"
                             android:text="Гардероб"
                             android:textSize="18dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="?android:textColorPrimary"
                             android:fontFamily="@font/montserrat_alternates_bold"
                             />
                     </androidx.cardview.widget.CardView>
@@ -227,6 +237,10 @@
                         android:layout_marginTop="24dp"
                         >
                         <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:colorControlActivated"/>
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_settings"
@@ -241,7 +255,7 @@
                             android:layout_height="wrap_content"
                             android:text="Настроить приложение под себя?"
                             android:textSize="12dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="?android:textColorHint"
                             android:fontFamily="@font/montserrat_alternates_medium"
                             />
                         <TextView
@@ -251,7 +265,7 @@
                             android:layout_height="25dp"
                             android:text="Настройки"
                             android:textSize="18dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="?android:textColorPrimary"
                             android:fontFamily="@font/montserrat_alternates_bold"
                             />
                     </androidx.cardview.widget.CardView>
@@ -267,6 +281,10 @@
                         android:stateListAnimator="@animator/card_view"
                         >
                         <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:colorControlActivated"/>
+                        <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/ic_washer"
@@ -281,7 +299,7 @@
                             android:layout_height="wrap_content"
                             android:text="Посмотреть вещи в стирке?"
                             android:textSize="12dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="?android:textColorHint"
                             android:fontFamily="@font/montserrat_alternates_medium"
                             />
                         <TextView
@@ -291,7 +309,7 @@
                             android:layout_height="25dp"
                             android:text="Стирка"
                             android:textSize="18dp"
-                            android:textColor="@android:color/black"
+                            android:textColor="?android:textColorPrimary"
                             android:fontFamily="@font/montserrat_alternates_bold"
                             />
                     </androidx.cardview.widget.CardView>
