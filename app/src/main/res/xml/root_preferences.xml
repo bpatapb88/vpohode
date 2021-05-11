@@ -11,6 +11,7 @@
             app:title="@string/city"
             app:useSimpleSummaryProvider="true"
 
+
             />
 
         <!--<ListPreference

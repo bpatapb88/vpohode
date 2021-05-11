@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
@@ -49,8 +50,10 @@ import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageActivity;
+import com.canhub.cropper.CropImageView;
+
 
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -73,7 +76,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     SQLiteDatabase db;
     Cursor userCursor;
     Space x;
-    Switch topBot;
+
+    SwitchCompat topBot;
     boolean newImage = false;
     boolean newColor = false;
     long userId=0;
@@ -273,7 +277,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.startPickImageActivity(ConfigItem.this);
+                CropImage.activity().start(ConfigItem.this);
             }
         });
 
@@ -464,8 +468,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setColorShape(ColorShape.SQUARE)
                 .setDialogId((int) id)
                 .show(this);
-
-
     }
     public void onClickColor(View view) {
                 createColorPickerDialog(userId);
@@ -488,28 +490,30 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE
                 && resultCode == Activity.RESULT_OK) {
-            Uri imageuri = CropImage.getPickImageResultUri(this, data);
-            if (CropImage.isReadExternalStoragePermissionsRequired(this, imageuri)) {
-                uri = imageuri;
-            } else {
-                startCrop(imageuri);
-            }
+
+            //Uri imageuri = CropImage.getPickImageResultUri(this, data);
+            Uri imageuri = CropImage.getPickImageResultUriContent(this,data);
+            startCrop(imageuri);
+
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            imageItem.setImageURI(result.getUri());
-            newImage = true;
+            if(result != null){
+                imageItem.setImageURI(result.getUriContent());
+                newImage = true;
+            }
         }
     }
 
     private void startCrop(Uri imageuri) {
         CropImage.activity(imageuri)
                 .setGuidelines(CropImageView.Guidelines.ON)
-
                 .start(this);
     }
 

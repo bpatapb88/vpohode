@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorOnBackground"
@@ -39,7 +40,7 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="375dp"
-                android:background="?attr/colorAccent"
+                android:background="?attr/itemBackground"
                 android:scaleType="centerCrop"
                 android:id="@+id/image_of_item"
                 android:src="@drawable/ic_add_foto_margintop48"
@@ -104,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Шаблон"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 android:layout_marginLeft="16dp"
@@ -144,6 +146,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="Бренд"
                 android:textSize="20sp"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 android:layout_marginLeft="16dp"
                 />
@@ -180,6 +183,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="Стиль"
                 android:textSize="20sp"
+                android:textColor="?android:textColorPrimary"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 android:layout_marginLeft="16dp"
                 />
@@ -218,6 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Цвет"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 android:layout_marginLeft="16dp"
@@ -303,6 +308,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Теплота"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 />
@@ -343,6 +349,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:textColor="?android:textColorPrimary"
                 android:text="Надевалось"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -408,8 +415,8 @@
                 android:gravity="left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center_vertical"
+                android:textColor="?android:textColorPrimary"
                 android:text="@string/typ_item"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -418,12 +425,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"/>
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/top_bot"
                 android:layout_width="65dp"
                 android:layout_height="50dp"
                 android:layout_marginRight="50dp"
-                />
+                 />
         </LinearLayout>
         <LinearLayout
             android:layout_marginTop="16dp"
