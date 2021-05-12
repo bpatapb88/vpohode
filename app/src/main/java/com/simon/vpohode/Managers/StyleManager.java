@@ -1,8 +1,10 @@
 package com.simon.vpohode.Managers;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.simon.vpohode.Item;
+import com.simon.vpohode.R;
 
 import java.util.ArrayList;
 
@@ -15,8 +17,9 @@ public class StyleManager {
             styles[counter++] = item.getStyle();
         }
 
-        ArrayList<String> notCheckedStyles = StyleManager.notCheckedStyles(prefs);
+        ArrayList<Integer> notCheckedStyles = StyleManager.notCheckedStyles(prefs);
         for(Integer temp : styles){
+
             if(notCheckedStyles.contains(temp)){
                 return false;
             }
@@ -24,22 +27,22 @@ public class StyleManager {
         return true;
     }
 
-    private static ArrayList<String> notCheckedStyles(SharedPreferences pref){
-        ArrayList<String> notCheckedStyles = new ArrayList<>();
+    private static ArrayList<Integer> notCheckedStyles(SharedPreferences pref){
+        ArrayList<Integer> notCheckedStyles = new ArrayList<>();
         if(!pref.getBoolean("check_box_casual", true)){
-            notCheckedStyles.add("Кэжуал");
+            notCheckedStyles.add(R.string.casual);
         }
         if(!pref.getBoolean("check_box_business", true)){
-            notCheckedStyles.add("Бизнес");
+            notCheckedStyles.add(R.string.business);
         }
         if(!pref.getBoolean("check_box_elegant", true)){
-            notCheckedStyles.add("Элегантный");
+            notCheckedStyles.add(R.string.elegant);
         }
         if(!pref.getBoolean("check_box_sport", true)){
-            notCheckedStyles.add("Спорт");
+            notCheckedStyles.add(R.string.sport);
         }
         if(!pref.getBoolean("check_box_home", true)){
-            notCheckedStyles.add("Домашнее");
+            notCheckedStyles.add(R.string.home);
         }
         return notCheckedStyles;
     }

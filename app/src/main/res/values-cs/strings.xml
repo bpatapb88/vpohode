@@ -1,15 +1,32 @@
 <resources>
     <string name="app_name">Dresser</string>
+    <string name="show_item_hint">Jdeš ven?</string>
+    <string name="settings_hint">Přizpůsobit aplikaci pro sebe?</string>
     <string name="action_settings">Nastavení</string>
+    <string name="wash_hint">Co je v koši na prádlo?</string>
+    <string name="wash_title_hint">katalog prádla</string>
+    <string name="wash">Pradlo</string>
+    <string name="wardrobe_hint">Chcete přidat další věci?</string>
+    <string name="washed">Oprat</string>
+    <string name="select_all">Vybrat vše</string>
+
+    <string name="wardrobe_title_hint">katalog věcí</string>
     <string name="title_wardrobe">Šatník</string>
     <string name="title_item">Věc</string>
-    <string name="show_item">Souprava</string>
+    <string name="show_item">Vyberte oblečení</string>
     <string name="bot_items">Noha</string>
     <string name="top_items">Trup</string>
     <string name="search">Hledáme</string>
     <string name="welcome">Vítejte</string>
-    <string name="template">Šablona: </string>
+    <string name="template">Šablona</string>
+    <string name="brand">Značka</string>
+    <string name="brand_hint">Zadejte název</string>
+    <string name="style">Styl</string>
     <string name="color">Barva</string>
+    <string name="warmth">Teplo</string>
+    <string name="cold_temp">Chladný</string>
+    <string name="mid_temp">Střední</string>
+    <string name="hot_temp">Teplý</string>
     <string name="back">Zpět</string>
     <string name="use">Obléct</string>
     <string name="forward">Další</string>
@@ -21,6 +38,8 @@
 
     <!--Wardrope -->
     <string name="enter_name">Zadejte název</string>
+    <string name="add">Přidat</string>
+
     <string name="tors">Věci na torzo:</string>
     <string name="legs">Věci na nohy:</string>
 
@@ -36,12 +55,12 @@
     <string name="colors_set">Vybirat podle barvy</string>
 
     <!--Item -->
-    <string name="used_times">Použitý:</string>
+    <string name="used_times">Použitý</string>
     <string name="color_not_set">Chybí barva</string>
     <string name="choose_layer">Vyberte typ oblečení</string>
     <string name="choose_foto">Chybí foto</string>
     <string name="from">Od</string>
-    <string name="created">nosil(a)</string>
+    <string name="created">Vytvořeno</string>
     <string name="typ_item">Torzo/Nohy</string>
 
     <string name="none">Styl není vybrán</string>
@@ -59,6 +78,7 @@
     <string name="no_color">podle barvy</string>
     <string name="no_style">podle stylu</string>
     <string name="warm">Сhráni teplo - </string>
+    <string name="palette">Paleta:</string>
 
 
     <!-- Sync Preferences -->

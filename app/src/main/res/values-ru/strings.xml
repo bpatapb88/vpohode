@@ -1,15 +1,35 @@
 <resources>
     <string name="app_name">Dresser</string>
+    <string name="show_item_hint">Собираешся выйти в свет?</string>
+    <string name="show_item">Веберите наряд</string>
+    <string name="settings_hint">Настроить приложение под себя?</string>
     <string name="action_settings">Настройки</string>
+    <string name="wash_hint">Посмотреть вещи в стирке?</string>
+    <string name="wash_title_hint">каталог вещей в стирке</string>
+    <string name="washed">Постиранно</string>
+    <string name="wash">Стирка</string>
+    <string name="select_all">Выбрать всё</string>
+
+    <string name="wardrobe_title_hint">каталог вещей</string>
+    <string name="wardrobe_hint">Хотите добавить больше вещей?</string>
     <string name="title_wardrobe">Гардероб</string>
+
     <string name="title_item">Вещь</string>
-    <string name="show_item">Подборка</string>
     <string name="bot_items">Ноги</string>
     <string name="top_items">Торс</string>
     <string name="search">Ищем</string>
-    <string name="welcome">Добро пожаловать!</string>
-    <string name="template">Шаблон: </string>
+    <string name="welcome">Добро пожаловать в</string>
+    <string name="template">Шаблон</string>
+    <string name="brand">Бренд</string>
+    <string name="brand_hint">Введите бренд</string>
+    <string name="style">Стиль</string>
     <string name="color">Цвет</string>
+    <string name="warmth">Теплота</string>
+    <string name="cold_temp">Холодное</string>
+    <string name="mid_temp">Среднее</string>
+    <string name="hot_temp">Теплое</string>
+
+
     <string name="back">Назад</string>
     <string name="use">Надел</string>
     <string name="forward">Вперед</string>
@@ -22,16 +42,17 @@
 
     <!--Wardrope -->
     <string name="enter_name">Введи название</string>
+    <string name="add">Добавить</string>
     <string name="tors">Вещей на торс:</string>
     <string name="legs">Вещей на низ:</string>
 
     <!--Item -->
-    <string name="used_times">Использовалась:</string>
+    <string name="used_times">Надевалось</string>
     <string name="color_not_set">Цвет не выбран</string>
     <string name="choose_layer">Выберете слой</string>
     <string name="choose_foto">Добавьте фото</string>
     <string name="from">С</string>
-    <string name="created">надевал(a)</string>
+    <string name="created">Создано</string>
     <string name="typ_item">Торс/Ноги</string>
 
     <string name="none">Стиль не выбран</string>
@@ -49,6 +70,7 @@
     <string name="no_color">по цвету вещей</string>
     <string name="no_style">по стилю вещей</string>
     <string name="warm">Греет на </string>
+    <string name="palette">Палитра:</string>
 
     <!-- Preference Titles -->
     <string name="weather_header">Погода</string>

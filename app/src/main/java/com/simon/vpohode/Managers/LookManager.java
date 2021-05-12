@@ -24,7 +24,6 @@ public class LookManager {
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
-
         setAccurancy(prefs);
 
         int layersTop = Rules.getLayersTop(temp);

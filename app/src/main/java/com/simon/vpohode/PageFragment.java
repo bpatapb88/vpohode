@@ -84,10 +84,10 @@ public class PageFragment extends Fragment {
             brand.setText(items[i].getBrand());
 
             style = relativeLayout.findViewById(R.id.styleItem);
-            style.setText("Стиль: " + getResources().getString(items[i].getStyle()));
+            style.setText(getResources().getString(R.string.style) + ": " + getResources().getString(items[i].getStyle()));
 
             usedItem = relativeLayout.findViewById(R.id.usedItem);
-            usedItem.setText("Надевалось: " + items[i].getUsed());
+            usedItem.setText(getResources().getString(R.string.used_times )+ ": " + items[i].getUsed());
 
             if((i%2) == 0){
                 leftLayout.addView(relativeLayout);

@@ -1,15 +1,33 @@
 <resources>
     <string name="app_name">Dresser</string>
+    <string name="show_item_hint">Are you going to go out?</string>
+    <string name="settings_hint">Customize the app for yourself?</string>
     <string name="action_settings">Settings</string>
+
+    <string name="wash_hint">See clothes in the wash?</string>
+    <string name="wash_title_hint">laundry catalog</string>
+    <string name="wash">Wash</string>
+    <string name="washed">Washed</string>
+    <string name="select_all">Select all</string>
+
+    <string name="wardrobe_title_hint">catalog of things</string>
+    <string name="wardrobe_hint">Want to add more things?</string>
     <string name="title_wardrobe">Wardrobe</string>
     <string name="title_item">Thing</string>
-    <string name="show_item">Selection</string>
+    <string name="show_item">Select an outfit</string>
     <string name="bot_items">Legs</string>
     <string name="top_items">Torso</string>
     <string name="search">Search</string>
-    <string name="welcome">Welcome!</string>
-    <string name="template">Template: </string>
+    <string name="welcome">Welcome to </string>
+    <string name="template">Template</string>
+    <string name="brand">Brand</string>
+    <string name="brand_hint">Enter the name</string>
+    <string name="style">Style</string>
     <string name="color">Color</string>
+    <string name="warmth">Warmth</string>
+    <string name="cold_temp">Cold</string>
+    <string name="mid_temp">Middle</string>
+    <string name="hot_temp">Warm</string>
     <string name="back">Back</string>
     <string name="use">Select</string>
     <string name="forward">Next</string>
@@ -21,16 +39,17 @@
 
     <!--Wardrope -->
     <string name="enter_name">Enter the name</string>
+    <string name="add">Add Thing</string>
     <string name="tors">Top things:</string>
     <string name="legs">Bottom things:</string>
 
     <!--Item -->
-    <string name="used_times">Used:</string>
+    <string name="used_times">Used</string>
     <string name="color_not_set">No color selected</string>
     <string name="choose_layer">Select a layer</string>
     <string name="choose_foto">Add photo</string>
     <string name="from">From</string>
-    <string name="created">put on</string>
+    <string name="created">Created</string>
     <string name="typ_item">Torso/Legs</string>
 
     <string name="none">Style not selected</string>
@@ -48,6 +67,8 @@
     <string name="no_color">things in color,</string>
     <string name="no_style">things in style,</string>
     <string name="warm">Warms on </string>
+
+    <string name="palette">Palette:</string>
 
     <!-- Preference Titles -->
     <string name="weather_header">Weather</string>

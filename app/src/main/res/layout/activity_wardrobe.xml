@@ -38,7 +38,7 @@
                 android:textSize="11sp"
                 android:textColor="?android:textColorHint"
                 android:textAlignment="textEnd"
-                android:text="каталог вещей"
+                android:text="@string/wardrobe_title_hint"
                 />
             <TextView
                 android:layout_width="match_parent"
@@ -47,7 +47,7 @@
                 android:textSize="22sp"
                 android:textColor="?attr/colorPrimary"
                 android:textAlignment="textEnd"
-                android:text="Гардероб"
+                android:text="@string/title_wardrobe"
                 />
         </LinearLayout>
         <ImageView
@@ -71,7 +71,7 @@
 
 
             android:paddingLeft="30dp"
-            android:hint="Введите название"
+            android:hint="@string/enter_name"
             android:layout_gravity="left"
 
             android:layout_height="50dp"
@@ -126,7 +126,7 @@
                 android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
-                android:text="Добавить"/>
+                android:text="@string/add"/>
         </androidx.cardview.widget.CardView>
         <ListView
             android:id="@+id/list"

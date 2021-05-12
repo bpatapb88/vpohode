@@ -28,7 +28,7 @@
                 android:layout_marginRight="8dp"
                 android:textSize="11sp"
                 android:textAlignment="textEnd"
-                android:text="Настрой приложение под себя"
+                android:text="@string/settings_hint"
                 android:textColor="?android:textColorHint"
                 />
             <TextView
@@ -39,7 +39,7 @@
                 android:textSize="22sp"
                 android:textColor="?attr/colorPrimary"
                 android:textAlignment="textEnd"
-                android:text="Настройки"
+                android:text="@string/action_settings"
                 />
         </LinearLayout>
         <ImageView

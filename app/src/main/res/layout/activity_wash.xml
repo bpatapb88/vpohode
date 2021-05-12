@@ -37,7 +37,7 @@
                     android:textSize="11sp"
                     android:textColor="?android:textColorHint"
                     android:textAlignment="textEnd"
-                    android:text="каталог вещей в стирке"
+                    android:text="@string/wash_title_hint"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                     android:textSize="22sp"
                     android:textColor="?attr/colorPrimary"
                     android:textAlignment="textEnd"
-                    android:text="Стрика"
+                    android:text="@string/wash"
                     />
             </LinearLayout>
             <ImageView
@@ -79,7 +79,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Выбрать всё"
+                    android:text="@string/select_all"
                     android:layout_gravity="center"
                     android:fontFamily="@font/montserrat_alternates_bold"
                     android:textColor="@android:color/white"
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Постиранно"
+                    android:text="@string/washed"
                     android:layout_gravity="center"
                     android:fontFamily="@font/montserrat_alternates_bold"
                     android:textColor="@android:color/white"

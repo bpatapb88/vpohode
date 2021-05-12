@@ -36,7 +36,7 @@
                 android:background="@null"
             android:stateListAnimator="@animator/card_view"
             android:clickable="true"
-            >
+                android:focusable="true">
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="375dp"
@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Шаблон"
+                android:text="@string/template"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Бренд"
+                android:text="@string/brand"
                 android:textSize="20sp"
                 android:textColor="?android:textColorPrimary"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -161,7 +161,7 @@
                 android:fontFamily="@font/montserrat_alternates_medium"
                 android:textColor="#4059FF"
                 android:textSize="14sp"
-                android:hint="Введите бренд"
+                android:hint="@string/brand_hint"
                 android:layout_marginHorizontal="16dp"
                 android:paddingLeft="30dp"
                 android:layout_height="50dp"
@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Стиль"
+                android:text="@string/style"
                 android:textSize="20sp"
                 android:textColor="?android:textColorPrimary"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -221,7 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Цвет"
+                android:text="@string/color"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -238,7 +238,7 @@
                 android:fontFamily="@font/montserrat_alternates_bold"
                 android:textColor="#4059FF"
                 android:textSize="14sp"
-                android:text="Цвет не выбран"
+                android:text="@string/color_not_set"
                 android:layout_marginHorizontal="16dp"
                 android:layout_height="50dp"
                 />
@@ -260,7 +260,7 @@
                 android:stateListAnimator="@animator/card_view"
                 android:clickable="true"
                 android:background="@null"
-                >
+                android:focusable="true">
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="50dp"
@@ -307,7 +307,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="Теплота"
+                android:text="@string/warmth"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
@@ -320,7 +320,7 @@
                 android:layout_gravity="center"
                 android:textAlignment="center"
                 android:textColor="#4059FF"
-                android:text="Среднее"/>
+                android:text="@string/mid_temp"/>
 
         </LinearLayout>
         <SeekBar
@@ -350,7 +350,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:textColor="?android:textColorPrimary"
-                android:text="Надевалось"
+                android:text="@string/used_times"
                 android:textSize="20sp"
                 android:fontFamily="@font/montserrat_alternates_bold"
                 />
@@ -512,7 +512,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Удалить"
+                    android:text="@string/delete"
                     android:layout_gravity="center"
                     android:fontFamily="@font/montserrat_alternates_bold"
                     android:textColor="@android:color/white"
@@ -528,7 +528,6 @@
                 android:layout_height="50dp"
                 app:cardCornerRadius="25dp"
                 android:layout_marginTop="30dp"
-                android:onClick="delete"
                 android:stateListAnimator="@animator/card_view"
                 android:layout_gravity="center_horizontal"
                 >
@@ -540,7 +539,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Сохранить"
+                    android:text="@string/save"
                     android:layout_gravity="center"
                     android:fontFamily="@font/montserrat_alternates_bold"
                     android:textColor="@android:color/white"

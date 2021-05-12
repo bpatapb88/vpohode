@@ -181,11 +181,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 reBuildIcons(true);
             }
             TextView created = findViewById(R.id.created);
-            created.setText("Создано " + userCursor.getString(9));
-
-            if(userCursor.getInt(10) > 0){
-                Toast.makeText(getApplicationContext(), "inWash - " + userCursor.getInt(10), Toast.LENGTH_SHORT).show();
-            }
+            created.setText(getResources().getString(R.string.created) + " " + userCursor.getString(9));
 
             userCursor.close();
         } else {
@@ -309,13 +305,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private void setWarmText(int progress){
         switch (progress){
             case 0:
-                warmText.setText("Холодное");
+                warmText.setText(getResources().getString(R.string.cold_temp));
                 break;
             case 1:
-                warmText.setText("Среднее");
+                warmText.setText(getResources().getString(R.string.mid_temp));
                 break;
             case 2:
-                warmText.setText("Теплое");
+                warmText.setText(getResources().getString(R.string.hot_temp));
                 break;
         }
     }
