@@ -30,8 +30,10 @@ public class MainActivity extends AppCompatActivity {
     // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
+
     private TextView textViewWeather;
     private Double avgTempertureCel;
+    private String photoReference;
     public static String rain = "";
     private String city = "Brno";
     private SharedPreferences preferences;
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         city = preferences.getString("city", "Brno");
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        task.execute(weatherURLWithCity);
+        task.execute(weatherURLWithCity, "BrnoTest");
 
         DownloadImageTask downloadImageTask = new DownloadImageTask(fotoCity);
         switch (city){
@@ -117,8 +119,10 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             HttpURLConnection urlConnection = null;
             try {
-                URL url = new URL(strings[0]);
-                urlConnection = (HttpURLConnection) url.openConnection();
+                URL urlWeather = new URL(strings[0]);
+
+                System.out.println("TEST array - " + strings[1]);
+                urlConnection = (HttpURLConnection) urlWeather.openConnection();
                 InputStream in = urlConnection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
                 BufferedReader bufferedReader = new BufferedReader(reader);
@@ -127,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                     result.append(line);
                     line = bufferedReader.readLine();
                 }
+                //urlConnection = (HttpURLConnection) urlCityPhoto.openConnection();
+
+
             } catch (IOException e) {
                 e.printStackTrace();
                 return "End";
@@ -135,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                     urlConnection.disconnect();
                 }
             }
+
             return result.toString();
         }
         @Override
