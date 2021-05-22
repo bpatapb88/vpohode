@@ -14,7 +14,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
+import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.Managers.LayoutManager;
+import com.simon.vpohode.Managers.PlacePhotoManager;
 import com.simon.vpohode.Managers.WeatherManager;
 import com.simon.vpohode.R;
 
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
     // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
     private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
-
+    private final static String placeURL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
     private TextView textViewWeather;
     private Double avgTempertureCel;
     private String photoReference;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private String city = "Brno";
     private SharedPreferences preferences;
     private ImageView fotoCity;
+    private StringBuilder stringBuilderPlace = new StringBuilder();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,22 +62,8 @@ public class MainActivity extends AppCompatActivity {
         city = preferences.getString("city", "Brno");
         DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        task.execute(weatherURLWithCity, "BrnoTest");
-
-        DownloadImageTask downloadImageTask = new DownloadImageTask(fotoCity);
-        switch (city){
-            case "Brno":
-                downloadImageTask.execute("http://utazasok.org/wp-content/uploads/2019/03/Brno2.jpg");
-                break;
-            case "Moscow":
-                downloadImageTask.execute("https://www.moscow-driver.com/photos/var/albums/Personalized_Tours/2018-01-25_Moscow_Winter_Photo_Tour/ALP-2018-0125-268-Old-Kremlin-Against-Modern-Moskva-City-in-Winter.jpg");
-                break;
-            case "Екатеринбург":
-                downloadImageTask.execute("https://nesiditsa.ru/wp-content/uploads/2012/10/Ekaterinburg.jpg");
-                break;
-            default:
-                downloadImageTask.execute("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.healthwire.co%2Fwp-content%2Fuploads%2F2020%2F07%2Fweather.png");
-        }
+        String placeURLWithCity = String.format(placeURL,city, BuildConfig.GOOGLE_API);
+        task.execute(weatherURLWithCity, placeURLWithCity);
     }
 
     public void goToWardrobe(View view){                                        //TODO create new class view manager
@@ -82,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToWash(View view){                                        //TODO create new class view manager
+    public void goToWash(View view){
         Intent intent = new Intent(this, WashActivity.class);
         startActivity(intent);
     }
@@ -119,10 +108,8 @@ public class MainActivity extends AppCompatActivity {
             StringBuilder result = new StringBuilder();
             HttpURLConnection urlConnection = null;
             try {
-                URL urlWeather = new URL(strings[0]);
-
-                System.out.println("TEST array - " + strings[1]);
-                urlConnection = (HttpURLConnection) urlWeather.openConnection();
+                URL url = new URL(strings[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = urlConnection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
                 BufferedReader bufferedReader = new BufferedReader(reader);
@@ -131,9 +118,17 @@ public class MainActivity extends AppCompatActivity {
                     result.append(line);
                     line = bufferedReader.readLine();
                 }
-                //urlConnection = (HttpURLConnection) urlCityPhoto.openConnection();
-
-
+                // Now store output from Google Place Api
+                url = new URL(strings[1]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                in = urlConnection.getInputStream();
+                reader = new InputStreamReader(in);
+                bufferedReader = new BufferedReader(reader);
+                line = bufferedReader.readLine();
+                while (line != null){
+                    stringBuilderPlace.append(line);
+                    line = bufferedReader.readLine();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
                 return "End";
@@ -154,6 +149,10 @@ public class MainActivity extends AppCompatActivity {
 
             WeatherManager weatherManager = new WeatherManager();
             avgTempertureCel = weatherManager.getAverange(s);
+
+            PlacePhotoManager placePhotoManager = new PlacePhotoManager(stringBuilderPlace.toString());
+            DownloadImageTask downloadImageTask = new DownloadImageTask(fotoCity);
+            downloadImageTask.execute(placePhotoManager.getPhotoURL());
 
         // save the temperature
                 avgTempertureCel = (Double.parseDouble(weatherManager.getFeelTem0()) + Double.parseDouble(weatherManager.getFeelTem1()))/2;

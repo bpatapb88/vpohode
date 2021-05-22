@@ -10,12 +10,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -63,8 +68,8 @@ import java.util.Calendar;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
-    EditText nameBox, usedTime;
-    TextView colorHex, warmText, brand;
+    EditText nameBox, usedTime,brand;
+    TextView colorHex, warmText;
     ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus, washItemImg;
     ImageView[] imagesOfLayers;
     ImageButton imageItem;
@@ -122,6 +127,58 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageLayer1.setOnClickListener(setListenerToLayer(imagesOfLayers));
         imageLayer2.setOnClickListener(setListenerToLayer(imagesOfLayers));
         imageLayer3.setOnClickListener(setListenerToLayer(imagesOfLayers));
+        brand.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String string = s.toString();
+                int widthText = getWidthOfEditText(brand,string);
+                if(widthText > 380){
+                while (widthText > 380){
+                    string = string.substring(0,string.length() - 1);
+                    widthText = getWidthOfEditText(brand,string);
+                    System.out.println(string);
+                }
+                brand.setText(string);
+                brand.setSelection(string.length());
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        nameBox.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String string = s.toString();
+                int widthText = getWidthOfEditText(nameBox,string);
+                if(widthText > 783){
+                    while (widthText > 7){
+                        string = string.substring(0,string.length() - 1);
+                        widthText = getWidthOfEditText(nameBox,string);
+                    }
+                    nameBox.setText(string);
+                    nameBox.setSelection(string.length());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -129,6 +186,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                setWarmText(seekBar.getProgress());
             }
 
             @Override
@@ -138,7 +196,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                setWarmText(seekBar.getProgress());
+
             }
         });
         // configure spinner
@@ -545,6 +603,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             imagesOfLayers[i].setImageDrawable(drawables[i]);
         }
 
+    }
+
+    private int getWidthOfEditText(EditText editText, String str){
+        Paint paint = new Paint();
+        paint.setTextSize(editText.getTextSize());
+        Typeface typeface = editText.getTypeface();
+        paint.setTypeface(typeface);
+        Rect result = new Rect();
+        paint.getTextBounds(str, 0, str.length(), result);
+        return result.width();
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
