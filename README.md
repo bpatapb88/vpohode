@@ -4,12 +4,29 @@ This application is creating to help you get rigth clother set according weather
 * Configure setting according your needs
 * Finaly get all possible clothers set by one click "Select an outfit"
 
+<table>
+    <tr>
+        <td>
+            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/mainScreen.png" align="left" height="387" width="180" ></a>
+        </td>
+        <td>
+            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/Wardrobe.png" align="left" height="387" width="180" ></a>
+        </td>
+        <td>
+            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/ItemScreen.png" align="left" height="387" width="180" ></a>
+        </td>
+        <td>
+            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/Settings.png" align="left" height="387" width="180" ></a>
+        </td>
+        <td>
+            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/SelectScreen.png" align="left" height="387" width="180" ></a>
+        </td>
+    </tr>
+</table>
 
-<a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/mainScreen.png" align="left" height="387" width="180" ></a>
-<a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/Wardrobe.png" align="left" height="387" width="180" ></a>
-<a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/ItemScreen.png" align="left" height="387" width="180" ></a>
-<a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/Settings.png" align="left" height="387" width="180" ></a>
-<a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/SelectScreen.png" align="left" height="387" width="180" ></a>
+
+
+
 # _
 ### Used API:
 * Google Place API for image of the city on the main page(API key is hidden in build.gradle Module)
