@@ -18,6 +18,7 @@ public class TemplatesManager {
 
     public static Item getItemFromTemplate(String templateName, Resources resources){
         String[] arrayTemplate = resources.getStringArray(R.array.templates);
+
         int templateID = 0;
         for(int i = 0 ; i < arrayTemplate.length;i++){
             if(arrayTemplate[i].equals(templateName)){
