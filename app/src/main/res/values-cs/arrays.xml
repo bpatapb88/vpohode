@@ -20,7 +20,7 @@
         <item>Kabát</item>
         <item>Spodky</item>
         <item>Tenisky</item>
-        <item>Džíny Moms str.</item>
+        <item>Džíny</item>
     </string-array>
     <array name="resicon">
         <item>@android:drawable/ic_dialog_alert</item>

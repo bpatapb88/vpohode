@@ -141,7 +141,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 while (widthText > 380){
                     string = string.substring(0,string.length() - 1);
                     widthText = getWidthOfEditText(brand,string);
-                    System.out.println(string);
                 }
                 brand.setText(string);
                 brand.setSelection(string.length());
@@ -468,9 +467,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     Item template = TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources());
                     if(template != null && (template.getTop() == 0) != b ) {
                         arrayTemplate.add(arrayTemplatesFromResource[i]);
-
                         if(arrayTemplatesFromResource[i].equals(currentTemplate)){
                             counter =  arrayTemplate.size() - 1;
+                            System.out.println("test3210"+spinnerTemplate.getSelectedItem().toString());
                         }
                     }
                 }
@@ -478,8 +477,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 for(int i = 0; i < arrayTemplate.size(); i++){
                     array[i] = arrayTemplate.get(i);
                 }
-                spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(array, internContext));
-                spinnerTemplate.setSelection(counter);
+                /*spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(array, internContext));
+                spinnerTemplate.setSelection(counter);*/
             }
         });
     }
