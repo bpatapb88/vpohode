@@ -12,8 +12,13 @@ import androidx.preference.PreferenceManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.LookManager;
@@ -26,6 +31,8 @@ import java.util.ArrayList;
 public class ScrollingLooksActivity extends AppCompatActivity {
     public static ArrayList<Item[]> looks;
     private ViewPager2 pager;
+    public InterstitialAd interstitialAd; //ad
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,29 @@ public class ScrollingLooksActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scroll_looks);
+
+        //ad start
+        MobileAds.initialize(this, BuildConfig.GOOGLE_APPID);
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(BuildConfig.GOOGLE_ADMOD);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+        //finish ad
+
+        //close ad start
+        interstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                try{
+                    Intent intent = new Intent(ScrollingLooksActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }catch (Exception e){
+
+                }
+            }
+        });
+
 
         Bundle extras = getIntent().getExtras();
         Double term = extras.getDouble("term");
@@ -71,6 +101,11 @@ public class ScrollingLooksActivity extends AppCompatActivity {
 
     public void useButtonClick(View view){
         LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
-        finish();
+
+        if(interstitialAd.isLoaded()){
+            interstitialAd.show();
+        }else{
+            finish();
+        }
     }
 }
