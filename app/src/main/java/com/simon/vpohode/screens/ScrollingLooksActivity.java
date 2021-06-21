@@ -1,5 +1,6 @@
 package com.simon.vpohode.screens;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -14,6 +16,8 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+
+
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.tabs.TabLayout;
@@ -32,6 +36,7 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     public static ArrayList<Item[]> looks;
     private ViewPager2 pager;
     public InterstitialAd interstitialAd; //ad
+    AlertDialog.Builder builder;
 
 
     @Override
@@ -93,6 +98,8 @@ public class ScrollingLooksActivity extends AppCompatActivity {
             }
         });
         tabLayoutMediator.attach();
+
+        builder = new AlertDialog.Builder(this);
     }
     public void goHome(View view){
         Intent intent = new Intent(this, MainActivity.class);
@@ -102,10 +109,30 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     public void useButtonClick(View view){
         LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
 
-        if(interstitialAd.isLoaded()){
-            interstitialAd.show();
-        }else{
-            finish();
-        }
+
+        builder.setMessage(R.string.dialog_message) .setTitle(R.string.dialog_title);
+        builder.setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(interstitialAd.isLoaded()){
+                            System.out.println("Test message 321");
+                            interstitialAd.show();
+                        }else{
+                            System.out.println("Test message 123");
+                            finish();
+                        }
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        alert.setTitle(R.string.dialog_title);
+        alert.show();
     }
 }

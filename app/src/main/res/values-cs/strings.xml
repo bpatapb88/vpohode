@@ -102,4 +102,9 @@
     <string name="save">Uložit</string>
     <string name="umbrella">Vezmi si deštník!</string>
     <string name="now_word">Počasí ve městě </string>
+    <string name="dialog_message">Jste si jisti, co chcete vybrat tuto sadu?</string>
+    <string name="dialog_title">Zvolte sadu</string>
+    <string name="sorted_by">Seřadit podle:</string>
+    <string name="apply">Použít</string>
+    <string name="cancel">Zrušit</string>
 </resources>

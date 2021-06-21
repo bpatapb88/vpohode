@@ -101,4 +101,9 @@
     <string name="save">Save</string>
     <string name="umbrella">Do not forget to take the UMBRELLA!</string>
     <string name="now_word">Now in the city</string>
+    <string name="dialog_message">Are you sure what you want choose this set?</string>
+    <string name="dialog_title">Choose set</string>
+    <string name="sorted_by">Sort by:</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
 </resources>

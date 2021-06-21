@@ -7,21 +7,16 @@ import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.cardview.widget.CardView;
 
+import com.simon.vpohode.Managers.LookManager;
 import com.simon.vpohode.screens.ConfigItem;
-
-import java.util.List;
-
 
 public class CustomAdapter extends CursorAdapter {
     private LayoutInflater mLayoutInflater;
-    private List<ListViewItemDTO> listViewItemDtoList = null;
     public CustomAdapter(Context context, Cursor c) {
         super(context, c);
         mLayoutInflater = LayoutInflater.from(context);
@@ -46,52 +41,36 @@ public class CustomAdapter extends CursorAdapter {
 
     @Override
     public void bindView(final View v, final Context context, final Cursor c) {
-        final Long id = c.getLong(c.getColumnIndexOrThrow("_id"));
+
+        Item item = LookManager.cursorToItem(c);
+        final Long id = Long.valueOf(item.getId());
+
         CardView cardItem = (CardView) v.findViewById(R.id.cardItem);
-        String name = c.getString(c.getColumnIndexOrThrow("name"));
-        String brand = c.getString(c.getColumnIndexOrThrow("brand"));
-        Integer style = c.getInt(c.getColumnIndexOrThrow("style"));
-        Integer istop = c.getInt(c.getColumnIndexOrThrow("istop"));
-        Integer layer = c.getInt(c.getColumnIndexOrThrow("layer"));
-        Integer color = c.getInt(c.getColumnIndexOrThrow("color"));
-        boolean inWash = c.getInt(c.getColumnIndexOrThrow("inwash")) > 0;
+        cardItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ConfigItem.class);
+                intent.putExtra("id", id);
+                context.startActivity(intent);
+            }
+        });
+
         TextView name_text = (TextView) v.findViewById(R.id.text1);
         if (name_text != null) {
-            name_text.setText(name);
+            name_text.setText(item.getName());
         }
         ImageView color_field = (ImageView) v.findViewById(R.id.colorView);
         if (color_field != null) {
-            color_field.setBackgroundColor(color);
+            color_field.setBackgroundColor(item.getColor());
         }
-
-        if(inWash){
-            CardView colorCard = v.findViewById(R.id.color_card);
-            colorCard.setCardElevation(0);
-            final CheckBox checkBox = v.findViewById(R.id.checkbox);
-            checkBox.setVisibility(View.VISIBLE);
-            color_field.setVisibility(View.GONE);
-
-        }else{
-            cardItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(view.getContext(), ConfigItem.class);
-                    System.out.println("Test id - " + id);
-                    intent.putExtra("id", id);
-                    context.startActivity(intent);
-                }
-            });
-        }
-
-
 
         TextView style_text = (TextView) v.findViewById(R.id.text3);
         if (style_text != null) {
-            style_text.setText(brand);
+            style_text.setText(item.getBrand());
         }
 
         ImageView item_image = (ImageView) v.findViewById(R.id.imageView);
-        setImageIcon(item_image,istop,layer);
+        setImageIcon(item_image,item.getTop(),item.getLayer());
     }
 
     private void setImageIcon(ImageView imageView, Integer isTop, Integer layer){
@@ -113,9 +92,9 @@ public class CustomAdapter extends CursorAdapter {
             System.out.println("Error - Layer or isTop is not correct!");
             return;
         }
-        if(!drawable.equals(null)){
-            drawable.setTint(imageView.getContext().getColor(R.color.colorPrimaryDark));
-            imageView.setImageDrawable(drawable);
-        }
+
+        drawable.setTint(imageView.getContext().getColor(R.color.colorPrimaryDark));
+        imageView.setImageDrawable(drawable);
+
     }
 }

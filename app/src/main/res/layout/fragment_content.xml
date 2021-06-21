@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/edit_name"
-    android:layout_width="300dp"
-    android:layout_height="300dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:orientation="vertical"
-    android:background="@drawable/pole"
     >
-
-    <TextView
-    android:id="@+id/lbl_your_name"
-    android:text="Инструкция:"
-    android:fontFamily="@font/montserrat_alternates_bold"
-    android:textSize="20dp"
-    android:layout_width="300dp"
-    android:padding="15dp"
-    android:layout_height="wrap_content" />
-    <TextView
+    <Spinner
         android:padding="15dp"
-        android:id="@+id/editTextTextMultiLine"
-        android:layout_width="match_parent"
+        android:id="@+id/sortBySpinner"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="1. Добавь вещи в гардероб \n2. Задай в настройках город\n3. Выбери там же стили одежды\n4. Убдедись что вещей достаточно:
-        t>+21 - 1 верх 1 низ 1 обувь\n+21>t>+6 - 2 верх 1 низ 1 обувь\n+6>t - 3 верх 2 низ 1 обувь\n5. Подбери набор\n\nПрофит!"
         />
-
 </LinearLayout>

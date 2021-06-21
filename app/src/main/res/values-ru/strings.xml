@@ -103,4 +103,11 @@
     <string name="save">Сохранить</string>
     <string name="umbrella">"Незабудь взять ЗОНТ!"</string>
     <string name="now_word">Сейчас в городе</string>
+    <string name="dialog_message">Вы уверены что хотите выбрать этот набор?</string>
+    <string name="dialog_title">Выбрать набор</string>
+    <string name="sorted_by">Сортировать по:</string>
+    <string name="apply">Применить</string>
+    <string name="cancel">Отмена</string>
+
+
 </resources>

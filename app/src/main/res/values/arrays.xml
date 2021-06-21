@@ -22,6 +22,13 @@
         <item>Sneakers</item>
         <item>Jeans</item>
     </string-array>
+    <string-array name="sortOptions">
+        <item>Created</item>
+        <item>Name A-Z</item>
+        <item>Name Z-A</item>
+        <item>Brand</item>
+        <item>Warm</item>
+    </string-array>
 
     <array name="resicon">
         <item>@android:drawable/ic_dialog_alert</item>

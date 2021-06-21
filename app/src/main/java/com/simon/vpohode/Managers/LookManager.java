@@ -149,7 +149,7 @@ public class LookManager {
         return result;
     }
 
-    private static Item cursorToItem(Cursor cursors){
+    public static Item cursorToItem(Cursor cursors){
         Item item = new Item(cursors.getInt(cursors.getColumnIndex("_id")),
                 cursors.getString(cursors.getColumnIndex("name")),
                 cursors.getInt(cursors.getColumnIndex("style")),

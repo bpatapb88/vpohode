@@ -38,8 +38,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public static Cursor getCursorWardrobe(SQLiteDatabase db){
-        return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 0", null);
+    public static Cursor getCursorWardrobe(SQLiteDatabase db, int sortBy){
+        return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 0 " + getOrderString(sortBy), null);
     }
 
     public static Cursor getCursorInWash(SQLiteDatabase db){
@@ -48,6 +48,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
         return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer + " AND " + DBFields.INWASH.toFieldName() + " = 0", null);
+    }
+
+    public static String getOrderString(int sortBy){
+        String result = "ORDER BY ";
+        switch (sortBy){
+            case 1:
+                result += "name";
+                break;
+            case 2:
+                result += "name DESC";
+                break;
+            case 3:
+                result += "brand";
+                break;
+            case 4:
+                result += "termindex";
+                break;
+            default:
+                result = "";
+                break;
+        }
+        return result;
     }
 
 }

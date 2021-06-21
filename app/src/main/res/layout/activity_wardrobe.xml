@@ -68,12 +68,9 @@
             android:id="@+id/search_item"
             android:layout_weight="1"
             android:layout_width="match_parent"
-
-
             android:paddingLeft="30dp"
             android:hint="@string/enter_name"
             android:layout_gravity="left"
-
             android:layout_height="50dp"
             android:gravity="center_vertical"
             android:drawablePadding="16dp"
@@ -82,6 +79,13 @@
             android:background="@drawable/edit_text"
             android:drawableLeft="@drawable/ic_search_24"
             android:focusedByDefault="false"
+            />
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_filter"
+            android:background="@null"
+            android:onClick="showFilter"
             />
 
     </LinearLayout>

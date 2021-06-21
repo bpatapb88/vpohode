@@ -49,20 +49,22 @@ public class LayoutManager {
 
     }
 
-    public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, final int istop){
+    public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, int sortBy){
         //get cursor from db
-        Cursor itemCursor =  DatabaseHelper.getCursorWardrobe(db);
+        Cursor itemCursor =  DatabaseHelper.getCursorWardrobe(db, sortBy);
+
         // create adapter, send cursor
         CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
+
         // устанавливаем провайдер фильтрации
         customAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
                 if (constraint == null || constraint.length() == 0) {
-                    return DatabaseHelper.getCursorWardrobe(db);
+                    return DatabaseHelper.getCursorWardrobe(db, sortBy);
                 }
                 else {
-                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.INWASH.toFieldName() + " = 0 AND " + DBFields.NAME.toFieldName() + " like ?", new String[]{"%" + constraint.toString() + "%"});
+                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.INWASH.toFieldName() + " = 0 AND " + DBFields.NAME.toFieldName() + " like ? " + DatabaseHelper.getOrderString(sortBy), new String[]{"%" + constraint.toString() + "%"});
                 }
             }
         });

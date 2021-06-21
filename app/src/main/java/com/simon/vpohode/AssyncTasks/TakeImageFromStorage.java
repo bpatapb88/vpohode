@@ -22,11 +22,11 @@ public class TakeImageFromStorage extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        p = new ProgressDialog(bmImage.getContext());
+        /*p = new ProgressDialog(bmImage.getContext());
         p.setMessage("Please wait...It is downloading");
         p.setIndeterminate(false);
         p.setCancelable(false);
-        p.show();
+        p.show();*/
     }
 
 
@@ -55,6 +55,6 @@ public class TakeImageFromStorage extends AsyncTask<String, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap result) {
         bmImage.setImageBitmap(result);
-        p.hide();
+        //p.hide();
     }
 }
