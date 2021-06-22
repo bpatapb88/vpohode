@@ -4,28 +4,11 @@ This application is creating to help you get rigth clother set according weather
 * Configure setting according your needs
 * Finaly get all possible clothers set by one click "Select an outfit"
 
-<table>
-    <tr>
-        <td>
-            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/mainScreen.png" align="left" height="387" width="180" ></a>
-        </td>
-        <td>
-            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/Wardrobe.png" align="left" height="387" width="180" ></a>
-        </td>
-        <td>
-            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/ItemScreen.png" align="left" height="387" width="180" ></a>
-        </td>
-        <td>
-            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/Settings.png" align="left" height="387" width="180" ></a>
-        </td>
-        <td>
-            <a href="url"><img src="https://github.com/bpatapb88/vpohode/blob/master/images/SelectScreen.png" align="left" height="387" width="180" ></a>
-        </td>
-    </tr>
-</table>
-
-
-
+<img src="https://github.com/bpatapb88/vpohode/blob/master/images/mainScreen.png" height="387" width="180">&nbsp;
+<img src="https://github.com/bpatapb88/vpohode/blob/master/images/Wardrobe.png" height="387" width="180">&nbsp;
+<img src="https://github.com/bpatapb88/vpohode/blob/master/images/ItemScreen.png" height="387" width="180">&nbsp;
+<img src="https://github.com/bpatapb88/vpohode/blob/master/images/Settings.png" height="387" width="180">&nbsp;
+<img src="https://github.com/bpatapb88/vpohode/blob/master/images/SelectScreen.png" height="387" width="180">
 
 # _
 ### Used API:
