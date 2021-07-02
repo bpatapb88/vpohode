@@ -1,19 +1,40 @@
 package com.simon.vpohode.screens;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.preference.PreferenceManager;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.Managers.LayoutManager;
 import com.simon.vpohode.Managers.PlacePhotoManager;
@@ -26,6 +47,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,7 +63,12 @@ public class MainActivity extends AppCompatActivity {
     private String city = "Brno";
     private SharedPreferences preferences;
     private ImageView fotoCity;
-    private StringBuilder stringBuilderPlace = new StringBuilder();;
+    private StringBuilder stringBuilderPlace = new StringBuilder();
+    private FusedLocationProviderClient mFusedLocationClient;
+    int PERMISSION_ID = 44;
+    double latitudeTextView;
+    double longitTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +82,144 @@ public class MainActivity extends AppCompatActivity {
         CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
         editNameDialogFragment.show(fm, "fragment_edit_name");*/
         textViewWeather = findViewById(R.id.textViewWeather);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private void getLastLocation() {
+        // check if permissions are given
+        if (checkPermissions()) {
+
+            // check if location is enabled
+            if (isLocationEnabled()) {
+
+                // getting last
+                // location from
+                // FusedLocationClient
+                // object
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Location> task) {
+                        Location location = task.getResult();
+                        if (location == null) {
+                            requestNewLocationData();
+                        } else {
+                            latitudeTextView = location.getLatitude();
+                            longitTextView = location.getLongitude();
+                            System.out.println("Coordinate was set #1");
+                            city = getLocationName(latitudeTextView, longitTextView);
+                            setWeatherAndPicture();
+                        }
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Please turn on" + " your location...", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(intent);
+            }
+        } else {
+            // if permissions aren't available,
+            // request for permissions
+            requestPermissions();
+        }
+    }
+
+    private void setWeatherAndPicture(){
+        DownloadTask task2 = new DownloadTask();
+        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
+        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
+        task2.execute(weatherURLWithCity, placeURLWithCity);
+    }
+
+    @SuppressLint("MissingPermission")
+    private void requestNewLocationData() {
+
+        // Initializing LocationRequest
+        // object with appropriate methods
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        mLocationRequest.setInterval(5);
+        mLocationRequest.setFastestInterval(0);
+        mLocationRequest.setNumUpdates(1);
+
+        // setting LocationRequest
+        // on FusedLocationClient
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+    }
+
+    private LocationCallback mLocationCallback = new LocationCallback() {
+
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            Location mLastLocation = locationResult.getLastLocation();
+            latitudeTextView = mLastLocation.getLatitude();
+            longitTextView = mLastLocation.getLongitude();
+            city = getLocationName(latitudeTextView, longitTextView);
+            setWeatherAndPicture();
+            System.out.println("Coordinate was set #2");
+        }
+    };
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        // If we want background location
+        // on Android 10.0 and higher,
+        // use:
+        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+    private boolean isLocationEnabled() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+    @Override
+    public void
+    onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+                System.out.println("onRequestPermissionsResult");
+            }
+        }
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        city = preferences.getString("city", "Brno");
-        DownloadTask task = new DownloadTask();
+
+        if (preferences.getBoolean("firstrun", true)) {
+            requestPermissions();
+            preferences.edit().putBoolean("firstrun", false).commit();
+        }
+
+        city = preferences.getString("city", "Unknown");
+        if(city.equals("Unknown") || city.equals("")){
+            System.out.println("check in");
+            if (checkPermissions()) {
+                getLastLocation();
+            }else{
+                Toast.makeText(this, "Please turn on your location or write city in Settings", Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            setWeatherAndPicture();
+        }
+        System.out.println("Before task city is " + city);
+
+        /*DownloadTask task = new DownloadTask();
         String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(placeURL,city, BuildConfig.GOOGLE_API);
-        task.execute(weatherURLWithCity, placeURLWithCity);
+        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
+        task.execute(weatherURLWithCity, placeURLWithCity);*/
     }
 
     public void goToWardrobe(View view){                                        //TODO create new class view manager
@@ -186,6 +342,35 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    public String getLocationName(double lattitude, double longitude) {
+
+        String cityName = "Not Found";
+        Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
+        try {
+
+            List<Address> addresses = gcd.getFromLocation(lattitude, longitude,
+                    10);
+
+            for (Address adrs : addresses) {
+                if (adrs != null) {
+
+                    String city = adrs.getLocality();
+                    if (city != null && !city.equals("")) {
+                        cityName = city;
+                        System.out.println("city ::  " + cityName);
+                    } else {
+
+                    }
+                    // // you should also try with addresses.get(0).toSring();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return cityName;
+
     }
 
 }

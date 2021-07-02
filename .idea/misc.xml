@@ -4,8 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.2657407407407407" />
+        <entry key="app/src/main/res/drawable-v24/redo_selector.xml" value="0.13333333333333333" />
+        <entry key="app/src/main/res/drawable-v24/undo_selector.xml" value="0.10833333333333334" />
+        <entry key="app/src/main/res/drawable/ic_crop_rotate_24.xml" value="0.13333333333333333" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/drawable/ic_logo_background.xml" value="0.2015625" />
+        <entry key="app/src/main/res/drawable/settings.xml" value="0.13333333333333333" />
+        <entry key="app/src/main/res/layout/activity_cut_bgactivity.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.25915331807780323" />
         <entry key="app/src/main/res/layout/activity_list_view_with_checkbox_item.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.16354166666666667" />

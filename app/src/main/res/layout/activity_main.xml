@@ -61,7 +61,8 @@
                     android:layout_marginLeft="24dp"
                     >
                     <TextView
-                        android:layout_width="193dp"
+                        android:id="@+id/title_top"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/welcome"
                         android:textSize="12dp"
@@ -70,7 +71,8 @@
                         android:fontFamily="@font/montserrat_alternates_bold"
                         />
                     <TextView
-                        android:layout_width="193dp"
+                        android:id="@+id/title_bot"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_alternates_bold"
                         android:textSize="22sp"

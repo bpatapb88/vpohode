@@ -2,7 +2,6 @@ package com.simon.vpohode.screens;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -19,6 +18,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -33,7 +33,6 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Space;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +40,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
+import androidx.palette.graphics.Palette;
 import androidx.preference.PreferenceManager;
-
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
+import com.simon.vpohode.CutOutBackground.CutBGActivity;
+import com.simon.vpohode.CutOutBackground.CutOut;
+import com.simon.vpohode.CutOutBackground.SaveDrawingTask;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.ColorManager;
 import com.simon.vpohode.Managers.ImageManager;
@@ -56,10 +58,10 @@ import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.canhub.cropper.CropImage;
-import com.canhub.cropper.CropImageActivity;
 import com.canhub.cropper.CropImageView;
 
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -82,15 +84,15 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     Cursor userCursor;
     Space x;
 
+    private Uri imageUri = null;
+
     SwitchCompat topBot;
     boolean newImage = false;
     boolean newColor = false;
     long userId=0;
-    private Uri uri;
 
     private Calendar calendar;
     private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-    private Context internContext = this;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -209,6 +211,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         if (extras != null) {
             userId = extras.getLong("id");
+            imageUri = (Uri) extras.get(CutOut.CUTOUT_EXTRA_RESULT);
+            System.out.println("Uri is here? " + imageUri);
+            //System.out.println("Uri is here " + extras.get("CUTOUT_EXTRA_RESULT").toString());
+            if(imageUri != null){
+                imageItem.setImageURI(imageUri);
+                imageItem.setBackgroundColor(getResources().getColor(R.color.white));
+                newImage = true;
+            }
         }
         // if 0, add
         if (userId > 0) {
@@ -227,7 +237,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             colorHex.setText("#" + ColorManager.convertIntToHex(userCursor.getInt(6)));
             usedTime.setText(String.valueOf(userCursor.getInt(8)));
             if(userCursor.getString(7) != null){
-                imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
+                System.out.println("in DB uri is " + userCursor.getString(7));
+                imageUri = Uri.parse(userCursor.getString(7));
+                System.out.println("uri after " + imageUri);
+                imageItem.setImageURI(imageUri);
+                //imageItem.setImageBitmap(ImageManager.loadImageFromStorage(userCursor.getString(7)));
             }
             reDrawImage(imagesOfLayers[userCursor.getInt(5)-1], true);
             if (userCursor.getInt(3) == 1){
@@ -239,7 +253,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
             TextView created = findViewById(R.id.created);
             created.setText(getResources().getString(R.string.created) + " " + userCursor.getString(9));
-
             userCursor.close();
         } else {
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
@@ -330,7 +343,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity().start(ConfigItem.this);
+                if(imageUri != null && imageUri.toString().substring(1,5).equals("data")){
+                    CropImage.activity(Uri.parse("file:/" + imageUri)).start(ConfigItem.this);
+                }else if(imageUri != null){
+                    CropImage.activity(imageUri).start(ConfigItem.this);
+                }else{
+                    CropImage.activity().start(ConfigItem.this);
+                }
             }
         });
 
@@ -408,7 +427,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     public void goHome(View view){
-        finish();
+        Intent intent = new Intent(this, Wardrobe.class);
+        startActivity(intent);
     }
 
     @Override
@@ -543,21 +563,34 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
-
+        System.out.println("request code is - " + requestCode);
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE
                 && resultCode == Activity.RESULT_OK) {
-
             //Uri imageuri = CropImage.getPickImageResultUri(this, data);
             Uri imageuri = CropImage.getPickImageResultUriContent(this,data);
             startCrop(imageuri);
-
         }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if(result != null){
+                //get color from photo start ->
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(bitmap != null){
+
+                    int paletteColor = getColorFromBitmap(bitmap);
+                    newColor = true;
+                    colorView.setBackgroundColor(paletteColor);
+                    colorHex.setText("#" + ColorManager.convertIntToHex(paletteColor));
+                }
+                //color from photo was set
+
                 imageItem.setImageURI(result.getUriContent());
                 newImage = true;
             }
@@ -577,6 +610,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         cv.clear();
         // move to main activity
         goHome();
+    }
+    public void cutBG(View view){
+        Intent intent = new Intent(this, CutBGActivity.class);
+        if(imageUri != null){
+            intent.putExtra(CutOut.CUTOUT_EXTRA_SOURCE, imageUri);
+        }
+        startActivity(intent);
     }
 
     private void reBuildIcons(boolean isBotChecked){
@@ -614,6 +654,15 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         return result.width();
     }
 
+    private int getColorFromBitmap(Bitmap bitmap){
+        Palette.Builder builder = new Palette.Builder(bitmap);
+        Palette palette = builder.generate();
+        int accentColor = getResources().getColor(R.color.colorPrimary);
+        return palette.getDominantColor(accentColor);
+    }
+
+
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
@@ -626,6 +675,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             try {
                 InputStream in = new java.net.URL(urldisplay).openStream();
                 mIcon11 = BitmapFactory.decodeStream(in);
+                in.close();
             } catch (Exception e) {
                 Log.e("Error Image", e.getMessage());
                 e.printStackTrace();

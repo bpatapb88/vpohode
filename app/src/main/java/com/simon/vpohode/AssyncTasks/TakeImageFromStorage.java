@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
 
+import com.simon.vpohode.CutOutBackground.DrawView;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,7 +56,7 @@ public class TakeImageFromStorage extends AsyncTask<String, Void, Bitmap> {
     }
     @Override
     protected void onPostExecute(Bitmap result) {
-        bmImage.setImageBitmap(result);
+            bmImage.setImageBitmap(result);
         //p.hide();
     }
 }

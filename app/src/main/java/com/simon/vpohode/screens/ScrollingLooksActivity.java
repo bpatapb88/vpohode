@@ -112,19 +112,17 @@ public class ScrollingLooksActivity extends AppCompatActivity {
 
         builder.setMessage(R.string.dialog_message) .setTitle(R.string.dialog_title);
         builder.setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(interstitialAd.isLoaded()){
-                            System.out.println("Test message 321");
                             interstitialAd.show();
                         }else{
-                            System.out.println("Test message 123");
                             finish();
                         }
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
