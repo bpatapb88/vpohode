@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private final static String placeURL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
     private TextView textViewWeather;
     private Double avgTempertureCel;
-    private String photoReference;
     public static String rain = "";
     private String city = "Brno";
     private SharedPreferences preferences;
@@ -85,6 +84,52 @@ public class MainActivity extends AppCompatActivity {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (preferences.getBoolean("firstrun", true)) {      // check if app is running first time
+            requestPermissions();
+            preferences.edit().putBoolean("firstrun", false).commit();
+        }
+        city = preferences.getString("city", "Unknown");
+        if(city.equals("Unknown") || city.equals("")){
+            System.out.println("check in");
+            if (checkPermissions()) {
+                getLastLocation();
+            }else{
+                Toast.makeText(this, "Please turn on your location or write city in Settings", Toast.LENGTH_LONG).show();
+            }
+
+        }else{
+            setWeatherAndPicture();
+        }
+        System.out.println("Before task city is " + city);
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+    }
+
+    private boolean checkPermissions() {
+        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
+        // If we want background location
+        // on Android 10.0 and higher,
+        // use:
+        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+
+    private void setWeatherAndPicture(){
+        DownloadTask task2 = new DownloadTask();
+        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
+        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
+        task2.execute(weatherURLWithCity, placeURLWithCity);
     }
 
     @SuppressLint("MissingPermission")
@@ -126,13 +171,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setWeatherAndPicture(){
-        DownloadTask task2 = new DownloadTask();
-        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
-        task2.execute(weatherURLWithCity, placeURLWithCity);
-    }
-
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
 
@@ -163,19 +201,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private boolean checkPermissions() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
-        // If we want background location
-        // on Android 10.0 and higher,
-        // use:
-        // ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
-    }
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(this, new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
-    }
+
     private boolean isLocationEnabled() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -193,36 +220,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-        if (preferences.getBoolean("firstrun", true)) {
-            requestPermissions();
-            preferences.edit().putBoolean("firstrun", false).commit();
-        }
 
-        city = preferences.getString("city", "Unknown");
-        if(city.equals("Unknown") || city.equals("")){
-            System.out.println("check in");
-            if (checkPermissions()) {
-                getLastLocation();
-            }else{
-                Toast.makeText(this, "Please turn on your location or write city in Settings", Toast.LENGTH_LONG).show();
-            }
-
-        }else{
-            setWeatherAndPicture();
-        }
-        System.out.println("Before task city is " + city);
-
-        /*DownloadTask task = new DownloadTask();
-        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
-        task.execute(weatherURLWithCity, placeURLWithCity);*/
-    }
-
-    public void goToWardrobe(View view){                                        //TODO create new class view manager
+    public void goToWardrobe(View view){
         Intent intent = new Intent(this, Wardrobe.class);
         startActivity(intent);
     }
@@ -349,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
         String cityName = "Not Found";
         Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
         try {
-
+            System.out.println("lattitude" + lattitude + " longitude " +  longitude);
             List<Address> addresses = gcd.getFromLocation(lattitude, longitude,
                     10);
 

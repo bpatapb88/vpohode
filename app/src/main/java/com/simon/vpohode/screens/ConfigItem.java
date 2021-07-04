@@ -47,7 +47,6 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
 import com.simon.vpohode.CutOutBackground.CutBGActivity;
 import com.simon.vpohode.CutOutBackground.CutOut;
-import com.simon.vpohode.CutOutBackground.SaveDrawingTask;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.ColorManager;
 import com.simon.vpohode.Managers.ImageManager;
@@ -57,11 +56,6 @@ import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
-import com.canhub.cropper.CropImage;
-import com.canhub.cropper.CropImageView;
-
-
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -343,13 +337,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(imageUri != null && imageUri.toString().substring(1,5).equals("data")){
-                    CropImage.activity(Uri.parse("file:/" + imageUri)).start(ConfigItem.this);
-                }else if(imageUri != null){
-                    CropImage.activity(imageUri).start(ConfigItem.this);
-                }else{
-                    CropImage.activity().start(ConfigItem.this);
-                }
+
             }
         });
 
@@ -561,48 +549,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         Toast.makeText(this, "Цвет выбран", Toast.LENGTH_SHORT).show();*/
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("request code is - " + requestCode);
-        if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE
-                && resultCode == Activity.RESULT_OK) {
-            //Uri imageuri = CropImage.getPickImageResultUri(this, data);
-            Uri imageuri = CropImage.getPickImageResultUriContent(this,data);
-            startCrop(imageuri);
-        }
-
-        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if(result != null){
-                //get color from photo start ->
-                Bitmap bitmap = null;
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if(bitmap != null){
-
-                    int paletteColor = getColorFromBitmap(bitmap);
-                    newColor = true;
-                    colorView.setBackgroundColor(paletteColor);
-                    colorHex.setText("#" + ColorManager.convertIntToHex(paletteColor));
-                }
-                //color from photo was set
-
-                imageItem.setImageURI(result.getUriContent());
-                newImage = true;
-            }
-        }
-    }
-
-    private void startCrop(Uri imageuri) {
-        CropImage.activity(imageuri)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(this);
-    }
-
     public void washItem(View view){
         ContentValues cv = new ContentValues();
         cv.put(DBFields.INWASH.toFieldName(),true);
@@ -613,6 +559,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
     public void cutBG(View view){
         Intent intent = new Intent(this, CutBGActivity.class);
+        intent.putExtra(CutOut.CUTOUT_EXTRA_CROP,true);
         if(imageUri != null){
             intent.putExtra(CutOut.CUTOUT_EXTRA_SOURCE, imageUri);
         }

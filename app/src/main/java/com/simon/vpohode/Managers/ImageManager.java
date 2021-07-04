@@ -23,7 +23,7 @@ public class ImageManager {
         // getApplicationContext()
         ContextWrapper cw = new ContextWrapper(context);
         // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        File directory = cw.getDir("Pictures", Context.MODE_PRIVATE);
         // Create imageDir
         String filename = System.currentTimeMillis() + ".jpg";
         File mypath=new File(directory,filename);
@@ -41,6 +41,8 @@ public class ImageManager {
                 e.printStackTrace();
             }
         }
+
+        System.out.println("Image manager, saved to " + directory.getAbsolutePath() + "/" + filename);
         return directory.getAbsolutePath() + "/" + filename;
     }
 

@@ -24,6 +24,11 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/redo_selector"/>
+            <Button
+                android:id="@+id/newImage"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/redo_selector"/>
 
             <Button
                 android:id="@+id/done"
