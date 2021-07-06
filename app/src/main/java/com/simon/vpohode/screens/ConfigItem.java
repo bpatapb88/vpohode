@@ -234,7 +234,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             setWarmText((int) userCursor.getDouble(4) - 1);
             spinnerStyle.setSelection(Styles.getOrdinalByString(userCursor.getInt(2)));
             colorView.setBackgroundColor(userCursor.getInt(6));
-            colorHex.setText("#" + ColorManager.convertIntToHex(userCursor.getInt(6)));
+
+            int resourceID = ColorManager.getHSVColors(userCursor.getInt(6));
+            colorHex.setText(getResources().getString(resourceID));
+
+
             usedTime.setText(String.valueOf(userCursor.getInt(8)));
             if(userCursor.getString(7) != null){
                 System.out.println("in DB uri is " + userCursor.getString(7));
@@ -459,7 +463,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
                         if(selectedTemplate.getColor() != 0 && !selectedTemplate.getFoto().equals("")){
                             colorView.setBackgroundColor(selectedTemplate.getColor());
-                            colorHex.setText("#" + ColorManager.convertIntToHex(selectedTemplate.getColor()));
+
+                            int resourceID = ColorManager.getHSVColors(selectedTemplate.getColor());
+                            colorHex.setText(getResources().getString(resourceID));
                             new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
                             brand.setText(selectedTemplate.getBrand());
                             newColor = true;
@@ -521,6 +527,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private void createColorPickerDialog(long id) {
             colorInicator = (ColorDrawable) colorView.getBackground();
             int color = Color.RED;
+
             if(id>0){
                 colorInicator = (ColorDrawable) colorView.getBackground();
                 color=colorInicator.getColor();
@@ -552,7 +559,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         Color.colorToHSV(color,hsv);
         newColor = true;
         colorView.setBackgroundColor(Color.HSVToColor(hsv));
-        colorHex.setText("#" + ColorManager.convertIntToHex(Color.HSVToColor(hsv)));
+        int resourceID = ColorManager.getHSVColors(color);
+        colorHex.setText(getResources().getString(resourceID));
     }
 
     @Override
@@ -587,7 +595,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     int paletteColor = getColorFromBitmap(bitmap);
                     newColor = true;
                     colorView.setBackgroundColor(paletteColor);
-                    colorHex.setText("#" + ColorManager.convertIntToHex(paletteColor));
+                    int resourceID = ColorManager.getHSVColors(paletteColor);
+                    colorHex.setText(getResources().getString(resourceID));
+
                 }
                 //color from photo was set
 

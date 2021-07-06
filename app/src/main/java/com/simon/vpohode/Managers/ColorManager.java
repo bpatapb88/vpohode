@@ -8,6 +8,7 @@ import com.simon.vpohode.Rules;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ColorManager {
 
@@ -60,6 +61,28 @@ public class ColorManager {
         colorHexSelected = colorHexSelected.substring(2);
         colorHexSelected = colorHexSelected.toUpperCase();
         return colorHexSelected;
+    }
+
+    public static int getHSVColors(int color2){
+
+        int counter = Integer.MAX_VALUE;
+        int resourceId = 0;
+        ColorList[] colorLists = ColorList.values();
+
+        int colorFromPallet;
+        for (ColorList colorList : colorLists){
+            colorFromPallet = Color.parseColor(colorList.getValue());
+
+            int diff = Math.abs(Color.red(color2) - Color.red(colorFromPallet)) +
+                    Math.abs(Color.green(color2) - Color.green(colorFromPallet)) +
+                    Math.abs(Color.blue(color2) - Color.blue(colorFromPallet));
+
+            if(diff < counter){
+                counter = diff;
+                resourceId = colorList.getResource();
+            }
+        }
+        return resourceId;
     }
 
 }

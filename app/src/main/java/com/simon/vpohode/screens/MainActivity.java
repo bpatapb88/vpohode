@@ -74,36 +74,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         LayoutManager.setTheme(preferences, getTheme());
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fotoCity = findViewById(R.id.foto_city);
-       /* FragmentManager fm = getSupportFragmentManager();
-        CustomDialogFragment editNameDialogFragment = CustomDialogFragment.newInstance("Some Title");
-        editNameDialogFragment.show(fm, "fragment_edit_name");*/
         textViewWeather = findViewById(R.id.textViewWeather);
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
     }
 
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
-        // check if permissions are given
         if (checkPermissions()) {
-
-            // check if location is enabled
             if (isLocationEnabled()) {
-
-                // getting last
-                // location from
-                // FusedLocationClient
-                // object
                 mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
+                        System.out.println("onComplete");
                         Location location = task.getResult();
                         if (location == null) {
+                            System.out.println("requestNewLocationData ");
                             requestNewLocationData();
                         } else {
                             latitudeTextView = location.getLatitude();
@@ -120,8 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         } else {
-            // if permissions aren't available,
-            // request for permissions
             requestPermissions();
         }
     }
@@ -135,17 +121,11 @@ public class MainActivity extends AppCompatActivity {
 
     @SuppressLint("MissingPermission")
     private void requestNewLocationData() {
-
-        // Initializing LocationRequest
-        // object with appropriate methods
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         mLocationRequest.setInterval(5);
         mLocationRequest.setFastestInterval(0);
         mLocationRequest.setNumUpdates(1);
-
-        // setting LocationRequest
-        // on FusedLocationClient
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
     }
@@ -159,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
             longitTextView = mLastLocation.getLongitude();
             city = getLocationName(latitudeTextView, longitTextView);
             setWeatherAndPicture();
-            System.out.println("Coordinate was set #2");
         }
     };
 
