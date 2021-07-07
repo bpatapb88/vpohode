@@ -293,7 +293,7 @@
                 android:background="@null"
                 >
                 <ImageView
-                    android:onClick="cutBG"
+
                     android:id="@+id/colorView"
                     android:layout_width="222dp"
                     android:layout_height="50dp"

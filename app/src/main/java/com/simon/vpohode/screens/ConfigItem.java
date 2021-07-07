@@ -348,17 +348,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         imageItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(imageUri != null && imageUri.toString().substring(1,5).equals("data")){
-                    System.out.println("image Item #1");
-                    CropImage.activity(imageUri)
-                            .start(ConfigItem.this);
-                }else if(imageUri != null){
-                    System.out.println("image Item #2");
-                    CropImage.activity(imageUri).start(ConfigItem.this);
-                }else{
-                    System.out.println("image Item #3");
-                    CropImage.activity().start(ConfigItem.this);
-                }
+                CropImage.activity().start(ConfigItem.this);
             }
         });
 
@@ -580,7 +570,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         System.out.println("request code is - " + requestCode);
         if (requestCode == CropImage.PICK_IMAGE_CHOOSER_REQUEST_CODE
                 && resultCode == Activity.RESULT_OK) {
-            //Uri imageuri = CropImage.getPickImageResultUri(this, data);
             Uri imageuri = CropImage.getPickImageResultUriContent(this,data);
             startCrop(imageuri);
         }
@@ -591,19 +580,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 //get color from photo start ->
                 Bitmap bitmap = null;
                 try {
-                    System.out.println("result.getUriContent() " + result.getUriContent());
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
                 } catch (IOException e) {
                     System.out.println("ERRROR!!! " + e.toString());
                 }
                 if(bitmap != null){
-
                     int paletteColor = getColorFromBitmap(bitmap);
                     newColor = true;
                     colorView.setBackgroundColor(paletteColor);
                     int resourceID = ColorManager.getHSVColors(paletteColor);
                     colorHex.setText(getResources().getString(resourceID));
-
                 }
                 //color from photo was set
 
@@ -627,13 +613,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         // move to main activity
         goHome();
     }
-    public void cutBG(View view){
+    /*public void cutBG(View view){
         Intent intent = new Intent(this, CutBGActivity.class);
         if(imageUri != null){
             intent.putExtra(CutOut.CUTOUT_EXTRA_SOURCE, imageUri);
         }
         startActivity(intent);
-    }
+    }*/
 
     private void reBuildIcons(boolean isBotChecked){
         Drawable[] drawables;

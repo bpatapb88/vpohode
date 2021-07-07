@@ -24,10 +24,13 @@ public class ImageManager {
         ContextWrapper cw = new ContextWrapper(context);
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        System.out.println("image manager " + directory.toString());
+        System.out.println(directory.getAbsolutePath());
         // Create imageDir
         String filename = System.currentTimeMillis() + ".jpg";
         File mypath=new File(directory,filename);
         FileOutputStream fos = null;
+        System.out.println("image manager mypath- " + mypath.getAbsolutePath());
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
