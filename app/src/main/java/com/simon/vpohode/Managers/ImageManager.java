@@ -44,27 +44,6 @@ public class ImageManager {
         return directory.getAbsolutePath() + "/" + filename;
     }
 
-    public static Bitmap loadImageFromStorage(String path) {
-        Bitmap b = null;
-        FileInputStream fis = null;
-        try {
-            File f=new File(path);
-            fis = new FileInputStream(f);
-            b = BitmapFactory.decodeStream(fis);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        } finally {
-            try {
-                fis.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return b;
-    }
-
     public static boolean deleteImagesById(long id, SQLiteDatabase db){
         Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(id)});
         cursor.moveToFirst();

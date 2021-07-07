@@ -349,10 +349,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onClick(View view) {
                 if(imageUri != null && imageUri.toString().substring(1,5).equals("data")){
-                    CropImage.activity(Uri.parse("file:/" + imageUri)).start(ConfigItem.this);
+                    System.out.println("image Item #1");
+                    CropImage.activity(imageUri)
+                            .start(ConfigItem.this);
                 }else if(imageUri != null){
+                    System.out.println("image Item #2");
                     CropImage.activity(imageUri).start(ConfigItem.this);
                 }else{
+                    System.out.println("image Item #3");
                     CropImage.activity().start(ConfigItem.this);
                 }
             }
@@ -587,9 +591,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 //get color from photo start ->
                 Bitmap bitmap = null;
                 try {
+                    System.out.println("result.getUriContent() " + result.getUriContent());
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.out.println("ERRROR!!! " + e.toString());
                 }
                 if(bitmap != null){
 
