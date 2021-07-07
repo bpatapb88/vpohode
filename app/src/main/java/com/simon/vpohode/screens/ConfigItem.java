@@ -95,6 +95,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //stash Test2
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LayoutManager.setTheme(prefs, getTheme());
 
