@@ -9,7 +9,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
     public static final String TABLE = "items";// Name of Table
-    public static final String rawQueryPart = "SELECT * FROM " + TABLE + " WHERE ";
+    private static final String rawQueryPart = "SELECT * FROM " + TABLE + " WHERE ";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
     }

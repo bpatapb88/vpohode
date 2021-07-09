@@ -52,10 +52,12 @@ import com.simon.vpohode.Item;
 import com.simon.vpohode.Managers.ColorManager;
 import com.simon.vpohode.Managers.ImageManager;
 import com.simon.vpohode.Managers.LayoutManager;
+import com.simon.vpohode.Managers.LookManager;
 import com.simon.vpohode.Managers.TemplatesManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DBHelperTemplate;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageView;
@@ -78,10 +80,13 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     Spinner spinnerStyle, spinnerTemplate;
     CardView delButton, saveButton;
     DatabaseHelper sqlHelper;
+    DBHelperTemplate dbHelperTemplate;
+    TemplatesManager templatesManager;
+
     SeekBar seekBar;
     ColorDrawable colorInicator;
-    SQLiteDatabase db;
-    Cursor userCursor;
+    SQLiteDatabase db, dbTemplate;
+    Cursor userCursor, templateCursor;
     Space x;
 
     private Uri imageUri = null;
@@ -125,6 +130,18 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
+
+        dbHelperTemplate = new DBHelperTemplate(this);
+        dbTemplate = dbHelperTemplate.getReadableDatabase();
+
+        templateCursor = dbTemplate.rawQuery("select * from " + DBHelperTemplate.TABLE, null);
+        templateCursor.moveToFirst();
+        System.out.println("test template db - count = " + templateCursor.getCount());
+        Item testItem = LookManager.cursorToItem(templateCursor);
+        System.out.println(testItem.toString());
+        templateCursor.moveToNext();
+        testItem = LookManager.cursorToItem(templateCursor);
+        System.out.println(testItem.toString());
 
         imagesOfLayers = new ImageView[]{imageLayer1, imageLayer2, imageLayer3};
         imageLayer1.setOnClickListener(setListenerToLayer(imagesOfLayers));
@@ -204,8 +221,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         // configure spinner
         spinnerStyle.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
 
-        String[] namesTemplates =  getResources().getStringArray(R.array.templates);
-        spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(namesTemplates,this));
+        templatesManager = new TemplatesManager(this, templateCursor);
+        spinnerTemplate.setAdapter(templatesManager.spinnerConfig());
         //spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(getResources().getStringArray(R.array.templates),this));
 
         Bundle extras = getIntent().getExtras();
@@ -263,7 +280,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
             usedLayout.setVisibility(View.GONE);
             // hide edit_text Delete, It will be new Item
-            washItemImg.setVisibility(View.GONE);
+            //washItemImg.setVisibility(View.GONE);
             delButton.setVisibility(View.GONE);
             x.setVisibility(View.GONE);
         }
@@ -425,11 +442,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         return true;
     }
 
-    public void goHome(View view){
-        Intent intent = new Intent(this, Wardrobe.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -504,12 +516,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         });
     }
 
-    public void delete(View view){
-        boolean deleted = ImageManager.deleteImagesById(userId, db);
-        Toast.makeText(this, getResources().getString(R.string.deleted) + " " + deleted, Toast.LENGTH_SHORT).show();
-        db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
-        goHome();
-    }
     private void goHome(){
         // close connection
         db.close();
@@ -543,9 +549,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .setColorShape(ColorShape.SQUARE)
                 .setDialogId((int) id)
                 .show(this);
-    }
-    public void onClickColor(View view) {
-                createColorPickerDialog(userId);
     }
 
     @Override
@@ -605,14 +608,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 .start(this);
     }
 
-    public void washItem(View view){
-        ContentValues cv = new ContentValues();
-        cv.put(DBFields.INWASH.toFieldName(),true);
-        db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
-        cv.clear();
-        // move to main activity
-        goHome();
-    }
+
     /*public void cutBG(View view){
         Intent intent = new Intent(this, CutBGActivity.class);
         if(imageUri != null){
@@ -687,5 +683,37 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    public void onClickColor(View view) {
+        createColorPickerDialog(userId);
+    }
+
+    public void delete(View view){
+        boolean deleted = ImageManager.deleteImagesById(userId, db);
+        Toast.makeText(this, getResources().getString(R.string.deleted) + " " + deleted, Toast.LENGTH_SHORT).show();
+        db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
+        goHome();
+    }
+
+    public void goHome(View view){
+        Intent intent = new Intent(this, Wardrobe.class);
+        startActivity(intent);
+    }
+
+    public void washItem(View view){
+        if(userId > 0){
+            ContentValues cv = new ContentValues();
+            cv.put(DBFields.INWASH.toFieldName(),true);
+            db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+            cv.clear();
+            // move to main activity
+            goHome();
+        }else{
+            Cursor cursor = DBHelperTemplate.getTemplates(dbTemplate);
+            System.out.println("Test template DB " + cursor.toString());
+
+        }
+
     }
 }

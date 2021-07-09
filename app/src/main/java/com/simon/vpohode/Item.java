@@ -1,5 +1,7 @@
 package com.simon.vpohode;
 
+import androidx.annotation.NonNull;
+
 public class Item {
     private int id;
     private String name;
@@ -126,5 +128,13 @@ public class Item {
     }
 
     public Item() {
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "id - " + id + " name - " + name + " style - " + style + " termind - " + termid +
+                " fotoUri - " + foto + " top - " + top + " color - " + color + " layer - " + layer +
+                " used - " + used + " created - " + created + " inwash - " + inwash + " brand - " + brand;
     }
 }

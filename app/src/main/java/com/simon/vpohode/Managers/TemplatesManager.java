@@ -2,6 +2,7 @@ package com.simon.vpohode.Managers;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.widget.ArrayAdapter;
 
 import com.simon.vpohode.Item;
@@ -9,8 +10,23 @@ import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 
 public class TemplatesManager {
+    private Context context;
+    private Cursor cursor;
 
-    public static ArrayAdapter<String> spinnerConfig(String[] array, Context context){
+    public TemplatesManager(Context contex, Cursor cursor) {
+        this.context = contex;
+        this.cursor = cursor;
+    }
+
+
+    public ArrayAdapter<String> spinnerConfig(){
+        String[] array = new String[cursor.getCount()];
+        cursor.moveToFirst();
+        int counter = 0;
+        do{
+            array[counter++] = cursor.getString(cursor.getColumnIndex("name"));
+        }while (cursor.moveToNext());
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, array);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;

@@ -49,7 +49,7 @@ public class Wardrobe extends AppCompatActivity {
         sortBy = 0; //default sort is first
         //topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
 
-        databaseHelper = new DatabaseHelper(getApplicationContext());
+        databaseHelper = new DatabaseHelper(this);
 
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
