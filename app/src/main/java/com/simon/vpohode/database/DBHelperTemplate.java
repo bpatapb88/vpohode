@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
@@ -38,22 +39,7 @@ public class DBHelperTemplate extends SQLiteOpenHelper {
                 + DBFields.INWASH.toFieldName() + " " + DBFields.INWASH.toType() + ", "
                 + DBFields.BRAND.toFieldName() + " " + DBFields.BRAND.toType() + ");");
 
-        String[] arrayTemplate = context.getResources().getStringArray(R.array.templates);
-        ContentValues cv = new ContentValues();
-        cv.put(DBFields.NAME.toFieldName(), arrayTemplate[1]);
-        cv.put(DBFields.STYLE.toFieldName(), Styles.CASUAL.toInt());
-        cv.put(DBFields.ISTOP.toFieldName(), 0);
-        cv.put(DBFields.TERMID.toFieldName(),1d);
-        cv.put(DBFields.LAYER.toFieldName(),1);
-        db.insert(DBHelperTemplate.TABLE, null, cv);
-        cv.clear();
-        cv.put(DBFields.NAME.toFieldName(), arrayTemplate[2]);
-        cv.put(DBFields.STYLE.toFieldName(), Styles.BUSINESS.toInt());
-        cv.put(DBFields.ISTOP.toFieldName(), 0);
-        cv.put(DBFields.TERMID.toFieldName(),2d);
-        cv.put(DBFields.LAYER.toFieldName(),1);
-        db.insert(DBHelperTemplate.TABLE, null, cv);
-
+        addPrefilledTemplates(db);
     }
 
     @Override
@@ -64,5 +50,37 @@ public class DBHelperTemplate extends SQLiteOpenHelper {
 
     public static Cursor getTemplates(SQLiteDatabase db){
         return db.rawQuery(rawQueryPart, null);
+    }
+
+    private void addPrefilledTemplates(SQLiteDatabase db){
+        String[] arrayTemplate = context.getResources().getStringArray(R.array.templates);
+        int[] arrayStyles = context.getResources().getIntArray(R.array.templateStyles);
+        int[] arrayIsTop = context.getResources().getIntArray(R.array.templateIsTop);
+        int[] arrayTermIndex = context.getResources().getIntArray(R.array.templateTermIndex);
+        int[] arrayLayer = context.getResources().getIntArray(R.array.templateLayer);
+        int length = arrayTemplate.length;
+
+        if(length != arrayStyles.length ||
+                length != arrayIsTop.length ||
+                length != arrayTermIndex.length ||
+                length != arrayLayer.length){
+            Toast.makeText(context,"Count of parameters of prepared templates not match",Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        ContentValues cv = new ContentValues();
+        cv.put(DBFields.NAME.toFieldName(), arrayTemplate[0]);
+        db.insert(DBHelperTemplate.TABLE, null, cv);
+
+        for(int i = 1; i < length; i++){
+            cv.clear();
+            cv.put(DBFields.NAME.toFieldName(), arrayTemplate[i]);
+            cv.put(DBFields.STYLE.toFieldName(), Styles.values()[arrayStyles[i]].toInt());
+            cv.put(DBFields.ISTOP.toFieldName(), arrayIsTop[i]);
+            cv.put(DBFields.TERMID.toFieldName(),Double.valueOf(arrayTermIndex[i]));
+            cv.put(DBFields.LAYER.toFieldName(),arrayLayer[i]);
+            db.insert(DBHelperTemplate.TABLE, null, cv);
+        }
+
     }
 }

@@ -2,6 +2,7 @@ package com.simon.vpohode.screens;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -37,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
@@ -82,6 +84,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     DatabaseHelper sqlHelper;
     DBHelperTemplate dbHelperTemplate;
     TemplatesManager templatesManager;
+    AlertDialog.Builder builder;
 
     SeekBar seekBar;
     ColorDrawable colorInicator;
@@ -128,6 +131,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         minus = findViewById(R.id.minus);
         plus = findViewById(R.id.plus);
 
+        builder = new AlertDialog.Builder(this);
+
         sqlHelper = new DatabaseHelper(this);
         db = sqlHelper.getWritableDatabase();
 
@@ -135,13 +140,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         dbTemplate = dbHelperTemplate.getReadableDatabase();
 
         templateCursor = dbTemplate.rawQuery("select * from " + DBHelperTemplate.TABLE, null);
-        templateCursor.moveToFirst();
-        System.out.println("test template db - count = " + templateCursor.getCount());
-        Item testItem = LookManager.cursorToItem(templateCursor);
-        System.out.println(testItem.toString());
-        templateCursor.moveToNext();
-        testItem = LookManager.cursorToItem(templateCursor);
-        System.out.println(testItem.toString());
 
         imagesOfLayers = new ImageView[]{imageLayer1, imageLayer2, imageLayer3};
         imageLayer1.setOnClickListener(setListenerToLayer(imagesOfLayers));
@@ -280,9 +278,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
             usedLayout.setVisibility(View.GONE);
             // hide edit_text Delete, It will be new Item
-            //washItemImg.setVisibility(View.GONE);
-            delButton.setVisibility(View.GONE);
-            x.setVisibility(View.GONE);
+            washItemImg.setVisibility(View.GONE);
+            //delButton.setVisibility(View.GONE);
+            //x.setVisibility(View.GONE);
+            TextView delButtonText = findViewById(R.id.deleteButtonText);
+            delButtonText.setText("Save template");
         }
 
         // if Save edit_text clicked do next:
@@ -305,8 +305,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                     cv.put(DBFields.TERMID.toFieldName(), Double.valueOf(seekBar.getProgress() + 1));
                     cv.put(DBFields.STYLE.toFieldName(), Styles.stringToResource(getResources(), spinnerStyle.getSelectedItem().toString()));
                     if (!topBot.isChecked()) {
+                        System.out.println("Is top set to 1");
                         cv.put(DBFields.ISTOP.toFieldName(), 1);
                     }else {
+                        System.out.println("Is top set to 0");
                         cv.put(DBFields.ISTOP.toFieldName(), 0);
                     }
 
@@ -450,9 +452,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                Item selectedTemplate = TemplatesManager.getItemFromTemplate(spinnerTemplate.getSelectedItem().toString(), getResources());
+                Item selectedTemplate = templatesManager.getItemFromTemplate(spinnerTemplate.getSelectedItem().toString());
 
-                if (!spinnerTemplate.getSelectedItem().toString().equals(getResources().getStringArray(R.array.templates)[0])) {
+                if (spinnerTemplate.getSelectedItemPosition()!=0) {
                         nameBox.setText(selectedTemplate.getName());
                         double x = selectedTemplate.getTermid() - 1;
                         seekBar.setProgress((int) x);
@@ -467,18 +469,21 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         for(int i = 0 ; i < imagesOfLayers.length; i++){
                             reDrawImage(imagesOfLayers[i],(i+1) == selectedTemplate.getLayer());
                         }
-
-                        if(selectedTemplate.getColor() != 0 && !selectedTemplate.getFoto().equals("")){
+                        System.out.println("Color in template - " + selectedTemplate.getColor());
+                        System.out.println("Foto in template - " + selectedTemplate.getFoto());
+                        if(selectedTemplate.getColor() != 0){
                             colorView.setBackgroundColor(selectedTemplate.getColor());
-
                             int resourceID = ColorManager.getHSVColors(selectedTemplate.getColor());
                             colorHex.setText(getResources().getString(resourceID));
-                            new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
-                            brand.setText(selectedTemplate.getBrand());
                             newColor = true;
+                        }
+                        if(selectedTemplate.getBrand() != null && !selectedTemplate.getBrand().equals("")){
+                            brand.setText(selectedTemplate.getBrand());
+                        }
+                        if(selectedTemplate.getFoto() != null && !selectedTemplate.getFoto().equals("")){
+                            new DownloadImageTask((ImageView) imageItem).execute(selectedTemplate.getFoto());
                             newImage = true;
                         }
-
                 }
             }
             @Override
@@ -491,27 +496,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 reBuildIcons(b);
-                ArrayList<String> arrayTemplate = new ArrayList<>();
-                String currentTemplate = spinnerTemplate.getSelectedItem().toString();
-                int counter = 0;
-                String[] arrayTemplatesFromResource = getResources().getStringArray(R.array.templates);
-
-                for(int i = 0; i < arrayTemplatesFromResource.length; i++){
-                    Item template = TemplatesManager.getItemFromTemplate(arrayTemplatesFromResource[i], getResources());
-                    if(template != null && (template.getTop() == 0) != b ) {
-                        arrayTemplate.add(arrayTemplatesFromResource[i]);
-                        if(arrayTemplatesFromResource[i].equals(currentTemplate)){
-                            counter =  arrayTemplate.size() - 1;
-                            System.out.println("test3210"+spinnerTemplate.getSelectedItem().toString());
-                        }
-                    }
-                }
-                String[] array = new String[arrayTemplate.size()];
-                for(int i = 0; i < arrayTemplate.size(); i++){
-                    array[i] = arrayTemplate.get(i);
-                }
-                /*spinnerTemplate.setAdapter(TemplatesManager.spinnerConfig(array, internContext));
-                spinnerTemplate.setSelection(counter);*/
             }
         });
     }
@@ -659,6 +643,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         return palette.getDominantColor(accentColor);
     }
 
+    public void deleteTemplate(View view) {
+        String selected = spinnerTemplate.getSelectedItem().toString();
+        System.out.println("Selected to delete - " + selected);
+    }
 
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -690,10 +678,80 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     public void delete(View view){
-        boolean deleted = ImageManager.deleteImagesById(userId, db);
-        Toast.makeText(this, getResources().getString(R.string.deleted) + " " + deleted, Toast.LENGTH_SHORT).show();
-        db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
-        goHome();
+        if(userId > 0){
+            boolean deleted = ImageManager.deleteImagesById(userId, db);
+            Toast.makeText(this, getResources().getString(R.string.deleted) + " " + deleted, Toast.LENGTH_SHORT).show();
+            db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
+            goHome();
+        }else{
+            if (nameBox.getText().toString().equals("")){
+                Toast.makeText(view.getContext(),"Name of template is missing", Toast.LENGTH_SHORT).show();
+                return;
+            }else if(isNameAlreadyExistInTemplates(nameBox.getText().toString())){
+                Toast.makeText(view.getContext(),"Change Name of Template", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Bundle bundle = new Bundle();
+            bundle.putString("name", nameBox.getText().toString());
+            bundle.putInt("style", spinnerStyle.getSelectedItemPosition());
+            bundle.putString("brand", brand.getText().toString());
+            bundle.putInt("color",colorInicator == null ? 0 : colorInicator.getColor());
+            bundle.putInt("termIndex",seekBar.getProgress() + 1);
+            bundle.putBoolean("isTop",!topBot.isChecked());
+            int chekedLayer2 = 0;
+            for(int i = 0 ; i < imagesOfLayers.length ; i++){
+                if(isImageChecked(imagesOfLayers[i])){
+                    chekedLayer2 = i + 1;
+                }
+            }
+            bundle.putInt("layer", chekedLayer2);
+
+            CustomDialogFragment customDialogFragment = new CustomDialogFragment();
+            customDialogFragment.setArguments(bundle);
+            customDialogFragment.show(getSupportFragmentManager(),"missingFragment");
+            /*View checkBoxView = View.inflate(view.getContext(),R.layout.save_template,null);
+
+            builder.setMessage("Choose parameters which you want to save in a template").setTitle("Save Template");
+            builder.setCancelable(false).setView(checkBoxView)
+                    .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ContentValues cv = new ContentValues();
+                            cv.put(DBFields.NAME.toFieldName(), nameBox.getText().toString());
+                            cv.put(DBFields.TERMID.toFieldName(), Double.valueOf(seekBar.getProgress() + 1));
+                            cv.put(DBFields.STYLE.toFieldName(), Styles.stringToResource(getResources(), spinnerStyle.getSelectedItem().toString()));
+                            int chekedLayer = 0;
+                            for(int i = 0 ; i < imagesOfLayers.length ; i++){
+                                if(isImageChecked(imagesOfLayers[i])){
+                                    chekedLayer = i + 1;
+                                }
+                            }
+                            if(chekedLayer == 0 ){
+                                return;
+                            }else{
+                                cv.put(DBFields.LAYER.toFieldName(), chekedLayer);
+                            }
+                            if (!topBot.isChecked()) {
+                                cv.put(DBFields.ISTOP.toFieldName(), 0);
+                            }else {
+                                cv.put(DBFields.ISTOP.toFieldName(), 1);
+                            }
+                            dbTemplate.insert(DBHelperTemplate.TABLE, null, cv);
+                            goHome();
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert = builder.create();
+            alert.show();*/
+        }
+
     }
 
     public void goHome(View view){
@@ -702,18 +760,16 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     public void washItem(View view){
-        if(userId > 0){
             ContentValues cv = new ContentValues();
             cv.put(DBFields.INWASH.toFieldName(),true);
             db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
             cv.clear();
             // move to main activity
             goHome();
-        }else{
-            Cursor cursor = DBHelperTemplate.getTemplates(dbTemplate);
-            System.out.println("Test template DB " + cursor.toString());
+    }
 
-        }
-
+    private boolean isNameAlreadyExistInTemplates(String name){
+        Cursor cursor = dbTemplate.rawQuery("select * from " + DBHelperTemplate.TABLE + " where name=\'" + name +"\'", null);
+        return cursor.getCount() > 0;
     }
 }

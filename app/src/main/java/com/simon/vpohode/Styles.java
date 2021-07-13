@@ -2,6 +2,8 @@ package com.simon.vpohode;
 
 import android.content.res.Resources;
 
+import java.util.stream.IntStream;
+
 public enum Styles {
     NONE(R.string.none),
     CASUAL(R.string.casual),

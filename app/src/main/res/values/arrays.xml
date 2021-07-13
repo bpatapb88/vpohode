@@ -9,6 +9,13 @@
         <item>carusel</item>
         <item>all</item>
     </string-array>
+    <string-array name="parameters">
+        <item>Brand</item>
+        <item>Style</item>
+        <item>Color</item>
+        <item>TermIndex</item>
+        <item>Type</item>
+    </string-array>
 
     <string-array name="templates">
         <item>Choose template</item>
@@ -22,6 +29,55 @@
         <item>Sneakers</item>
         <item>Jeans</item>
     </string-array>
+
+    <integer-array name="templateStyles">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>4</item>
+        <item>1</item>
+    </integer-array>
+    <integer-array name="templateIsTop">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </integer-array>
+    <integer-array name="templateTermIndex">
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>3</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+    </integer-array>
+    <integer-array name="templateLayer">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>3</item>
+        <item>3</item>
+        <item>1</item>
+        <item>3</item>
+        <item>2</item>
+    </integer-array>
     <string-array name="sortOptions">
         <item>Created</item>
         <item>Name A-Z</item>

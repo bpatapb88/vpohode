@@ -116,9 +116,9 @@
                 android:layout_height="50dp"
                 android:layout_weight="1"/>
             <LinearLayout
-                android:layout_width="222dp"
+                android:layout_width="192dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="16dp"
+
                 android:background="@drawable/edit_text"
                 android:orientation="horizontal">
                 <Spinner
@@ -130,9 +130,17 @@
                     android:layout_marginHorizontal="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-
                     />
+
             </LinearLayout>
+            <ImageView
+                android:onClick="deleteTemplate"
+                android:src="@drawable/ic_baseline_delete_24"
+                android:layout_width="30dp"
+                android:layout_height="50dp"
+                android:scaleType="fitCenter"
+                android:text="del"
+                android:layout_marginRight="16dp"/>
         </LinearLayout>
         <LinearLayout
             android:background="@null"
@@ -517,6 +525,7 @@
                     android:src="@drawable/button"
                     />
                 <TextView
+                    android:id="@+id/deleteButtonText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/delete"

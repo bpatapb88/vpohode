@@ -13,8 +13,8 @@ public class TemplatesManager {
     private Context context;
     private Cursor cursor;
 
-    public TemplatesManager(Context contex, Cursor cursor) {
-        this.context = contex;
+    public TemplatesManager(Context context, Cursor cursor) {
+        this.context = context;
         this.cursor = cursor;
     }
 
@@ -63,6 +63,17 @@ public class TemplatesManager {
                 return new Item(0,arrayTemplate[templateID],Styles.CASUAL.toInt(),1,2d,2,0,"",0,"",false,"");
             // Шаблоны можно добавить тут + добавить имя в spinnerTemplate - --- - - - - --
         }
+        return null;
+    }
+
+    public Item getItemFromTemplate(String templateName){
+        cursor.moveToFirst();
+        do{
+            if(templateName.equals(cursor.getString(cursor.getColumnIndex("name")))){
+                return LookManager.cursorToItem(cursor);
+            }
+        }while (cursor.moveToNext());
+
         return null;
     }
 }

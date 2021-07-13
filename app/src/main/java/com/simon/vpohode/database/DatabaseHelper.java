@@ -16,7 +16,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate (SQLiteDatabase db) {
-
         db.execSQL ("CREATE TABLE " + TABLE + " ("
                 + DBFields.ID.toFieldName()
                 + " INTEGER PRIMARY KEY AUTOINCREMENT,"

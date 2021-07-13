@@ -22,6 +22,54 @@
         <item>Кроссовки</item>
         <item>Джинсы</item>
     </string-array>
+    <integer-array name="templateStyles">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>4</item>
+        <item>1</item>
+    </integer-array>
+    <integer-array name="templateIsTop">
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+    </integer-array>
+    <integer-array name="templateTermIndex">
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>3</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+    </integer-array>
+    <integer-array name="templateLayer">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>3</item>
+        <item>3</item>
+        <item>1</item>
+        <item>3</item>
+        <item>2</item>
+    </integer-array>
     <string-array name="sortOptions">
         <item>Имя A-Z</item>
         <item>Бренд A-Z</item>

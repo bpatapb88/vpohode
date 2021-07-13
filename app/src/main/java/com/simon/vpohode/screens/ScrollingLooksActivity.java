@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -107,14 +108,12 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     }
 
     public void useButtonClick(View view){
-        LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
-
-
-        builder.setMessage(R.string.dialog_message) .setTitle(R.string.dialog_title);
+        builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
         builder.setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
                         if(interstitialAd.isLoaded()){
                             interstitialAd.show();
                         }else{
