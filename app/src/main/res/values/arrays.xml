@@ -9,13 +9,6 @@
         <item>carusel</item>
         <item>all</item>
     </string-array>
-    <string-array name="parameters">
-        <item>Brand</item>
-        <item>Style</item>
-        <item>Color</item>
-        <item>TermIndex</item>
-        <item>Type</item>
-    </string-array>
 
     <string-array name="templates">
         <item>Choose template</item>

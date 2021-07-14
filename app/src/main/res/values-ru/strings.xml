@@ -25,6 +25,7 @@
     <string name="style">Стиль</string>
     <string name="color">Цвет</string>
     <string name="warmth">Теплота</string>
+    <string name="layer">Слой</string>
     <string name="cold_temp">Холодное</string>
     <string name="mid_temp">Среднее</string>
     <string name="hot_temp">Теплое</string>
@@ -61,6 +62,8 @@
     <string name="elegant">Элегантный</string>
     <string name="sport">Спорт</string>
     <string name="home">Домашнее</string>
+    <string name="template_choose">Выберите параметры для создания шаблона</string>
+
 
     <!-- Looks -->
     <string name="no_match">Не хватае</string>

@@ -25,6 +25,7 @@
     <string name="style">Style</string>
     <string name="color">Color</string>
     <string name="warmth">Warmth</string>
+    <string name="layer">Layer</string>
     <string name="cold_temp">Cold</string>
     <string name="mid_temp">Middle</string>
     <string name="hot_temp">Warm</string>
@@ -51,13 +52,14 @@
     <string name="from">From</string>
     <string name="created">Created</string>
     <string name="typ_item">Torso/Legs</string>
-
     <string name="none">Style not selected</string>
     <string name="casual">Casual</string>
     <string name="business">Business</string>
     <string name="elegant">Elegant</string>
     <string name="sport">Sport</string>
     <string name="home">Home</string>
+
+    <string name="template_choose">Choose parameters to create template</string>
 
     <!-- Looks -->
     <string name="no_match">Lacks</string>

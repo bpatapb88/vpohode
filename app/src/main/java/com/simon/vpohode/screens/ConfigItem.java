@@ -138,8 +138,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         dbHelperTemplate = new DBHelperTemplate(this);
         dbTemplate = dbHelperTemplate.getReadableDatabase();
-
-        templateCursor = dbTemplate.rawQuery("select * from " + DBHelperTemplate.TABLE, null);
+        updateSpiner();
 
         imagesOfLayers = new ImageView[]{imageLayer1, imageLayer2, imageLayer3};
         imageLayer1.setOnClickListener(setListenerToLayer(imagesOfLayers));
@@ -219,8 +218,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         // configure spinner
         spinnerStyle.setAdapter(LayoutManager.spinnerConfig(Styles.values(),this));
 
-        templatesManager = new TemplatesManager(this, templateCursor);
-        spinnerTemplate.setAdapter(templatesManager.spinnerConfig());
+
         //spinnerTemplate.setAdapter(LayoutManager.spinnerConfig(getResources().getStringArray(R.array.templates),this));
 
         Bundle extras = getIntent().getExtras();
@@ -469,13 +467,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                         for(int i = 0 ; i < imagesOfLayers.length; i++){
                             reDrawImage(imagesOfLayers[i],(i+1) == selectedTemplate.getLayer());
                         }
-                        System.out.println("Color in template - " + selectedTemplate.getColor());
-                        System.out.println("Foto in template - " + selectedTemplate.getFoto());
                         if(selectedTemplate.getColor() != 0){
                             colorView.setBackgroundColor(selectedTemplate.getColor());
                             int resourceID = ColorManager.getHSVColors(selectedTemplate.getColor());
                             colorHex.setText(getResources().getString(resourceID));
                             newColor = true;
+                            colorInicator = (ColorDrawable) colorView.getBackground();
                         }
                         if(selectedTemplate.getBrand() != null && !selectedTemplate.getBrand().equals("")){
                             brand.setText(selectedTemplate.getBrand());
@@ -645,7 +642,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     public void deleteTemplate(View view) {
         String selected = spinnerTemplate.getSelectedItem().toString();
-        System.out.println("Selected to delete - " + selected);
+        dbTemplate.delete(DBHelperTemplate.TABLE, "name = ?", new String[]{selected});
+        updateSpiner();
     }
 
 
@@ -691,7 +689,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 Toast.makeText(view.getContext(),"Change Name of Template", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            System.out.println("colorInicator " + colorInicator);
             Bundle bundle = new Bundle();
             bundle.putString("name", nameBox.getText().toString());
             bundle.putInt("style", spinnerStyle.getSelectedItemPosition());
@@ -771,5 +769,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     private boolean isNameAlreadyExistInTemplates(String name){
         Cursor cursor = dbTemplate.rawQuery("select * from " + DBHelperTemplate.TABLE + " where name=\'" + name +"\'", null);
         return cursor.getCount() > 0;
+    }
+
+    public void updateSpiner(){
+        templateCursor = dbTemplate.rawQuery("select * from " + DBHelperTemplate.TABLE, null);
+        templatesManager = new TemplatesManager(this, templateCursor);
+        spinnerTemplate.setAdapter(templatesManager.spinnerConfig());
     }
 }

@@ -24,6 +24,7 @@
     <string name="style">Styl</string>
     <string name="color">Barva</string>
     <string name="warmth">Teplo</string>
+    <string name="layer">Vrstva</string>
     <string name="cold_temp">Chladný</string>
     <string name="mid_temp">Střední</string>
     <string name="hot_temp">Teplý</string>
@@ -69,6 +70,7 @@
     <string name="elegant">Elegantní</string>
     <string name="sport">Sportovní </string>
     <string name="home">Domácí</string>
+    <string name="template_choose">Vyberte parametry pro vytvoření šablony</string>
 
     <!-- Looks -->
     <string name="no_match">Nenašli jsme vhodné </string>
