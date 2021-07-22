@@ -1,4 +1,4 @@
-package com.simon.vpohode.Managers;
+package com.simon.vpohode.managers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -270,7 +270,7 @@ public class LookManager {
     private static void setAccurancy(SharedPreferences prefs) {
         String accuracy = prefs.getString("accuracy","0.5");
         if(!accuracy.equals(0.5)){
-            Rules.ACCURACY = Double.valueOf(accuracy);
+            Rules.accuracy = Double.valueOf(accuracy);
         }
     }
 

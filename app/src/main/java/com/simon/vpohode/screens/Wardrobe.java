@@ -14,15 +14,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.CustomAdapter;
-import com.simon.vpohode.Managers.LayoutManager;
-import com.simon.vpohode.Managers.ListViewManager;
+import com.simon.vpohode.managers.LayoutManager;
+import com.simon.vpohode.managers.ListViewManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.database.DatabaseHelper;
 

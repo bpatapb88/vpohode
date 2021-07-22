@@ -13,7 +13,6 @@ public enum  DBFields {
     CREATED("created", "TEXT"),
     INWASH("inwash", "BOOLEAN"),
     BRAND("brand", "TEXT");
-
     private String dbField;
     private String dbType;
 
@@ -27,4 +26,5 @@ public enum  DBFields {
     public String toType(){
         return dbType;
     }
+
 }

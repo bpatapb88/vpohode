@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,8 +24,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.Item;
-import com.simon.vpohode.Managers.LayoutManager;
-import com.simon.vpohode.Managers.LookManager;
+import com.simon.vpohode.managers.LayoutManager;
+import com.simon.vpohode.managers.LookManager;
 import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
 

@@ -1,12 +1,10 @@
-package com.simon.vpohode.AssyncTasks;
+package com.simon.vpohode.assync_tasks;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
-
-import com.simon.vpohode.CutOutBackground.DrawView;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,8 +1,7 @@
-package com.simon.vpohode.CutOutBackground;
+package com.simon.vpohode.cut_out_background;
 
 import static android.view.View.VISIBLE;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;

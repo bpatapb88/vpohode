@@ -1,4 +1,4 @@
-package com.simon.vpohode.CutOutBackground;
+package com.simon.vpohode.cut_out_background;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +18,6 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -29,7 +28,6 @@ import android.widget.SeekBar;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageView;
-import com.simon.vpohode.AssyncTasks.TakeImageFromStorage;
 import com.simon.vpohode.R;
 import java.io.File;
 import java.io.FileInputStream;
@@ -39,7 +37,7 @@ import pl.aprilapps.easyphotopicker.DefaultCallback;
 import pl.aprilapps.easyphotopicker.EasyImage;
 import top.defaults.checkerboarddrawable.CheckerboardDrawable;
 
-import static com.simon.vpohode.CutOutBackground.CutOut.CUTOUT_EXTRA_INTRO;
+import static com.simon.vpohode.cut_out_background.CutOut.CUTOUT_EXTRA_INTRO;
 
 public class CutBGActivity extends AppCompatActivity {
 
@@ -56,7 +54,7 @@ public class CutBGActivity extends AppCompatActivity {
     private LinearLayout manualClearSettingsLayout;
 
     private static final short MAX_ERASER_SIZE = 150;
-    private static final short BORDER_SIZE = 45;
+    protected static final short BORDER_SIZE = 45;
     private static final float MAX_ZOOM = 4F;
 
     @Override
@@ -94,12 +92,12 @@ public class CutBGActivity extends AppCompatActivity {
         strokeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-
+                // Do nothing
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // Do nothing
             }
 
             @Override
@@ -215,7 +213,7 @@ public class CutBGActivity extends AppCompatActivity {
 
         int borderColor;
         if ((borderColor = getIntent().getIntExtra(CutOut.CUTOUT_EXTRA_BORDER_COLOR, -1)) != -1) {
-            Bitmap image = BitmapUtility.getBorderedBitmap(this.drawView.getDrawingCache(), borderColor, BORDER_SIZE);
+            Bitmap image = BitmapUtility.getBorderedBitmap(this.drawView.getDrawingCache(), borderColor);
             task.execute(image);
         } else {
             task.execute(this.drawView.getDrawingCache());

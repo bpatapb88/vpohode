@@ -23,8 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.preference.PreferenceManager;
 
-import com.simon.vpohode.Managers.LayoutManager;
-import com.simon.vpohode.Managers.ListViewManager;
+import com.simon.vpohode.managers.LayoutManager;
+import com.simon.vpohode.managers.ListViewManager;
 import com.simon.vpohode.R;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;

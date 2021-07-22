@@ -20,6 +20,7 @@
     <string name="search">Search</string>
     <string name="welcome">Welcome to </string>
     <string name="template">Template</string>
+    <string name="save_template">Save template</string>
     <string name="brand">Brand</string>
     <string name="brand_hint">Enter the name</string>
     <string name="style">Style</string>

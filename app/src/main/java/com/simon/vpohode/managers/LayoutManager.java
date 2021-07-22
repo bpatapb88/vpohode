@@ -1,4 +1,4 @@
-package com.simon.vpohode.Managers;
+package com.simon.vpohode.managers;
 
 import android.app.Activity;
 import android.content.Context;

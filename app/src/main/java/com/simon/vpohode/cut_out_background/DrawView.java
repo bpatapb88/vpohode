@@ -1,4 +1,4 @@
-package com.simon.vpohode.CutOutBackground;
+package com.simon.vpohode.cut_out_background;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -18,10 +18,6 @@ import android.widget.Button;
 import java.lang.ref.WeakReference;
 import java.util.Stack;
 
-import static com.simon.vpohode.CutOutBackground.DrawView.DrawViewAction.AUTO_CLEAR;
-import static com.simon.vpohode.CutOutBackground.DrawView.DrawViewAction.MANUAL_CLEAR;
-import static com.simon.vpohode.CutOutBackground.DrawView.DrawViewAction.ZOOM;
-
 public class DrawView extends View {
 
     private Path livePath;
@@ -31,7 +27,8 @@ public class DrawView extends View {
     private final Stack<Pair<Pair<Path, Paint>, Bitmap>> cuts = new Stack<>();
     private final Stack<Pair<Pair<Path, Paint>, Bitmap>> undoneCuts = new Stack<>();
 
-    private float pathX, pathY;
+    private float pathX;
+    private float pathY;
 
     private static final float TOUCH_TOLERANCE = 4;
     private static final float COLOR_TOLERANCE = 20;
@@ -139,7 +136,7 @@ public class DrawView extends View {
     }
 
     public void undo() {
-        if (cuts.size() > 0) {
+        if (!cuts.isEmpty()) {
 
             Pair<Pair<Path, Paint>, Bitmap> cut = cuts.pop();
 
@@ -162,7 +159,7 @@ public class DrawView extends View {
     }
 
     public void redo() {
-        if (undoneCuts.size() > 0) {
+        if (!undoneCuts.isEmpty()) {
 
             Pair<Pair<Path, Paint>, Bitmap> cut = undoneCuts.pop();
 
@@ -200,6 +197,7 @@ public class DrawView extends View {
                     touchUp();
                     invalidate();
                     return true;
+                default:
             }
         }
 
@@ -292,7 +290,7 @@ public class DrawView extends View {
 
             return newBitmap;
         }
-
+        @Override
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             drawViewWeakReference.get().imageBitmap = result;

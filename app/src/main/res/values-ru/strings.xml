@@ -20,6 +20,7 @@
     <string name="search">Ищем</string>
     <string name="welcome">Добро пожаловать в</string>
     <string name="template">Шаблон</string>
+    <string name="save_template">Сохранить шаблон</string>
     <string name="brand">Бренд</string>
     <string name="brand_hint">Введите бренд</string>
     <string name="style">Стиль</string>

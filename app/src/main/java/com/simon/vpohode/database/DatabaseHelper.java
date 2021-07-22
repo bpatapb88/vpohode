@@ -9,7 +9,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
     public static final String TABLE = "items";// Name of Table
-    private static final String rawQueryPart = "SELECT * FROM " + TABLE + " WHERE ";
+    private static final String RAW_QUERY_PART = "SELECT * FROM " + TABLE + " WHERE ";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
     }
@@ -38,15 +38,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public static Cursor getCursorWardrobe(SQLiteDatabase db, int sortBy){
-        return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 0 " + getOrderString(sortBy), null);
+        return db.rawQuery(RAW_QUERY_PART + DBFields.INWASH.toFieldName() + " = 0 " + getOrderString(sortBy), null);
     }
 
     public static Cursor getCursorInWash(SQLiteDatabase db){
-        return db.rawQuery(rawQueryPart + DBFields.INWASH.toFieldName() + " = 1", null);
+        return db.rawQuery(RAW_QUERY_PART + DBFields.INWASH.toFieldName() + " = 1", null);
     }
 
     public static Cursor getCursoreByIsTop (SQLiteDatabase db, final int istop, int layer){
-        return db.rawQuery(rawQueryPart + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer + " AND " + DBFields.INWASH.toFieldName() + " = 0", null);
+        return db.rawQuery(RAW_QUERY_PART + DBFields.ISTOP.toFieldName() + " = " + istop + " AND " + DBFields.LAYER.toFieldName() + "=" + layer + " AND " + DBFields.INWASH.toFieldName() + " = 0", null);
     }
 
     public static String getOrderString(int sortBy){

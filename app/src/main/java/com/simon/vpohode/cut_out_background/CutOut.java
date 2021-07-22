@@ -1,4 +1,4 @@
-package com.simon.vpohode.CutOutBackground;
+package com.simon.vpohode.cut_out_background;
 
 import android.app.Activity;
 import android.content.Context;

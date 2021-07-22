@@ -1,4 +1,4 @@
-package com.simon.vpohode.CutOutBackground;
+package com.simon.vpohode.cut_out_background;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,6 +8,10 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 
 class BitmapUtility {
+
+    private BitmapUtility() {
+        throw new UnsupportedOperationException();
+    }
 
     static Bitmap getResizedBitmap(Bitmap bitmap, int width, int height) {
         Bitmap background = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -34,14 +38,14 @@ class BitmapUtility {
         return background;
     }
 
-    static Bitmap getBorderedBitmap(Bitmap image, int borderColor, int borderSize) {
+    static Bitmap getBorderedBitmap(Bitmap image, int borderColor) {
 
         // Creating a canvas with an empty bitmap, this is the bitmap that gonna store the final canvas changes
         Bitmap finalImage = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(finalImage);
 
         // Make a smaller copy of the image to draw on top of original
-        Bitmap imageCopy = Bitmap.createScaledBitmap(image, image.getWidth() - borderSize, image.getHeight() - borderSize, true);
+        Bitmap imageCopy = Bitmap.createScaledBitmap(image, image.getWidth() - CutBGActivity.BORDER_SIZE, image.getHeight() - CutBGActivity.BORDER_SIZE, true);
 
         // Let's draw the bigger image using a white paint brush
         Paint paint = new Paint();

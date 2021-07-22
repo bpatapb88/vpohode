@@ -1,4 +1,4 @@
-package com.simon.vpohode.Managers;
+package com.simon.vpohode.managers;
 
 import android.view.View;
 import android.view.ViewGroup;

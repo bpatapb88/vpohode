@@ -19,6 +19,7 @@
     <string name="search">Hledáme</string>
     <string name="welcome">Vítejte</string>
     <string name="template">Šablona</string>
+    <string name="save_template">Uložit šablonu</string>
     <string name="brand">Značka</string>
     <string name="brand_hint">Zadejte název</string>
     <string name="style">Styl</string>

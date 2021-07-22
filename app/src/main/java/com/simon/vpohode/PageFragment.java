@@ -12,7 +12,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
-import com.simon.vpohode.AssyncTasks.TakeImageFromStorage;
+import com.simon.vpohode.assync_tasks.TakeImageFromStorage;
 import com.simon.vpohode.screens.ConfigItem;
 
 public class PageFragment extends Fragment {
@@ -28,6 +28,7 @@ public class PageFragment extends Fragment {
     }
 
     public PageFragment() {
+        // default implementation
     }
 
     @Override
@@ -59,19 +60,19 @@ public class PageFragment extends Fragment {
         View relativeLayout;
         ImageView photo;
         TakeImageFromStorage takeImageFromStorage;
-        TextView name,style,brand,usedItem;
+        TextView name;
+        TextView style;
+        TextView brand;
+        TextView usedItem;
 
         for(int i = 0 ; i < items.length; i++){
             final int id = i;
             relativeLayout = inflater.inflate(R.layout.list_item,container,false);
-            relativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(v.getContext(), ConfigItem.class);
-                    long itemId = MyAdapter.getLooks().get(pageNumber)[id].getId();
-                    intent.putExtra("id", itemId);
-                    getActivity().startActivity(intent);
-                }
+            relativeLayout.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), ConfigItem.class);
+                long itemId = MyAdapter.getLooks().get(pageNumber)[id].getId();
+                intent.putExtra("id", itemId);
+                inflater.getContext().startActivity(intent);
             });
             photo = relativeLayout.findViewById(R.id.imageViewPhoto);
             takeImageFromStorage = new TakeImageFromStorage(photo);
@@ -84,10 +85,12 @@ public class PageFragment extends Fragment {
             brand.setText(items[i].getBrand());
 
             style = relativeLayout.findViewById(R.id.styleItem);
-            style.setText(getResources().getString(R.string.style) + ": " + getResources().getString(items[i].getStyle()));
+            String styleText = getResources().getString(R.string.style) + ": " + getResources().getString(items[i].getStyle());
+            style.setText(styleText);
 
             usedItem = relativeLayout.findViewById(R.id.usedItem);
-            usedItem.setText(getResources().getString(R.string.used_times )+ ": " + items[i].getUsed());
+            String usedText = getResources().getString(R.string.used_times )+ ": " + items[i].getUsed();
+            usedItem.setText(usedText);
 
             if((i%2) == 0){
                 leftLayout.addView(relativeLayout);

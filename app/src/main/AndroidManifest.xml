@@ -20,14 +20,14 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CutOutBackground.CutBGActivity" />
+        <activity android:name=".cut_out_background.CutBGActivity" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8282519618983102~3721658285" />
 
         <activity android:name=".screens.SettingsActivity" />
-        <activity android:name=".CutOutBackground.IntroActivity"/>
+        <activity android:name=".cut_out_background.IntroActivity"/>
         <activity android:name=".screens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,10 +2,10 @@ package com.simon.vpohode;
 
 public class Rules {
 
-    public static double ACCURACY = 0.5;
+    public static double accuracy = 0.5;
 
     public static int getLayersTop(double temp){
-        int layers = 0;
+        int layers;
         if(temp >= 21){
             layers = 1;
         }else if(temp >= 6){
@@ -16,7 +16,7 @@ public class Rules {
         return layers;
     }
     public static int getLayersBot(double temp){
-        int layers = 0;
+        int layers;
         if(temp >= 5){
             layers = 1;
         }else{

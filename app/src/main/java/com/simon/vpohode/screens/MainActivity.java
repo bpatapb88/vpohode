@@ -33,12 +33,11 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.simon.vpohode.BuildConfig;
-import com.simon.vpohode.Managers.LayoutManager;
-import com.simon.vpohode.Managers.PlacePhotoManager;
-import com.simon.vpohode.Managers.WeatherManager;
+import com.simon.vpohode.managers.LayoutManager;
+import com.simon.vpohode.managers.PlacePhotoManager;
+import com.simon.vpohode.managers.WeatherManager;
 import com.simon.vpohode.R;
 
 import java.io.BufferedReader;

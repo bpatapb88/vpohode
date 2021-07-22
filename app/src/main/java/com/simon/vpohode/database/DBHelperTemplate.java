@@ -14,7 +14,7 @@ public class DBHelperTemplate extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "template.db";
     private static final int SCHEMA = 1;
     public static final String TABLE = "templates";
-    public static final String rawQueryPart = "SELECT * FROM " + TABLE;
+    public static final String RAW_QUERY_PART = "SELECT * FROM " + TABLE;
     private Context context;
 
     public DBHelperTemplate(Context context){
@@ -49,7 +49,7 @@ public class DBHelperTemplate extends SQLiteOpenHelper {
     }
 
     public static Cursor getTemplates(SQLiteDatabase db){
-        return db.rawQuery(rawQueryPart, null);
+        return db.rawQuery(RAW_QUERY_PART, null);
     }
 
     private void addPrefilledTemplates(SQLiteDatabase db){
