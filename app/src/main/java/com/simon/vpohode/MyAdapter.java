@@ -6,12 +6,13 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends FragmentStateAdapter {
 
-    private static ArrayList<Item[]> looks;
+    private static List<Item[]> looks;
 
-    public MyAdapter(FragmentActivity fragmentActivity, ArrayList<Item[]> looks) {
+    public MyAdapter(FragmentActivity fragmentActivity, List<Item[]> looks) {
         super(fragmentActivity);
         this.looks = looks;
     }
@@ -30,7 +31,7 @@ public class MyAdapter extends FragmentStateAdapter {
         return looks.size();
     }
 
-    public static ArrayList<Item[]> getLooks() {
+    public static List<Item[]> getLooks() {
         return looks;
     }
 }

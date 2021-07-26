@@ -59,17 +59,17 @@ public class LookManager {
         db.close();
 
 
-        ArrayList<Item[]> readyTopLooks = (ArrayList<Item[]>) referedToTempTop(topLooks,temp);
-        ArrayList<Item[]> readyBotLooks = (ArrayList<Item[]>) referedToTempBot(botLooks,temp);
-        ArrayList<Item[]> readyBootsLooks = (ArrayList<Item[]>) referedToTempBoots(bootsLooks,temp);
+        List<Item[]> readyTopLooks =  referedToTempTop(topLooks,temp);
+        List<Item[]> readyBotLooks = referedToTempBot(botLooks,temp);
+        List<Item[]> readyBootsLooks = referedToTempBoots(bootsLooks,temp);
 
         if(!prefs.getBoolean("weather",true)){
-            readyTopLooks = (ArrayList<Item[]>) Arrays.asList(topLooks);
-            readyBotLooks = (ArrayList<Item[]>) Arrays.asList(botLooks);
-            readyBootsLooks = (ArrayList<Item[]>) Arrays.asList(bootsLooks);
+            readyTopLooks =  Arrays.asList(topLooks);
+            readyBotLooks =  Arrays.asList(botLooks);
+            readyBootsLooks =  Arrays.asList(bootsLooks);
         }
 
-        ArrayList<Item[]> result = new ArrayList<>();
+        List<Item[]> result = new ArrayList<>();
         if(readyTopLooks.isEmpty() || readyBotLooks.isEmpty() || readyBootsLooks.isEmpty()){
             if(readyTopLooks.isEmpty()){
                 message += context.getResources().getString(R.string.no_top);
@@ -273,7 +273,7 @@ public class LookManager {
         }
     }
 
-    public static void useLook(Integer showingLook, ArrayList<Item[]> looks, Context context){
+    public static void useLook(Integer showingLook, List<Item[]> looks, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         ContentValues cv = new ContentValues();

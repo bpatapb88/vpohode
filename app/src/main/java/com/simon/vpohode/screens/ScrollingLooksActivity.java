@@ -28,10 +28,11 @@ import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ScrollingLooksActivity extends AppCompatActivity {
-    static ArrayList<Item[]> looks;
+    static List<Item[]> looks;
     private ViewPager2 pager;
     private InterstitialAd interstitialAd; //ad
     AlertDialog.Builder builder;
@@ -70,7 +71,7 @@ public class ScrollingLooksActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         double term = extras.getDouble("term");
-        looks = (ArrayList<Item[]>) LookManager.getLooks(term, getApplicationContext());
+        looks = LookManager.getLooks(term, getApplicationContext());
         if(looks == null){
             String lacks = LookManager.message.substring(0, LookManager.message.length() - 1);
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();

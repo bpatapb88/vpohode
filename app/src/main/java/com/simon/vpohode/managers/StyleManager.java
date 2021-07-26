@@ -6,6 +6,7 @@ import com.simon.vpohode.Item;
 import com.simon.vpohode.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class StyleManager {
 
@@ -46,8 +47,8 @@ public class StyleManager {
         return notCheckedStyles;
     }
 
-    public static ArrayList<Item[]> filterStyle(ArrayList<Item[]> looks, SharedPreferences prefs){
-        ArrayList<Item[]> result = new ArrayList<>();
+    public static List<Item[]> filterStyle(List<Item[]> looks, SharedPreferences prefs){
+        List<Item[]> result = new ArrayList<>();
         for(Item[] look: looks){
             if(isLookMatchStyle(look,prefs)){
                 result.add(look);

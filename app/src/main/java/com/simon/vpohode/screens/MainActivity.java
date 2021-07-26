@@ -327,7 +327,6 @@ public class MainActivity extends AppCompatActivity {
                     if (locality != null && !locality.equals("")) {
                         cityName = locality;
                     }
-                    // // you should also try with addresses.get(0).toSring();
                 }
             }
         } catch (IOException e) {
