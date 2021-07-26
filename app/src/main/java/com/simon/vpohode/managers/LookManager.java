@@ -125,11 +125,11 @@ public class LookManager {
             result[i] = items1[i];
             count++;
         }
-        for(int j = 0; j< items2.length; j++){
-            result[count++]=items2[j];
+        for (Item item : items2) {
+            result[count++] = item;
         }
-        for(int y=0;y<items3.length;y++){
-            result[count++]=items3[y];
+        for (Item item : items3) {
+            result[count++] = item;
         }
         return result;
     }
@@ -157,7 +157,8 @@ public class LookManager {
     }
 
     public static Item cursorToItem(Cursor cursors){
-        Item item = new Item(cursors.getInt(cursors.getColumnIndex("_id")),
+
+        return new Item(cursors.getInt(cursors.getColumnIndex("_id")),
                 cursors.getString(cursors.getColumnIndex("name")),
                 cursors.getInt(cursors.getColumnIndex("style")),
                 cursors.getInt(cursors.getColumnIndex("istop")),
@@ -169,7 +170,6 @@ public class LookManager {
                 cursors.getString(cursors.getColumnIndex("created")),
                 cursors.getInt(cursors.getColumnIndex("inwash")) > 0,
                 cursors.getString(cursors.getColumnIndex("brand")));
-        return item;
     }
 
     public static List<Item[]> referedToTempTop(Item[][] looks, Double temp){
