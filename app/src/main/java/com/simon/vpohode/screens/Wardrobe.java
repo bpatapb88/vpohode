@@ -46,8 +46,6 @@ public class Wardrobe extends AppCompatActivity {
         searchItem = findViewById(R.id.search_item);
         topItemList = findViewById(R.id.list);
         sortBy = 0; //default sort is first
-        //topItemList.setOnItemClickListener(LayoutManager.ClickItem(this,this));
-
         databaseHelper = new DatabaseHelper(this);
 
         //hidden keyboard by default
@@ -83,7 +81,7 @@ public class Wardrobe extends AppCompatActivity {
         searchItem.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //Do nothing
             }
 
             @Override
@@ -93,7 +91,7 @@ public class Wardrobe extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //Do nothing
             }
         });
 
@@ -118,21 +116,13 @@ public class Wardrobe extends AppCompatActivity {
         builder.setView(layout);
         builder.setTitle(getResources().getString(R.string.sorted_by));
         builder.setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.apply), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        sortBy = sortBySpinner.getSelectedItemPosition();
-                        topItemAdapter = LayoutManager.configListOfItems(view.getContext(),db, sortBy);
-                        topItemList.setAdapter(topItemAdapter);
-                        topItemAdapter.notifyDataSetChanged();
-                    }
+                .setPositiveButton(getResources().getString(R.string.apply), (dialog, which) -> {
+                    sortBy = sortBySpinner.getSelectedItemPosition();
+                    topItemAdapter = LayoutManager.configListOfItems(view.getContext(),db, sortBy);
+                    topItemList.setAdapter(topItemAdapter);
+                    topItemAdapter.notifyDataSetChanged();
                 })
-                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
         alert.show();

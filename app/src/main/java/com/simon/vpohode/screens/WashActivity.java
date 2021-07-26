@@ -33,14 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WashActivity extends AppCompatActivity {
-
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private Cursor itemCursor;
-    //private CustomAdapter itemAdapter;
-
-
-    private CardView washSelected,selectAll;
     List<ItemInList> items;
     private ListView listViewWithCheckbox;
     ItemsListAdapter myItemsListAdapter;
@@ -56,32 +51,25 @@ public class WashActivity extends AppCompatActivity {
         //DB section
         databaseHelper = new DatabaseHelper(getApplicationContext());
         db = databaseHelper.getReadableDatabase();
+
         itemCursor =  DatabaseHelper.getCursorInWash(db);
 
-        washSelected = findViewById(R.id.wash_selected);
-        selectAll = findViewById(R.id.select_all);
+        CardView washSelected = findViewById(R.id.wash_selected);
+        CardView selectAll = findViewById(R.id.select_all);
         listViewWithCheckbox = findViewById(R.id.list);
         initItems();
         myItemsListAdapter = new ItemsListAdapter(this, items);
         listViewWithCheckbox.setAdapter(myItemsListAdapter);
-        washSelected.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                washSelectedMethod();
+        washSelected.setOnClickListener(view -> washSelectedMethod());
+        selectAll.setOnClickListener(view -> {
+            for (int i=0; i<items.size(); i++){
+                items.get(i).checked = true;
             }
-        });
-        selectAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                for (int i=0; i<items.size(); i++){
-                    items.get(i).checked = true;
-                }
-                listViewWithCheckbox.invalidateViews();
-                Toast.makeText(WashActivity.this,
-                        "Select all",
-                        Toast.LENGTH_LONG).show();
+            listViewWithCheckbox.invalidateViews();
+            Toast.makeText(WashActivity.this,
+                    "Select all",
+                    Toast.LENGTH_LONG).show();
 
-            }
         });
         ListViewManager.getListViewSize(listViewWithCheckbox);
 
@@ -108,7 +96,7 @@ public class WashActivity extends AppCompatActivity {
     }
 
     private void initItems(){
-        items = new ArrayList<ItemInList>();
+        items = new ArrayList<>();
 
         if(itemCursor.getCount() == 0) return;
 
@@ -137,6 +125,7 @@ public class WashActivity extends AppCompatActivity {
                 break;
                 case 3: drawable = getDrawable(R.drawable.ic_layer_boots);
                 break;
+                default:
             }
         }else{
             switch (layer){
@@ -146,9 +135,12 @@ public class WashActivity extends AppCompatActivity {
                     break;
                 case 3: drawable = getDrawable(R.drawable.ic_layer3);
                     break;
+                default:
             }
         }
-        drawable.setTint(getColor(R.color.colorPrimaryDark));
+        if(drawable != null){
+            drawable.setTint(getColor(R.color.colorPrimaryDark));
+        }
         return drawable;
     }
 
@@ -160,6 +152,7 @@ public class WashActivity extends AppCompatActivity {
     public void onDestroy(){
         super.onDestroy();
         // close connection
+        databaseHelper.close();
         db.close();
     }
 
@@ -171,14 +164,14 @@ public class WashActivity extends AppCompatActivity {
     public class ItemInList {
         int id;
         boolean checked;
-        Drawable ItemDrawable;
-        String ItemName;
-        String ItemBrand;
+        Drawable itemDrawable;
+        String itemName;
+        String itemBrand;
         ItemInList(Drawable drawable, String name, boolean b, String brand, int idNumber){
-            ItemDrawable = drawable;
-            ItemName = name;
+            itemDrawable = drawable;
+            itemName = name;
             checked = b;
-            ItemBrand = brand;
+            itemBrand = brand;
             id = idNumber;
         }
 
@@ -235,24 +228,21 @@ public class WashActivity extends AppCompatActivity {
             } else {
                 viewHolder = (ViewHolder) rowView.getTag();
             }
-            viewHolder.icon.setImageDrawable(list.get(position).ItemDrawable);
+            viewHolder.icon.setImageDrawable(list.get(position).itemDrawable);
             viewHolder.checkBox.setChecked(list.get(position).checked);
 
 
-            final String itemStr = list.get(position).ItemName;
+            final String itemStr = list.get(position).itemName;
             viewHolder.name.setText(itemStr);
 
-            final String brandStr = list.get(position).ItemBrand;
+            final String brandStr = list.get(position).itemBrand;
             viewHolder.brand.setText(brandStr);
 
             viewHolder.checkBox.setTag(position);
 
-            viewHolder.checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    boolean newState = !list.get(position).isChecked();
-                    list.get(position).checked = newState;
-                }
+            viewHolder.checkBox.setOnClickListener(view -> {
+                boolean newState = !list.get(position).isChecked();
+                list.get(position).checked = newState;
             });
 
             viewHolder.checkBox.setChecked(isChecked(position));

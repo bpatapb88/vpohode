@@ -71,13 +71,24 @@ import java.util.Calendar;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
 
-    EditText nameBox, usedTime,brand;
-    TextView colorHex, warmText;
-    ImageView colorView,imageLayer1,imageLayer2,imageLayer3, minus, plus, washItemImg;
+    EditText nameBox;
+    EditText usedTime;
+    EditText brand;
+    TextView colorHex;
+    TextView warmText;
+    ImageView colorView;
+    ImageView imageLayer1;
+    ImageView imageLayer2;
+    ImageView imageLayer3;
+    ImageView minus;
+    ImageView plus;
+    ImageView washItemImg;
     ImageView[] imagesOfLayers;
     ImageButton imageItem;
-    Spinner spinnerStyle, spinnerTemplate;
-    CardView delButton, saveButton;
+    Spinner spinnerStyle;
+    Spinner spinnerTemplate;
+    CardView delButton;
+    CardView saveButton;
     DatabaseHelper sqlHelper;
     DBHelperTemplate dbHelperTemplate;
     TemplatesManager templatesManager;
@@ -85,11 +96,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     SeekBar seekBar;
     ColorDrawable colorInicator;
-    SQLiteDatabase db, dbTemplate;
-    Cursor userCursor, templateCursor;
+    SQLiteDatabase db;
+    SQLiteDatabase dbTemplate;
+    Cursor userCursor;
+    Cursor templateCursor;
     Space x;
 
-    private Uri imageUri = null;
     private static final String SELECT = "select * from ";
 
     SwitchCompat topBot;
@@ -98,10 +110,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     long userId=0;
     int chekedLayer = 0;
 
-    private DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+    private final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //stash Test2
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LayoutManager.setTheme(prefs, getTheme());
 
@@ -152,15 +163,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String string = s.toString();
                 int widthText = getWidthOfEditText(brand,string);
-                if(widthText > 380){
-                while (widthText > 380){
-                    string = string.substring(0,string.length() - 1);
-                    widthText = getWidthOfEditText(brand,string);
-                }
-                brand.setText(string);
-                brand.setSelection(string.length());
-                }
-
+                setBrand(widthText, string);
             }
 
             @Override
@@ -171,26 +174,19 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         nameBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                //Do nothing
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String string = s.toString();
                 int widthText = getWidthOfEditText(nameBox,string);
-                if(widthText > 783){
-                    while (widthText > 7){
-                        string = string.substring(0,string.length() - 1);
-                        widthText = getWidthOfEditText(nameBox,string);
-                    }
-                    nameBox.setText(string);
-                    nameBox.setSelection(string.length());
-                }
+                setName(widthText,string);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                //Do nothing
             }
         });
 
@@ -205,12 +201,12 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                //Do nothing
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                //Do nothing
             }
         });
         // configure spinner
@@ -218,17 +214,19 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         Bundle extras = getIntent().getExtras();
 
+        Uri imageUri;
+
         if (extras != null) {
             userId = extras.getLong("id");
             imageUri = (Uri) extras.get(CutOut.CUTOUT_EXTRA_RESULT);
+
+
             if(imageUri != null){
                 imageItem.setImageURI(imageUri);
                 imageItem.setBackgroundColor(getResources().getColor(R.color.white));
                 newImage = true;
             }
-        }
-        // if 0, add
-        if (userId > 0) {
+
             LinearLayout templateLayout = findViewById(R.id.template_layout);
             templateLayout.setVisibility(View.GONE);
             // get item by id from db
@@ -262,27 +260,21 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             String createdText = getResources().getString(R.string.created) + " " + userCursor.getString(9);
             created.setText(createdText);
             userCursor.close();
-            saveButton.setOnClickListener(view -> {
-                try {
-                    onClick();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-        } else {
+        }else{
             LinearLayout usedLayout = findViewById(R.id.usedLayout);
             usedLayout.setVisibility(View.GONE);
             washItemImg.setVisibility(View.GONE);
             TextView delButtonText = findViewById(R.id.deleteButtonText);
             delButtonText.setText(getResources().getString(R.string.save_template));
-            saveButton.setOnClickListener(view -> {
-                try {
-                    onClick();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
         }
+
+        saveButton.setOnClickListener(view -> {
+            try {
+                onClick();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         // if Save edit_text clicked do next:
 
@@ -305,6 +297,28 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 usedTime.setText(String.valueOf(currentInt));
             }
         });
+    }
+
+    private void setBrand(int widthText, String string){
+        if(widthText > 380){
+            while (widthText > 380){
+                string = string.substring(0,string.length() - 1);
+                widthText = getWidthOfEditText(brand,string);
+            }
+            brand.setText(string);
+            brand.setSelection(string.length());
+        }
+    }
+
+    private void setName(int widthText, String string){
+        if(widthText > 783){
+            while (widthText > 7){
+                string = string.substring(0,string.length() - 1);
+                widthText = getWidthOfEditText(nameBox,string);
+            }
+            nameBox.setText(string);
+            nameBox.setSelection(string.length());
+        }
     }
 
     private void setWarmText(int progress){
@@ -355,34 +369,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         spinnerTemplate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-
                 Item selectedTemplate = templatesManager.getItemFromTemplate(spinnerTemplate.getSelectedItem().toString());
-
-                if (spinnerTemplate.getSelectedItemPosition()!=0) {
-                        nameBox.setText(selectedTemplate.getName());
-                        double termIdDouble = selectedTemplate.getTermid() - 1;
-                        seekBar.setProgress((int) termIdDouble);
-                        setWarmText((int) termIdDouble);
-                        spinnerStyle.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
-                        topBot.setChecked(selectedTemplate.getTop() != 0);
-
-                        for(int i = 0 ; i < imagesOfLayers.length; i++){
-                            reDrawImage(imagesOfLayers[i],(i+1) == selectedTemplate.getLayer());
-                        }
-                        if(selectedTemplate.getColor() != 0){
-                            colorView.setBackgroundColor(selectedTemplate.getColor());
-                            int resourceID = ColorManager.getHSVColors(selectedTemplate.getColor());
-                            colorHex.setText(getResources().getString(resourceID));
-                            newColor = true;
-                            colorInicator = (ColorDrawable) colorView.getBackground();
-                        }
-                        if(selectedTemplate.getBrand() != null && !selectedTemplate.getBrand().equals("")){
-                            brand.setText(selectedTemplate.getBrand());
-                        }
-                        if(selectedTemplate.getFoto() != null && !selectedTemplate.getFoto().equals("")){
-                            new DownloadImageTask(imageItem).execute(selectedTemplate.getFoto());
-                            newImage = true;
-                        }
+                if (position!=0) {
+                    setTemplateParameters(selectedTemplate);
                 }
             }
             @Override
@@ -392,6 +381,33 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         });
         topBot.setOnCheckedChangeListener((compoundButton, b) -> reBuildIcons(b));
+    }
+
+    private void setTemplateParameters(Item selectedTemplate){
+        nameBox.setText(selectedTemplate.getName());
+        double termIdDouble = selectedTemplate.getTermid() - 1;
+        seekBar.setProgress((int) termIdDouble);
+        setWarmText((int) termIdDouble);
+        spinnerStyle.setSelection(Styles.getOrdinalByString(selectedTemplate.getStyle()));
+        topBot.setChecked(selectedTemplate.getTop() != 0);
+
+        for(int i = 0 ; i < imagesOfLayers.length; i++){
+            reDrawImage(imagesOfLayers[i],(i+1) == selectedTemplate.getLayer());
+        }
+        if(selectedTemplate.getColor() != 0){
+            colorView.setBackgroundColor(selectedTemplate.getColor());
+            int resourceID = ColorManager.getHSVColors(selectedTemplate.getColor());
+            colorHex.setText(getResources().getString(resourceID));
+            newColor = true;
+            colorInicator = (ColorDrawable) colorView.getBackground();
+        }
+        if(selectedTemplate.getBrand() != null && !selectedTemplate.getBrand().equals("")){
+            brand.setText(selectedTemplate.getBrand());
+        }
+        if(selectedTemplate.getFoto() != null && !selectedTemplate.getFoto().equals("")){
+            new DownloadImageTask(imageItem).execute(selectedTemplate.getFoto());
+            newImage = true;
+        }
     }
 
     private void goHome(){
@@ -438,7 +454,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
     @Override
     public void onDialogDismissed(int dialogId) {
-
+        //Do nothing
     }
 
     @Override
@@ -457,7 +473,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 try {
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
                 } catch (IOException e) {
-                    System.out.println("ERRROR!!! " + e.toString());
+                    e.printStackTrace();
                 }
                 if(bitmap != null){
                     int paletteColor = getColorFromBitmap(bitmap);

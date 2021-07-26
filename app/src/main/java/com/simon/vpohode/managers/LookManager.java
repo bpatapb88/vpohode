@@ -15,12 +15,18 @@ import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LookManager {
 
+    private LookManager() {
+    }
+
     public static String message = "";
 
-    public static ArrayList<Item[]> getLooks(double temp, Context context){
+    public static List<Item[]> getLooks(double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
@@ -49,38 +55,39 @@ public class LookManager {
         closeCursors(cursorLayersBot);
         closeCursors(cursorLayersTop);
         closeCursors(cursorLayersBoots);
+        databaseHelper.close();
         db.close();
 
 
-        ArrayList<Item[]> readyTopLooks = referedToTempTop(topLooks,temp);
-        ArrayList<Item[]> readyBotLooks = referedToTempBot(botLooks,temp);
-        ArrayList<Item[]> readyBootsLooks = referedToTempBoots(bootsLooks,temp);
+        ArrayList<Item[]> readyTopLooks = (ArrayList<Item[]>) referedToTempTop(topLooks,temp);
+        ArrayList<Item[]> readyBotLooks = (ArrayList<Item[]>) referedToTempBot(botLooks,temp);
+        ArrayList<Item[]> readyBootsLooks = (ArrayList<Item[]>) referedToTempBoots(bootsLooks,temp);
 
         if(!prefs.getBoolean("weather",true)){
-            readyTopLooks = getAllLooks(topLooks);
-            readyBotLooks = getAllLooks(botLooks);
-            readyBootsLooks = getAllLooks(bootsLooks);
+            readyTopLooks = (ArrayList<Item[]>) Arrays.asList(topLooks);
+            readyBotLooks = (ArrayList<Item[]>) Arrays.asList(botLooks);
+            readyBootsLooks = (ArrayList<Item[]>) Arrays.asList(bootsLooks);
         }
 
         ArrayList<Item[]> result = new ArrayList<>();
-        if(readyTopLooks.size()==0 || readyBotLooks.size()==0 || readyBootsLooks.size()==0){
-            if(readyTopLooks.size() == 0){
+        if(readyTopLooks.isEmpty() || readyBotLooks.isEmpty() || readyBootsLooks.isEmpty()){
+            if(readyTopLooks.isEmpty()){
                 message += context.getResources().getString(R.string.no_top);
             }
-            if(readyBotLooks.size() == 0){
+            if(readyBotLooks.isEmpty()){
                 message += context.getResources().getString(R.string.no_bot);
             }
-            if(readyBootsLooks.size() == 0){
+            if(readyBootsLooks.isEmpty()){
                 message += context.getResources().getString(R.string.no_foot);
             }
-            return null;
+            return new ArrayList<>();
         }else{
             for(int i =0; i<readyTopLooks.size();i++){
                 for(int j =0; j<readyBotLooks.size();j++){
                     for(int y = 0; y<readyBootsLooks.size();y++) {
                         Item[] finalLook = sumOfArray(readyTopLooks.get(i), readyBotLooks.get(j),readyBootsLooks.get(y));
                         boolean checkColor = prefs.getBoolean("sync",false);
-                        if(checkColor == false) {
+                        if(!checkColor) {
                             result.add(finalLook);
                         }else{
                             if(ColorManager.isLookMatch(finalLook)){
@@ -91,14 +98,14 @@ public class LookManager {
                 }
             }
         }
-        if(result.size()==0){
+        if(result.isEmpty()){
             message = context.getResources().getString(R.string.no_color);
-            return null;
+            return new ArrayList<>();
         }else{
             result = StyleManager.filterStyle(result,prefs);
-            if(result.size()==0){
+            if(result.isEmpty()){
                 message = context.getResources().getString(R.string.no_style);
-                return null;
+                return new ArrayList<>();
             }else{
                 return result;
             }
@@ -165,15 +172,7 @@ public class LookManager {
         return item;
     }
 
-    public static ArrayList<Item[]> getAllLooks(Item[][] looks){
-        ArrayList<Item[]> matchedLooks = new ArrayList<>();
-        for(Item[] look: looks){
-            matchedLooks.add(look);
-        }
-        return matchedLooks;
-    }
-
-    public static ArrayList<Item[]> referedToTempTop(Item[][] looks, Double temp){
+    public static List<Item[]> referedToTempTop(Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double merginalIndex=0;
@@ -186,25 +185,24 @@ public class LookManager {
             double neededTemp = 0;
             switch (layers){
                 case 1:
-                    neededTemp = ((int) (33 - temp))/4 + 1;
+                    neededTemp = ((int) (33 - temp))/4d + 1;
                     break;
                 case 2:
-                    neededTemp = ((int) (21 - temp))/3 + 2;
+                    neededTemp = ((int) (21 - temp))/3d + 2;
                     break;
                 case 3:
-                    neededTemp = ((int) (6 - temp))/3 + 3;
+                    neededTemp = ((int) (6 - temp))/3d + 3;
                     break;
+                default:
             }
 
-            if(merginalIndex == neededTemp && merginalIndex < 9){
-                matchedLooks.add(look);
-            }else if(merginalIndex == 9){
+            if(merginalIndex == neededTemp && merginalIndex < 9 || merginalIndex == 9){
                 matchedLooks.add(look);
             }
         }
         return matchedLooks;
     }
-    public static ArrayList<Item[]> referedToTempBot (Item[][] looks, Double temp){
+    public static List<Item[]> referedToTempBot (Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double merginalIndex=0;
@@ -215,8 +213,9 @@ public class LookManager {
             int layers = Rules.getLayersBot(temp);
             if(layers == 1){
                 if(temp > 21){
-                    if(merginalIndex==1)
-                    matchedLooks.add(look);
+                    if(merginalIndex==1) {
+                        matchedLooks.add(look);
+                    }
                 }else{
                     if(merginalIndex==2){
                         matchedLooks.add(look);
@@ -244,7 +243,7 @@ public class LookManager {
         }
         return matchedLooks;
     }
-    public static ArrayList<Item[]> referedToTempBoots (Item[][] looks, Double temp){
+    public static List<Item[]> referedToTempBoots (Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double termIndex=look[0].getTermid();
@@ -269,8 +268,8 @@ public class LookManager {
 
     private static void setAccurancy(SharedPreferences prefs) {
         String accuracy = prefs.getString("accuracy","0.5");
-        if(!accuracy.equals(0.5)){
-            Rules.accuracy = Double.valueOf(accuracy);
+        if(!accuracy.equals("0.5")) {
+            Rules.accuracy = Double.parseDouble(accuracy);
         }
     }
 
@@ -283,6 +282,7 @@ public class LookManager {
             db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + item.getId(), null);
             cv.clear();
         }
+        databaseHelper.close();
         db.close();
     }
 

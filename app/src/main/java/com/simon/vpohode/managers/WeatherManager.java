@@ -35,9 +35,8 @@ public class WeatherManager {
             JSONArray forecast = weatherIn3HoursAll.getJSONArray("weather");
             JSONObject weather = forecast.getJSONObject(0);
             description = weather.getString("description");
-            if(description.equals("дождь")){
-                MainActivity.rain = description;
-            }
+            MainActivity.setPop(weatherIn3HoursAll.getString("pop"));
+
             JSONObject main0 = currentWeatherAll.getJSONObject("main");
             feelTem0 = main0.getString("feels_like");
             JSONObject main1 = weatherIn3HoursAll.getJSONObject("main");

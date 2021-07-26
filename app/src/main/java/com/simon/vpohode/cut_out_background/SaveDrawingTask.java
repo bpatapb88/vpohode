@@ -46,7 +46,7 @@ public class SaveDrawingTask extends AsyncTask<Bitmap, Void, Pair<File, Exceptio
             return new Pair<>(null, e);
         }
     }
-
+    @Override
     protected void onPostExecute(Pair<File, Exception> result) {
         super.onPostExecute(result);
 
@@ -56,12 +56,7 @@ public class SaveDrawingTask extends AsyncTask<Bitmap, Void, Pair<File, Exceptio
             resultIntent.setClass(activityWeakReference.get(),ConfigItem.class);
             Uri uri = Uri.fromFile(result.first);
             resultIntent.putExtra(CutOut.CUTOUT_EXTRA_RESULT, uri);
-            System.out.println("Uri is ready " + uri.toString());
             activityWeakReference.get().startActivity(resultIntent);
-            /*System.out.println("Uri is ready " + uri.toString());
-            activityWeakReference.get().setResult(Activity.RESULT_OK, resultIntent);
-            activityWeakReference.get().finish();*/
-
         } else {
             activityWeakReference.get().exitWithError(result.second);
         }

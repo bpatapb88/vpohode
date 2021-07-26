@@ -1,13 +1,11 @@
 package com.simon.vpohode.screens;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -33,9 +31,9 @@ import java.util.ArrayList;
 
 
 public class ScrollingLooksActivity extends AppCompatActivity {
-    public static ArrayList<Item[]> looks;
+    static ArrayList<Item[]> looks;
     private ViewPager2 pager;
-    public InterstitialAd interstitialAd; //ad
+    private InterstitialAd interstitialAd; //ad
     AlertDialog.Builder builder;
 
 
@@ -63,16 +61,16 @@ public class ScrollingLooksActivity extends AppCompatActivity {
                     Intent intent = new Intent(ScrollingLooksActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                }catch (Exception e){
-
+                }catch (Exception ignored){
+                    ignored.printStackTrace();
                 }
             }
         });
 
 
         Bundle extras = getIntent().getExtras();
-        Double term = extras.getDouble("term");
-        looks = LookManager.getLooks(term, getApplicationContext());
+        double term = extras.getDouble("term");
+        looks = (ArrayList<Item[]>) LookManager.getLooks(term, getApplicationContext());
         if(looks == null){
             String lacks = LookManager.message.substring(0, LookManager.message.length() - 1);
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
@@ -83,20 +81,17 @@ public class ScrollingLooksActivity extends AppCompatActivity {
             tabLayout.setVisibility(View.GONE);
         }
 
-        if(!MainActivity.rain.equals(""))
+        if(Double.parseDouble(MainActivity.getPop())>0.5){
             Toast.makeText(this, getResources().getString(R.string.umbrella), Toast.LENGTH_SHORT).show();
+        }
+
 
         pager=(ViewPager2)findViewById(R.id.pager);
         FragmentStateAdapter pageAdapter = new MyAdapter(this, looks);
         pager.setAdapter(pageAdapter);
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
-        TabLayoutMediator tabLayoutMediator= new TabLayoutMediator(tabLayout, pager, new TabLayoutMediator.TabConfigurationStrategy(){
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-               tab.setText("" + (position+1));
-            }
-        });
+        TabLayoutMediator tabLayoutMediator= new TabLayoutMediator(tabLayout, pager, (tab, position) -> tab.setText("" + (position+1)));
         tabLayoutMediator.attach();
 
         builder = new AlertDialog.Builder(this);
@@ -109,23 +104,15 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     public void useButtonClick(View view){
         builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
         builder.setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
-                        if(interstitialAd.isLoaded()){
-                            interstitialAd.show();
-                        }else{
-                            finish();
-                        }
+                .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                    LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
+                    if(interstitialAd.isLoaded()){
+                        interstitialAd.show();
+                    }else{
+                        finish();
                     }
                 })
-                .setNegativeButton(getResources().getString(R.string.no), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
+                .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.cancel());
 
         AlertDialog alert = builder.create();
         alert.setTitle(R.string.dialog_title);

@@ -2,6 +2,9 @@ package com.simon.vpohode;
 
 public class Rules {
 
+    private Rules() {
+    }
+
     public static double accuracy = 0.5;
 
     public static int getLayersTop(double temp){

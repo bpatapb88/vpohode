@@ -32,8 +32,6 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.PlacePhotoManager;
@@ -50,21 +48,28 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    //stash test
-    // private final String weatherURL = "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric";
+    // another Weather URL "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric"
     // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
-    private final static String weatherURL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
-    private final static String placeURL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
+    private final static String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
+    private final static String PLACE_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
     private TextView textViewWeather;
     private Double avgTempertureCel;
-    private String photoReference;
-    public static String rain = "";
+
+    public static String getPop() {
+        return pop;
+    }
+
+    public static void setPop(String pop) {
+        MainActivity.pop = pop;
+    }
+
+    private static String pop = "";
     private String city = "Brno";
     private SharedPreferences preferences;
     private ImageView fotoCity;
-    private StringBuilder stringBuilderPlace = new StringBuilder();
+    private final StringBuilder stringBuilderPlace = new StringBuilder();
     private FusedLocationProviderClient mFusedLocationClient;
-    int PERMISSION_ID = 44;
+    final int permissionId = 44;
     double latitudeTextView;
     double longitTextView;
 
@@ -80,25 +85,21 @@ public class MainActivity extends AppCompatActivity {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
+
+
     @SuppressLint("MissingPermission")
     private void getLastLocation() {
         if (checkPermissions()) {
             if (isLocationEnabled()) {
-                mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        System.out.println("onComplete");
-                        Location location = task.getResult();
-                        if (location == null) {
-                            System.out.println("requestNewLocationData ");
-                            requestNewLocationData();
-                        } else {
-                            latitudeTextView = location.getLatitude();
-                            longitTextView = location.getLongitude();
-                            System.out.println("Coordinate was set #1");
-                            city = getLocationName(latitudeTextView, longitTextView);
-                            setWeatherAndPicture();
-                        }
+                mFusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+                    Location location = task.getResult();
+                    if (location == null) {
+                        requestNewLocationData();
+                    } else {
+                        latitudeTextView = location.getLatitude();
+                        longitTextView = location.getLongitude();
+                        city = getLocationName(latitudeTextView, longitTextView);
+                        setWeatherAndPicture();
                     }
                 });
             } else {
@@ -113,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setWeatherAndPicture(){
         DownloadTask task2 = new DownloadTask();
-        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
+        String weatherURLWithCity = String.format(WEATHER_URL, city, getResources().getConfiguration().locale.getCountry());
+        String placeURLWithCity = String.format(PLACE_URL, city, BuildConfig.GOOGLE_API);
         task2.execute(weatherURLWithCity, placeURLWithCity);
     }
 
@@ -142,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private boolean checkPermissions() {
-        return ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        return androidx.core.content.ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED && androidx.core.content.ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         // If we want background location
         // on Android 10.0 and higher,
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
+                Manifest.permission.ACCESS_FINE_LOCATION}, permissionId);
     }
     private boolean isLocationEnabled() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -162,13 +163,10 @@ public class MainActivity extends AppCompatActivity {
     public void
     onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == PERMISSION_ID) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == permissionId && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
-                System.out.println("onRequestPermissionsResult");
             }
-        }
+
     }
 
     @Override
@@ -182,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
 
         city = preferences.getString("city", "Unknown");
         if(city.equals("Unknown") || city.equals("")){
-            System.out.println("check in");
             if (checkPermissions()) {
                 getLastLocation();
             }else{
@@ -192,15 +189,9 @@ public class MainActivity extends AppCompatActivity {
         }else{
             setWeatherAndPicture();
         }
-        System.out.println("Before task city is " + city);
-
-        /*DownloadTask task = new DownloadTask();
-        String weatherURLWithCity = String.format(weatherURL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(placeURL, city, BuildConfig.GOOGLE_API);
-        task.execute(weatherURLWithCity, placeURLWithCity);*/
     }
 
-    public void goToWardrobe(View view){                                        //TODO create new class view manager
+    public void goToWardrobe(View view){
         Intent intent = new Intent(this, Wardrobe.class);
         startActivity(intent);
     }
@@ -214,15 +205,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void logOff(View view){
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
     public void scrollTest(View view){
-        Double temp = 1000d;
+        double temp = 1000d;
         try {
-            temp = Double.valueOf(preferences.getString("temp", "1000"));
+            temp = Double.parseDouble(preferences.getString("temp", "1000"));
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
@@ -235,14 +221,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private class DownloadTask extends AsyncTask <String, Void, String> {
-        private final static String CELSIUS_SYMBOL = "\u2103 ";
+        private static final String CELSIUS_SYMBOL = "\u2103 ";
 
         @Override
         protected String doInBackground(String... strings) {
             StringBuilder result = new StringBuilder();
             HttpURLConnection urlConnection = null;
+            URL url;
             try {
-                URL url = new URL(strings[0]);
+                url = new URL(strings[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = urlConnection.getInputStream();
                 InputStreamReader reader = new InputStreamReader(in);
@@ -251,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
                 while (line != null){
                     result.append(line);
                     line = bufferedReader.readLine();
-                }
+                    }
                 // Now store output from Google Place Api
                 url = new URL(strings[1]);
                 urlConnection = (HttpURLConnection) url.openConnection();
@@ -271,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
                     urlConnection.disconnect();
                 }
             }
-
             return result.toString();
         }
         @Override
@@ -290,12 +276,14 @@ public class MainActivity extends AppCompatActivity {
 
         // save the temperature
                 avgTempertureCel = (Double.parseDouble(weatherManager.getFeelTem0()) + Double.parseDouble(weatherManager.getFeelTem1()))/2;
-                String ifPlus = "";
+                StringBuilder textWeather = new StringBuilder();
+                textWeather.append(city).append(": ");
                 if (avgTempertureCel >= 0) {
-                    ifPlus = "+";
+                    textWeather.append("+");
                 }
                 final String outputWeather = (int)Double.parseDouble(weatherManager.getFeelTem0()) + " " + CELSIUS_SYMBOL + weatherManager.getDescription();
-                textViewWeather.setText(city + ": " + ifPlus + outputWeather);
+                textWeather.append(outputWeather);
+                textViewWeather.setText(textWeather.toString());
         }
     }
 
@@ -317,6 +305,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return mIcon11;
         }
+        @Override
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
@@ -334,12 +323,9 @@ public class MainActivity extends AppCompatActivity {
             for (Address adrs : addresses) {
                 if (adrs != null) {
 
-                    String city = adrs.getLocality();
-                    if (city != null && !city.equals("")) {
-                        cityName = city;
-                        System.out.println("city ::  " + cityName);
-                    } else {
-
+                    String locality = adrs.getLocality();
+                    if (locality != null && !locality.equals("")) {
+                        cityName = locality;
                     }
                     // // you should also try with addresses.get(0).toSring();
                 }
