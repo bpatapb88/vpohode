@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Item;
+import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Rules;
 import com.simon.vpohode.database.DBFields;
@@ -89,6 +90,13 @@ public class LookManager {
                         boolean checkColor = prefs.getBoolean("sync",false);
                         if(!checkColor) {
                             result.add(finalLook);
+                            int[] ids = new int[finalLook.length];
+                            for (int z = 0 ; z < finalLook.length ; z++){
+                                ids[z] = finalLook[z].getId();
+                            }
+                            Look look = new Look();
+                            look.readFromDB(ids,context);
+                            System.out.println("Test look " + look.items.size());
                         }else{
                             if(ColorManager.isLookMatch(finalLook)){
                                 result.add(finalLook);

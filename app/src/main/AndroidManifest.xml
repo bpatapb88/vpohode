@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.simon.vpohode">
 
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -20,6 +18,9 @@
         android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".LooksActivity"
+            android:exported="true" />
         <activity android:name=".cut_out_background.CutBGActivity" />
 
         <meta-data
@@ -27,7 +28,7 @@
             android:value="ca-app-pub-8282519618983102~3721658285" />
 
         <activity android:name=".screens.SettingsActivity" />
-        <activity android:name=".cut_out_background.IntroActivity"/>
+        <activity android:name=".cut_out_background.IntroActivity" />
         <activity android:name=".screens.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
