@@ -196,6 +196,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToLookActivity(View view){
+        Intent intent = new Intent(this, LooksActivity.class);
+        startActivity(intent);
+    }
+
     public void goToWash(View view){
         Intent intent = new Intent(this, WashActivity.class);
         startActivity(intent);

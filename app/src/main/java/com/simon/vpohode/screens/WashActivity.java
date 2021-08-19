@@ -71,7 +71,7 @@ public class WashActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
 
         });
-        ListViewManager.getListViewSize(listViewWithCheckbox);
+        ListViewManager.optimizeListViewSize(listViewWithCheckbox);
 
 
     }

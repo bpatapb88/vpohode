@@ -1,28 +1,16 @@
 
-i
-9app/src/main/java/com/simon/vpohode/screens/Wardrobe.java,1/1/1190e97d998af5af521621401edac907d5efee83
-m
-=app/src/main/java/com/simon/vpohode/screens/MainActivity.java,4/2/42feb62f17c4dc995941dca8d0244a70c56c0f75
-m
-=app/src/main/java/com/simon/vpohode/screens/WashActivity.java,5/e/5e0659e4b401f261983bb7dddfd4137ba653e4ea
 n
 >app/src/main/java/com/simon/vpohode/screens/LoginActivity.java,4/6/468d01f2c5525392188c9d33991e4f4950f5463d
 q
 Aapp/src/main/java/com/simon/vpohode/screens/SettingsActivity.java,8/5/8537329023423c4ea3260a06dc26af6a0983e87a
 u
 Eapp/src/main/java/com/simon/vpohode/screens/CustomDialogFragment.java,3/2/3233b29efd309abbcf6663e8e2fb278e56b3f780
-r
-Bapp/src/main/java/com/simon/vpohode/database/DBHelperTemplate.java,c/c/ccd12085cb3b7fd6d2b2357141156e80a5d1f3fd
 k
 ;app/src/main/java/com/simon/vpohode/managers/ColorList.java,e/7/e70f22f28889e400ab48f5f537935bdf287260e2
 n
 >app/src/main/java/com/simon/vpohode/managers/ColorManager.java,0/0/001bfac79b24719f3bd4b1eaed228c1e2ada1be7
 n
 >app/src/main/java/com/simon/vpohode/managers/ImageManager.java,b/d/bd9faf68799614c975fc4d635889b8375a38de3a
-o
-?app/src/main/java/com/simon/vpohode/managers/LayoutManager.java,5/9/59e999c688144ccd81986774c05f9c98f89c12b2
-q
-Aapp/src/main/java/com/simon/vpohode/managers/ListViewManager.java,0/7/070b83d53884973b81f0212a99ede04c525e4917
 r
 Bapp/src/main/java/com/simon/vpohode/managers/TemplatesManager.java,a/f/af95bef7da6dd12805251607cd310887e1b1b440
 s
@@ -37,8 +25,6 @@ b
 2app/src/main/java/com/simon/vpohode/MyAdapter.java,e/9/e9442c6cb6289680a332734f690b3879be3bc3e3
 e
 5app/src/main/java/com/simon/vpohode/PageFragment.java,e/d/ed8257631c29c5e3bd3b5a056de90a93c80a0595
-f
-6app/src/main/java/com/simon/vpohode/CustomAdapter.java,8/1/8130bab867ed959d55c230feacc9fadeb26ff19a
 r
 Bapp/src/main/java/com/simon/vpohode/cut_out_background/CutOut.java,b/6/b6699a24c45729da6f444507079939216161fc82
 t
@@ -160,5 +146,7 @@ g
 7iconv3(Dresser)_Монтажная область 1.svg,8/d/8d635ec100c78eeed6a189fea2f3ba2bcbca6a04
 n
 >app/src/main/java/com/simon/vpohode/managers/StyleManager.java,0/8/08f8561841c793b70573cadddac5acb0338d7bf6
-p
-@app/src/main/java/com/simon/vpohode/managers/WeatherManager.java,0/5/05f7d6b798637a4b67f8e0bc2bd7ad01811c2ae7
+]
+-app/src/main/java/com/simon/vpohode/Item.java,b/5/b56d29841ee4fab4da6d086fea5a84c48715b117
+k
+;app/src/main/java/com/simon/vpohode/screens/ConfigItem.java,e/b/ebc2168a3fc013210dc7382132f7730cde69e03a

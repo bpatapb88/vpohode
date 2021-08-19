@@ -1,6 +1,5 @@
 package com.simon.vpohode.screens;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
@@ -19,7 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
-import com.simon.vpohode.CustomAdapter;
+import com.simon.vpohode.CustomItemsAdapter;
 import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.ListViewManager;
 import com.simon.vpohode.R;
@@ -29,7 +28,7 @@ public class Wardrobe extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private CustomAdapter topItemAdapter;
+    private CustomItemsAdapter topItemAdapter;
     private ListView topItemList;
     private EditText searchItem;
     AlertDialog.Builder builder;
@@ -47,7 +46,6 @@ public class Wardrobe extends AppCompatActivity {
         topItemList = findViewById(R.id.list);
         sortBy = 0; //default sort is first
         databaseHelper = new DatabaseHelper(this);
-
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         builder = new AlertDialog.Builder(this);
@@ -75,9 +73,7 @@ public class Wardrobe extends AppCompatActivity {
         topItemAdapter = LayoutManager.configListOfItems(this,db, sortBy);
         topItemList.setAdapter(topItemAdapter);
         topItemAdapter.notifyDataSetChanged();
-        ListViewManager.getListViewSize(topItemList);
-
-
+        ListViewManager.optimizeListViewSize(topItemList);
         searchItem.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

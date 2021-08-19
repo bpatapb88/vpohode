@@ -39,6 +39,11 @@
     <string name="deleted">Removed</string>
     <string name="delete">Delete</string>
 
+    <!--Loos Activity -->
+    <string name="looks_activity">Looks</string>
+    <string name="catalog_looks">Catalog of looks</string>
+    <string name="add_look">Add look</string>
+
     <!--Wardrope -->
     <string name="enter_name">Enter the name</string>
     <string name="add">Add Thing</string>

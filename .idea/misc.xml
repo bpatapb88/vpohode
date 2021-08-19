@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_item.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_list_view_with_checkbox_item.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.16354166666666667" />
+        <entry key="app/src/main/res/layout/activity_looks.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_scroll_looks.xml" value="0.16354166666666667" />
         <entry key="app/src/main/res/layout/activity_wardrobe.xml" value="0.335" />
@@ -26,6 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_content.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_page.xml" value="0.22395833333333334" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/look_form.xml" value="0.335" />
         <entry key="app/src/main/res/layout/preferences_category.xml" value="0.22395833333333334" />
         <entry key="app/src/main/res/layout/save_template.xml" value="0.19635416666666666" />
         <entry key="app/src/main/res/layout/settings_activity.xml" value="0.2" />

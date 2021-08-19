@@ -96,7 +96,7 @@ public class LookManager {
                             }
                             Look look = new Look();
                             look.readFromDB(ids,context);
-                            System.out.println("Test look " + look.items.size());
+                            System.out.println("Test look " + look.countOfItems());
                         }else{
                             if(ColorManager.isLookMatch(finalLook)){
                                 result.add(finalLook);

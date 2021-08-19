@@ -1,5 +1,6 @@
 package com.simon.vpohode.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
     public static final String TABLE = "items";// Name of Table
+    public static final String TABLE_LOOKS = "looks";// Name of Table Looks
     private static final String RAW_QUERY_PART = "SELECT * FROM " + TABLE + " WHERE ";
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
@@ -30,10 +32,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + DBFields.CREATED.toFieldName() + " " + DBFields.CREATED.toType() + ", "
                 + DBFields.INWASH.toFieldName() + " " + DBFields.INWASH.toType() + ", "
                 + DBFields.BRAND.toFieldName() + " " + DBFields.BRAND.toType() + ");");
+
+        db.execSQL("CREATE TABLE " + TABLE_LOOKS + " ("
+                + DBLooksFields.ID.toFieldName() + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + DBLooksFields.NAME.toFieldName() + " " + DBLooksFields.NAME.toType() + ", "
+                + DBLooksFields.TERMMAX.toFieldName() + " " + DBLooksFields.TERMMAX.toType() + ", "
+                + DBLooksFields.TERMMIN.toFieldName() + " " + DBLooksFields.TERMMIN.toType() + ", "
+                + DBLooksFields.ITEMS.toFieldName() + " " + DBLooksFields.ITEMS.toType() + ");"
+        );
+
+        addPrefilledLooks(db);
     }
+
+    private void addPrefilledLooks(SQLiteDatabase db) {
+        ContentValues cv = new ContentValues();
+        cv.put(DBLooksFields.NAME.toFieldName(), "First look");
+        cv.put(DBLooksFields.TERMMAX.toFieldName(), 30d);
+        cv.put(DBLooksFields.TERMMIN.toFieldName(), 25d);
+        cv.put(DBLooksFields.ITEMS.toFieldName(), "1,2,3,4");
+        db.insert(TABLE_LOOKS,null,cv);
+        cv.clear();
+
+        cv.put(DBLooksFields.NAME.toFieldName(), "Second look");
+        cv.put(DBLooksFields.TERMMAX.toFieldName(), 25d);
+        cv.put(DBLooksFields.TERMMIN.toFieldName(), 20d);
+        cv.put(DBLooksFields.ITEMS.toFieldName(), "1,3,4,5,7");
+        db.insert(TABLE_LOOKS,null,cv);
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion,  int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOOKS);
         onCreate(db);
     }
 

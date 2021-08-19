@@ -38,6 +38,11 @@
     <string name="deleted">Odstraněno</string>
     <string name="delete">Smazat</string>
 
+    <!--Loos Activity -->
+    <string name="looks_activity">Úbory</string>
+    <string name="catalog_looks">Katalog úborů</string>
+    <string name="add_look">Přidat úbor</string>
+
     <!--Wardrope -->
     <string name="enter_name">Zadejte název</string>
     <string name="add">Přidat</string>

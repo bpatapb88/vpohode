@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FilterQueryProvider;
 
-import com.simon.vpohode.CustomAdapter;
+import com.simon.vpohode.CustomItemsAdapter;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBFields;
@@ -49,15 +49,15 @@ public class LayoutManager {
 
     }
 
-    public static CustomAdapter configListOfItems(Context contex, final SQLiteDatabase db, int sortBy){
+    public static CustomItemsAdapter configListOfItems(Context contex, final SQLiteDatabase db, int sortBy){
         //get cursor from db
         Cursor itemCursor =  DatabaseHelper.getCursorWardrobe(db, sortBy);
 
         // create adapter, send cursor
-        CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
+        CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(contex,itemCursor);
 
         // устанавливаем провайдер фильтрации
-        customAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+        customItemsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
             @Override
             public Cursor runQuery(CharSequence constraint) {
                 if (constraint == null || constraint.length() == 0) {
@@ -68,17 +68,17 @@ public class LayoutManager {
                 }
             }
         });
-        return customAdapter;
+        return customItemsAdapter;
     }
 
 
-    public static CustomAdapter configListOfItemsInWash(Context contex, final SQLiteDatabase db){
+    public static CustomItemsAdapter configListOfItemsInWash(Context contex, final SQLiteDatabase db){
         //get cursor from db
         Cursor itemCursor =  DatabaseHelper.getCursorInWash(db);
         // create adapter, send cursor
-        CustomAdapter customAdapter = new CustomAdapter(contex,itemCursor);
+        CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(contex,itemCursor);
 
-        return customAdapter;
+        return customItemsAdapter;
     }
 
     public static void setTheme(SharedPreferences preferences, Resources.Theme theme){

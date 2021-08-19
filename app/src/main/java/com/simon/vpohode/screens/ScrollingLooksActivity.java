@@ -82,7 +82,7 @@ public class ScrollingLooksActivity extends AppCompatActivity {
             tabLayout.setVisibility(View.GONE);
         }
 
-        if(Double.parseDouble(MainActivity.getPop())>0.5){
+        if(!MainActivity.getPop().equals("") && Double.parseDouble(MainActivity.getPop())>0.5){
             Toast.makeText(this, getResources().getString(R.string.umbrella), Toast.LENGTH_SHORT).show();
         }
 

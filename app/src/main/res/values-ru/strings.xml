@@ -41,6 +41,11 @@
     <string name="deleted">Удалена</string>
     <string name="delete">Удалить</string>
 
+    <!--Loos Activity -->
+    <string name="looks_activity">Наборы</string>
+    <string name="catalog_looks">Каталог наборов</string>
+    <string name="add_look">Добавить набор</string>
+
 
     <!--Wardrope -->
     <string name="enter_name">Введи название</string>

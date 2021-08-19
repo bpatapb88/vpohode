@@ -17,16 +17,16 @@ import androidx.cardview.widget.CardView;
 import com.simon.vpohode.managers.LookManager;
 import com.simon.vpohode.screens.ConfigItem;
 
-public class CustomAdapter extends CursorAdapter {
+public class CustomItemsAdapter extends CursorAdapter {
     private final LayoutInflater mLayoutInflater;
-    public CustomAdapter(Context context, Cursor c) {
+    public CustomItemsAdapter(Context context, Cursor c) {
         super(context, c);
-        mLayoutInflater = LayoutInflater.from(context);
+        this.mLayoutInflater = LayoutInflater.from(context);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return mLayoutInflater.inflate(R.layout.two_line_list_item, parent, false);
+        return mLayoutInflater.inflate(R.layout.item_form, parent, false);
     }
 
     /**
@@ -94,6 +94,5 @@ public class CustomAdapter extends CursorAdapter {
             drawable.setTint(imageView.getContext().getColor(R.color.colorPrimaryDark));
         }
         imageView.setImageDrawable(drawable);
-
     }
 }
