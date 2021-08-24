@@ -106,4 +106,8 @@
         <item>"slideshow"</item>
         <item>"today"</item>
     </array>
+    <array name="initial_slider_values">
+        <item>20.0</item>
+        <item>30.0</item>
+    </array>
 </resources>

@@ -8,8 +8,6 @@ Eapp/src/main/java/com/simon/vpohode/screens/CustomDialogFragment.java,3/2/3233
 k
 ;app/src/main/java/com/simon/vpohode/managers/ColorList.java,e/7/e70f22f28889e400ab48f5f537935bdf287260e2
 n
->app/src/main/java/com/simon/vpohode/managers/ColorManager.java,0/0/001bfac79b24719f3bd4b1eaed228c1e2ada1be7
-n
 >app/src/main/java/com/simon/vpohode/managers/ImageManager.java,b/d/bd9faf68799614c975fc4d635889b8375a38de3a
 r
 Bapp/src/main/java/com/simon/vpohode/managers/TemplatesManager.java,a/f/af95bef7da6dd12805251607cd310887e1b1b440
@@ -19,12 +17,6 @@ Capp/src/main/java/com/simon/vpohode/managers/PlacePhotoManager.java,b/8/b80d10
 .app/src/main/java/com/simon/vpohode/Rules.java,2/6/26a7bd48f56fb6d0141b40ea20da40453193f8e6
 _
 /app/src/main/java/com/simon/vpohode/Styles.java,3/a/3aba85e394fcd9702c40b958f2a7558f25577e9e
-z
-Japp/src/main/java/com/simon/vpohode/assync_tasks/TakeImageFromStorage.java,1/5/157acb132f8b1d7dd486b5d41f16bd4c9c984900
-b
-2app/src/main/java/com/simon/vpohode/MyAdapter.java,e/9/e9442c6cb6289680a332734f690b3879be3bc3e3
-e
-5app/src/main/java/com/simon/vpohode/PageFragment.java,e/d/ed8257631c29c5e3bd3b5a056de90a93c80a0595
 r
 Bapp/src/main/java/com/simon/vpohode/cut_out_background/CutOut.java,b/6/b6699a24c45729da6f444507079939216161fc82
 t
@@ -148,5 +140,3 @@ n
 >app/src/main/java/com/simon/vpohode/managers/StyleManager.java,0/8/08f8561841c793b70573cadddac5acb0338d7bf6
 ]
 -app/src/main/java/com/simon/vpohode/Item.java,b/5/b56d29841ee4fab4da6d086fea5a84c48715b117
-k
-;app/src/main/java/com/simon/vpohode/screens/ConfigItem.java,e/b/ebc2168a3fc013210dc7382132f7730cde69e03a

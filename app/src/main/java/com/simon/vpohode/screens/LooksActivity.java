@@ -25,6 +25,7 @@ public class LooksActivity extends AppCompatActivity {
     private Cursor cursor;
     private ListView lookList;
     private CustomLookAdapter lookAdapter;
+    double term;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class LooksActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         lookList = findViewById(R.id.list_of_looks);
 
+        Bundle extras = getIntent().getExtras();
+        term = extras.getDouble("term");
     }
 
     @Override
@@ -44,15 +47,6 @@ public class LooksActivity extends AppCompatActivity {
         super.onResume();
         db = databaseHelper.getReadableDatabase();
         cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS, null);
-        if(cursor.moveToFirst()){
-            do{
-                System.out.println("Name - " + cursor.getString(cursor.getColumnIndex("name")));
-                System.out.println("max - " + cursor.getDouble(cursor.getColumnIndex("max")));
-                System.out.println("min - " + cursor.getDouble(cursor.getColumnIndex("min")));
-                System.out.println("Items - " + cursor.getString(cursor.getColumnIndex("items")) + "\n");
-            }while (cursor.moveToNext());
-        }
-
         lookAdapter = new CustomLookAdapter(this, cursor);
         lookList.setAdapter(lookAdapter);
         ListViewManager.optimizeListViewSize(lookList);
@@ -73,6 +67,8 @@ public class LooksActivity extends AppCompatActivity {
     }
 
     public void addNewLook(View view) {
-
+        Intent intent = new Intent(this, AddLookActivity.class);
+        intent.putExtra("term", term);
+        startActivity(intent);
     }
 }

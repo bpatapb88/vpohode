@@ -429,7 +429,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             }
         ColorPickerDialog.newBuilder()
                 .setColor(color)
-                .setDialogType(ColorPickerDialog.TYPE_CUSTOM)
+                .setDialogType(ColorPickerDialog.TYPE_PRESETS)
                 .setAllowCustom(true)
                 .setAllowPresets(true)
                 .setShowColorShades(true)

@@ -35,8 +35,7 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     static List<Item[]> looks;
     private ViewPager2 pager;
     private InterstitialAd interstitialAd; //ad
-    AlertDialog.Builder builder;
-
+    private AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +71,8 @@ public class ScrollingLooksActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         double term = extras.getDouble("term");
         looks = LookManager.getLooks(term, getApplicationContext());
-        if(looks == null){
+
+        if(looks.isEmpty()){
             String lacks = LookManager.message.substring(0, LookManager.message.length() - 1);
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
             LookManager.message = "";

@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,7 +14,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,6 +34,7 @@ import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.PlacePhotoManager;
 import com.simon.vpohode.managers.WeatherManager;
 import com.simon.vpohode.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,10 +48,10 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
     // another Weather URL "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric"
     // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
-    private final static String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
-    private final static String PLACE_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
+    private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
+    private static final String PLACE_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
     private TextView textViewWeather;
-    private Double avgTempertureCel;
+    private Double avgTemperatureCel;
 
     public static String getPop() {
         return pop;
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView fotoCity;
     private final StringBuilder stringBuilderPlace = new StringBuilder();
     private FusedLocationProviderClient mFusedLocationClient;
-    final int permissionId = 44;
+    static final int PERMISSION_ID = 44;
     double latitudeTextView;
     double longitTextView;
 
@@ -153,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
     private void requestPermissions() {
         ActivityCompat.requestPermissions(this, new String[]{
                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION}, permissionId);
+                Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_ID);
     }
     private boolean isLocationEnabled() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -163,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
     public void
     onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            if (requestCode == permissionId && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (requestCode == PERMISSION_ID && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getLastLocation();
             }
 
@@ -197,7 +195,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToLookActivity(View view){
+        double temp = 1000d;
+        try {
+            temp = Double.parseDouble(preferences.getString("temp", "1000"));
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        if(temp != 1000){
+            avgTemperatureCel = temp;
+        }
         Intent intent = new Intent(this, LooksActivity.class);
+        intent.putExtra("term", avgTemperatureCel);
         startActivity(intent);
     }
 
@@ -218,10 +226,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if(temp != 1000){
-            avgTempertureCel = temp;
+            avgTemperatureCel = temp;
         }
         Intent intent = new Intent(this, ScrollingLooksActivity.class);
-        intent.putExtra("term", avgTempertureCel);
+        intent.putExtra("term", avgTemperatureCel);
         startActivity(intent);
     }
 
@@ -230,10 +238,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+
             StringBuilder result = new StringBuilder();
             HttpURLConnection urlConnection = null;
             URL url;
             try {
+
                 url = new URL(strings[0]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 InputStream in = urlConnection.getInputStream();
@@ -273,46 +283,21 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             WeatherManager weatherManager = new WeatherManager();
-            avgTempertureCel = weatherManager.getAverange(s);
+            avgTemperatureCel = weatherManager.getAverange(s);
 
             PlacePhotoManager placePhotoManager = new PlacePhotoManager(stringBuilderPlace.toString());
-            DownloadImageTask downloadImageTask = new DownloadImageTask(fotoCity);
-            downloadImageTask.execute(placePhotoManager.getPhotoURL());
+            Picasso.get().load(placePhotoManager.getPhotoURL()).into(fotoCity);
 
         // save the temperature
-                avgTempertureCel = (Double.parseDouble(weatherManager.getFeelTem0()) + Double.parseDouble(weatherManager.getFeelTem1()))/2;
+                avgTemperatureCel = (Double.parseDouble(weatherManager.getFeelTem0()) + Double.parseDouble(weatherManager.getFeelTem1()))/2;
                 StringBuilder textWeather = new StringBuilder();
                 textWeather.append(city).append(": ");
-                if (avgTempertureCel >= 0) {
+                if (avgTemperatureCel >= 0) {
                     textWeather.append("+");
                 }
                 final String outputWeather = (int)Double.parseDouble(weatherManager.getFeelTem0()) + " " + CELSIUS_SYMBOL + weatherManager.getDescription();
                 textWeather.append(outputWeather);
                 textViewWeather.setText(textWeather.toString());
-        }
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error Image", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
         }
     }
 

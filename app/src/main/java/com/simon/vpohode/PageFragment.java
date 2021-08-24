@@ -14,6 +14,9 @@ import androidx.fragment.app.Fragment;
 
 import com.simon.vpohode.assync_tasks.TakeImageFromStorage;
 import com.simon.vpohode.screens.ConfigItem;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 public class PageFragment extends Fragment {
 
@@ -59,7 +62,6 @@ public class PageFragment extends Fragment {
         LinearLayout leftLayout = result.findViewById(R.id.left_layout);
         View relativeLayout;
         ImageView photo;
-        TakeImageFromStorage takeImageFromStorage;
         TextView name;
         TextView style;
         TextView brand;
@@ -75,8 +77,8 @@ public class PageFragment extends Fragment {
                 inflater.getContext().startActivity(intent);
             });
             photo = relativeLayout.findViewById(R.id.imageViewPhoto);
-            takeImageFromStorage = new TakeImageFromStorage(photo);
-            takeImageFromStorage.execute(items[i].getFoto());
+            File fileFoto = new File(items[i].getFoto());
+            Picasso.get().load(fileFoto).into(photo);
 
             name = relativeLayout.findViewById(R.id.nameItem);
             name.setText(items[i].getName());

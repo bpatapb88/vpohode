@@ -19,6 +19,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".screens.AddLookActivity"
+            android:exported="true"
+            android:label="@string/title_activity_add_look"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".screens.LooksActivity"
             android:exported="true" />
         <activity android:name=".cut_out_background.CutBGActivity" />
@@ -46,8 +51,9 @@
         <activity
             android:name=".screens.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity android:name=".screens.ScrollingLooksActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan"/>
+        <activity
+            android:name=".screens.ScrollingLooksActivity"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
