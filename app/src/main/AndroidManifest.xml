@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".screens.AddItemToLookActivity"
+            android:exported="true" />
+        <activity
             android:name=".screens.AddLookActivity"
             android:exported="true"
             android:label="@string/title_activity_add_look"
