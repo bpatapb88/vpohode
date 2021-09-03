@@ -2,11 +2,17 @@ package com.simon.vpohode;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+
+import com.simon.vpohode.database.DatabaseHelper;
 
 public class CustomLookAdapter extends CursorAdapter {
     private final LayoutInflater mLayoutInflater;
@@ -23,7 +29,10 @@ public class CustomLookAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        Look look = new Look(cursor);
+        CardView cardView = view.findViewById(R.id.cardItem);
+        int index = cursor.getInt(cursor.getColumnIndex("_id"));
+
+        //Look look = new Look(cursor);
         TextView textName = view.findViewById(R.id.name);
         textName.setText(cursor.getString(cursor.getColumnIndex("name")));
         TextView temp = view.findViewById(R.id.temp);

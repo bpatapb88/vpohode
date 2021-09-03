@@ -6,15 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.simon.vpohode.Styles;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "vpohode.db"; //name of DB
     private static final int SCHEMA = 1;  // Version of DB
     public static final String TABLE = "items";// Name of Table
     public static final String TABLE_LOOKS = "looks";// Name of Table Looks
     private static final String RAW_QUERY_PART = "SELECT * FROM " + TABLE + " WHERE ";
+    private final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, SCHEMA);
     }
+
 
     @Override
     public void onCreate (SQLiteDatabase db) {
@@ -58,6 +66,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(DBLooksFields.TERMMIN.toFieldName(), 20d);
         cv.put(DBLooksFields.ITEMS.toFieldName(), "1,3,4,5,7");
         db.insert(TABLE_LOOKS,null,cv);
+
+
+        Calendar calendar = Calendar.getInstance();
+        String currentTime = dateFormat.format(calendar.getTime());
+
+        cv.clear();
+        //shirt
+        cv.put(DBFields.NAME.toFieldName(),"Shirt");
+        cv.put(DBFields.COLOR.toFieldName(),-787987);
+        cv.put(DBFields.STYLE.toFieldName(),2);
+        cv.put(DBFields.ISTOP.toFieldName(),1);
+        cv.put(DBFields.LAYER.toFieldName(),1);
+        cv.put(DBFields.TERMID.toFieldName(),2);
+        cv.put(DBFields.INWASH.toFieldName(), false);
+        cv.put(DBFields.USED.toFieldName(), 0);
+        cv.put(DBFields.CREATED.toFieldName(),currentTime);
+        db.insert(TABLE,null,cv);
+
+        cv.clear();
+        //pants
+        cv.put(DBFields.NAME.toFieldName(),"Pants");
+        cv.put(DBFields.COLOR.toFieldName(),-14013910);
+        cv.put(DBFields.STYLE.toFieldName(),1);
+        cv.put(DBFields.ISTOP.toFieldName(),0);
+        cv.put(DBFields.LAYER.toFieldName(),2);
+        cv.put(DBFields.TERMID.toFieldName(),2);
+        cv.put(DBFields.INWASH.toFieldName(), false);
+        cv.put(DBFields.USED.toFieldName(), 0);
+        cv.put(DBFields.CREATED.toFieldName(),currentTime);
+        db.insert(TABLE,null,cv);
+
+        cv.clear();
+        //Shoes
+        cv.put(DBFields.NAME.toFieldName(),"Shoes");
+        cv.put(DBFields.COLOR.toFieldName(),-10797002);
+        cv.put(DBFields.STYLE.toFieldName(),3);
+        cv.put(DBFields.ISTOP.toFieldName(),0);
+        cv.put(DBFields.LAYER.toFieldName(),3);
+        cv.put(DBFields.TERMID.toFieldName(),2);
+        cv.put(DBFields.INWASH.toFieldName(), false);
+        cv.put(DBFields.USED.toFieldName(), 0);
+        cv.put(DBFields.CREATED.toFieldName(),currentTime);
+        db.insert(TABLE,null,cv);
+
+        cv.clear();
+        //Snickers
+        cv.put(DBFields.NAME.toFieldName(),"Snickers");
+        cv.put(DBFields.COLOR.toFieldName(),-6381922);
+        cv.put(DBFields.STYLE.toFieldName(),4);
+        cv.put(DBFields.ISTOP.toFieldName(),0);
+        cv.put(DBFields.LAYER.toFieldName(),3);
+        cv.put(DBFields.TERMID.toFieldName(),1);
+        cv.put(DBFields.INWASH.toFieldName(), false);
+        cv.put(DBFields.USED.toFieldName(), 0);
+        cv.put(DBFields.CREATED.toFieldName(),currentTime);
+        db.insert(TABLE,null,cv);
     }
 
     @Override

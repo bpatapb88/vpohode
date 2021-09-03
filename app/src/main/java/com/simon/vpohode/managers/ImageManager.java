@@ -50,14 +50,11 @@ public class ImageManager {
     public static void deleteImagesById(long id, SQLiteDatabase db) throws NoSuchFileException, DirectoryNotEmptyException, IOException{
         Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(id)});
         cursor.moveToFirst();
-        File file = new File(cursor.getString(7));
-        cursor.close();
-        if(!file.delete()){
-            //exception is threw
+        if(cursor.getString(7) != null){
+            File file = new File(cursor.getString(7));
+            file.delete();
+            cursor.close();
         }
-
-
-
     }
 
 }

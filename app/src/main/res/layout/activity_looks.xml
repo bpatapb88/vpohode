@@ -130,7 +130,7 @@
                         android:fontFamily="@font/montserrat_alternates_bold"
                         android:text="@string/add_look"/>
                 </androidx.cardview.widget.CardView>
-                <ListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list_of_looks"
                     android:layout_weight="1"
                     android:layout_width="match_parent"

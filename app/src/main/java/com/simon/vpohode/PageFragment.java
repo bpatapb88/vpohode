@@ -77,8 +77,11 @@ public class PageFragment extends Fragment {
                 inflater.getContext().startActivity(intent);
             });
             photo = relativeLayout.findViewById(R.id.imageViewPhoto);
-            File fileFoto = new File(items[i].getFoto());
-            Picasso.get().load(fileFoto).into(photo);
+
+            if(items[i].getFoto() != null){
+                File fileFoto = new File(items[i].getFoto());
+                Picasso.get().load(fileFoto).into(photo);
+            }
 
             name = relativeLayout.findViewById(R.id.nameItem);
             name.setText(items[i].getName());

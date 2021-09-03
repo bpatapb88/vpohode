@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -13,7 +14,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.view.ViewCompat;
 import androidx.preference.PreferenceManager;
 
@@ -31,6 +35,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class AddLookActivity extends AppCompatActivity {
     private RangeSlider rangeSlider;
@@ -46,20 +51,17 @@ public class AddLookActivity extends AppCompatActivity {
     private LinearLayout leftLayout;
     private LinearLayout rightLayout;
     private EditText nameLook;
+    private CardView[] cardViews;
+    private ImageView[] imageViews;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         LayoutManager.setTheme(prefs, getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_look);
-        ImageView backImage = findViewById(R.id.back);
-        backImage.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), LooksActivity.class);
-            intent.putExtra("term", term);
-            startActivity(intent);
-        });
+
 
         fb = findViewById(R.id.fab);
 
@@ -120,6 +122,25 @@ public class AddLookActivity extends AppCompatActivity {
         if(term < 33 && term > -33){
             rangeSlider.setValues((float)term-2, (float)term + 2);
         }
+        ImageView backImage = findViewById(R.id.back);
+        backImage.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), LooksActivity.class);
+            intent.putExtra("term", term);
+            startActivity(intent);
+        });
+
+        cardViews = new CardView[]{findViewById(R.id.colorCard1),
+                findViewById(R.id.colorCard2),
+                findViewById(R.id.colorCard3),
+                findViewById(R.id.colorCard4),
+                findViewById(R.id.colorCard5),
+                findViewById(R.id.colorCard6)};
+        imageViews = new ImageView[]{findViewById(R.id.colorView1),
+                findViewById(R.id.colorView2),
+                findViewById(R.id.colorView3),
+                findViewById(R.id.colorView4),
+                findViewById(R.id.colorView5),
+                findViewById(R.id.colorView6)};
 
         looks = LookManager.getLooks(term, getApplicationContext());
         if(!looks.isEmpty()){
@@ -146,33 +167,18 @@ public class AddLookActivity extends AppCompatActivity {
 
         addItemButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddItemToLookActivity.class);
-            intent.putExtra("look", looks.get(currentLook));
-            intent.putExtra("term", term);
-            intent.putExtra("name", nameLook.getText().toString());
-            startActivity(intent);
-
-
-/*
-            View itemView = View.inflate(v.getContext(),R.layout.list_item_edit,null);
-            ImageView photo = itemView.findViewById(R.id.imageViewPhoto);
-            photo.setBackgroundColor(getResources().getColor(R.color.colorBackground));
-            photo.setImageResource(R.drawable.ic_add_foto_margintop48);
-            Item[] look = looks.get(currentLook);
-            Item[] lookNew = new Item[look.length + 1];
-            for(int i = 0; i<look.length;i++){
-                lookNew[i] = look[i];
+            if(!looks.isEmpty()){
+                Integer[] itemsID = Stream.of(looks.get(currentLook)).map(Item::getId).toArray(Integer[]::new);
+                intent.putExtra("look", itemsID);
             }
-            Item addedItem = new Item();
-            addedItem.setId(0);
-            addedItem.setName("Test Item");
-            addedItem.setColor(0);
-            addedItem.setFoto(look[look.length-1].getFoto());
-            lookNew[look.length] = addedItem;
-            looks.set(currentLook,lookNew);
-            leftLayout.removeAllViewsInLayout();
-            rightLayout.removeAllViewsInLayout();
-            fillLook(looks.get(currentLook));
-            hideFabs();*/
+
+            intent.putExtra("term", term);
+            if(nameLook.getText().length() > 0){
+                intent.putExtra("name", nameLook.getText().toString());
+            }else{
+                intent.putExtra("name", "");
+            }
+            startActivity(intent);
         });
 
         saveLookButton.setOnClickListener(v -> {
@@ -202,11 +208,13 @@ public class AddLookActivity extends AppCompatActivity {
             databaseHelper.close();
 
             Intent intent = new Intent(this, LooksActivity.class);
+            intent.putExtra("term", term);
             startActivity(intent);
         });
     }
 
     private void fillLook(Item[] look){
+        
         for(int i = 0 ; i < look.length; i++){
             View itemView = View.inflate(this,R.layout.list_item_edit,null);
             TextView nameTextView = itemView.findViewById(R.id.nameItem);
@@ -215,9 +223,15 @@ public class AddLookActivity extends AppCompatActivity {
             nameTextView.setText(look[i].getName());
             ImageView deleteItem = itemView.findViewById(R.id.delete_item);
 
+            cardViews[i].setAlpha(1);
+            cardViews[i].setCardElevation(5);
+            imageViews[i].setBackgroundColor(look[i].getColor());
+
             ImageView imageFoto = itemView.findViewById(R.id.imageViewPhoto);
-            File fileFoto = new File(look[i].getFoto());
-            Picasso.get().load(fileFoto).into(imageFoto);
+            if(look[i].getFoto() != null){
+                File fileFoto = new File(look[i].getFoto());
+                Picasso.get().load(fileFoto).into(imageFoto);
+            }
             if(i%2 == 0){
                 deleteItem.setOnClickListener(v -> {
                     removeItemFromLook(Integer.parseInt(itemIdTextView.getText().toString()));
@@ -259,5 +273,4 @@ public class AddLookActivity extends AppCompatActivity {
         }
         looks.set(currentLook,newArray);
     }
-
 }

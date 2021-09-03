@@ -107,7 +107,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     SwitchCompat topBot;
     boolean newImage = false;
     boolean newColor = false;
-    long userId=0;
+    long itemId =0;
     int chekedLayer = 0;
 
     private final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -217,9 +217,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         Uri imageUri;
 
         if (extras != null) {
-            userId = extras.getLong("id");
+            itemId = extras.getLong("id");
             imageUri = (Uri) extras.get(CutOut.CUTOUT_EXTRA_RESULT);
-
+            System.out.println("Item id is " + itemId);
 
             if(imageUri != null){
                 imageItem.setImageURI(imageUri);
@@ -230,7 +230,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             LinearLayout templateLayout = findViewById(R.id.template_layout);
             templateLayout.setVisibility(View.GONE);
             // get item by id from db
-            userCursor = db.rawQuery(SELECT + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(userId)});
+            userCursor = db.rawQuery(SELECT + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + "=?", new String[]{String.valueOf(itemId)});
             userCursor.moveToFirst();
             nameBox.setText(userCursor.getString(1));
             brand.setText(userCursor.getString(11));
@@ -554,13 +554,11 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         }
         if (nameBox.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.enter_name), Toast.LENGTH_SHORT).show();
-        } else if (!newColor && userId == 0) {
+        } else if (!newColor && itemId == 0) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.color_not_set), Toast.LENGTH_SHORT).show();
         } else if(chekedLayer == 0) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_layer), Toast.LENGTH_SHORT).show();
-        } else if(!newImage && userId == 0) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.choose_foto), Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             return true;
         }
         return false;
@@ -584,19 +582,20 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             if (newColor) {
                 colorInicator = (ColorDrawable) colorView.getBackground();
                 cv.put(DBFields.COLOR.toFieldName(), colorInicator.getColor());
+                System.out.println("Color int - " + colorInicator.getColor());
             }
             //save image if image was changed or new
             if (newImage) {
-                if (userId > 0) {
-                    deleteImagesById(userId, db);
+                if (itemId > 0) {
+                    deleteImagesById(itemId, db);
                 }
                 Bitmap bm = ((BitmapDrawable) imageItem.getDrawable()).getBitmap();
                 cv.put(DBFields.FOTO.toFieldName(), ImageManager.saveToInternalStorage(bm, getApplicationContext()));
             }
             // update or insert DB
-                if (userId > 0) {
+                if (itemId > 0) {
                     cv.put(DBFields.USED.toFieldName(), Integer.parseInt(usedTime.getText().toString()));
-                    db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+                    db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + itemId, null);
                 } else {
                     cv.put(DBFields.USED.toFieldName(), 0);
                     Calendar calendar = Calendar.getInstance();
@@ -638,14 +637,14 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     }
 
     public void onClickColor(View view) {
-        createColorPickerDialog(userId);
+        createColorPickerDialog(itemId);
     }
 
     public void delete(View view) throws IOException {
-        if(userId > 0){
-            deleteImagesById(userId, db);
-            Toast.makeText(this, getResources().getString(R.string.deleted) + " " + userId, Toast.LENGTH_SHORT).show();
-            db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(userId)});
+        if(itemId > 0){
+            deleteImagesById(itemId, db);
+            Toast.makeText(this, getResources().getString(R.string.deleted) + " " + itemId, Toast.LENGTH_SHORT).show();
+            db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(itemId)});
             goHome();
         }else{
             if (nameBox.getText().toString().equals("")){
@@ -685,7 +684,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     public void washItem(View view){
             ContentValues cv = new ContentValues();
             cv.put(DBFields.INWASH.toFieldName(),true);
-            db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + userId, null);
+            db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + itemId, null);
             cv.clear();
             // move to main activity
             goHome();
