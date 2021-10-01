@@ -154,16 +154,12 @@ z
 Japp/src/main/java/com/simon/vpohode/assync_tasks/TakeImageFromStorage.java,1/5/157acb132f8b1d7dd486b5d41f16bd4c9c984900
 p
 @app/src/main/java/com/simon/vpohode/managers/WeatherManager.java,0/5/05f7d6b798637a4b67f8e0bc2bd7ad01811c2ae7
-m
-=app/src/main/java/com/simon/vpohode/screens/MainActivity.java,4/2/42feb62f17c4dc995941dca8d0244a70c56c0f75
 w
 Gapp/src/main/java/com/simon/vpohode/screens/ScrollingLooksActivity.java,3/d/3d9c214e43090ca4162775ff37e8c0a324790982
 b
 2app/src/main/java/com/simon/vpohode/MyAdapter.java,e/9/e9442c6cb6289680a332734f690b3879be3bc3e3
 m
 =app/src/main/java/com/simon/vpohode/managers/LookManager.java,a/8/a8a1ef4277116a756f5cce5b920f33dbb1e6fbb5
-P
- app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 ]
 -app/src/main/java/com/simon/vpohode/Look.java,d/f/df1e2f9b67f88daff39424cb3358ab0d29e84f2a
 o
@@ -172,3 +168,17 @@ k
 ;app/src/main/java/com/simon/vpohode/CustomItemsAdapter.java,5/7/57876816000c7abf5d292506ebfa5aefb8c83be6
 i
 9app/src/main/java/com/simon/vpohode/screens/Wardrobe.java,1/1/1190e97d998af5af521621401edac907d5efee83
+k
+;app/src/main/java/com/simon/vpohode/screens/ConfigItem.java,e/b/ebc2168a3fc013210dc7382132f7730cde69e03a
+j
+:app/src/main/java/com/simon/vpohode/CustomLookAdapter.java,f/a/fa2f1e526b86cf28253f2703446fac0489245916
+n
+>app/src/main/java/com/simon/vpohode/managers/ImageManager.java,b/d/bd9faf68799614c975fc4d635889b8375a38de3a
+e
+5app/src/main/java/com/simon/vpohode/PageFragment.java,e/d/ed8257631c29c5e3bd3b5a056de90a93c80a0595
+e
+5app/src/main/java/com/simon/vpohode/RecyclerData.java,d/4/d4655208fee37aa41baf21f22bc412dc38cafb20
+r
+Bapp/src/main/java/com/simon/vpohode/RecyclerItemClickListener.java,b/8/b8c7846fe3b4adf20b23954623398fc1b627bf7f
+i
+9app/src/main/java/com/simon/vpohode/RecyclerDataLook.java,d/0/d02bbed46b226398cefb02a2374817c1402faea2

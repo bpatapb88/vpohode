@@ -78,9 +78,10 @@ public class LooksActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,recyclerView,new RecyclerItemClickListener.OnItemClickListener(){
             @Override
             public void onItemClick(View view, int position) {
-                System.out.println("Clicked name " + recyclerDataArrayList.get(position).getName());
-                System.out.println("Clicked position " + position);
-                System.out.println("RecyclerView.getChildCount() -" + recyclerView.getChildCount());
+                Intent intent = new Intent(view.getContext(), SelectLookActivity.class);
+                intent.putExtra("term", term);
+                intent.putExtra("look_id", recyclerDataArrayList.get(position).getId());
+                view.getContext().startActivity(intent);
             }
             @Override
             public void onLongItemClick(View view, int position) {

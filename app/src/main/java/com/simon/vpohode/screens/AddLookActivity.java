@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -189,15 +191,19 @@ public class AddLookActivity extends AppCompatActivity {
             for(int i = 0; i < countLeft; i++){
                 templeView = leftLayout.getChildAt(i).findViewById(R.id.item_id);
                 items.append(templeView.getText().toString() + ",");
-                System.out.println("left ids - " + templeView.getText().toString());
             }
             for(int i = 0; i < countRight; i++){
                 templeView = rightLayout.getChildAt(i).findViewById(R.id.item_id);
                 items.append(templeView.getText().toString() + ",");
-                System.out.println("right ids - " + templeView.getText().toString());
             }
             DatabaseHelper databaseHelper = new DatabaseHelper(v.getContext());
             SQLiteDatabase db = databaseHelper.getReadableDatabase();
+
+            if(isNameExist(nameLook.getText().toString(),db)){
+                Toast.makeText(this,"This name already exist", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             ContentValues cv = new ContentValues();
             cv.put(DBLooksFields.NAME.toFieldName(), nameLook.getText().toString());
             cv.put(DBLooksFields.TERMMAX.toFieldName(), rangeSlider.getValues().get(1));
@@ -211,6 +217,20 @@ public class AddLookActivity extends AppCompatActivity {
             intent.putExtra("term", term);
             startActivity(intent);
         });
+    }
+
+    private boolean isNameExist(String name, SQLiteDatabase db){
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS, null);
+
+        System.out.println(cursor.getCount());
+        if(cursor.moveToFirst()){
+            do{
+                if(cursor.getString(cursor.getColumnIndex("name")).equals(name)){
+                    return true;
+                }
+            }while (cursor.moveToNext());
+        }
+        return false;
     }
 
     private void fillLook(Item[] look){

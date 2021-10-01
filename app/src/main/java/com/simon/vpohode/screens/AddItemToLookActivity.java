@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,19 +42,28 @@ public class AddItemToLookActivity extends AppCompatActivity {
         term = extras.getDouble("term");
         nameLook = extras.getString("name");
         look = (Integer[]) extras.get("look");
-        String[] lookString = new String[look.length];
-        for(int i = 0; i < look.length; i++){
-            lookString[i] = look[i].toString();
-        }
         StringBuilder stringBuilder = new StringBuilder();
-        for (String str : lookString){
-            stringBuilder.append(str);
-            stringBuilder.append(",");
+        if(look != null){
+            String[] lookString = new String[look.length];
+            for(int i = 0; i < look.length; i++){
+                lookString[i] = look[i].toString();
+            }
+
+            for (String str : lookString){
+                stringBuilder.append(str);
+                stringBuilder.append(",");
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length()-1);
         }
-        stringBuilder.deleteCharAt(stringBuilder.length()-1);
+
 
         databaseHelper = new DatabaseHelper(this);
         db = databaseHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " IN (" + stringBuilder.toString() + ")", null);
+        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ")", null);
+        Toast.makeText(this,"We found " + cursor.getCount() + " items", Toast.LENGTH_SHORT).show();
+    }
+
+    public void finish(View view) {
+        this.finish();
     }
 }
