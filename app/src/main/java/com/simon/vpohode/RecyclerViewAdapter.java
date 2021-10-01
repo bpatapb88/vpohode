@@ -9,16 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
-    private ArrayList<RecyclerDataLook> lookDataArrayList;
+    private ArrayList<Look> lookDataArrayList;
     private Context mcontext;
 
-    public RecyclerViewAdapter(ArrayList<RecyclerDataLook> recyclerDataArrayList, Context mcontext) {
+    public RecyclerViewAdapter(ArrayList<Look> recyclerDataArrayList, Context mcontext) {
         this.lookDataArrayList = recyclerDataArrayList;
         this.mcontext = mcontext;
     }
@@ -34,7 +32,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.RecyclerViewHolder holder, int position) {
 // Set the data to textview from our modal class.
-        RecyclerDataLook recyclerData = lookDataArrayList.get(position);
+        Look recyclerData = lookDataArrayList.get(position);
         holder.nameOfLook.setText(recyclerData.getName());
         String tempRangeString = prepareTemp(recyclerData.getMin()) +
                 ".." +

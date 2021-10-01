@@ -33,7 +33,7 @@ public class TemplatesManager {
         cursor.moveToFirst();
         do{
             if(templateName.equals(cursor.getString(cursor.getColumnIndex("name")))){
-                return LookManager.cursorToItem(cursor);
+                return new Item().cursorToItem(cursor);
             }
         }while (cursor.moveToNext());
 

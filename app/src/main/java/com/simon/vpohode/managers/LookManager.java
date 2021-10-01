@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Item;
-import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Rules;
 import com.simon.vpohode.database.DBFields;
@@ -18,16 +17,15 @@ import com.simon.vpohode.database.DatabaseHelper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LookManager {
 
-    private LookManager() {
+    public LookManager() {
     }
 
-    public static String message = "";
+    public String message = "";
 
-    public static List<Item[]> getLooks(double temp, Context context){
+    public List<Item[]> getLooks(double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
@@ -94,9 +92,6 @@ public class LookManager {
                             for (int z = 0 ; z < finalLook.length ; z++){
                                 ids[z] = finalLook[z].getId();
                             }
-                            Look look = new Look();
-                            look.readFromDB(ids,context);
-                            System.out.println("Test look " + look.countOfItems());
                         }else{
                             if(ColorManager.isLookMatch(finalLook)){
                                 result.add(finalLook);
@@ -120,13 +115,13 @@ public class LookManager {
         }
     }
 
-    public static void closeCursors(Cursor[] cursors){
+    private void closeCursors(Cursor[] cursors){
         for(Cursor cursor: cursors){
             cursor.close();
         }
     }
 
-    public static Item[] sumOfArray(Item[] items1, Item[] items2, Item[] items3){
+    private Item[] sumOfArray(Item[] items1, Item[] items2, Item[] items3){
         Item[] result = new Item[items1.length + items2.length + items3.length];
         int count = 0;
         for(int i = 0; i < items1.length;i++){
@@ -142,7 +137,7 @@ public class LookManager {
         return result;
     }
 
-    public static Item[][] cursorsToArray(Cursor[] input){
+    private Item[][] cursorsToArray(Cursor[] input){
         int sizeOfOutput = 1;
         for(Cursor cursor: input){
             cursor.moveToFirst();
@@ -151,7 +146,7 @@ public class LookManager {
         Item[][] result = new Item[sizeOfOutput][input.length];
         for(int i = 0; i<result.length;i++){
             for(int j = 0;j<input.length;j++){
-                result[i][j]=cursorToItem(input[j]);
+                result[i][j]=new Item().cursorToItem(input[j]);
             }
             for(int x = 0; x < input.length; x++){
                 if(input[x].moveToNext()){
@@ -164,23 +159,7 @@ public class LookManager {
         return result;
     }
 
-    public static Item cursorToItem(Cursor cursors){
-
-        return new Item(cursors.getInt(cursors.getColumnIndex("_id")),
-                cursors.getString(cursors.getColumnIndex("name")),
-                cursors.getInt(cursors.getColumnIndex("style")),
-                cursors.getInt(cursors.getColumnIndex("istop")),
-                cursors.getDouble(cursors.getColumnIndex("termindex")),
-                cursors.getInt(cursors.getColumnIndex("layer")),
-                cursors.getInt(cursors.getColumnIndex("color")),
-                cursors.getString(cursors.getColumnIndex("foto")),
-                cursors.getInt(cursors.getColumnIndex("used")),
-                cursors.getString(cursors.getColumnIndex("created")),
-                cursors.getInt(cursors.getColumnIndex("inwash")) > 0,
-                cursors.getString(cursors.getColumnIndex("brand")));
-    }
-
-    public static List<Item[]> referedToTempTop(Item[][] looks, Double temp){
+    private List<Item[]> referedToTempTop(Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double merginalIndex=0;
@@ -210,7 +189,7 @@ public class LookManager {
         }
         return matchedLooks;
     }
-    public static List<Item[]> referedToTempBot (Item[][] looks, Double temp){
+    private List<Item[]> referedToTempBot (Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double merginalIndex=0;
@@ -251,7 +230,7 @@ public class LookManager {
         }
         return matchedLooks;
     }
-    public static List<Item[]> referedToTempBoots (Item[][] looks, Double temp){
+    private List<Item[]> referedToTempBoots (Item[][] looks, Double temp){
         ArrayList<Item[]> matchedLooks = new ArrayList<>();
         for(Item[] look: looks){
             double termIndex=look[0].getTermid();
@@ -274,14 +253,14 @@ public class LookManager {
         return matchedLooks;
     }
 
-    private static void setAccurancy(SharedPreferences prefs) {
+    private void setAccurancy(SharedPreferences prefs) {
         String accuracy = prefs.getString("accuracy","0.5");
         if(!accuracy.equals("0.5")) {
             Rules.accuracy = Double.parseDouble(accuracy);
         }
     }
 
-    public static void useLook(Integer showingLook, List<Item[]> looks, Context context){
+    public void useLook(Integer showingLook, List<Item[]> looks, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         ContentValues cv = new ContentValues();

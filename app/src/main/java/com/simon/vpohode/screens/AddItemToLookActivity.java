@@ -1,28 +1,15 @@
 package com.simon.vpohode.screens;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.snackbar.Snackbar;
 import com.simon.vpohode.R;
-import com.simon.vpohode.RecyclerData;
-import com.simon.vpohode.RecyclerItemClickListener;
-import com.simon.vpohode.RecyclerViewAdapter;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class AddItemToLookActivity extends AppCompatActivity {
 

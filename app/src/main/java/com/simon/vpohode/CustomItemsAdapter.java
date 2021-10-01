@@ -43,7 +43,7 @@ public class CustomItemsAdapter extends CursorAdapter {
     @Override
     public void bindView(final View v, final Context context, final Cursor c) {
 
-        Item item = LookManager.cursorToItem(c);
+        Item item = new Item().cursorToItem(c);
         final Long id = (long) item.getId();
 
         CardView cardItem = v.findViewById(R.id.cardItem);

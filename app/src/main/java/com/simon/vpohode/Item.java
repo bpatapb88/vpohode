@@ -1,7 +1,15 @@
 package com.simon.vpohode;
 
+import android.database.Cursor;
+
 import androidx.annotation.NonNull;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Value;
+
+@Data
 public class Item {
     private int id;
     private String name;
@@ -16,102 +24,6 @@ public class Item {
     private boolean inwash;
     private String brand;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getLayer() {
-        return layer;
-    }
-
-    public void setLayer(int layer) {
-        this.layer = layer;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getStyle() {
-        return style;
-    }
-
-    public void setStyle(int style) {
-        this.style = style;
-    }
-
-    public Double getTermid() {
-        return termid;
-    }
-
-    public void setTermid(Double termid) {
-        this.termid = termid;
-    }
-
-    public int getTop() {
-        return top;
-    }
-
-    public void setTop(int top) {
-        this.top = top;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
-    }
-
-    public int getColor() {
-        return color;
-    }
-
-    public void setColor(int color) {
-        this.color = color;
-    }
-
-    public int getUsed() {
-        return used;
-    }
-
-    public void setUsed(int used) {
-        this.used = used;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public void setCreated(String created) {
-        this.created = created;
-    }
-
-    public boolean isInWash() {
-        return inwash;
-    }
-
-    public void setInWash(boolean inwash) {
-        this.inwash = inwash;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public Item(int id, String name, int style, int top, Double termid, int layer, int color, String foto, int used, String created, boolean inwash, String brand) {
         this.id = id;
         this.name = name;
@@ -125,6 +37,21 @@ public class Item {
         this.created = created;
         this.inwash = inwash;
         this.brand = brand;
+    }
+
+    public Item cursorToItem(Cursor cursors){
+        return new Item(cursors.getInt(cursors.getColumnIndex("_id")),
+                cursors.getString(cursors.getColumnIndex("name")),
+                cursors.getInt(cursors.getColumnIndex("style")),
+                cursors.getInt(cursors.getColumnIndex("istop")),
+                cursors.getDouble(cursors.getColumnIndex("termindex")),
+                cursors.getInt(cursors.getColumnIndex("layer")),
+                cursors.getInt(cursors.getColumnIndex("color")),
+                cursors.getString(cursors.getColumnIndex("foto")),
+                cursors.getInt(cursors.getColumnIndex("used")),
+                cursors.getString(cursors.getColumnIndex("created")),
+                cursors.getInt(cursors.getColumnIndex("inwash")) > 0,
+                cursors.getString(cursors.getColumnIndex("brand")));
     }
 
     public Item() {

@@ -27,7 +27,6 @@ import com.simon.vpohode.managers.LookManager;
 import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +35,7 @@ public class ScrollingLooksActivity extends AppCompatActivity {
     private ViewPager2 pager;
     private InterstitialAd interstitialAd; //ad
     private AlertDialog.Builder builder;
+    private LookManager lookManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +70,12 @@ public class ScrollingLooksActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         double term = extras.getDouble("term");
-        looks = LookManager.getLooks(term, getApplicationContext());
+        lookManager = new LookManager();
+        looks = lookManager.getLooks(term, getApplicationContext());
 
         if(looks.isEmpty()){
-            String lacks = LookManager.message.substring(0, LookManager.message.length() - 1);
+            String lacks = lookManager.message.substring(0, lookManager.message.length() - 1);
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
-            LookManager.message = "";
             finish();
         }else if(looks.size() == 1){
             TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -106,7 +106,7 @@ public class ScrollingLooksActivity extends AppCompatActivity {
         builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
         builder.setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
-                    LookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
+                    lookManager.useLook(pager.getCurrentItem(),looks,view.getContext());
                     if(interstitialAd.isLoaded()){
                         interstitialAd.show();
                     }else{

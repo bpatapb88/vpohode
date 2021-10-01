@@ -228,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         if(temp != 1000){
             avgTemperatureCel = temp;
         }
-        Intent intent = new Intent(this, SelectLookActivity.class);
+        Intent intent = new Intent(this, ScrollingLooksActivity.class);
         intent.putExtra("term", avgTemperatureCel);
         startActivity(intent);
     }

@@ -15,14 +15,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.simon.vpohode.CustomLookAdapter;
 import com.simon.vpohode.R;
-import com.simon.vpohode.RecyclerData;
-import com.simon.vpohode.RecyclerDataLook;
+import com.simon.vpohode.Look;
 import com.simon.vpohode.RecyclerItemClickListener;
 import com.simon.vpohode.RecyclerViewAdapter;
 import com.simon.vpohode.database.DBLooksFields;
@@ -37,7 +35,7 @@ public class LooksActivity extends AppCompatActivity {
     private Cursor cursor;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
-    private ArrayList<RecyclerDataLook> recyclerDataArrayList;
+    private ArrayList<Look> recyclerDataArrayList;
 
     private CustomLookAdapter lookAdapter;
     double term;
@@ -65,7 +63,7 @@ public class LooksActivity extends AppCompatActivity {
         recyclerDataArrayList = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                recyclerDataArrayList.add(new RecyclerDataLook(cursor));
+                recyclerDataArrayList.add(new Look(cursor));
             }while (cursor.moveToNext());
         }
         recyclerViewAdapter = new RecyclerViewAdapter(recyclerDataArrayList, this);
@@ -102,7 +100,7 @@ public class LooksActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 // this method is called when we swipe our item to right direction.
                 // on below line we are getting the item at a particular position.
-                RecyclerDataLook deletedCourse = recyclerDataArrayList.get(viewHolder.getAdapterPosition());
+                Look deletedCourse = recyclerDataArrayList.get(viewHolder.getAdapterPosition());
 
                 // below line is to get the position
                 // of the item at that position.
@@ -161,13 +159,13 @@ public class LooksActivity extends AppCompatActivity {
         return db.delete(DatabaseHelper.TABLE_LOOKS, DBLooksFields.ID.toFieldName() + "="+id,null) > 0;
     }
 
-    public boolean insertToDB(RecyclerDataLook recyclerDataLook){
+    public boolean insertToDB(Look look){
         ContentValues cv = new ContentValues();
-        cv.put(DBLooksFields.ID.toFieldName(),recyclerDataLook.getId());
-        cv.put(DBLooksFields.NAME.toFieldName(), recyclerDataLook.getName());
-        cv.put(DBLooksFields.TERMMAX.toFieldName(), recyclerDataLook.getMax());
-        cv.put(DBLooksFields.TERMMIN.toFieldName(), recyclerDataLook.getMin());
-        cv.put(DBLooksFields.ITEMS.toFieldName(), recyclerDataLook.getItems());
+        cv.put(DBLooksFields.ID.toFieldName(), look.getId());
+        cv.put(DBLooksFields.NAME.toFieldName(), look.getName());
+        cv.put(DBLooksFields.TERMMAX.toFieldName(), look.getMax());
+        cv.put(DBLooksFields.TERMMIN.toFieldName(), look.getMin());
+        cv.put(DBLooksFields.ITEMS.toFieldName(), look.getItems());
         return db.insert(DatabaseHelper.TABLE_LOOKS,null,cv) > 0;
     }
 }

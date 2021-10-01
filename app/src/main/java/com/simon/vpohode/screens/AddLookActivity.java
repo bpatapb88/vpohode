@@ -144,10 +144,14 @@ public class AddLookActivity extends AppCompatActivity {
                 findViewById(R.id.colorView5),
                 findViewById(R.id.colorView6)};
 
-        looks = LookManager.getLooks(term, getApplicationContext());
+        LookManager lookManager = new LookManager();
+        looks = lookManager.getLooks(term, getApplicationContext());
         if(!looks.isEmpty()){
             Item[] look = looks.get(currentLook);
             fillLook(look);
+        }else{
+            String lacks = lookManager.message.substring(0, lookManager.message.length() - 1);
+            Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
         }
 
         refreshLookButton.setOnClickListener(v -> {
