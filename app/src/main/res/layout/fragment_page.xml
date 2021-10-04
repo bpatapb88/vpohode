@@ -51,7 +51,8 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginRight="8dp"
                     app:cardElevation="3dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                        android:alpha="0">
 
                         <ImageView
                         android:id="@+id/colorView1"
@@ -69,7 +70,8 @@
                     android:layout_marginVertical="5dp"
                     android:layout_marginHorizontal="8dp"
                     app:cardElevation="3dp"
-                    app:cardCornerRadius="10dp">
+                    app:cardCornerRadius="10dp"
+                        android:alpha="0">
                         <ImageView
                         android:id="@+id/colorView2"
                         android:layout_width="20dp"
@@ -86,7 +88,6 @@
                 android:layout_marginVertical="5dp"
                 android:layout_marginHorizontal="8dp"
                 android:alpha="0"
-
                 app:cardCornerRadius="10dp"
                 app:cardElevation="3dp">
 

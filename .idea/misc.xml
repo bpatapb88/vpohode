@@ -42,9 +42,9 @@
         <entry key="app/src/main/res/layout/activity_list_view_with_checkbox_item.xml" value="0.309375" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.16354166666666667" />
         <entry key="app/src/main/res/layout/activity_looks.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_scroll_looks.xml" value="0.16354166666666667" />
-        <entry key="app/src/main/res/layout/activity_select_look.xml" value="0.2833333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.20080321285140562" />
+        <entry key="app/src/main/res/layout/activity_scroll_looks.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_select_look.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_wardrobe.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_wash.xml" value="0.33" />
         <entry key="app/src/main/res/layout/content_add_look.xml" value="0.246875" />

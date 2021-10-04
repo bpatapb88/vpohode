@@ -76,7 +76,6 @@ public class AddLookActivity extends AppCompatActivity {
 
         fb.setOnClickListener(v -> {
             if(isFabShrinked){
-
                 ViewCompat.animate(fb).
                         rotation(180f).
                         start();
@@ -121,6 +120,10 @@ public class AddLookActivity extends AppCompatActivity {
         term = extras.getDouble("term");
         if(term < 33 && term > -33){
             rangeSlider.setValues((float)term-2, (float)term + 2);
+        }else if(term >= 33){
+            rangeSlider.setValues(31.f, 35.f);
+        }else {
+            rangeSlider.setValues(-35.f, -31.f);
         }
         ImageView backImage = findViewById(R.id.back);
         backImage.setOnClickListener(v -> {
@@ -150,9 +153,6 @@ public class AddLookActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("OnResume \n looks.size " + looks.size() +
-                "\ncurrent look " + currentLook +
-                "\nlooks.get(current).size " + looks.get(currentLook).length);
         if(!looks.isEmpty()){
             leftLayout.removeAllViewsInLayout();
             rightLayout.removeAllViewsInLayout();
@@ -163,21 +163,33 @@ public class AddLookActivity extends AppCompatActivity {
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
         }
 
-        refreshLookButton.setOnClickListener(v -> {
-            if((looks.size() - currentLook) > 1){
-                leftLayout.removeAllViewsInLayout();
-                rightLayout.removeAllViewsInLayout();
-                currentLook++;
-                Item[] look = looks.get(currentLook);
-                fillLook(look);
-            }else if((looks.size() - currentLook) == 1 && looks.size() > 1){
-                leftLayout.removeAllViewsInLayout();
-                rightLayout.removeAllViewsInLayout();
-                currentLook = 0;
-                Item[] look = looks.get(currentLook);
-                fillLook(look);
+        refreshLookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((looks.size() - currentLook) > 1) {
+                    leftLayout.removeAllViewsInLayout();
+                    rightLayout.removeAllViewsInLayout();
+                    currentLook++;
+                    Item[] look = looks.get(currentLook);
+                    AddLookActivity.this.fillLook(look);
+                } else if ((looks.size() - currentLook) == 1 && looks.size() > 1) {
+                    leftLayout.removeAllViewsInLayout();
+                    rightLayout.removeAllViewsInLayout();
+                    currentLook = 0;
+                    Item[] look = looks.get(currentLook);
+                    AddLookActivity.this.fillLook(look);
+                } else {
+                    double currentTemp = (rangeSlider.getValues().get(0) + rangeSlider.getValues().get(1)) / 2;
+                    if (currentTemp != term) {
+                        looks = lookManager.getLooks(currentTemp, AddLookActivity.this.getApplicationContext());
+                        if(!looks.isEmpty()){
+                            term = currentTemp;
+                            this.onClick(v);
+                        }
+                    }
+                }
+                AddLookActivity.this.hideFabs();
             }
-            hideFabs();
         });
 
         addItemButton.setOnClickListener(v -> {
@@ -186,17 +198,14 @@ public class AddLookActivity extends AppCompatActivity {
                 Integer[] itemsID = Stream.of(looks.get(currentLook)).map(Item::getId).toArray(Integer[]::new);
                 intent.putExtra("look", itemsID);
             }
-
-            intent.putExtra("term", term);
-            if(nameLook.getText().length() > 0){
-                intent.putExtra("name", nameLook.getText().toString());
-            }else{
-                intent.putExtra("name", "");
-            }
             startActivity(intent);
         });
 
         saveLookButton.setOnClickListener(v -> {
+            if(nameLook.getText().toString().equals("")){
+                Toast.makeText(this,"Name is empty", Toast.LENGTH_SHORT).show();
+                return;
+            }
             int countLeft = leftLayout.getChildCount();
             int countRight = rightLayout.getChildCount();
             TextView templeView;
@@ -209,19 +218,18 @@ public class AddLookActivity extends AppCompatActivity {
                 templeView = rightLayout.getChildAt(i).findViewById(R.id.item_id);
                 items.append(templeView.getText().toString() + ",");
             }
+
             DatabaseHelper databaseHelper = new DatabaseHelper(v.getContext());
             SQLiteDatabase db = databaseHelper.getReadableDatabase();
-
             if(isNameExist(nameLook.getText().toString(),db)){
                 Toast.makeText(this,"This name already exist", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             ContentValues cv = new ContentValues();
             cv.put(DBLooksFields.NAME.toFieldName(), nameLook.getText().toString());
             cv.put(DBLooksFields.TERMMAX.toFieldName(), rangeSlider.getValues().get(1));
             cv.put(DBLooksFields.TERMMIN.toFieldName(), rangeSlider.getValues().get(0));
-            cv.put(DBLooksFields.ITEMS.toFieldName(), items.toString());
+            cv.put(DBLooksFields.ITEMS.toFieldName(), items.substring(0, items.length() - 1));
             db.insert(DatabaseHelper.TABLE_LOOKS,null,cv);
             db.close();
             databaseHelper.close();
@@ -234,8 +242,6 @@ public class AddLookActivity extends AppCompatActivity {
 
     private boolean isNameExist(String name, SQLiteDatabase db){
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS, null);
-
-        System.out.println(cursor.getCount());
         if(cursor.moveToFirst()){
             do{
                 if(cursor.getString(cursor.getColumnIndex("name")).equals(name)){
@@ -293,13 +299,11 @@ public class AddLookActivity extends AppCompatActivity {
 
     private void removeItemFromLook(int itemId){
         List<Item> listItems = Arrays.asList(looks.get(currentLook));
-        System.out.println(listItems);
         int length = listItems.size();
         int index = 0;
         Item[] newArray = new Item[length-1];
         for(int i =0; i<length; i++){
             if(listItems.get(i).getId() != itemId){
-                System.out.println("listItems.get(i) - " + listItems.get(i));
                 newArray[index] = listItems.get(i);
                 index++;
             }

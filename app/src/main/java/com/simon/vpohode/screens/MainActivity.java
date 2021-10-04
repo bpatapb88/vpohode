@@ -218,21 +218,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void scrollTest(View view){
-        double temp = 1000d;
-        try {
-            temp = Double.parseDouble(preferences.getString("temp", "1000"));
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-        }
-        if(temp != 1000){
-            avgTemperatureCel = temp;
-        }
-        Intent intent = new Intent(this, ScrollingLooksActivity.class);
-        intent.putExtra("term", avgTemperatureCel);
-        startActivity(intent);
-    }
-
     private class DownloadTask extends AsyncTask <String, Void, String> {
         private static final String CELSIUS_SYMBOL = "\u2103 ";
 

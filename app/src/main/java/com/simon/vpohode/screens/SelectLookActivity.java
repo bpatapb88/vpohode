@@ -1,7 +1,9 @@
 package com.simon.vpohode.screens;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.ViewCompat;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,9 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.simon.vpohode.BuildConfig;
+import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
 import com.simon.vpohode.RecyclerViewAdapter;
 import com.simon.vpohode.database.DatabaseHelper;
+import com.simon.vpohode.managers.LookManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -32,12 +42,64 @@ public class SelectLookActivity extends AppCompatActivity {
     private CardView[] cardViews;
     private ImageView[] imageViews;
     private TextView temperature;
+    private LookManager lookManager;
+
+    private FloatingActionButton fb;
+    private FloatingActionButton useLookButton;
+    private FloatingActionButton editLookButton;
+    private FloatingActionButton deleteLookButton;
+    private boolean isFabShrieked;
+    private FloatingActionButton[] floatArray;
+
+    /**
+     * part related to advertising
+     */
+    private InterstitialAd interstitialAd;
+    private AlertDialog.Builder builder;
+    private Look look;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_look);
+
+        //ad start
+        MobileAds.initialize(this, BuildConfig.GOOGLE_APPID);
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(BuildConfig.GOOGLE_ADMOD);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+        //finish ad
+
+        //close ad start
+        interstitialAd.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                try{
+                    Intent intent = new Intent(SelectLookActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }catch (Exception ignored){
+                    ignored.printStackTrace();
+                }
+            }
+        });
+        builder = new AlertDialog.Builder(this);
+
+        lookManager = new LookManager();
+
         temperature = findViewById(R.id.temperature);
+        fb = findViewById(R.id.fab);
+        useLookButton = findViewById(R.id.use_look);
+        editLookButton = findViewById(R.id.edit_look);
+        deleteLookButton = findViewById(R.id.delete_look);
+        floatArray = new FloatingActionButton[]{useLookButton,editLookButton,deleteLookButton};
+        isFabShrieked = false;
+        changeFloatButtons(floatArray);
+
+        fb.setOnClickListener(v -> {
+            changeFloatButtons(floatArray);
+        });
         cardViews = new CardView[]{findViewById(R.id.colorCard1),
                 findViewById(R.id.colorCard2),
                 findViewById(R.id.colorCard3),
@@ -64,52 +126,76 @@ public class SelectLookActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS + " WHERE _id =" + look_id, null);
         TextView nameOfLook = findViewById(R.id.name_look);
 
-
         if(cursor.moveToFirst()){
-            double min = cursor.getDouble(cursor.getColumnIndex("min"));
-            double max = cursor.getDouble(cursor.getColumnIndex("max"));
+            look = new Look(cursor);
+            double min = look.getMin();
+            double max = look.getMax();
             String tempString = CELSIUS_SYMBOL +
                     RecyclerViewAdapter.prepareTemp(min) + ".." +
                     RecyclerViewAdapter.prepareTemp(max);
             temperature.setText(tempString);
-            nameOfLook.setText(cursor.getString(cursor.getColumnIndex("name")));
-            String items = cursor.getString(cursor.getColumnIndex("items"));
-            Toast.makeText(this,"Items " + items,Toast.LENGTH_LONG).show();
-            addItemCardsOnTheView(items);
+            nameOfLook.setText(look.getName());
+            addItemCardsOnTheView(look.getItems());
         }
+
+        builder = new AlertDialog.Builder(this);
+
+        useLookButton.setOnClickListener(v -> {
+            builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
+            builder.setCancelable(false)
+                    .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
+                        lookManager.useLook(look,this);
+                        if(interstitialAd.isLoaded()){
+                            interstitialAd.show();
+                        }else{
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.cancel());
+
+            AlertDialog alert = builder.create();
+            alert.setTitle(R.string.dialog_title);
+            alert.show();
+        });
 
     }
 
-    private void addItemCardsOnTheView(String items) {
-        String cutLast;
-
-        if(items.charAt(items.length() - 1) == ','){
-            cutLast = items.substring(0, items.length() - 1);
+    private void changeFloatButtons(FloatingActionButton[] floatArray) {
+        float rotation;
+        if(isFabShrieked){
+            rotation = 180f;
+            for(FloatingActionButton button : floatArray){
+                button.show();
+            }
         }else{
-            cutLast = items;
+            rotation = 0f;
+            for(FloatingActionButton button : floatArray){
+                button.hide();
+            }
         }
+        ViewCompat.animate(fb).
+                rotation(rotation).
+                start();
+        isFabShrieked = !isFabShrieked;
+    }
 
-        Cursor itemsCursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE + " WHERE _id IN (" + cutLast + ")", null);
+    private void addItemCardsOnTheView(String items) {
+        Cursor itemsCursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE + " WHERE _id IN (" + items + ")", null);
         int counter = 0;
         if(itemsCursor.moveToFirst()){
             do{
                 LayoutInflater inflater = LayoutInflater.from(this);
                 View view = inflater.inflate(R.layout.list_item,null);
-
                 if(counter%2 == 0 ){
                     leftLayout.addView(view);
-                    fillItemView(view,itemsCursor);
                 }else{
                     rightLayout.addView(view);
-                    fillItemView(view,itemsCursor);
                 }
-
+                fillItemView(view,itemsCursor);
                 cardViews[counter].setAlpha(1);
                 cardViews[counter].setCardElevation(5);
                 imageViews[counter].setBackgroundColor(itemsCursor.getInt(itemsCursor.getColumnIndex("color")));
-
                 counter++;
-                System.out.println(itemsCursor.getString(itemsCursor.getColumnIndex("name")));
             }while (itemsCursor.moveToNext());
         }
     }
@@ -124,7 +210,6 @@ public class SelectLookActivity extends AppCompatActivity {
         name.setText(itemsCursor.getString(itemsCursor.getColumnIndex("name")));
         String photoPath = itemsCursor.getString(itemsCursor.getColumnIndex("foto"));
         int styleInt = itemsCursor.getInt(itemsCursor.getColumnIndex("style"));
-        System.out.println("style int " + styleInt);
         String styleString = getResources().getString(styleInt);
         String brandString = itemsCursor.getString(itemsCursor.getColumnIndex("brand"));
         if(brandString != null && !brandString.equals("")){
@@ -138,9 +223,6 @@ public class SelectLookActivity extends AppCompatActivity {
             File fileFoto = new File(photoPath);
             Picasso.get().load(fileFoto).into(photo);
         }
-
-
-
     }
 
     public void goBack(View view){

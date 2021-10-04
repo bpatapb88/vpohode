@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.Item;
+import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Rules;
 import com.simon.vpohode.database.DBFields;
@@ -260,11 +261,13 @@ public class LookManager {
         }
     }
 
-    public void useLook(Integer showingLook, List<Item[]> looks, Context context){
+    public void useLook(Look look, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         ContentValues cv = new ContentValues();
-        for(Item item : looks.get(showingLook)) {
+        ArrayList<Integer> itemsId = look.getItemsArray();
+        for(int i = 0; i < itemsId.size(); i++){
+            Item item = new Item().getItemById(itemsId.get(i),db);
             cv.put(DBFields.USED.toFieldName(), item.getUsed() + 1);
             db.update(DatabaseHelper.TABLE, cv, DBFields.ID.toFieldName() + "=" + item.getId(), null);
             cv.clear();

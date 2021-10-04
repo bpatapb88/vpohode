@@ -1,13 +1,19 @@
 package com.simon.vpohode;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.simon.vpohode.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
@@ -32,14 +38,34 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewAdapter.RecyclerViewHolder holder, int position) {
 // Set the data to textview from our modal class.
-        Look recyclerData = lookDataArrayList.get(position);
-        holder.nameOfLook.setText(recyclerData.getName());
-        String tempRangeString = prepareTemp(recyclerData.getMin()) +
+        Look look = lookDataArrayList.get(position);
+        holder.nameOfLook.setText(look.getName());
+        String tempRangeString = prepareTemp(look.getMin()) +
                 ".." +
-                prepareTemp(recyclerData.getMax());
+                prepareTemp(look.getMax());
         holder.tempRange.setText(tempRangeString);
-        holder.description.setText(recyclerData.getItems());
-        holder.lookId.setText(recyclerData.getId() + "");
+        holder.description.setText(look.getItems());
+        holder.lookId.setText(look.getId() + "");
+        fillColors(look.getItems(),holder);
+    }
+
+    private void fillColors(String items, RecyclerViewHolder holder) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(mcontext);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor itemsCursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE + " WHERE _id IN (" + items + ")", null);
+        int counter = 0;
+        if(itemsCursor.moveToFirst()){
+            do{
+                holder.cardViews[counter].setAlpha(1);
+                holder.cardViews[counter].setCardElevation(5);
+                holder.imageViews[counter].setBackgroundColor(itemsCursor.getInt(itemsCursor.getColumnIndex("color")));
+                System.out.println("color is " + itemsCursor.getInt(itemsCursor.getColumnIndex("color")));
+                counter++;
+            }while (itemsCursor.moveToNext());
+        }
+        itemsCursor.close();
+        db.close();
+        databaseHelper.close();
     }
 
     @Override
@@ -53,6 +79,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView tempRange;
         private TextView description;
         private TextView lookId;
+        private CardView[] cardViews;
+        private ImageView[] imageViews;
 
         public RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +89,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             tempRange = itemView.findViewById(R.id.temp);
             description = itemView.findViewById(R.id.description);
             lookId = itemView.findViewById(R.id.look_id);
+            cardViews = new CardView[]{itemView.findViewById(R.id.colorCard1),
+                    itemView.findViewById(R.id.colorCard2),
+                    itemView.findViewById(R.id.colorCard3),
+                    itemView.findViewById(R.id.colorCard4),
+                    itemView.findViewById(R.id.colorCard5),
+                    itemView.findViewById(R.id.colorCard6)};
+            imageViews = new ImageView[]{itemView.findViewById(R.id.colorView1),
+                    itemView.findViewById(R.id.colorView2),
+                    itemView.findViewById(R.id.colorView3),
+                    itemView.findViewById(R.id.colorView4),
+                    itemView.findViewById(R.id.colorView5),
+                    itemView.findViewById(R.id.colorView6)};
         }
     }
 

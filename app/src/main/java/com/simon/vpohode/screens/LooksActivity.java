@@ -18,7 +18,6 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.simon.vpohode.CustomLookAdapter;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Look;
 import com.simon.vpohode.RecyclerItemClickListener;
@@ -36,8 +35,6 @@ public class LooksActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<Look> recyclerDataArrayList;
-
-    private CustomLookAdapter lookAdapter;
     double term;
 
     @Override
@@ -69,8 +66,6 @@ public class LooksActivity extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(recyclerDataArrayList, this);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
-
-        lookAdapter = new CustomLookAdapter(this, cursor);
         recyclerView.setAdapter(recyclerViewAdapter);
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,recyclerView,new RecyclerItemClickListener.OnItemClickListener(){

@@ -58,9 +58,6 @@
             android:name=".screens.LoginActivity"
             android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
-            android:name=".screens.ScrollingLooksActivity"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
-        <activity
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
         <activity

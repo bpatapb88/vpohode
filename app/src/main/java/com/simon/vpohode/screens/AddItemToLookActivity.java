@@ -19,11 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class AddItemToLookActivity extends AppCompatActivity {
-
-    private double term;
     private Integer[] look;
-    private String nameLook;
-
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private ListView listViewItems;
@@ -32,10 +28,7 @@ public class AddItemToLookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item_to_look);
-
         Bundle extras = getIntent().getExtras();
-        term = extras.getDouble("term");
-        nameLook = extras.getString("name");
         look = (Integer[]) extras.get("look");
         listViewItems = findViewById(R.id.list);
         StringBuilder stringBuilder = new StringBuilder();
@@ -52,37 +45,33 @@ public class AddItemToLookActivity extends AppCompatActivity {
             stringBuilder.deleteCharAt(stringBuilder.length()-1);
         }
 
-
         databaseHelper = new DatabaseHelper(this);
         db = databaseHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ")", null);
+        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ") AND " + DBFields.INWASH.toFieldName() + " = 0", null);
         Toast.makeText(this,"We found " + cursor.getCount() + " items", Toast.LENGTH_SHORT).show();
         CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(this,cursor);
         listViewItems.setAdapter(customItemsAdapter);
         ListViewManager.optimizeListViewSize(listViewItems);
         listViewItems.setOnItemClickListener((parent, view, position, id) -> {
-
             int index = AddLookActivity.currentLook;
-            System.out.println("Info------ \nindex" + index +
-            "\nAddLookActivity.looks.get(index).length " + AddLookActivity.looks.get(index).length
-            );
             Item item = new Item().getItemById((int) id, db);
-            Item[] items = new Item[AddLookActivity.looks.get(index).length + 1];
-            for(int i=0; i < AddLookActivity.looks.get(index).length; i++){
-                items[i] = AddLookActivity.looks.get(index)[i];
+            Item[] items;
+            if(!AddLookActivity.looks.isEmpty()){
+                items = new Item[AddLookActivity.looks.get(index).length + 1];
+                for(int i=0; i < AddLookActivity.looks.get(index).length; i++){
+                    items[i] = AddLookActivity.looks.get(index)[i];
+                }
+                items[AddLookActivity.looks.get(index).length] = item;
+                AddLookActivity.looks.set(index, items);
+            }else{
+                items = new Item[1];
+                items[0] = item;
+                AddLookActivity.looks.add(items);
             }
-            items[AddLookActivity.looks.get(index).length] = item;
-            AddLookActivity.looks.set(index, items);
             finish();
         });
     }
-
-    public void finish(View view) {
+    public void goBack(View view) {
         this.finish();
-    }
-
-    public void testFunction(View view) {
-        System.out.println("Test access to previos activity \ncurrent look - " + AddLookActivity.currentLook);
-        System.out.println("Count of looks - " + AddLookActivity.looks.size());
     }
 }

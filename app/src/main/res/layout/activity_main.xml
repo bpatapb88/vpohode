@@ -173,7 +173,7 @@
                     android:layout_weight="1"
                     android:id="@+id/card"
                     app:cardCornerRadius="20dp"
-                    android:onClick="scrollTest"
+                    android:onClick="goToLookActivity"
                     android:stateListAnimator="@animator/card_view"
                     android:clickable="true"
                     >

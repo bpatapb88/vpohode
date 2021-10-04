@@ -78,12 +78,98 @@
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
                                 app:cardCornerRadius="15dp"
-                                android:id="@+id/color_card"
+                                android:id="@+id/colorCard1"
                                 android:layout_gravity="center_vertical"
                                 android:layout_marginLeft="8dp"
+                                android:alpha="0"
                                 >
                                 <ImageView
-                                    android:id="@+id/colorView"
+                                    android:id="@+id/colorView1"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/colorPrimaryDark_rose"
+                                    android:scaleType="fitXY"
+                                    />
+                            </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:cardCornerRadius="15dp"
+                                android:id="@+id/colorCard2"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="8dp"
+                                android:alpha="0"
+                                >
+                                <ImageView
+                                    android:id="@+id/colorView2"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/colorPrimaryDark_rose"
+                                    android:scaleType="fitXY"
+                                    />
+                            </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:cardCornerRadius="15dp"
+                                android:id="@+id/colorCard3"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="8dp"
+                                android:alpha="0"
+                                >
+                                <ImageView
+                                    android:id="@+id/colorView3"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/colorPrimaryDark_rose"
+                                    android:scaleType="fitXY"
+                                    />
+                            </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:cardCornerRadius="15dp"
+                                android:id="@+id/colorCard4"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="8dp"
+                                android:alpha="0"
+                                >
+                                <ImageView
+                                    android:id="@+id/colorView4"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/colorPrimaryDark_rose"
+                                    android:scaleType="fitXY"
+                                    />
+                            </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:cardCornerRadius="15dp"
+                                android:id="@+id/colorCard5"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="8dp"
+                                android:alpha="0"
+                                >
+                                <ImageView
+                                    android:id="@+id/colorView5"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
+                                    android:background="@color/colorPrimaryDark_rose"
+                                    android:scaleType="fitXY"
+                                    />
+                            </androidx.cardview.widget.CardView>
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                app:cardCornerRadius="15dp"
+                                android:id="@+id/colorCard6"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="8dp"
+                                android:alpha="0"
+                                >
+                                <ImageView
+                                    android:id="@+id/colorView6"
                                     android:layout_width="30dp"
                                     android:layout_height="30dp"
                                     android:background="@color/colorPrimaryDark_rose"
