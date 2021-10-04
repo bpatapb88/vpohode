@@ -56,6 +56,9 @@ public class AddLookActivity extends AppCompatActivity {
     private CardView[] cardViews;
     private ImageView[] imageViews;
     private LookManager lookManager;
+    private ImageView tempImage;
+    private ImageView backImage;
+    private String lookId;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -73,7 +76,40 @@ public class AddLookActivity extends AppCompatActivity {
         refreshLookButton = findViewById(R.id.refresh_look);
         refreshLookButton.hide();
         nameLook = findViewById(R.id.name_look);
+        tempImage = findViewById(R.id.temp_image);
+        rangeSlider = findViewById(R.id.range_slider);
+        rangeSlider.setLabelFormatter(value -> CELSIUS_SYMBOL + (int)value);
+        leftLayout = findViewById(R.id.left_layout);
+        rightLayout = findViewById(R.id.right_layout);
+        backImage = findViewById(R.id.back);
 
+        cardViews = new CardView[]{findViewById(R.id.colorCard1),
+                findViewById(R.id.colorCard2),
+                findViewById(R.id.colorCard3),
+                findViewById(R.id.colorCard4),
+                findViewById(R.id.colorCard5),
+                findViewById(R.id.colorCard6)};
+        imageViews = new ImageView[]{findViewById(R.id.colorView1),
+                findViewById(R.id.colorView2),
+                findViewById(R.id.colorView3),
+                findViewById(R.id.colorView4),
+                findViewById(R.id.colorView5),
+                findViewById(R.id.colorView6)};
+
+        Bundle extras = getIntent().getExtras();
+        term = extras.getDouble("term");
+        lookId = extras.getString("look_id");
+
+        lookManager = new LookManager();
+        if(lookId == null){
+            looks = lookManager.getLooks(term, this);
+        }else {
+            looks = lookManager.getLooks(lookId,this);
+        }
+
+        backImage.setOnClickListener(v -> {
+            finish();
+        });
         fb.setOnClickListener(v -> {
             if(isFabShrinked){
                 ViewCompat.animate(fb).
@@ -88,7 +124,7 @@ public class AddLookActivity extends AppCompatActivity {
             }
 
         });
-        ImageView tempImage = findViewById(R.id.temp_image);
+
         tempImage.setOnClickListener(v -> {
             View itemView = View.inflate(v.getContext(),R.layout.set_temperature_range,null);
             EditText minEditText = itemView.findViewById(R.id.min_temp);
@@ -112,41 +148,6 @@ public class AddLookActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        rangeSlider = findViewById(R.id.range_slider);
-        rangeSlider.setLabelFormatter(value -> CELSIUS_SYMBOL + (int)value);
-        leftLayout = findViewById(R.id.left_layout);
-        rightLayout = findViewById(R.id.right_layout);
-        Bundle extras = getIntent().getExtras();
-        term = extras.getDouble("term");
-        if(term < 33 && term > -33){
-            rangeSlider.setValues((float)term-2, (float)term + 2);
-        }else if(term >= 33){
-            rangeSlider.setValues(31.f, 35.f);
-        }else {
-            rangeSlider.setValues(-35.f, -31.f);
-        }
-        ImageView backImage = findViewById(R.id.back);
-        backImage.setOnClickListener(v -> {
-            Intent intent = new Intent(v.getContext(), LooksActivity.class);
-            intent.putExtra("term", term);
-            startActivity(intent);
-        });
-
-        cardViews = new CardView[]{findViewById(R.id.colorCard1),
-                findViewById(R.id.colorCard2),
-                findViewById(R.id.colorCard3),
-                findViewById(R.id.colorCard4),
-                findViewById(R.id.colorCard5),
-                findViewById(R.id.colorCard6)};
-        imageViews = new ImageView[]{findViewById(R.id.colorView1),
-                findViewById(R.id.colorView2),
-                findViewById(R.id.colorView3),
-                findViewById(R.id.colorView4),
-                findViewById(R.id.colorView5),
-                findViewById(R.id.colorView6)};
-
-        lookManager = new LookManager();
-        looks = lookManager.getLooks(term, getApplicationContext());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -161,6 +162,14 @@ public class AddLookActivity extends AppCompatActivity {
         }else{
             String lacks = lookManager.message.substring(0, lookManager.message.length() - 1);
             Toast.makeText(this, getResources().getString(R.string.no_match) + " " + lacks, Toast.LENGTH_SHORT).show();
+        }
+
+        if(term < 33 && term > -33){
+            rangeSlider.setValues((float)term-2, (float)term + 2);
+        }else if(term >= 33){
+            rangeSlider.setValues(31.f, 35.f);
+        }else {
+            rangeSlider.setValues(-35.f, -31.f);
         }
 
         refreshLookButton.setOnClickListener(new View.OnClickListener() {
@@ -212,11 +221,11 @@ public class AddLookActivity extends AppCompatActivity {
             StringBuilder items = new StringBuilder();
             for(int i = 0; i < countLeft; i++){
                 templeView = leftLayout.getChildAt(i).findViewById(R.id.item_id);
-                items.append(templeView.getText().toString() + ",");
+                items.append(templeView.getText().toString()).append(",");
             }
             for(int i = 0; i < countRight; i++){
                 templeView = rightLayout.getChildAt(i).findViewById(R.id.item_id);
-                items.append(templeView.getText().toString() + ",");
+                items.append(templeView.getText().toString()).append(",");
             }
 
             DatabaseHelper databaseHelper = new DatabaseHelper(v.getContext());

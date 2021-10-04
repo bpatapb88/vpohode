@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -36,7 +35,7 @@ public class SelectLookActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private double term = 0;
-    private int look_id = 0;
+    private int lookId = 0;
     LinearLayout rightLayout;
     LinearLayout leftLayout;
     private CardView[] cardViews;
@@ -121,9 +120,9 @@ public class SelectLookActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         term = extras.getDouble("term");
 
-        look_id = extras.getInt("look_id");
+        lookId = extras.getInt("look_id");
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS + " WHERE _id =" + look_id, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS + " WHERE _id =" + lookId, null);
         TextView nameOfLook = findViewById(R.id.name_look);
 
         if(cursor.moveToFirst()){
@@ -156,6 +155,16 @@ public class SelectLookActivity extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.setTitle(R.string.dialog_title);
             alert.show();
+        });
+
+        editLookButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddLookActivity.class);
+                intent.putExtra("term", term);
+                intent.putExtra("look_id", lookId + "");
+                startActivity(intent);
+            }
         });
 
     }

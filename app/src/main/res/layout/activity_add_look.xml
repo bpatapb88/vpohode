@@ -242,7 +242,7 @@
         app:fabSize="normal"
         app:tint="@color/white"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_baseline_save_alt_24"
+        android:src="@drawable/ic_entypo_save"
         android:textColor="@color/colorAccent"
         app:backgroundTint="@color/colorPrimary"
         android:contentDescription="@string/app_name" />

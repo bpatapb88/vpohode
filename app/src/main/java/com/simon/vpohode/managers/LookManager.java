@@ -26,6 +26,24 @@ public class LookManager {
 
     public String message = "";
 
+    public List<Item[]> getLooks(String lookId, Context context){
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS + " WHERE _id = " + lookId,null);
+        List<Integer> itemsId;
+        Item[] items;
+        List<Item[]> result = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            itemsId = new Look(cursor).getItemsArray();
+            items = new Item[itemsId.size()];
+            for(int i = 0; i< items.length; i++){
+                items[i] = new Item().getItemById(itemsId.get(i),db);
+            }
+            result.add(items);
+        }
+        return result;
+    }
+
     public List<Item[]> getLooks(double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
