@@ -81,7 +81,8 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_filter"
                 android:background="@null"
-
+                android:id="@+id/filter"
+                android:onClick="testFunction"
                 />
 
         </LinearLayout>
@@ -94,7 +95,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-                <androidx.recyclerview.widget.RecyclerView
+                <ListView
                     android:id="@+id/list"
                     android:layout_weight="1"
                     android:layout_width="match_parent"

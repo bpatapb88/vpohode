@@ -9,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -29,7 +30,7 @@ public class Wardrobe extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private CustomItemsAdapter topItemAdapter;
-    private ListView topItemList;
+    private ListView listViewItems;
     private EditText searchItem;
     AlertDialog.Builder builder;
     LayoutInflater inflater;
@@ -43,7 +44,7 @@ public class Wardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wardrobe);
         searchItem = findViewById(R.id.search_item);
-        topItemList = findViewById(R.id.list);
+        listViewItems = findViewById(R.id.list);
         sortBy = 0; //default sort is first
         databaseHelper = new DatabaseHelper(this);
         //hidden keyboard by default
@@ -71,9 +72,15 @@ public class Wardrobe extends AppCompatActivity {
 
         // fill list depends of: is item top or not? 1=top 0=bottom
         topItemAdapter = LayoutManager.configListOfItems(this,db, sortBy);
-        topItemList.setAdapter(topItemAdapter);
+        listViewItems.setAdapter(topItemAdapter);
         topItemAdapter.notifyDataSetChanged();
-        ListViewManager.optimizeListViewSize(topItemList);
+        listViewItems.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(view.getContext(), ConfigItem.class);
+            intent.putExtra("id", id);
+            System.out.println("Clicked id is " + id);
+            view.getContext().startActivity(intent);
+        });
+        ListViewManager.optimizeListViewSize(listViewItems);
         searchItem.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -115,7 +122,7 @@ public class Wardrobe extends AppCompatActivity {
                 .setPositiveButton(getResources().getString(R.string.apply), (dialog, which) -> {
                     sortBy = sortBySpinner.getSelectedItemPosition();
                     topItemAdapter = LayoutManager.configListOfItems(view.getContext(),db, sortBy);
-                    topItemList.setAdapter(topItemAdapter);
+                    listViewItems.setAdapter(topItemAdapter);
                     topItemAdapter.notifyDataSetChanged();
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());

@@ -16,6 +16,9 @@ import androidx.cardview.widget.CardView;
 
 import com.simon.vpohode.managers.LookManager;
 import com.simon.vpohode.screens.ConfigItem;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 
 public class CustomItemsAdapter extends CursorAdapter {
     private final LayoutInflater mLayoutInflater;
@@ -42,17 +45,7 @@ public class CustomItemsAdapter extends CursorAdapter {
 
     @Override
     public void bindView(final View v, final Context context, final Cursor c) {
-
         Item item = new Item().cursorToItem(c);
-        final Long id = (long) item.getId();
-
-        CardView cardItem = v.findViewById(R.id.cardItem);
-        cardItem.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), ConfigItem.class);
-            intent.putExtra("id", id);
-            context.startActivity(intent);
-        });
-
         TextView nameText = v.findViewById(R.id.text1);
         if (nameText != null) {
             nameText.setText(item.getName());
@@ -68,7 +61,14 @@ public class CustomItemsAdapter extends CursorAdapter {
         }
 
         ImageView itemImage = v.findViewById(R.id.imageView);
-        setImageIcon(itemImage,item.getTop(),item.getLayer());
+
+        if(item.getFoto() != null){
+            File fileFoto = new File(item.getFoto());
+            Picasso.get().load(fileFoto).into(itemImage);
+        }else{
+            setImageIcon(itemImage,item.getTop(),item.getLayer());
+        }
+
     }
 
     private void setImageIcon(ImageView imageView, Integer isTop, Integer layer){

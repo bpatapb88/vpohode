@@ -65,6 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static String prepareTemp(Double temp){
-        return temp>=0 ? "+" + temp: temp.toString();
+        Integer tempInt = temp.intValue();
+        return temp>=0 ? "+" + tempInt: tempInt.toString();
     }
 }

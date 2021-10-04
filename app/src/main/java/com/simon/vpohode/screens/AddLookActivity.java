@@ -42,19 +42,20 @@ import java.util.stream.Stream;
 public class AddLookActivity extends AppCompatActivity {
     private RangeSlider rangeSlider;
     private static final String CELSIUS_SYMBOL = "\u2103 ";
-    private List<Item[]> looks;
+    static List<Item[]> looks;
     private double term;
     private boolean isFabShrinked;
     private FloatingActionButton saveLookButton;
     private FloatingActionButton addItemButton;
     private FloatingActionButton refreshLookButton;
     private FloatingActionButton fb;
-    private int currentLook = 0;
+    static int currentLook = 0;
     private LinearLayout leftLayout;
     private LinearLayout rightLayout;
     private EditText nameLook;
     private CardView[] cardViews;
     private ImageView[] imageViews;
+    private LookManager lookManager;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -63,10 +64,7 @@ public class AddLookActivity extends AppCompatActivity {
         LayoutManager.setTheme(prefs, getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_look);
-
-
         fb = findViewById(R.id.fab);
-
         isFabShrinked = true;
         saveLookButton = findViewById(R.id.save_look);
         saveLookButton.hide();
@@ -144,9 +142,20 @@ public class AddLookActivity extends AppCompatActivity {
                 findViewById(R.id.colorView5),
                 findViewById(R.id.colorView6)};
 
-        LookManager lookManager = new LookManager();
+        lookManager = new LookManager();
         looks = lookManager.getLooks(term, getApplicationContext());
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("OnResume \n looks.size " + looks.size() +
+                "\ncurrent look " + currentLook +
+                "\nlooks.get(current).size " + looks.get(currentLook).length);
         if(!looks.isEmpty()){
+            leftLayout.removeAllViewsInLayout();
+            rightLayout.removeAllViewsInLayout();
             Item[] look = looks.get(currentLook);
             fillLook(look);
         }else{

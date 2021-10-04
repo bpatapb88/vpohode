@@ -1,8 +1,12 @@
 package com.simon.vpohode;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import androidx.annotation.NonNull;
+
+import com.simon.vpohode.database.DBFields;
+import com.simon.vpohode.database.DatabaseHelper;
 
 import lombok.Data;
 import lombok.Getter;
@@ -55,6 +59,14 @@ public class Item {
     }
 
     public Item() {
+    }
+
+    public Item getItemById(int id, SQLiteDatabase db){
+        Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " = " + id, null);
+        System.out.println("getItemById \nid" + id +
+                "\nCursor size " + cursor.getCount());
+        cursor.moveToFirst();
+        return cursorToItem(cursor);
     }
 
     @NonNull

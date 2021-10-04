@@ -7,8 +7,6 @@ u
 Eapp/src/main/java/com/simon/vpohode/screens/CustomDialogFragment.java,3/2/3233b29efd309abbcf6663e8e2fb278e56b3f780
 k
 ;app/src/main/java/com/simon/vpohode/managers/ColorList.java,e/7/e70f22f28889e400ab48f5f537935bdf287260e2
-r
-Bapp/src/main/java/com/simon/vpohode/managers/TemplatesManager.java,a/f/af95bef7da6dd12805251607cd310887e1b1b440
 s
 Capp/src/main/java/com/simon/vpohode/managers/PlacePhotoManager.java,b/8/b80d1032b874fa1b65920adee561c2bb4e0059de
 ^
@@ -136,14 +134,10 @@ g
 7iconv3(Dresser)_Монтажная область 1.svg,8/d/8d635ec100c78eeed6a189fea2f3ba2bcbca6a04
 n
 >app/src/main/java/com/simon/vpohode/managers/StyleManager.java,0/8/08f8561841c793b70573cadddac5acb0338d7bf6
-]
--app/src/main/java/com/simon/vpohode/Item.java,b/5/b56d29841ee4fab4da6d086fea5a84c48715b117
 j
 :app/src/main/java/com/simon/vpohode/database/DBFields.java,f/9/f914f8338b2417b891a18f569ebaedf25d181ab7
 r
 Bapp/src/main/java/com/simon/vpohode/database/DBHelperTemplate.java,c/c/ccd12085cb3b7fd6d2b2357141156e80a5d1f3fd
-o
-?app/src/main/java/com/simon/vpohode/managers/LayoutManager.java,5/9/59e999c688144ccd81986774c05f9c98f89c12b2
 q
 Aapp/src/main/java/com/simon/vpohode/managers/ListViewManager.java,0/7/070b83d53884973b81f0212a99ede04c525e4917
 m
@@ -154,20 +148,10 @@ z
 Japp/src/main/java/com/simon/vpohode/assync_tasks/TakeImageFromStorage.java,1/5/157acb132f8b1d7dd486b5d41f16bd4c9c984900
 p
 @app/src/main/java/com/simon/vpohode/managers/WeatherManager.java,0/5/05f7d6b798637a4b67f8e0bc2bd7ad01811c2ae7
-w
-Gapp/src/main/java/com/simon/vpohode/screens/ScrollingLooksActivity.java,3/d/3d9c214e43090ca4162775ff37e8c0a324790982
 b
 2app/src/main/java/com/simon/vpohode/MyAdapter.java,e/9/e9442c6cb6289680a332734f690b3879be3bc3e3
-m
-=app/src/main/java/com/simon/vpohode/managers/LookManager.java,a/8/a8a1ef4277116a756f5cce5b920f33dbb1e6fbb5
-]
--app/src/main/java/com/simon/vpohode/Look.java,d/f/df1e2f9b67f88daff39424cb3358ab0d29e84f2a
 o
 ?app/src/main/java/com/simon/vpohode/database/DBLooksFields.java,8/0/802b9ab3e0c2a6706ea35cc09a76c74051a3fd19
-k
-;app/src/main/java/com/simon/vpohode/CustomItemsAdapter.java,5/7/57876816000c7abf5d292506ebfa5aefb8c83be6
-i
-9app/src/main/java/com/simon/vpohode/screens/Wardrobe.java,1/1/1190e97d998af5af521621401edac907d5efee83
 k
 ;app/src/main/java/com/simon/vpohode/screens/ConfigItem.java,e/b/ebc2168a3fc013210dc7382132f7730cde69e03a
 j

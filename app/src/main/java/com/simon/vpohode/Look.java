@@ -21,7 +21,5 @@ public class Look {
         this.max = cursor.getDouble(cursor.getColumnIndex("max"));
         this.min = cursor.getDouble(cursor.getColumnIndex("min"));;
         this.items = cursor.getString(cursor.getColumnIndex("items"));
-
-
     }
 }

@@ -92,8 +92,6 @@ public class SelectLookActivity extends AppCompatActivity {
         Cursor itemsCursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE + " WHERE _id IN (" + cutLast + ")", null);
         int counter = 0;
         if(itemsCursor.moveToFirst()){
-            System.out.println("items count is - " + itemsCursor.getCount());
-            System.out.println(cutLast);
             do{
                 LayoutInflater inflater = LayoutInflater.from(this);
                 View view = inflater.inflate(R.layout.list_item,null);

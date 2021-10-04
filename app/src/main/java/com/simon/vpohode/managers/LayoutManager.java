@@ -72,15 +72,6 @@ public class LayoutManager {
     }
 
 
-    public static CustomItemsAdapter configListOfItemsInWash(Context contex, final SQLiteDatabase db){
-        //get cursor from db
-        Cursor itemCursor =  DatabaseHelper.getCursorInWash(db);
-        // create adapter, send cursor
-        CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(contex,itemCursor);
-
-        return customItemsAdapter;
-    }
-
     public static void setTheme(SharedPreferences preferences, Resources.Theme theme){
         if(preferences.getBoolean("theme", true)){
             theme.applyStyle(R.style.OverlayThemeDark,true);
