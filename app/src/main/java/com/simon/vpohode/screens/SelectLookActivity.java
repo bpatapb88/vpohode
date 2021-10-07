@@ -4,8 +4,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.ViewCompat;
+import androidx.preference.PreferenceManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -24,7 +26,9 @@ import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
 import com.simon.vpohode.RecyclerViewAdapter;
+import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.database.DatabaseHelper;
+import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.LookManager;
 import com.squareup.picasso.Picasso;
 
@@ -59,6 +63,8 @@ public class SelectLookActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        LayoutManager.setTheme(prefs, getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_look);
 
@@ -165,6 +171,11 @@ public class SelectLookActivity extends AppCompatActivity {
                 intent.putExtra("look_id", lookId + "");
                 startActivity(intent);
             }
+        });
+
+        deleteLookButton.setOnClickListener(v -> {
+            db.delete(DatabaseHelper.TABLE_LOOKS, DBLooksFields.ID.toFieldName() + "="+lookId,null);
+            finish();
         });
 
     }

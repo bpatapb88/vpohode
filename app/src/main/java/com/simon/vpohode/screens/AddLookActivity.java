@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -26,6 +25,7 @@ import androidx.preference.PreferenceManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.slider.RangeSlider;
 import com.simon.vpohode.Item;
+import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
 import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.database.DatabaseHelper;
@@ -34,7 +34,6 @@ import com.simon.vpohode.managers.LookManager;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -59,6 +58,7 @@ public class AddLookActivity extends AppCompatActivity {
     private ImageView tempImage;
     private ImageView backImage;
     private String lookId;
+    private Look editLook;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -105,6 +105,9 @@ public class AddLookActivity extends AppCompatActivity {
             looks = lookManager.getLooks(term, this);
         }else {
             looks = lookManager.getLooks(lookId,this);
+            editLook = new Look().getLookById(lookId,this);
+            nameLook.setText(editLook.getName());
+            rangeSlider.setValues((float)editLook.getMin(), (float)editLook.getMax());
         }
 
         backImage.setOnClickListener(v -> {
@@ -118,13 +121,14 @@ public class AddLookActivity extends AppCompatActivity {
                 isFabShrinked = false;
                 saveLookButton.show();
                 addItemButton.show();
-                refreshLookButton.show();
+                if(editLook == null){
+                    refreshLookButton.show();
+                }
             }else{
                 hideFabs();
             }
 
         });
-
         tempImage.setOnClickListener(v -> {
             View itemView = View.inflate(v.getContext(),R.layout.set_temperature_range,null);
             EditText minEditText = itemView.findViewById(R.id.min_temp);
@@ -147,7 +151,6 @@ public class AddLookActivity extends AppCompatActivity {
                     .create();
             dialog.show();
         });
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -203,10 +206,11 @@ public class AddLookActivity extends AppCompatActivity {
 
         addItemButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddItemToLookActivity.class);
+            Integer[] itemsID = null;
             if(!looks.isEmpty()){
-                Integer[] itemsID = Stream.of(looks.get(currentLook)).map(Item::getId).toArray(Integer[]::new);
-                intent.putExtra("look", itemsID);
+                itemsID = Stream.of(looks.get(currentLook)).map(Item::getId).toArray(Integer[]::new);
             }
+            intent.putExtra("look", itemsID);
             startActivity(intent);
         });
 
@@ -230,26 +234,31 @@ public class AddLookActivity extends AppCompatActivity {
 
             DatabaseHelper databaseHelper = new DatabaseHelper(v.getContext());
             SQLiteDatabase db = databaseHelper.getReadableDatabase();
-            if(isNameExist(nameLook.getText().toString(),db)){
-                Toast.makeText(this,"This name already exist", Toast.LENGTH_SHORT).show();
-                return;
-            }
             ContentValues cv = new ContentValues();
             cv.put(DBLooksFields.NAME.toFieldName(), nameLook.getText().toString());
             cv.put(DBLooksFields.TERMMAX.toFieldName(), rangeSlider.getValues().get(1));
             cv.put(DBLooksFields.TERMMIN.toFieldName(), rangeSlider.getValues().get(0));
             cv.put(DBLooksFields.ITEMS.toFieldName(), items.substring(0, items.length() - 1));
-            db.insert(DatabaseHelper.TABLE_LOOKS,null,cv);
-            db.close();
-            databaseHelper.close();
-
-            Intent intent = new Intent(this, LooksActivity.class);
-            intent.putExtra("term", term);
-            startActivity(intent);
+            if(!isNameExistCheck(nameLook.getText().toString(),db) || editLook != null && editLook.getName().equals(nameLook.getText().toString())){
+                if(editLook == null){
+                    db.insert(DatabaseHelper.TABLE_LOOKS,null,cv);
+                }else{
+                    db.update(DatabaseHelper.TABLE_LOOKS, cv, DBLooksFields.ID.toFieldName() + "=" + editLook.getId(), null);
+                }
+                db.close();
+                databaseHelper.close();
+                Intent intent = new Intent(this, LooksActivity.class);
+                intent.putExtra("term", term);
+                startActivity(intent);
+            }else{
+                Toast.makeText(this,"This name already exist", Toast.LENGTH_SHORT).show();
+                db.close();
+                databaseHelper.close();
+            }
         });
     }
 
-    private boolean isNameExist(String name, SQLiteDatabase db){
+    private boolean isNameExistCheck(String name, SQLiteDatabase db){
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS, null);
         if(cursor.moveToFirst()){
             do{

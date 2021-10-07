@@ -582,7 +582,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             if (newColor) {
                 colorInicator = (ColorDrawable) colorView.getBackground();
                 cv.put(DBFields.COLOR.toFieldName(), colorInicator.getColor());
-                System.out.println("Color int - " + colorInicator.getColor());
             }
             //save image if image was changed or new
             if (newImage) {

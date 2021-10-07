@@ -41,27 +41,14 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
-            SwitchPreferenceCompat myPref = (SwitchPreferenceCompat) findPreference("theme");
-            myPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if((boolean)newValue){
-                        Activity activity = getActivity();
-                        //activity.recreate();
-                        Intent intent = activity.getIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        activity.finish();
-                        startActivity(intent);
-                    }else{
-                        Activity activity = getActivity();
-                        //activity.recreate();
-                        Intent intent = activity.getIntent();
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        activity.finish();
-                        startActivity(intent);
-                    }
-                    return true;
-                }
+            SwitchPreferenceCompat myPref = findPreference("theme");
+            myPref.setOnPreferenceChangeListener((preference, newValue) -> {
+                Activity activity = getActivity();
+                Intent intent = activity.getIntent();
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                activity.finish();
+                startActivity(intent);
+                return true;
             });
         }
     }

@@ -53,10 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView textViewWeather;
     private Double avgTemperatureCel;
 
-    public static String getPop() {
-        return pop;
-    }
-
     public static void setPop(String pop) {
         MainActivity.pop = pop;
     }

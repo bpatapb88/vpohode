@@ -4,7 +4,7 @@
     <PreferenceCategory app:title="@string/weather_header">
         <SwitchPreferenceCompat
             app:key="theme"
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:title="@string/change_theme" />
         <EditTextPreference
             app:key="city"

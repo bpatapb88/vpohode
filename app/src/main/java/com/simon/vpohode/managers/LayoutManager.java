@@ -23,10 +23,6 @@ import com.simon.vpohode.screens.ConfigItem;
 
 public class LayoutManager {
 
-    public static void invisible(int item, Menu menu){
-        MenuItem menuItem = menu.findItem(item);
-        menuItem.setVisible(false);
-    }
     public static ArrayAdapter<String> spinnerConfig(Styles[] input, Context context){
         String[] inputString = new String[input.length];
         for(int i = 0; i<input.length;i++){
@@ -35,18 +31,6 @@ public class LayoutManager {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, inputString);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return adapter;
-    }
-
-    public static AdapterView.OnItemClickListener ClickItem(final Context context, final Activity activity){
-        return new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(context, ConfigItem.class);
-                intent.putExtra("id", id);
-                activity.startActivity(intent);
-            }
-        };
-
     }
 
     public static CustomItemsAdapter configListOfItems(Context contex, final SQLiteDatabase db, int sortBy){
@@ -73,7 +57,7 @@ public class LayoutManager {
 
 
     public static void setTheme(SharedPreferences preferences, Resources.Theme theme){
-        if(preferences.getBoolean("theme", true)){
+        if(preferences.getBoolean("theme", false)){
             theme.applyStyle(R.style.OverlayThemeDark,true);
         }else{
             theme.applyStyle(R.style.AppTheme,true);

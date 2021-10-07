@@ -44,25 +44,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ".." +
                 prepareTemp(look.getMax());
         holder.tempRange.setText(tempRangeString);
-        holder.description.setText(look.getItems());
         holder.lookId.setText(look.getId() + "");
-        fillColors(look.getItems(),holder);
+        fillColorsAndTitle(look.getItems(),holder);
     }
 
-    private void fillColors(String items, RecyclerViewHolder holder) {
+    private void fillColorsAndTitle(String items, RecyclerViewHolder holder) {
         DatabaseHelper databaseHelper = new DatabaseHelper(mcontext);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor itemsCursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE + " WHERE _id IN (" + items + ")", null);
+        StringBuilder title = new StringBuilder();
+        String prefix = "";
         int counter = 0;
         if(itemsCursor.moveToFirst()){
             do{
+                Item item = new Item().cursorToItem(itemsCursor);
                 holder.cardViews[counter].setAlpha(1);
                 holder.cardViews[counter].setCardElevation(5);
-                holder.imageViews[counter].setBackgroundColor(itemsCursor.getInt(itemsCursor.getColumnIndex("color")));
-                System.out.println("color is " + itemsCursor.getInt(itemsCursor.getColumnIndex("color")));
+                holder.imageViews[counter].setBackgroundColor(item.getColor());
+                title.append(prefix).append(item.getName());
+                prefix = ", ";
                 counter++;
             }while (itemsCursor.moveToNext());
         }
+        holder.description.setText(title.toString());
         itemsCursor.close();
         db.close();
         databaseHelper.close();

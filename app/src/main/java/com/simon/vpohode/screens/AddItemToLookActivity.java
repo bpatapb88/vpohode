@@ -1,15 +1,18 @@
 package com.simon.vpohode.screens;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.simon.vpohode.CustomItemsAdapter;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.R;
 import com.simon.vpohode.database.DBFields;
 import com.simon.vpohode.database.DatabaseHelper;
+import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.ListViewManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -26,6 +29,8 @@ public class AddItemToLookActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        LayoutManager.setTheme(prefs, getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item_to_look);
         Bundle extras = getIntent().getExtras();
