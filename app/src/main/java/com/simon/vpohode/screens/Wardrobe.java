@@ -32,7 +32,6 @@ public class Wardrobe extends AppCompatActivity {
     private CustomItemsAdapter topItemAdapter;
     private ListView listViewItems;
     private EditText searchItem;
-    AlertDialog.Builder builder;
     LayoutInflater inflater;
     private int sortBy;
 
@@ -49,7 +48,7 @@ public class Wardrobe extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        builder = new AlertDialog.Builder(this);
+
         inflater = Wardrobe.this.getLayoutInflater();
     }
 
@@ -77,7 +76,6 @@ public class Wardrobe extends AppCompatActivity {
         listViewItems.setOnItemClickListener((parent, view, position, id) -> {
             Intent intent = new Intent(view.getContext(), ConfigItem.class);
             intent.putExtra("id", id);
-            System.out.println("Clicked id is " + id);
             view.getContext().startActivity(intent);
         });
         ListViewManager.optimizeListViewSize(listViewItems);
@@ -115,7 +113,7 @@ public class Wardrobe extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sortBySpinner.setAdapter(adapter);
         sortBySpinner.setSelection(sortBy);
-
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(layout);
         builder.setTitle(getResources().getString(R.string.sorted_by));
         builder.setCancelable(false)
@@ -127,7 +125,6 @@ public class Wardrobe extends AppCompatActivity {
                 })
                 .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
 
-        AlertDialog alert = builder.create();
-        alert.show();
+        builder.create().show();
     }
 }

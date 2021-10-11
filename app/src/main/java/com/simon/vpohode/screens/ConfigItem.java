@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -18,12 +17,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -61,10 +58,11 @@ import com.simon.vpohode.database.DBHelperTemplate;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageView;
+import com.squareup.picasso.Picasso;
 
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -85,6 +83,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
     ImageView washItemImg;
     ImageView[] imagesOfLayers;
     ImageButton imageItem;
+    ImageButton photoItem;
     Spinner spinnerStyle;
     Spinner spinnerTemplate;
     CardView delButton;
@@ -122,6 +121,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         colorHex = findViewById(R.id.colorHex);
         colorView = findViewById(R.id.colorView);
         imageItem = findViewById(R.id.image_of_item);
+        photoItem = findViewById(R.id.photo_button);
         nameBox = findViewById(R.id.name);
         spinnerStyle = findViewById(R.id.Style);
         spinnerTemplate = findViewById(R.id.Template);
@@ -270,7 +270,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         saveButton.setOnClickListener(view -> {
             try {
-                onClick();
+                saveItem();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -278,7 +278,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         // if Save edit_text clicked do next:
 
-        imageItem.setOnClickListener(view -> CropImage.activity().start(ConfigItem.this));
+        photoItem.setOnClickListener(view -> CropImage.activity().start(ConfigItem.this));
 
         minus.setOnClickListener(v -> {
             String currentString = usedTime.getText().toString();
@@ -405,7 +405,8 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             brand.setText(selectedTemplate.getBrand());
         }
         if(selectedTemplate.getFoto() != null && !selectedTemplate.getFoto().equals("")){
-            new DownloadImageTask(imageItem).execute(selectedTemplate.getFoto());
+            File fileFoto = new File(selectedTemplate.getFoto());
+            Picasso.get().load(fileFoto).into(imageItem);
             newImage = true;
         }
     }
@@ -564,7 +565,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         return false;
     }
 
-    private void onClick() throws IOException {
+    private void saveItem() throws IOException {
         if (checkParameters()) {
             ContentValues cv = new ContentValues();
             cv.put(DBFields.LAYER.toFieldName(), chekedLayer);
@@ -607,32 +608,6 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 goHome();
         }
 
-    }
-
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-                in.close();
-            } catch (Exception e) {
-                Log.e("Error Image", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 
     public void onClickColor(View view) {

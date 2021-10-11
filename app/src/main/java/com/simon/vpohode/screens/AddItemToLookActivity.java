@@ -11,13 +11,11 @@ import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.ListViewManager;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -61,17 +59,17 @@ public class AddItemToLookActivity extends AppCompatActivity {
             int index = AddLookActivity.currentLook;
             Item item = new Item().getItemById((int) id, db);
             Item[] items;
-            if(!AddLookActivity.looks.isEmpty()){
-                items = new Item[AddLookActivity.looks.get(index).length + 1];
-                for(int i=0; i < AddLookActivity.looks.get(index).length; i++){
-                    items[i] = AddLookActivity.looks.get(index)[i];
+            if(!AddLookActivity.potential_looks.isEmpty()){
+                items = new Item[AddLookActivity.potential_looks.get(index).length + 1];
+                for(int i = 0; i < AddLookActivity.potential_looks.get(index).length; i++){
+                    items[i] = AddLookActivity.potential_looks.get(index)[i];
                 }
-                items[AddLookActivity.looks.get(index).length] = item;
-                AddLookActivity.looks.set(index, items);
+                items[AddLookActivity.potential_looks.get(index).length] = item;
+                AddLookActivity.potential_looks.set(index, items);
             }else{
                 items = new Item[1];
                 items[0] = item;
-                AddLookActivity.looks.add(items);
+                AddLookActivity.potential_looks.add(items);
             }
             finish();
         });

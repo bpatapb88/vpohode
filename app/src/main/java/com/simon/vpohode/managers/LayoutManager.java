@@ -41,15 +41,12 @@ public class LayoutManager {
         CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(contex,itemCursor);
 
         // устанавливаем провайдер фильтрации
-        customItemsAdapter.setFilterQueryProvider(new FilterQueryProvider() {
-            @Override
-            public Cursor runQuery(CharSequence constraint) {
-                if (constraint == null || constraint.length() == 0) {
-                    return DatabaseHelper.getCursorWardrobe(db, sortBy);
-                }
-                else {
-                    return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.INWASH.toFieldName() + " = 0 AND " + DBFields.NAME.toFieldName() + " like ? " + DatabaseHelper.getOrderString(sortBy), new String[]{"%" + constraint.toString() + "%"});
-                }
+        customItemsAdapter.setFilterQueryProvider(constraint -> {
+            if (constraint == null || constraint.length() == 0) {
+                return DatabaseHelper.getCursorWardrobe(db, sortBy);
+            }
+            else {
+                return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.INWASH.toFieldName() + " = 0 AND " + DBFields.NAME.toFieldName() + " like ? " + DatabaseHelper.getOrderString(sortBy), new String[]{"%" + constraint.toString() + "%"});
             }
         });
         return customItemsAdapter;

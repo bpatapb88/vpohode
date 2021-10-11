@@ -24,8 +24,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.Look;
+import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
-import com.simon.vpohode.RecyclerViewAdapter;
 import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.managers.LayoutManager;
@@ -38,7 +38,6 @@ public class SelectLookActivity extends AppCompatActivity {
     private static final String CELSIUS_SYMBOL = "\u2103 ";
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
-    private double term = 0;
     private int lookId = 0;
     LinearLayout rightLayout;
     LinearLayout leftLayout;
@@ -124,20 +123,15 @@ public class SelectLookActivity extends AppCompatActivity {
         leftLayout = findViewById(R.id.left_layout);
 
         Bundle extras = getIntent().getExtras();
-        term = extras.getDouble("term");
-
         lookId = extras.getInt("look_id");
 
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS + " WHERE _id =" + lookId, null);
         TextView nameOfLook = findViewById(R.id.name_look);
-
         if(cursor.moveToFirst()){
-            look = new Look(cursor);
-            double min = look.getMin();
-            double max = look.getMax();
+            look = new Look(cursor,db);
             String tempString = CELSIUS_SYMBOL +
-                    RecyclerViewAdapter.prepareTemp(min) + ".." +
-                    RecyclerViewAdapter.prepareTemp(max);
+                    MyAdapter.prepareTemp(look.getMin()) + ".." +
+                    MyAdapter.prepareTemp(look.getMax());
             temperature.setText(tempString);
             nameOfLook.setText(look.getName());
             addItemCardsOnTheView(look.getItems());
@@ -167,7 +161,6 @@ public class SelectLookActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AddLookActivity.class);
-                intent.putExtra("term", term);
                 intent.putExtra("look_id", lookId + "");
                 startActivity(intent);
             }
@@ -246,8 +239,6 @@ public class SelectLookActivity extends AppCompatActivity {
     }
 
     public void goBack(View view){
-        Intent intent = new Intent(this, LooksActivity.class);
-        intent.putExtra("term", term);
-        startActivity(intent);
+        finish();
     }
 }

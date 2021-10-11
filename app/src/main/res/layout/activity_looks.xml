@@ -63,22 +63,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:orientation="horizontal">
-            <EditText
-                android:id="@+id/search_item"
+            <androidx.appcompat.widget.SearchView
                 android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:paddingLeft="30dp"
-                android:hint="@string/enter_name"
-                android:layout_gravity="left"
-                android:layout_height="50dp"
-                android:gravity="center_vertical"
-                android:drawablePadding="16dp"
-                android:textColor="#4059FF"
-                android:textSize="14sp"
                 android:background="@drawable/edit_text"
-                android:drawableLeft="@drawable/ic_search_24"
-                android:focusedByDefault="false"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/mSearch"/>
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"

@@ -30,13 +30,19 @@
                 android:src="@drawable/gradient"
                 />
             <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="375dp"
-            app:cardCornerRadius="48dp"
+                android:layout_width="match_parent"
+                android:layout_height="375dp"
+                app:cardCornerRadius="48dp"
                 android:background="@null"
-            android:stateListAnimator="@animator/card_view"
-            android:clickable="true"
+                android:stateListAnimator="@animator/card_view"
+                android:clickable="true"
                 android:focusable="true">
+                <ImageButton
+                    android:id="@+id/photo_button"
+                    android:layout_width="200dp"
+                    android:layout_height="260dp"
+                    android:layout_gravity="center"
+                    />
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="375dp"
@@ -65,6 +71,7 @@
                     android:layout_gravity="right"
                     android:onClick="washItem"
                     />
+
 
             </androidx.cardview.widget.CardView>
 

@@ -2,6 +2,7 @@ package com.simon.vpohode.screens;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,10 +19,9 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Look;
-import com.simon.vpohode.RecyclerItemClickListener;
-import com.simon.vpohode.RecyclerViewAdapter;
 import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.managers.LayoutManager;
@@ -33,7 +33,6 @@ public class LooksActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private Cursor cursor;
     private RecyclerView recyclerView;
-    private RecyclerViewAdapter recyclerViewAdapter;
     private ArrayList<Look> recyclerDataArrayList;
     double term;
 
@@ -47,8 +46,8 @@ public class LooksActivity extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        recyclerView = findViewById(R.id.list_of_looks);
 
+        recyclerView = findViewById(R.id.list_of_looks);
         Bundle extras = getIntent().getExtras();
         term = extras.getDouble("term");
     }
@@ -60,27 +59,27 @@ public class LooksActivity extends AppCompatActivity {
         recyclerDataArrayList = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
-                recyclerDataArrayList.add(new Look(cursor));
+                recyclerDataArrayList.add(new Look(cursor,db));
             }while (cursor.moveToNext());
         }
-        recyclerViewAdapter = new RecyclerViewAdapter(recyclerDataArrayList, this);
+        SearchView sv = findViewById(R.id.mSearch);
+        MyAdapter myAdapter = new MyAdapter(this,recyclerDataArrayList);
         LinearLayoutManager manager = new LinearLayoutManager(this);
+
+        recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(recyclerViewAdapter);
-
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this,recyclerView,new RecyclerItemClickListener.OnItemClickListener(){
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(view.getContext(), SelectLookActivity.class);
-                intent.putExtra("term", term);
-                intent.putExtra("look_id", recyclerDataArrayList.get(position).getId());
-                view.getContext().startActivity(intent);
+            public boolean onQueryTextSubmit(String query) {
+                return false;
             }
-            @Override
-            public void onLongItemClick(View view, int position) {
 
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                myAdapter.getFilter().filter(newText);
+                return false;
             }
-        }));
+        });
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
@@ -109,7 +108,7 @@ public class LooksActivity extends AppCompatActivity {
                 }
 
                 // below line is to notify our item is removed from adapter.
-                recyclerViewAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                myAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
 
                 // below line is to display our snackbar with action.
                 Snackbar.make(recyclerView, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
@@ -121,7 +120,7 @@ public class LooksActivity extends AppCompatActivity {
                         insertToDB(deletedCourse);
                         // below line is to notify item is
                         // added to our adapter class.
-                        recyclerViewAdapter.notifyItemInserted(position);
+                        myAdapter.notifyItemInserted(position);
                     }
                 }).show();
             }

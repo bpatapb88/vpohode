@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 public class AddLookActivity extends AppCompatActivity {
     private RangeSlider rangeSlider;
     private static final String CELSIUS_SYMBOL = "\u2103 ";
-    static List<Item[]> looks;
+    static List<Item[]> potential_looks;
     private double term;
     private boolean isFabShrinked;
     private FloatingActionButton saveLookButton;
@@ -102,10 +102,12 @@ public class AddLookActivity extends AppCompatActivity {
 
         lookManager = new LookManager();
         if(lookId == null){
-            looks = lookManager.getLooks(term, this);
+            potential_looks = lookManager.getPotentialLooks(term, this);
         }else {
-            looks = lookManager.getLooks(lookId,this);
+
+            potential_looks = lookManager.getPotentialLooks(lookId,this);
             editLook = new Look().getLookById(lookId,this);
+            term = (editLook.getMin() + editLook.getMax())/2;
             nameLook.setText(editLook.getName());
             rangeSlider.setValues((float)editLook.getMin(), (float)editLook.getMax());
         }
@@ -157,10 +159,10 @@ public class AddLookActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if(!looks.isEmpty()){
+        if(!potential_looks.isEmpty()){
             leftLayout.removeAllViewsInLayout();
             rightLayout.removeAllViewsInLayout();
-            Item[] look = looks.get(currentLook);
+            Item[] look = potential_looks.get(currentLook);
             fillLook(look);
         }else{
             String lacks = lookManager.message.substring(0, lookManager.message.length() - 1);
@@ -178,23 +180,23 @@ public class AddLookActivity extends AppCompatActivity {
         refreshLookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((looks.size() - currentLook) > 1) {
+                if ((potential_looks.size() - currentLook) > 1) {
                     leftLayout.removeAllViewsInLayout();
                     rightLayout.removeAllViewsInLayout();
                     currentLook++;
-                    Item[] look = looks.get(currentLook);
+                    Item[] look = potential_looks.get(currentLook);
                     AddLookActivity.this.fillLook(look);
-                } else if ((looks.size() - currentLook) == 1 && looks.size() > 1) {
+                } else if ((potential_looks.size() - currentLook) == 1 && potential_looks.size() > 1) {
                     leftLayout.removeAllViewsInLayout();
                     rightLayout.removeAllViewsInLayout();
                     currentLook = 0;
-                    Item[] look = looks.get(currentLook);
+                    Item[] look = potential_looks.get(currentLook);
                     AddLookActivity.this.fillLook(look);
                 } else {
                     double currentTemp = (rangeSlider.getValues().get(0) + rangeSlider.getValues().get(1)) / 2;
                     if (currentTemp != term) {
-                        looks = lookManager.getLooks(currentTemp, AddLookActivity.this.getApplicationContext());
-                        if(!looks.isEmpty()){
+                        potential_looks = lookManager.getPotentialLooks(currentTemp, AddLookActivity.this.getApplicationContext());
+                        if(!potential_looks.isEmpty()){
                             term = currentTemp;
                             this.onClick(v);
                         }
@@ -207,8 +209,8 @@ public class AddLookActivity extends AppCompatActivity {
         addItemButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddItemToLookActivity.class);
             Integer[] itemsID = null;
-            if(!looks.isEmpty()){
-                itemsID = Stream.of(looks.get(currentLook)).map(Item::getId).toArray(Integer[]::new);
+            if(!potential_looks.isEmpty()){
+                itemsID = Stream.of(potential_looks.get(currentLook)).map(Item::getId).toArray(Integer[]::new);
             }
             intent.putExtra("look", itemsID);
             startActivity(intent);
@@ -316,7 +318,7 @@ public class AddLookActivity extends AppCompatActivity {
     }
 
     private void removeItemFromLook(int itemId){
-        List<Item> listItems = Arrays.asList(looks.get(currentLook));
+        List<Item> listItems = Arrays.asList(potential_looks.get(currentLook));
         int length = listItems.size();
         int index = 0;
         Item[] newArray = new Item[length-1];
@@ -326,6 +328,6 @@ public class AddLookActivity extends AppCompatActivity {
                 index++;
             }
         }
-        looks.set(currentLook,newArray);
+        potential_looks.set(currentLook,newArray);
     }
 }

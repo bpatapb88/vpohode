@@ -26,7 +26,7 @@ public class LookManager {
 
     public String message = "";
 
-    public List<Item[]> getLooks(String lookId, Context context){
+    public List<Item[]> getPotentialLooks(String lookId, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS + " WHERE _id = " + lookId,null);
@@ -34,17 +34,20 @@ public class LookManager {
         Item[] items;
         List<Item[]> result = new ArrayList<>();
         if(cursor.moveToFirst()){
-            itemsId = new Look(cursor).getItemsArray();
+            itemsId = new Look(cursor,db).getItemsArray();
             items = new Item[itemsId.size()];
             for(int i = 0; i< items.length; i++){
                 items[i] = new Item().getItemById(itemsId.get(i),db);
             }
             result.add(items);
         }
+        cursor.close();
+        db.close();
+        databaseHelper.close();
         return result;
     }
 
-    public List<Item[]> getLooks(double temp, Context context){
+    public List<Item[]> getPotentialLooks(double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(context);
@@ -73,9 +76,8 @@ public class LookManager {
         closeCursors(cursorLayersBot);
         closeCursors(cursorLayersTop);
         closeCursors(cursorLayersBoots);
-        databaseHelper.close();
         db.close();
-
+        databaseHelper.close();
 
         List<Item[]> readyTopLooks =  referedToTempTop(topLooks,temp);
         List<Item[]> readyBotLooks = referedToTempBot(botLooks,temp);
