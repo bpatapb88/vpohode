@@ -78,6 +78,13 @@
         <item>Brand</item>
         <item>Warm</item>
     </string-array>
+    <string-array name="sortOptionsLook">
+        <item>Created</item>
+        <item>Name A-Z</item>
+        <item>Name Z-A</item>
+        <item>Count of Items</item>
+        <item>Warm</item>
+    </string-array>
 
     <array name="resicon">
         <item>@android:drawable/ic_dialog_alert</item>

@@ -269,4 +269,17 @@
     <string name="DarkBlue">DarkBlue</string>
     <string name="Navy">Navy</string>
     <string name="Black">Black</string>
+
+    <string name="Undo">Vrátit</string>
+    <string name="SetRange">Nastavit teplotní rozsah</string>
+    <string name="ok">Ano</string>
+    <string name="NameEmpty">Jméno je prázdné</string>
+    <string name="NameExist">Tento název již existuje</string>
+    <string name="nameLook">Název sady</string>
+    <string name="addItemLook">Přidat položku do sady</string>
+
+
+
+
+
 </resources>

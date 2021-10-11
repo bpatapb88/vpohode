@@ -139,17 +139,16 @@ public class AddLookActivity extends AppCompatActivity {
             minEditText.setText(Math.round(values.get(0)) + "");
             maxEditText.setText(Math.round(values.get(1)) + "");
             AlertDialog dialog = new AlertDialog.Builder(v.getContext())
-                    .setTitle("Задай диапазон температур")
+                    .setTitle(getResources().getString(R.string.SetRange))
                     .setView(itemView)
-                    .setPositiveButton("OK", (dialogInterface, i) -> {
+                    .setPositiveButton(getResources().getString(R.string.ok), (dialogInterface, i) -> {
                         int minValue = Integer.parseInt(minEditText.getText().toString());
                         int maxValue = Integer.parseInt(maxEditText.getText().toString());
                         if(minValue >= -35 && maxValue <= 35 && minValue<=maxValue){
                             rangeSlider.setValues((float)minValue,(float)maxValue);
                         }
-                        Log.d("onclick","range value is: "+ minValue + " - " + maxValue);
                     })
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(getResources().getString(R.string.cancel), null)
                     .create();
             dialog.show();
         });
@@ -218,7 +217,7 @@ public class AddLookActivity extends AppCompatActivity {
 
         saveLookButton.setOnClickListener(v -> {
             if(nameLook.getText().toString().equals("")){
-                Toast.makeText(this,"Name is empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getResources().getString(R.string.NameEmpty), Toast.LENGTH_SHORT).show();
                 return;
             }
             int countLeft = leftLayout.getChildCount();
@@ -253,7 +252,7 @@ public class AddLookActivity extends AppCompatActivity {
                 intent.putExtra("term", term);
                 startActivity(intent);
             }else{
-                Toast.makeText(this,"This name already exist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,getResources().getString(R.string.NameExist), Toast.LENGTH_SHORT).show();
                 db.close();
                 databaseHelper.close();
             }

@@ -1,6 +1,7 @@
 package com.simon.vpohode.screens;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
@@ -14,19 +15,29 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
 import com.simon.vpohode.Look;
+import com.simon.vpohode.comparators.LookEmanComparator;
+import com.simon.vpohode.comparators.LookIdComparator;
+import com.simon.vpohode.comparators.LookNameComparator;
+import com.simon.vpohode.comparators.LookSizeComparator;
+import com.simon.vpohode.comparators.LookWarmComparator;
 import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.managers.LayoutManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LooksActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
@@ -35,6 +46,8 @@ public class LooksActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Look> recyclerDataArrayList;
     double term;
+    private LayoutInflater inflater;
+    private int sortBy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +59,11 @@ public class LooksActivity extends AppCompatActivity {
         db = databaseHelper.getReadableDatabase();
         //hidden keyboard by default
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
+        sortBy = 0;
         recyclerView = findViewById(R.id.list_of_looks);
         Bundle extras = getIntent().getExtras();
         term = extras.getDouble("term");
+        inflater = this.getLayoutInflater();
     }
 
     @Override
@@ -62,12 +76,23 @@ public class LooksActivity extends AppCompatActivity {
                 recyclerDataArrayList.add(new Look(cursor,db));
             }while (cursor.moveToNext());
         }
-        SearchView sv = findViewById(R.id.mSearch);
+        refreshRecyclerView(new LookIdComparator());
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        // close connection
+        db.close();
+    }
+
+    private void refreshRecyclerView(Comparator<Look> comparator){
+        Collections.sort(recyclerDataArrayList, comparator);
         MyAdapter myAdapter = new MyAdapter(this,recyclerDataArrayList);
         LinearLayoutManager manager = new LinearLayoutManager(this);
-
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(manager);
+        SearchView sv = findViewById(R.id.mSearch);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -80,62 +105,30 @@ public class LooksActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                // this method is called
-                // when the item is moved.
                 return false;
             }
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                // this method is called when we swipe our item to right direction.
-                // on below line we are getting the item at a particular position.
                 Look deletedCourse = recyclerDataArrayList.get(viewHolder.getAdapterPosition());
-
-                // below line is to get the position
-                // of the item at that position.
                 int position = viewHolder.getAdapterPosition();
-
-                // this method is called when item is swiped.
-                // below line is to remove item from our array list.
                 recyclerDataArrayList.remove(viewHolder.getAdapterPosition());
                 if(!deleteFromDB(deletedCourse.getId())){
                     Toast.makeText(viewHolder.itemView.getContext(), "Not found item with id - " +  deletedCourse.getId(), Toast.LENGTH_LONG).show();
                 }
-
-                // below line is to notify our item is removed from adapter.
                 myAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-
-                // below line is to display our snackbar with action.
-                Snackbar.make(recyclerView, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // adding on click listener to our action of snack bar.
-                        // below line is to add our item to array list with a position.
-                        recyclerDataArrayList.add(position, deletedCourse);
-                        insertToDB(deletedCourse);
-                        // below line is to notify item is
-                        // added to our adapter class.
-                        myAdapter.notifyItemInserted(position);
-                    }
+                Snackbar.make(recyclerView, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction(getResources().getString(R.string.Undo), v -> {
+                    recyclerDataArrayList.add(position, deletedCourse);
+                    insertToDB(deletedCourse);
+                    myAdapter.notifyItemInserted(position);
                 }).show();
             }
-            // at last we are adding this
-            // to our recycler view.
         }).attachToRecyclerView(recyclerView);
 
 
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        // close connection
-        db.close();
     }
 
     public void goHome(View view) {
@@ -161,5 +154,42 @@ public class LooksActivity extends AppCompatActivity {
         cv.put(DBLooksFields.TERMMIN.toFieldName(), look.getMin());
         cv.put(DBLooksFields.ITEMS.toFieldName(), look.getItems());
         return db.insert(DatabaseHelper.TABLE_LOOKS,null,cv) > 0;
+    }
+
+    public void SortLooks(View view) {
+        View layout = inflater.inflate(R.layout.fragment_content,null);
+        Spinner sortBySpinner = layout.findViewById(R.id.sortBySpinner);
+        String[] sortedOptions = getResources().getStringArray(R.array.sortOptionsLook);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, sortedOptions);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortBySpinner.setAdapter(adapter);
+        sortBySpinner.setSelection(sortBy);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(layout);
+        builder.setTitle(getResources().getString(R.string.sorted_by));
+        builder.setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.apply), (dialog, which) -> {
+                    sortBy = sortBySpinner.getSelectedItemPosition();
+                    switch (sortBy) {
+                        case 1:
+                            refreshRecyclerView(new LookNameComparator());
+                            break;
+                        case 2:
+                            refreshRecyclerView(new LookEmanComparator());
+                            break;
+                        case 3:
+                            refreshRecyclerView(new LookSizeComparator());
+                            break;
+                        case 4:
+                            refreshRecyclerView(new LookWarmComparator());
+                            break;
+                        default:
+                            refreshRecyclerView(new LookIdComparator());
+                    }
+
+                })
+                .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
+
+        builder.create().show();
     }
 }

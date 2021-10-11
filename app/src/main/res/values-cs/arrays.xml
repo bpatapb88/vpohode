@@ -71,10 +71,17 @@
         <item>2</item>
     </integer-array>
     <string-array name="sortOptions">
-        <item>Název A-Z</item>
-        <item>Značka A-Z</item>
         <item>Vytvořeno</item>
-        <item>Vrstva</item>
+        <item>Název A-Z</item>
+        <item>Název A-Z</item>
+        <item>Značka</item>
+        <item>Teplota</item>
+    </string-array>
+    <string-array name="sortOptionsLook">
+        <item>Vytvořeno</item>
+        <item>Název A-Z</item>
+        <item>Název A-Z</item>
+        <item>Počet věcí</item>
         <item>Teplota</item>
     </string-array>
     <array name="resicon">

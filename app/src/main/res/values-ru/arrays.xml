@@ -71,10 +71,17 @@
         <item>2</item>
     </integer-array>
     <string-array name="sortOptions">
-        <item>Имя A-Z</item>
-        <item>Бренд A-Z</item>
         <item>Создано</item>
-        <item>Слой</item>
+        <item>Имя A-Я</item>
+        <item>Имя Я-А</item>
+        <item>Бренд</item>
+        <item>Теплота</item>
+    </string-array>
+    <string-array name="sortOptionsLook">
+        <item>Создано</item>
+        <item>Имя A-Я</item>
+        <item>Имя Я-А</item>
+        <item>Кол. Вещей</item>
         <item>Теплота</item>
     </string-array>
 

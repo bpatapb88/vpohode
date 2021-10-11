@@ -42,7 +42,7 @@
                     android:textSize="22sp"
                     android:textColor="?attr/colorPrimary"
                     android:textAlignment="textEnd"
-                    android:text="Add item to Look"
+                    android:text="@string/addItemLook"
                     />
             </LinearLayout>
             <ImageView

@@ -271,4 +271,16 @@
     <string name="DarkBlue">Тёмно-синий</string>
     <string name="Navy">Нави</string>
     <string name="Black">Черный</string>
+
+    <string name="Undo">Вернуть</string>
+    <string name="SetRange">Задай диапазон температур</string>
+    <string name="ok">Да</string>
+    <string name="NameEmpty">Имя не указано</string>
+    <string name="NameExist">Это имя уже существует</string>
+    <string name="nameLook">Название образа</string>
+    <string name="addItemLook">Добавить вещь в набор</string>
+
+
+
+
 </resources>

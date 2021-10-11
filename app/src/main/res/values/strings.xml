@@ -38,6 +38,7 @@
     <string name="sets">Sets</string>
     <string name="deleted">Removed</string>
     <string name="delete">Delete</string>
+    <string name="ok">OK</string>
 
     <!--Loos Activity -->
     <string name="looks_activity">Looks</string>
@@ -268,6 +269,14 @@
     <string name="DarkBlue">DarkBlue</string>
     <string name="Navy">Navy</string>
     <string name="Black">Black</string>
+
+    <string name="Undo">Undo</string>
+    <string name="SetRange">Set temperature range</string>
+    <string name="NameEmpty">Name is empty</string>
+    <string name="NameExist">This name already exist</string>
+    <string name="nameLook">Name of Look</string>
+    <string name="addItemLook">Add item to Look</string>
+
     <string name="title_activity_add_look">AddLookActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

@@ -3,11 +3,8 @@ package com.simon.vpohode;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.simon.vpohode.database.DBFields;
-import com.simon.vpohode.database.DBHelperTemplate;
 import com.simon.vpohode.database.DatabaseHelper;
-
 import java.util.ArrayList;
 
 import lombok.Data;
@@ -66,4 +63,5 @@ public class Look {
         }
         return result;
     }
+
 }

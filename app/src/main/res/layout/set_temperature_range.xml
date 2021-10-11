@@ -4,13 +4,14 @@
     android:layout_height="50dp"
     android:orientation="horizontal"
     >
+
     <EditText
-        android:inputType="numberSigned"
-        android:layout_marginLeft="16dp"
         android:id="@+id/min_temp"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:hint="Min temp"/>
+        android:layout_marginLeft="16dp"
+        android:hint="Min temp"
+        android:inputType="numberSigned" />
     <EditText
         android:inputType="numberSigned"
         android:layout_marginHorizontal="16dp"

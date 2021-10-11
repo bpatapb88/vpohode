@@ -68,12 +68,15 @@
                 android:background="@drawable/edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:id="@+id/mSearch"/>
+                android:id="@+id/mSearch"
+                app:queryHint="@string/enter_name"
+                />
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/ic_filter"
                 android:background="@null"
+                android:onClick="SortLooks"
                 />
 
         </LinearLayout>
@@ -83,7 +86,7 @@
             >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
                 <androidx.cardview.widget.CardView
@@ -127,8 +130,8 @@
                     android:layout_height="match_parent"
                     android:dividerHeight="0dp"
                     android:divider="@null"
-                    android:clickable="false"
-                    />
+                    android:clickable="true"
+                    android:focusable="true" />
                 <Space
                     android:layout_width="match_parent"
                     android:layout_height="20dp"/>

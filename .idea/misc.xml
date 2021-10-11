@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.2657407407407407" />
+        <entry key="../../Library/Android/sdk/platforms/android-30/data/res/layout/simple_spinner_item.xml" value="0.12552083333333333" />
         <entry key="app/src/main/res/drawable-v24/magic_selector.xml" value="0.2630208333333333" />
         <entry key="app/src/main/res/drawable-v24/pencil_selector.xml" value="0.2630208333333333" />
         <entry key="app/src/main/res/drawable-v24/redo_selector.xml" value="0.13333333333333333" />
@@ -51,7 +52,7 @@
         <entry key="app/src/main/res/layout/content_add_look.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/edit_text_prf.xml" value="0.16354166666666667" />
         <entry key="app/src/main/res/layout/first_list_item.xml" value="0.16354166666666667" />
-        <entry key="app/src/main/res/layout/fragment_content.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_content.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.246875" />
         <entry key="app/src/main/res/layout/fragment_page.xml" value="0.22395833333333334" />
         <entry key="app/src/main/res/layout/item_form.xml" value="0.178125" />
