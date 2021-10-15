@@ -75,14 +75,6 @@
                 android:drawableLeft="@drawable/ic_search_24"
                 android:focusedByDefault="false"
                 />
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_filter"
-                android:background="@null"
-                android:id="@+id/filter"
-
-                />
 
         </LinearLayout>
         <ScrollView

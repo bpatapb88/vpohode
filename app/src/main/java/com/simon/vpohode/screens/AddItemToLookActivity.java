@@ -15,7 +15,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +27,8 @@ public class AddItemToLookActivity extends AppCompatActivity {
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase db;
     private ListView listViewItems;
+    private EditText searchItem;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,7 @@ public class AddItemToLookActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         look = (Integer[]) extras.get("look");
         listViewItems = findViewById(R.id.list);
+        searchItem = findViewById(R.id.search_item);
         StringBuilder stringBuilder = new StringBuilder();
         if(look != null){
             String[] lookString = new String[look.length];
@@ -53,7 +59,16 @@ public class AddItemToLookActivity extends AppCompatActivity {
         Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ") AND " + DBFields.INWASH.toFieldName() + " = 0", null);
         Toast.makeText(this,"We found " + cursor.getCount() + " items", Toast.LENGTH_SHORT).show();
         CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(this,cursor);
+        customItemsAdapter.setFilterQueryProvider(constraint -> {
+            if (constraint == null || constraint.length() == 0) {
+                return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ") AND " + DBFields.INWASH.toFieldName() + " = 0", null);
+            }
+            else {
+                return db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.INWASH.toFieldName() + " = 0 AND " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ") AND " + DBFields.NAME.toFieldName() + " like ?", new String[]{"%" + constraint.toString() + "%"});
+            }
+        });
         listViewItems.setAdapter(customItemsAdapter);
+        customItemsAdapter.notifyDataSetChanged();
         ListViewManager.optimizeListViewSize(listViewItems);
         listViewItems.setOnItemClickListener((parent, view, position, id) -> {
             int index = AddLookActivity.currentLook;
@@ -72,6 +87,23 @@ public class AddItemToLookActivity extends AppCompatActivity {
                 AddLookActivity.potential_looks.add(items);
             }
             finish();
+        });
+
+        searchItem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                customItemsAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //Do nothing
+            }
         });
     }
     public void goBack(View view) {
