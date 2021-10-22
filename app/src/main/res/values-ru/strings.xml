@@ -39,6 +39,7 @@
     <string name="last_look">Это последний набор</string>
     <string name="sets">Наборов</string>
     <string name="deleted">Удалена</string>
+    <string name="deleted2">удален</string>
     <string name="delete">Удалить</string>
 
     <!--Loos Activity -->
@@ -279,8 +280,7 @@
     <string name="NameExist">Это имя уже существует</string>
     <string name="nameLook">Название образа</string>
     <string name="addItemLook">Добавить в набор</string>
-
-
+    <string name="isWeatherMatters">Наборы по погоде</string>
 
 
 </resources>

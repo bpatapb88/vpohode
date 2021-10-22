@@ -37,6 +37,7 @@
     <string name="sets">Sady</string>
     <string name="deleted">Odstraněno</string>
     <string name="delete">Smazat</string>
+    <string name="deleted2">odstraněn</string>
 
     <!--Loos Activity -->
     <string name="looks_activity">Úbory</string>
@@ -277,9 +278,7 @@
     <string name="NameExist">Tento název již existuje</string>
     <string name="nameLook">Název sady</string>
     <string name="addItemLook">Přidat položku do sady</string>
-
-
-
+    <string name="isWeatherMatters">Podle na počasí</string>
 
 
 </resources>

@@ -62,7 +62,7 @@
             android:layout_marginTop="170dp"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:text="Название"/>
+            android:text="@string/title_item"/>
         <TextView
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="193dp"
@@ -72,7 +72,7 @@
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Бренд"/>
+            android:text="@string/brand"/>
         <TextView
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="208dp"
@@ -82,7 +82,7 @@
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Стиль"/>
+            android:text="@string/style"/>
         <TextView
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="223dp"
@@ -92,6 +92,6 @@
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Надевалось"/>
+            android:text="@string/used_times"/>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

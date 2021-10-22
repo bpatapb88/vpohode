@@ -27,6 +27,7 @@ import com.google.android.material.slider.RangeSlider;
 import com.simon.vpohode.Item;
 import com.simon.vpohode.Look;
 import com.simon.vpohode.R;
+import com.simon.vpohode.Styles;
 import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.managers.LayoutManager;
@@ -276,9 +277,15 @@ public class AddLookActivity extends AppCompatActivity {
         for(int i = 0 ; i < look.length; i++){
             View itemView = View.inflate(this,R.layout.list_item_edit,null);
             TextView nameTextView = itemView.findViewById(R.id.nameItem);
+            TextView brandTextView = itemView.findViewById(R.id.brandItem);
+            TextView styleTextView = itemView.findViewById(R.id.styleItem);
+            TextView usedTextView = itemView.findViewById(R.id.usedItem);
             TextView itemIdTextView = itemView.findViewById(R.id.item_id);
             itemIdTextView.setText(look[i].getId() + "");
             nameTextView.setText(look[i].getName());
+            brandTextView.setText(brandTextView.getText().toString()+ ": " + look[i].getBrand());
+            styleTextView.setText(getResources().getString(look[i].getStyle()));
+            usedTextView.setText(usedTextView.getText().toString()+ ": " + look[i].getUsed());
             ImageView deleteItem = itemView.findViewById(R.id.delete_item);
 
             cardViews[i].setAlpha(1);

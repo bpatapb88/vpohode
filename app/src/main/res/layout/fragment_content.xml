@@ -7,9 +7,16 @@
     android:orientation="vertical"
     >
     <Spinner
-        android:padding="15dp"
+        android:padding="16dp"
         android:id="@+id/sortBySpinner"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
+        />
+    <CheckBox
+        android:id="@+id/checkbox_iwm"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/isWeatherMatters"
         />
 </LinearLayout>

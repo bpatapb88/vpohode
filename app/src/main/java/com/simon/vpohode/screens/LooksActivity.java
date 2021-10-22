@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class LooksActivity extends AppCompatActivity {
     double term;
     private LayoutInflater inflater;
     private int sortBy;
+    private boolean isWeatherMatters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,19 +67,27 @@ public class LooksActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         term = extras.getDouble("term");
         inflater = this.getLayoutInflater();
+        isWeatherMatters = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS, null);
+        fillRecyclerDataArrayList(cursor);
+        if(isWeatherMatters){
+            removeNotMatchedLooks();
+        }
+        refreshRecyclerView(new LookIdComparator());
+    }
+
+    private void fillRecyclerDataArrayList(Cursor cursor) {
         recyclerDataArrayList = new ArrayList<>();
         if(cursor.moveToFirst()){
             do{
                 recyclerDataArrayList.add(new Look(cursor,db));
             }while (cursor.moveToNext());
         }
-        refreshRecyclerView(new LookIdComparator());
     }
 
     @Override
@@ -121,7 +131,7 @@ public class LooksActivity extends AppCompatActivity {
                     Toast.makeText(viewHolder.itemView.getContext(), "Not found item with id - " +  deletedCourse.getId(), Toast.LENGTH_LONG).show();
                 }
                 myAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
-                Snackbar.make(recyclerView, deletedCourse.getName(), Snackbar.LENGTH_LONG).setAction(getResources().getString(R.string.Undo), v -> {
+                Snackbar.make(recyclerView, deletedCourse.getName() + " " + getResources().getString(R.string.deleted2) , Snackbar.LENGTH_LONG).setAction(getResources().getString(R.string.Undo), v -> {
                     recyclerDataArrayList.add(position, deletedCourse);
                     insertToDB(deletedCourse);
                     myAdapter.notifyItemInserted(position);
@@ -160,6 +170,8 @@ public class LooksActivity extends AppCompatActivity {
     public void SortLooks(View view) {
         View layout = inflater.inflate(R.layout.fragment_content,null);
         Spinner sortBySpinner = layout.findViewById(R.id.sortBySpinner);
+        CheckBox isWM = layout.findViewById(R.id.checkbox_iwm);
+        isWM.setChecked(isWeatherMatters);
         String[] sortedOptions = getResources().getStringArray(R.array.sortOptionsLook);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, sortedOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -171,6 +183,13 @@ public class LooksActivity extends AppCompatActivity {
         builder.setCancelable(false)
                 .setPositiveButton(getResources().getString(R.string.apply), (dialog, which) -> {
                     sortBy = sortBySpinner.getSelectedItemPosition();
+                    if(isWM.isChecked()){
+                        isWeatherMatters = true;
+                        removeNotMatchedLooks();
+                    }else{
+                        isWeatherMatters = false;
+                        fillRecyclerDataArrayList(cursor);
+                    }
                     switch (sortBy) {
                         case 1:
                             refreshRecyclerView(new LookNameComparator());
@@ -192,5 +211,17 @@ public class LooksActivity extends AppCompatActivity {
                 .setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> dialog.cancel());
 
         builder.create().show();
+    }
+
+    private void removeNotMatchedLooks() {
+        for(int i = recyclerDataArrayList.size() - 1; i > -1; i--) {
+            System.out.println("remove #" + i + "\n term = " + term + "\n"
+                    + "min = " + recyclerDataArrayList.get(i).getMin() + "\n"
+                    + "max = " + recyclerDataArrayList.get(i).getMax());
+            if(recyclerDataArrayList.get(i).getMin() > term || recyclerDataArrayList.get(i).getMax() < term){
+
+                recyclerDataArrayList.remove(i);
+            }
+        }
     }
 }
