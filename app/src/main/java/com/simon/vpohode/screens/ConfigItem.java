@@ -278,7 +278,10 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
 
         // if Save edit_text clicked do next:
 
-        photoItem.setOnClickListener(view -> CropImage.activity().start(ConfigItem.this));
+        photoItem.setOnClickListener(view -> {
+            System.out.println("Photo Item clicked");
+            CropImage.activity().start(ConfigItem.this);
+        });
 
         minus.setOnClickListener(v -> {
             String currentString = usedTime.getText().toString();
