@@ -116,7 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         cv.clear();
         //Snickers
-        cv.put(DBFields.NAME.toFieldName(),"Snickers");
+        cv.put(DBFields.NAME.toFieldName(),"Sneakers");
         cv.put(DBFields.COLOR.toFieldName(),-6381922);
         cv.put(DBFields.STYLE.toFieldName(),R.string.sport);
         cv.put(DBFields.ISTOP.toFieldName(),0);

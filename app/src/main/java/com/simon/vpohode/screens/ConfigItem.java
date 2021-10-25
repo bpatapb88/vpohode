@@ -18,6 +18,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,8 +46,10 @@ import androidx.preference.PreferenceManager;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
+import com.simon.vpohode.Look;
 import com.simon.vpohode.cut_out_background.CutOut;
 import com.simon.vpohode.Item;
+import com.simon.vpohode.database.DBLooksFields;
 import com.simon.vpohode.managers.ColorManager;
 import com.simon.vpohode.managers.ImageManager;
 import com.simon.vpohode.managers.LayoutManager;
@@ -65,6 +68,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class ConfigItem extends AppCompatActivity implements ColorPickerDialogListener {
@@ -621,6 +625,7 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
         if(itemId > 0){
             deleteImagesById(itemId, db);
             Toast.makeText(this, getResources().getString(R.string.deleted) + " " + itemId, Toast.LENGTH_SHORT).show();
+            deleteAllLooks(db);
             db.delete(DatabaseHelper.TABLE, "_id = ?", new String[]{String.valueOf(itemId)});
             goHome();
         }else{
@@ -651,6 +656,19 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
             customDialogFragment.show(getSupportFragmentManager(),"missingFragment");
         }
 
+    }
+
+    private void deleteAllLooks(SQLiteDatabase db) {
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DatabaseHelper.TABLE_LOOKS, null);
+        if(cursor.moveToFirst()){
+            do{
+                Look look = new Look(cursor,db);
+                ArrayList<Integer> itemsId = look.getItemsArray();
+                if(itemsId.contains((int)itemId)){
+                    db.delete(DatabaseHelper.TABLE_LOOKS, "_id = ?", new String[]{String.valueOf(look.getId())});
+                }
+            }while (cursor.moveToNext());
+        }
     }
 
     public void goHome(View view){

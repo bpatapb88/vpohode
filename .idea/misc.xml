@@ -23,6 +23,7 @@
         <entry key="app/src/main/res/drawable/ic_dots.xml" value="0.2630208333333333" />
         <entry key="app/src/main/res/drawable/ic_entypo_save.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/drawable/ic_hanger.xml" value="0.23541666666666666" />
+        <entry key="app/src/main/res/drawable/ic_icon_app.xml" value="0.11197916666666667" />
         <entry key="app/src/main/res/drawable/ic_label.xml" value="0.23541666666666666" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.13645833333333332" />
         <entry key="app/src/main/res/drawable/ic_logo_background.xml" value="0.2015625" />
@@ -71,6 +72,8 @@
         <entry key="app/src/main/res/layout/testlayout.xml" value="0.10416666666666667" />
         <entry key="app/src/main/res/layout/two_line_list_item.xml" value="0.22" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.10416666666666667" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_avatar.xml" value="0.11197916666666667" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11197916666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_logo.xml" value="0.125" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_logo_round.xml" value="0.1" />
         <entry key="app/src/main/res/xml/root_preferences.xml" value="0.3567708333333333" />

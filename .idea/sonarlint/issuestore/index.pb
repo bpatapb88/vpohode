@@ -146,10 +146,6 @@ p
 @app/src/main/java/com/simon/vpohode/managers/WeatherManager.java,0/5/05f7d6b798637a4b67f8e0bc2bd7ad01811c2ae7
 o
 ?app/src/main/java/com/simon/vpohode/database/DBLooksFields.java,8/0/802b9ab3e0c2a6706ea35cc09a76c74051a3fd19
-n
->app/src/main/java/com/simon/vpohode/managers/ImageManager.java,b/d/bd9faf68799614c975fc4d635889b8375a38de3a
-k
-;app/src/main/java/com/simon/vpohode/screens/ConfigItem.java,e/b/ebc2168a3fc013210dc7382132f7730cde69e03a
 j
 :app/src/main/java/com/simon/vpohode/ItemClickListener.java,b/8/b8f4a5dbc05a9a0a64f001c2794558263bb2fbb8
 m
@@ -178,3 +174,7 @@ o
 ?app/src/main/java/com/simon/vpohode/managers/LayoutManager.java,5/9/59e999c688144ccd81986774c05f9c98f89c12b2
 v
 Fapp/src/main/java/com/simon/vpohode/screens/AddItemToLookActivity.java,9/9/99a809336cde2386e3ea2f60675097292d46a560
+P
+ app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
+n
+>app/src/main/java/com/simon/vpohode/screens/LooksActivity.java,3/f/3f2b4eea7079e95bc447e6d3469b6877603c4da5

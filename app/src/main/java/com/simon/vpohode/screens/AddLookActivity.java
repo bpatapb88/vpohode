@@ -283,7 +283,7 @@ public class AddLookActivity extends AppCompatActivity {
             TextView itemIdTextView = itemView.findViewById(R.id.item_id);
             itemIdTextView.setText(look[i].getId() + "");
             nameTextView.setText(look[i].getName());
-            brandTextView.setText(brandTextView.getText().toString()+ ": " + look[i].getBrand());
+            brandTextView.setText(look[i].getBrand());
             styleTextView.setText(getResources().getString(look[i].getStyle()));
             usedTextView.setText(usedTextView.getText().toString()+ ": " + look[i].getUsed());
             ImageView deleteItem = itemView.findViewById(R.id.delete_item);

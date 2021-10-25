@@ -57,6 +57,7 @@
             android:id="@+id/nameItem"
             android:layout_marginHorizontal="16dp"
             android:textSize="14dp"
+            android:lines="1"
             android:fontFamily="@font/montserrat_alternates_bold"
             android:textColor="@color/colorAccent"
             android:layout_marginTop="170dp"
@@ -64,6 +65,7 @@
             android:layout_height="20dp"
             android:text="@string/title_item"/>
         <TextView
+            android:lines="1"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="193dp"
             android:id="@+id/brandItem"
