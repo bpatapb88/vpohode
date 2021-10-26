@@ -274,6 +274,7 @@
     <string name="Undo">Undo</string>
     <string name="SetRange">Set temperature range</string>
     <string name="NameEmpty">Name is empty</string>
+    <string name="NoItems">No items</string>
     <string name="NameExist">This name already exist</string>
     <string name="nameLook">Name of Look</string>
     <string name="addItemLook">Add item to Look</string>

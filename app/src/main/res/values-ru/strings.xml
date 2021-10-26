@@ -277,6 +277,7 @@
     <string name="SetRange">Задай диапазон температур</string>
     <string name="ok">Да</string>
     <string name="NameEmpty">Имя не указано</string>
+    <string name="NoItems">Нет вещей</string>
     <string name="NameExist">Это имя уже существует</string>
     <string name="nameLook">Название образа</string>
     <string name="addItemLook">Добавить в набор</string>

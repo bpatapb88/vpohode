@@ -234,6 +234,11 @@ public class AddLookActivity extends AppCompatActivity {
                 items.append(templeView.getText().toString()).append(",");
             }
 
+            if(items.length() < 1){
+                Toast.makeText(this,getResources().getString(R.string.NoItems), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             DatabaseHelper databaseHelper = new DatabaseHelper(v.getContext());
             SQLiteDatabase db = databaseHelper.getReadableDatabase();
             ContentValues cv = new ContentValues();

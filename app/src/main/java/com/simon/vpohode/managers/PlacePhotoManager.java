@@ -18,7 +18,7 @@ public class PlacePhotoManager {
             final JSONObject jsonObject2 = photos.getJSONObject(0);
             final String photoReference = jsonObject2.getString("photo_reference");
             String photoUrlTemplate = "https://maps.googleapis.com/maps/api/place/photo?photoreference=%s&key=%s&maxwidth=400&maxheight=400";
-            photoURL = String.format(photoUrlTemplate,photoReference, BuildConfig.GOOGLE_API);
+            photoURL = String.format(photoUrlTemplate,photoReference, "AIzaSyCIiHq1jStgXeV9JgfFtoXdyKs8ZHBdrzk");
         }catch (JSONException e){
             e.printStackTrace();
         }

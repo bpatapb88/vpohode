@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private void setWeatherAndPicture(){
         DownloadTask task2 = new DownloadTask();
         String weatherURLWithCity = String.format(WEATHER_URL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(PLACE_URL, city, BuildConfig.GOOGLE_API);
+        String placeURLWithCity = String.format(PLACE_URL, city, "AIzaSyCIiHq1jStgXeV9JgfFtoXdyKs8ZHBdrzk");
         task2.execute(weatherURLWithCity, placeURLWithCity);
     }
 
