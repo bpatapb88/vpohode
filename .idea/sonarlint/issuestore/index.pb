@@ -5,8 +5,6 @@ u
 Eapp/src/main/java/com/simon/vpohode/screens/CustomDialogFragment.java,3/2/3233b29efd309abbcf6663e8e2fb278e56b3f780
 k
 ;app/src/main/java/com/simon/vpohode/managers/ColorList.java,e/7/e70f22f28889e400ab48f5f537935bdf287260e2
-s
-Capp/src/main/java/com/simon/vpohode/managers/PlacePhotoManager.java,b/8/b80d1032b874fa1b65920adee561c2bb4e0059de
 ^
 .app/src/main/java/com/simon/vpohode/Rules.java,2/6/26a7bd48f56fb6d0141b40ea20da40453193f8e6
 _
@@ -41,9 +39,6 @@ X
 	label.svg,d/9/d95fe4b13b8b2e7c410d9bd013502367cadfecb3
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-:
-
-.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
 :
 
 footer.svg,1/4/142427f25f663960b1c29c4d699929422d1ffb0b
@@ -152,8 +147,6 @@ m
 =app/src/main/java/com/simon/vpohode/managers/LookManager.java,a/8/a8a1ef4277116a756f5cce5b920f33dbb1e6fbb5
 a
 1app/src/main/java/com/simon/vpohode/MyHolder.java,d/b/dbd46760b944b203cca0372c64e720beb1457c45
-s
-Capp/src/main/java/com/simon/vpohode/screens/SelectLookActivity.java,6/1/613d4fae2ca36b68fc4dd86252d3690d03af7291
 b
 2app/src/main/java/com/simon/vpohode/MyAdapter.java,e/9/e9442c6cb6289680a332734f690b3879be3bc3e3
 ]

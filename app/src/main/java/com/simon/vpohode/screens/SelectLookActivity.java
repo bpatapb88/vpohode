@@ -157,13 +157,10 @@ public class SelectLookActivity extends AppCompatActivity {
             alert.show();
         });
 
-        editLookButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddLookActivity.class);
-                intent.putExtra("look_id", lookId + "");
-                startActivity(intent);
-            }
+        editLookButton.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), AddLookActivity.class);
+            intent.putExtra("look_id", lookId + "");
+            startActivity(intent);
         });
 
         deleteLookButton.setOnClickListener(v -> {
