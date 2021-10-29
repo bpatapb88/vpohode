@@ -1,5 +1,6 @@
 package com.simon.vpohode.managers;
 
+import com.simon.vpohode.APIs;
 import com.simon.vpohode.BuildConfig;
 
 import org.json.JSONArray;
@@ -18,7 +19,7 @@ public class PlacePhotoManager {
             final JSONObject jsonObject2 = photos.getJSONObject(0);
             final String photoReference = jsonObject2.getString("photo_reference");
             String photoUrlTemplate = "https://maps.googleapis.com/maps/api/place/photo?photoreference=%s&key=%s&maxwidth=400&maxheight=400";
-            photoURL = String.format(photoUrlTemplate,photoReference, "AIzaSyCIiHq1jStgXeV9JgfFtoXdyKs8ZHBdrzk");
+            photoURL = String.format(photoUrlTemplate,photoReference, APIs.GOOGLE_API);
         }catch (JSONException e){
             e.printStackTrace();
         }

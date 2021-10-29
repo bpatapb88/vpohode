@@ -280,6 +280,7 @@
     <string name="nameLook">Název sady</string>
     <string name="addItemLook">Přidat položku do sady</string>
     <string name="isWeatherMatters">Podle na počasí</string>
+    <string name="inwash">v prádelně</string>
 
 
 </resources>

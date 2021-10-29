@@ -47,6 +47,16 @@ public class LookManager {
         return result;
     }
 
+    public int isLookUseable(Look look){
+        ArrayList<Item> items = look.getItemsNew();
+        for(Item item : items){
+            if(item.isInwash()){
+                return item.getId();
+            }
+        }
+        return -1;
+    }
+
     public List<Item[]> getPotentialLooks(double temp, Context context){
         DatabaseHelper databaseHelper = new DatabaseHelper(context);
         SQLiteDatabase db = databaseHelper.getReadableDatabase();

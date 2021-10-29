@@ -29,6 +29,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.simon.vpohode.APIs;
 import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.managers.LayoutManager;
 import com.simon.vpohode.managers.PlacePhotoManager;
@@ -46,9 +47,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
-    // another Weather URL "http://api.openweathermap.org/data/2.5/weather?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=ru&units=metric"
-    // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid=8e923e31bdf57632b77f12106cf7f3ee
-    private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=8e923e31bdf57632b77f12106cf7f3ee&lang=%s&units=metric";
+    // another Weather URL "http://api.openweathermap.org/data/2.5/weather?q=%s&appid="+APIs.WEATHER_API+"&lang=ru&units=metric"
+    // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid="+APIs.WEATHER_API
+    private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=" + APIs.WEATHER_API + "&lang=%s&units=metric";
     private static final String PLACE_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
     private TextView textViewWeather;
     private Double avgTemperatureCel;
@@ -92,7 +93,15 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         latitudeTextView = location.getLatitude();
                         longitTextView = location.getLongitude();
-                        city = getLocationName(latitudeTextView, longitTextView);
+                        String locationName = getLocationName(latitudeTextView, longitTextView);
+                        System.out.println("Location name is " + locationName);
+                        if(locationName != null && !locationName.equals("")){
+                            city = locationName;
+                            String cityFromPreferences = preferences.getString("city", "");
+                            if(cityFromPreferences.equals("")){
+                                preferences.edit().putString("city", locationName).apply();
+                            }
+                        }
                         setWeatherAndPicture();
                     }
                 });
@@ -109,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     private void setWeatherAndPicture(){
         DownloadTask task2 = new DownloadTask();
         String weatherURLWithCity = String.format(WEATHER_URL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(PLACE_URL, city, "AIzaSyCIiHq1jStgXeV9JgfFtoXdyKs8ZHBdrzk");
+        String placeURLWithCity = String.format(PLACE_URL, city, APIs.GOOGLE_API);
         task2.execute(weatherURLWithCity, placeURLWithCity);
     }
 
@@ -290,7 +299,6 @@ public class MainActivity extends AppCompatActivity {
 
             List<Address> addresses = gcd.getFromLocation(lattitude, longitude,
                     10);
-
             for (Address adrs : addresses) {
                 if (adrs != null) {
 

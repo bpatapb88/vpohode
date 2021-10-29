@@ -282,6 +282,7 @@
     <string name="nameLook">Название образа</string>
     <string name="addItemLook">Добавить в набор</string>
     <string name="isWeatherMatters">Наборы по погоде</string>
+    <string name="inwash">в стирке</string>
 
 
 </resources>

@@ -9,6 +9,7 @@
     <string name="wash">Wash</string>
     <string name="washed">Washed</string>
     <string name="select_all">Select all</string>
+    <string name="inwash">in wash</string>
 
     <string name="wardrobe_title_hint">catalog of things</string>
     <string name="wardrobe_hint">Want to add more things?</string>

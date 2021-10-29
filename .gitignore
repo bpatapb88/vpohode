@@ -7,9 +7,9 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-/app/src/main/java/com.simon.vpohode/APIHolder.java
 .DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
+/app/src/main/java/com/simon/vpohode/APIs.java

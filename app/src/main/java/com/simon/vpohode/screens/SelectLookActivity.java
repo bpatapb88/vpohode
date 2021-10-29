@@ -16,13 +16,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.simon.vpohode.APIs;
 import com.simon.vpohode.BuildConfig;
+import com.simon.vpohode.Item;
 import com.simon.vpohode.Look;
 import com.simon.vpohode.MyAdapter;
 import com.simon.vpohode.R;
@@ -68,9 +71,9 @@ public class SelectLookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_look);
 
         //ad start
-        MobileAds.initialize(this, "ca-app-pub-8282519618983102~3721658285");
+        MobileAds.initialize(this, APIs.GOOGLE_APPID);
         interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        interstitialAd.setAdUnitId(APIs.GOOGLE_ADMOD);
         AdRequest adRequest = new AdRequest.Builder().build();
         interstitialAd.loadAd(adRequest);
         //finish ad
@@ -140,17 +143,24 @@ public class SelectLookActivity extends AppCompatActivity {
         builder = new AlertDialog.Builder(this);
 
         useLookButton.setOnClickListener(v -> {
+            int itemInWashId = lookManager.isLookUseable(look);
+            if(itemInWashId >= 0){
+                Item item = new Item().getItemById(itemInWashId,db);
+                Toast.makeText(v.getContext(), item.getName() + " " + getResources().getString(R.string.inwash), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             builder.setMessage(R.string.dialog_message).setTitle(R.string.dialog_title);
             builder.setCancelable(false)
-                    .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
-                        lookManager.useLook(look,this);
-                        if(interstitialAd.isLoaded()){
+                    .setPositiveButton(SelectLookActivity.this.getResources().getString(R.string.yes), (dialog, which) -> {
+                        lookManager.useLook(look, SelectLookActivity.this);
+                        if (interstitialAd.isLoaded()) {
                             interstitialAd.show();
-                        }else{
-                            finish();
+                        } else {
+                            SelectLookActivity.this.finish();
                         }
                     })
-                    .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> dialog.cancel());
+                    .setNegativeButton(SelectLookActivity.this.getResources().getString(R.string.no), (dialog, which) -> dialog.cancel());
 
             AlertDialog alert = builder.create();
             alert.setTitle(R.string.dialog_title);
