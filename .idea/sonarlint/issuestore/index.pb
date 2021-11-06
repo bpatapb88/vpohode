@@ -1,8 +1,6 @@
 
 n
 >app/src/main/java/com/simon/vpohode/screens/LoginActivity.java,4/6/468d01f2c5525392188c9d33991e4f4950f5463d
-u
-Eapp/src/main/java/com/simon/vpohode/screens/CustomDialogFragment.java,3/2/3233b29efd309abbcf6663e8e2fb278e56b3f780
 k
 ;app/src/main/java/com/simon/vpohode/managers/ColorList.java,e/7/e70f22f28889e400ab48f5f537935bdf287260e2
 ^
@@ -76,8 +74,6 @@ layer3.svg,b/6/b6956459618e1ab762ec87cfb93d1d19cbd8580b
 <
 algoritm.txt,0/3/03c805215db2c16942c39b1f825ed384a96efca9
 <
-build.gradle,f/0/f07866736216be0ee2aba49e392191aeae700a35
-<
 wardrobe.svg,1/d/1d435511f38add26ca1262e4e03c9d4c9a6a0a58
 =
 iconv4(D).svg,c/6/c656502e147be1a1ce028a72e26585280636cf78
@@ -143,12 +139,8 @@ o
 ?app/src/main/java/com/simon/vpohode/database/DBLooksFields.java,8/0/802b9ab3e0c2a6706ea35cc09a76c74051a3fd19
 j
 :app/src/main/java/com/simon/vpohode/ItemClickListener.java,b/8/b8f4a5dbc05a9a0a64f001c2794558263bb2fbb8
-m
-=app/src/main/java/com/simon/vpohode/managers/LookManager.java,a/8/a8a1ef4277116a756f5cce5b920f33dbb1e6fbb5
 a
 1app/src/main/java/com/simon/vpohode/MyHolder.java,d/b/dbd46760b944b203cca0372c64e720beb1457c45
-b
-2app/src/main/java/com/simon/vpohode/MyAdapter.java,e/9/e9442c6cb6289680a332734f690b3879be3bc3e3
 ]
 -app/src/main/java/com/simon/vpohode/Look.java,d/f/df1e2f9b67f88daff39424cb3358ab0d29e84f2a
 w
@@ -161,13 +153,20 @@ w
 Gapp/src/main/java/com/simon/vpohode/comparators/LookSizeComparator.java,2/c/2caeb2facca50f1c7576d219da6225e5d2dab995
 w
 Gapp/src/main/java/com/simon/vpohode/comparators/LookWarmComparator.java,9/9/992f180826ae94c8f8d5de079f622fa1a4b1e19e
-i
-9app/src/main/java/com/simon/vpohode/screens/Wardrobe.java,1/1/1190e97d998af5af521621401edac907d5efee83
 o
 ?app/src/main/java/com/simon/vpohode/managers/LayoutManager.java,5/9/59e999c688144ccd81986774c05f9c98f89c12b2
-v
-Fapp/src/main/java/com/simon/vpohode/screens/AddItemToLookActivity.java,9/9/99a809336cde2386e3ea2f60675097292d46a560
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 n
 >app/src/main/java/com/simon/vpohode/screens/LooksActivity.java,3/f/3f2b4eea7079e95bc447e6d3469b6877603c4da5
+p
+@app/src/main/java/com/simon/vpohode/database/DatabaseHelper.java,e/5/e5b0407237383cdb451e8fd53cb378b8411e4d93
+n
+>app/src/main/java/com/simon/vpohode/managers/ImageManager.java,b/d/bd9faf68799614c975fc4d635889b8375a38de3a
+p
+@app/src/main/java/com/simon/vpohode/screens/AddLookActivity.java,3/a/3a936d90c283faf72ce31da656c7a644168d1768
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+m
+=app/src/main/java/com/simon/vpohode/managers/LookManager.java,a/8/a8a1ef4277116a756f5cce5b920f33dbb1e6fbb5

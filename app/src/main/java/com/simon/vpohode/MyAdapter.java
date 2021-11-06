@@ -1,5 +1,6 @@
 package com.simon.vpohode;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,29 +10,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.simon.vpohode.database.DatabaseHelper;
 import com.simon.vpohode.screens.SelectLookActivity;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyHolder> implements Filterable {
 
-    private ArrayList<Look> lookDataArrayList;
-    private ArrayList<Look> lookDataArrayListFiltered;
-    private Context c;
+    private List<Look> lookDataArrayList;
+    private final List<Look> lookDataArrayListFiltered;
+    private final Context c;
     private CustomFilter filter;
 
-    public MyAdapter(Context ctx,ArrayList<Look> recyclerDataArrayList)
+    public MyAdapter(Context ctx, List<Look> recyclerDataArrayList)
     {
         this.c=ctx;
         this.lookDataArrayList=recyclerDataArrayList;
         this.lookDataArrayListFiltered=lookDataArrayList;
     }
 
+    @NonNull
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.look_form, parent, false);
@@ -123,9 +124,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> implements Filtera
             }
             return results;
         }
+        @SuppressLint("NotifyDataSetChanged")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            lookDataArrayList= (ArrayList<Look>) results.values;
+            lookDataArrayList= (List<Look>) results.values;
             notifyDataSetChanged();
         }
     }

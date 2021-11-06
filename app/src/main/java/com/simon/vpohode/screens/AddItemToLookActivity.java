@@ -57,7 +57,6 @@ public class AddItemToLookActivity extends AppCompatActivity {
         databaseHelper = new DatabaseHelper(this);
         db = databaseHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + DatabaseHelper.TABLE + " where " + DBFields.ID.toFieldName() + " NOT IN (" + stringBuilder.toString() + ") AND " + DBFields.INWASH.toFieldName() + " = 0", null);
-        Toast.makeText(this,"We found " + cursor.getCount() + " items", Toast.LENGTH_SHORT).show();
         CustomItemsAdapter customItemsAdapter = new CustomItemsAdapter(this,cursor);
         customItemsAdapter.setFilterQueryProvider(constraint -> {
             if (constraint == null || constraint.length() == 0) {

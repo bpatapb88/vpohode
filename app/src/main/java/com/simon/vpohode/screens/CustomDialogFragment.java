@@ -94,9 +94,7 @@ public class CustomDialogFragment extends DialogFragment {
             Intent intent = new Intent(getContext(), ConfigItem.class);
             startActivity(intent);
         });
-
         builder.setNegativeButton(getResources().getString(R.string.cancel), (dialog, which) -> {
-
         });
 
         return builder.create();

@@ -106,7 +106,7 @@ public class Wardrobe extends AppCompatActivity {
     }
 
     public void showFilter(View view) {
-        View layout = inflater.inflate(R.layout.fragment_content,null);
+        View layout = inflater.inflate(R.layout.fragment_content_wardrobe,null);
         Spinner sortBySpinner = layout.findViewById(R.id.sortBySpinner);
         String[] sortedOptions = getResources().getStringArray(R.array.sortOptions);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, sortedOptions);

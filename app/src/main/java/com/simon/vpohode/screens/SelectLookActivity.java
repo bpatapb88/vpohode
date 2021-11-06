@@ -71,9 +71,9 @@ public class SelectLookActivity extends AppCompatActivity {
         setContentView(R.layout.activity_select_look);
 
         //ad start
-        MobileAds.initialize(this, APIs.GOOGLE_APPID);
+        MobileAds.initialize(this, BuildConfig.GOOGLE_APPID);
         interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(APIs.GOOGLE_ADMOD);
+        interstitialAd.setAdUnitId(BuildConfig.GOOGLE_ADMOD);
         AdRequest adRequest = new AdRequest.Builder().build();
         interstitialAd.loadAd(adRequest);
         //finish ad

@@ -30,12 +30,14 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.simon.vpohode.APIs;
-import com.simon.vpohode.BuildConfig;
 import com.simon.vpohode.managers.LayoutManager;
-import com.simon.vpohode.managers.PlacePhotoManager;
 import com.simon.vpohode.managers.WeatherManager;
 import com.simon.vpohode.R;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     // another Weather URL "http://api.openweathermap.org/data/2.5/weather?q=%s&appid="+APIs.WEATHER_API+"&lang=ru&units=metric"
     // try https://api.openweathermap.org/data/2.5/onecall?lat=33.441792&lon=-94.037689&exclude=daily,minutely&appid="+APIs.WEATHER_API
     private static final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/forecast?q=%s&appid=" + APIs.WEATHER_API + "&lang=%s&units=metric";
-    private static final String PLACE_URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=%s&key=%s&inputtype=textquery&fields=name,photos";
+    private static final String PLACE_URL_NEW = "https://api.unsplash.com/search/photos?page=1&query=%s&orientation=landscape&client_id=%s";
     private TextView textViewWeather;
     private Double avgTemperatureCel;
 
@@ -94,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                         latitudeTextView = location.getLatitude();
                         longitTextView = location.getLongitude();
                         String locationName = getLocationName(latitudeTextView, longitTextView);
-                        System.out.println("Location name is " + locationName);
                         if(locationName != null && !locationName.equals("")){
                             city = locationName;
                             String cityFromPreferences = preferences.getString("city", "");
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     private void setWeatherAndPicture(){
         DownloadTask task2 = new DownloadTask();
         String weatherURLWithCity = String.format(WEATHER_URL, city, getResources().getConfiguration().locale.getCountry());
-        String placeURLWithCity = String.format(PLACE_URL, city, APIs.GOOGLE_API);
+        String placeURLWithCity = String.format(PLACE_URL_NEW, city, APIs.UNSPLASH_API);
         task2.execute(weatherURLWithCity, placeURLWithCity);
     }
 
@@ -244,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
                     result.append(line);
                     line = bufferedReader.readLine();
                     }
-                // Now store output from Google Place Api
+                // Now store output from Api
                 url = new URL(strings[1]);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 in = urlConnection.getInputStream();
@@ -274,10 +275,10 @@ public class MainActivity extends AppCompatActivity {
 
             WeatherManager weatherManager = new WeatherManager();
             avgTemperatureCel = weatherManager.getAverange(s);
-
-            PlacePhotoManager placePhotoManager = new PlacePhotoManager(stringBuilderPlace.toString());
-            Picasso.get().load(placePhotoManager.getPhotoURL()).into(fotoCity);
-
+            String photoUrl = getPhotoURLFromUNSPLASH(stringBuilderPlace);
+            if(!photoUrl.equals("error")){
+                Picasso.get().load(photoUrl).into(fotoCity);
+            }
         // save the temperature
                 avgTemperatureCel = (Double.parseDouble(weatherManager.getFeelTem0()) + Double.parseDouble(weatherManager.getFeelTem1()))/2;
                 StringBuilder textWeather = new StringBuilder();
@@ -288,6 +289,19 @@ public class MainActivity extends AppCompatActivity {
                 final String outputWeather = (int)Double.parseDouble(weatherManager.getFeelTem0()) + " " + CELSIUS_SYMBOL + weatherManager.getDescription();
                 textWeather.append(outputWeather);
                 textViewWeather.setText(textWeather.toString());
+        }
+
+        private String getPhotoURLFromUNSPLASH(StringBuilder stringBuilderPlace) {
+            try{
+                final JSONObject jsonObject = new JSONObject(stringBuilderPlace.toString());
+                final JSONArray jsonArray = jsonObject.getJSONArray("results");
+                final JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                final JSONObject photos = jsonObject1.getJSONObject("urls");
+                return photos.getString("small");
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            return "error";
         }
     }
 

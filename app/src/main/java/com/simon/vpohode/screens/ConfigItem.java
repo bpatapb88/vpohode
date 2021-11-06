@@ -479,7 +479,9 @@ public class ConfigItem extends AppCompatActivity implements ColorPickerDialogLi
                 //get color from photo start ->
                 Bitmap bitmap = null;
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
+                    if(result.getUriContent() != null){
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), result.getUriContent());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
