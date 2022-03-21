@@ -1,5 +1,5 @@
 # Dresser
-This application is creating to help you get rigth clother set according weather outside, style and colors. Also it will help to manage all your clothers.
+This application is creating to help you get right clothes set according weather outside, style and colours. Also it will help to manage all your clothes.
 * First you need add all clothers in "wardrobe"
 * Configure setting according your needs
 * Finaly get all possible clothers set by one click "Select an outfit"
